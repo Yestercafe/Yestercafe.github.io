@@ -6,7 +6,7 @@ date: 2016-03-21
 comments: false
 ---
     
-<center><a href="http://taylantatli.github.io/Moon"><b>Moon</b></a> is a minimal, one column jekyll theme.</center>
+<center><a href="http://yescafe.github.io"><b>Yescafe's kokichi</b></a>Yestercafe的博客兼小站</center>
 
 ## Features
 * Minimal, you can focus on your content
