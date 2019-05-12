@@ -1,14 +1,14 @@
 # Site
-title:              Moon
-bio:                'Minimal, one column jekyll theme.'
-description:        "Moon is a minimal, one column jekyll theme for your blog."
+title:              Yescafe's kokichi
+bio:                'Yestercafe的博客兼小站'
+description:        "欢迎光临Yestercafe的小站，"
 reading_time:       true
 words_per_minute:   200
 logo:               'assets/img/logo.png'
 background:         'assets/img/placeholder-big.jpg'
-tiled_bg:           false   # Set this true if you want to tile your background image, otherwise it will be covered
-locale:             en_US
-url:                https://taylantatli.github.io/Moon
+tiled_bg:           true   # Set this true if you want to tile your background image, otherwise it will be covered
+locale:             zh_CN
+url:                https://yescafe.github.io
 
 # Jekyll
 permalink:          /:title/
@@ -31,31 +31,31 @@ disqus_shortname:   taylantatli
 # Social
 # if you don't have any of social below, comment the line.
 #google:
-  #plus:            #username
+  #plus:            qyc027
   #analytics:
   #verify:
   #ad-client:
   #ad-slot:
 #bing-verify:
-#email:
-twitter:            username
-facebook:           username
+email:              qyc027@outlook.com
+twitter:            @qyc027
+facebook:           ivan_chien_
 github-url:         username
 #stackoverflow:     123456/username   from a "http://stackoverflow.com/users/123456/username" link
 #linkedin:          username
 #xing:              username
-instagram:          username
+instagram:          ivan_chien_
 #lastfm:            username
 #tumblr:            username
 #medium:            '@username'
 #pinterest:         username
 #foursquare:        username
-steam:              username
+steam:              qyc027
 #dribbble:          username
 #youtube:           username
 #youtube-channel:   channel
 #soundcloud:        username
-#weibo:             username
+weibo:              Ivan Chien
 #flickr:            username
 #codepen:           username
 #keybase:           username
@@ -70,7 +70,7 @@ gems:
   - jekyll-gist
 
 jekyll-mentions:
-    base_url: https://github.com
+    base_url: https://github.com/Yescafe
 
 # Exclude list
 exclude: [README.md, Gemfile, Gemfile.lock, node_modules, gulpfile.js, package.json, _site, src, vendor, CNAME, LICENSE, Rakefile]
