@@ -1,13 +1,13 @@
 # Site
 title:              Yescafe's kokichi
-bio:                'Yestercafe的博客兼小站'
-description:        "欢迎光临Yestercafe的小站，"
+bio:                'Yestercafe 的 博客 兼 小站'
+description:        "欢迎光临Yestercafe的小站，在这里你可能什么都学不到。"
 reading_time:       true
 words_per_minute:   200
 logo:               'assets/img/logo.png'
 background:         'assets/img/placeholder-big.jpg'
 tiled_bg:           false   # Set this true if you want to tile your background image, otherwise it will be covered
-locale:             en_US
+locale:             zh_CN
 url:                https://yescafe.github.io
 
 # Jekyll
