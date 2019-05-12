@@ -31,7 +31,11 @@ __电子邮箱(E-mail):__
 [qyc027@outlook.com](mailto:qyc027@outlook.com)  
 [2559535938@qq.com](mailto:2559535938)  
 __坐标(Position Zero):__  
-安徽合肥 (Heifei, Anhui, PRC)
+安徽合肥 (Heifei, Anhui, PRC)  
+__幸运色(Lucky Color):__  
+1670 jherbin 祖母绿 (grandma-green)  
+__幸运笔(Lucky Pen):__  
+88g & 3376
 
 __简介(Bio):__    
 某四非大学二本计算机科学与技术(加了一些奇怪的后缀)专业的18级大学狗. ACM校队划水狗一枚. 没有特长, 特短特别多, 在此不做一一列举了.  
