@@ -7,7 +7,7 @@ comments: false
 ---
 
 # 序
-<font size=2px>*终于*</font>, <font size=3px>**终于**</font>, <font size=4px><strong><em>终于</strong></em></font>, <font size=5px>我的gitpage搭起来了!!</font>  
+<font size="2px">*终于,*</font> <font size="3px">**终于,**</font> <font size="4px"><em><strong>终于</strong></em></font>, <font size="5px">我的gitpage搭起来了!!</font>  
 现在是**2019年5月12日下午4点48分**, 经过了半天的努力, 总算是把这个博客的个性化和LaTeX都弄好了.  
 同时, 纪念汶川大地震十一周年. 前不久**合肥附近**(我们学校这边有震感)好像发生地震了, **希望大家注意安全**.   
 
@@ -40,7 +40,7 @@ comments: false
 &nbsp;&nbsp;88g & 3776
 
 **简介(Bio):**    
-&nbsp;&nbsp;&nbsp;&nbsp;某**四非大学**二本计算机科学与技术(加了一些奇怪的后缀)专业的18级大学~~狗~~<font size=3px>**驴**</font>. ACM校队划水~~狗~~<font size=4px>**驴**</font>一枚, 休伯立安号前任舰长, 音游苦手.  
+&nbsp;&nbsp;&nbsp;&nbsp;某**四非大学**二本计算机科学与技术(加了一些奇怪的后缀)专业的18级大学~~狗~~<font size="3px">**驴**</font>. ACM校队划水~~狗~~<font size="4px">**驴**</font>一枚, 休伯立安号前任舰长, 音游苦手.  
 &nbsp;&nbsp;&nbsp;&nbsp;**没有**特长, 特短特别**多**, 在此不做一一列举了.  
 
 **爱好(Hobby):**
