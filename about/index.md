@@ -6,49 +6,52 @@ date: 2018-05-12
 comments: false
 ---
 
-## 序
-_终于_, __终于__, ___终于___, 我的gitpage搭起来了!!  
-现在是2019年5月12日下午4点48分, 经过了半天的努力, 总算是把这个博客的个性化和LaTeX都弄好了.  
-同时, 纪念汶川大地震十一周年. 前不久合肥附近(我们学校这边有震感)好像发生地震了, __希望大家注意安全__.
+# 序
+<font size=2px>*终于*</font>, <font size=3px>**终于**</font>, <font size=4px><strong><em>终于</strong></em></font>, <font size=5px>我的gitpage搭起来了!!</font>  
+现在是**2019年5月12日下午4点48分**, 经过了半天的努力, 总算是把这个博客的个性化和LaTeX都弄好了.  
+同时, 纪念汶川大地震十一周年. 前不久**合肥附近**(我们学校这边有震感)好像发生地震了, **希望大家注意安全**.   
 
-## 关于我
-__姓名(Second Name and First Name):__  
- 不公开  (Private)  
-__英文名(English Name):__   
-Ivan Chien  
-__常用昵称(Usually Using Nickname):__   
-qyc027, Yescafe, Yestercafe  
-__性别(Sex Classifying):__   
-男, 不女装不搞基, 谢谢您 (Male, No Nvzhuang No Life)  
-__生日(Birthday):__   
-2000.12.8  
-__职业(Profession):__   
-(大)学生 (Pupil)  
-__扣扣(QQ):__  
-2559535938  
-__电子邮箱(E-mail):__  
-[qyc027@gmail.com](mailto:qyc027@gmail.com)  
-[qyc027@outlook.com](mailto:qyc027@outlook.com)  
-[2559535938@qq.com](mailto:2559535938)  
-__坐标(Position Zero):__  
-安徽合肥 (Heifei, Anhui, PRC)  
-__幸运色(Lucky Color):__  
-1670 jherbin 祖母绿 (grandma-green)  
-__幸运笔(Lucky Pen):__  
-88g & 3776
+2019年6月22日晚上, 重新修订了一下这篇About, 让它更好看了一些(是吗?).
 
-__简介(Bio):__    
-某四非大学二本计算机科学与技术(加了一些奇怪的后缀)专业的18级大学狗. ACM校队划水狗一枚. 没有特长, 特短特别多, 在此不做一一列举了.  
+# 关于我
+**姓名(Second Name and First Name):**  
+&nbsp;&nbsp;不公开 (Private)  
+**英文名(English Name):**   
+&nbsp;&nbsp;Ivan Chien  
+**常用昵称(Usually Using Nickname):**   
+&nbsp;&nbsp;qyc027, Yescafe, Yestercafe  
+**性别(Sex Classifying):**   
+&nbsp;&nbsp;男 (Male)  
+**生日(Birthday):**   
+&nbsp;&nbsp;2000.12.8  
+**职业(Profession):**   
+&nbsp;&nbsp;(大)学生 (Pupil)  
+**扣扣(QQ):**  
+&nbsp;&nbsp;2559535938  
+**电子邮箱(E-mail):**  
+&nbsp;&nbsp;[qyc027@gmail.com](mailto:qyc027@gmail.com)  
+&nbsp;&nbsp;[qyc027@outlook.com](mailto:qyc027@outlook.com)  
+&nbsp;&nbsp;[2559535938@qq.com](mailto:2559535938)  
+**坐标(Position Zero):**  
+&nbsp;&nbsp;安徽合肥 (Heifei, Anhui, PRC)  
+**幸运色(Lucky Color):**  
+&nbsp;&nbsp;1670 jherbin 祖母绿 (grandma-green)  
+**幸运笔(Lucky Pen):**  
+&nbsp;&nbsp;88g & 3776
 
-__爱好(Hobby):__
+**简介(Bio):**    
+&nbsp;&nbsp;&nbsp;&nbsp;某**四非大学**二本计算机科学与技术(加了一些奇怪的后缀)专业的18级大学~~狗~~<font size=3px>**驴**</font>. ACM校队划水~~狗~~<font size=4px>**驴**</font>一枚, 休伯立安号前任舰长, 音游苦手.  
+&nbsp;&nbsp;&nbsp;&nbsp;**没有**特长, 特短特别**多**, 在此不做一一列举了.  
+
+**爱好(Hobby):**
 - 吹逼 (Blowing B)
 - 和别人一起吹逼 (Blowing B with Each Other)
 - 打代码 (Beating Codes)
-- 看番 (Watching bangumi, bangumi wo miru)
-- [邦多利 (ガルパ, Bandori! Girls Band Party)](https://game.bilibili.com/bangdream/yuyue/)
+- 看番 (Watching bangumi, 番組を見る)
+- [邦多利 (ガルパ, Bandori! Girls Band Party)](https://bang-dream.com/)
 - [听歌](https://music.163.com/#/playlist?id=308954103)
 - 羽毛球 (这个我自己都不信的) (Badminton)
-- 自言自语 (Hitorigoto)
+- 自言自语 ([Hitorigoto](https://music.163.com/#/song?id=474567613))
 - 唱歌 (雾) (Making Noise)
 - [花钱 (Flowering Money)](https://www.taobao.com/)
 - [搓麻将 (误) (Mohjong)](https://majsoul.union-game.com)
