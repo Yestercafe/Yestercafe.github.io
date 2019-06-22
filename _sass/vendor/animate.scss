@@ -220,7 +220,7 @@
   }
 
   to {
-    -webkit-transform-origin: center;
+    webkit-transform-origin: center;
     transform-origin: center;
     -webkit-transform: none;
     transform: none;
@@ -231,4 +231,20 @@
 .rotateIn {
   -webkit-animation-name: rotateIn;
   animation-name: rotateIn;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.poppin {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
 }
