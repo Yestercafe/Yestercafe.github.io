@@ -7,7 +7,7 @@ comments: false
 ---
 
 # 序
-<font size="2px">*终于,*</font> <font size="3px">**终于,**</font> <font size="4px"><em><strong>终于</strong></em></font>, <font size="5px">我的gitpage搭起来了!!</font>  
+<font size="2px"><em>终于, </em></font><font size="3px"><stong>终于, </strong></font><font size="4px"><em><strong>终于, </strong></em></font><font size="5px">我的gitpage搭起来了!!</font>  
 现在是**2019年5月12日下午4点48分**, 经过了半天的努力, 总算是把这个博客的个性化和LaTeX都弄好了.  
 同时, 纪念汶川大地震十一周年. 前不久**合肥附近**(我们学校这边有震感)好像发生地震了, **希望大家注意安全**.   
 
