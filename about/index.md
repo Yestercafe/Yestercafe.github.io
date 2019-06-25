@@ -40,7 +40,7 @@ comments: false
 &nbsp;&nbsp;88g & 3776
 
 **简介(Bio):**    
-&nbsp;&nbsp;&nbsp;&nbsp;某**四非大学**二本计算机科学与技术(加了一些奇怪的后缀)专业的18级大学~~狗~~<font size="3px">**驴**</font>. ACM校队划水~~狗~~<font size="4px">**驴**</font>一枚, 休伯立安号前任舰长, 音游苦手.  
+&nbsp;&nbsp;&nbsp;&nbsp;某**四非大学**二本计算机科学与技术(加了一些奇怪的后缀)专业的18级大学**狗**. ACM校队划水**狗**一枚, 休伯立安号前任舰长, 音游苦手.  
 &nbsp;&nbsp;&nbsp;&nbsp;**没有**特长, 特短特别**多**, 在此不做一一列举了.  
 
 **爱好(Hobby):**
@@ -49,7 +49,7 @@ comments: false
 - 打代码 (Beating Codes)
 - 看番 (Watching bangumi, 番組を見る)
 - [邦多利 (ガルパ, Bandori! Girls Band Party)](https://bang-dream.com/)
-- [听歌](https://music.163.com/#/playlist?id=308954103)
+- [听歌(Listening to acg music)](https://music.163.com/#/playlist?id=308954103)
 - 羽毛球 (这个我自己都不信的) (Badminton)
 - 自言自语 ([Hitorigoto](https://music.163.com/#/song?id=474567613))
 - 唱歌 (雾) (Making Noise)
