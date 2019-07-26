@@ -16,68 +16,68 @@ comments: true
 ## 0. Tools and Tools Guide  
 ### Compiler Toolchain
 在Lab开始之前, 我们需要检查编译器链的配置, 防止之后的编译报错.  
-- 检查objdump:  
-    ```    
-    % objdump -i
-    ```  
-    要求: 第二行显示elf32-i386.  
-    如我本地环境的输出结果为:  
-    ```  
-    BFD header file version (GNU Binutils for Ubuntu) 2.30
-    elf64-x86-64
-    (header little endian, data little endian)
-    i386
-    elf32-i386
-    (header little endian, data little endian)
-    i386
-    elf32-iamcu
-    (header little endian, data little endian)
-    iamcu
-    elf32-x86-64
-    (header little endian, data little endian)
-    i386
-    a.out-i386-linux
-    (header little endian, data little endian)
-    i386
-    pei-i386
-    (header little endian, data little endian)
-    i386
-    pei-x86-64
-    (header little endian, data little endian)
-    i386
-    elf64-l1om
-    (header little endian, data little endian)
-    l1om
-    elf64-k1om
-    (header little endian, data little endian)
-    k1om
-    elf64-little
-    (header little endian, data little endian)
-    i386
-    l1om
-    k1om
-    iamcu
-    --More--
-    ```  
-    考虑到我不是32位系统, 所以可能和官网描述有点误差, 暂时先不考虑这个问题, 如果有问题之后再想办法解决.  
-- 检查gcc环境:  
-    ```   
-    % gcc -m32 -print-libgcc-file-name
-    ```  
-    要求: 输出结果类似 /usr/lib/gcc/i486-linux-gnu/*version*/libgcc.a or /usr/lib/gcc/x86_64-linux-gnu/*version*/32/libgcc.a 即可.  
-    如我本地环境的输出结果为:  
-    ```  
-    /usr/lib/gcc/x86_64-linux-gnu/7/32/libgcc.a
-    ```  
-    因为我的gcc版本是7.4, 所以*version*的位置是7.  
-    Ubuntu这个发行版还是比较舒服的, 很多库都是预置的, 即使没有使用apt装也是非常方便的. 在刚才的输出结果与上文不匹配时, 需要尝试安装下面这样东西:  
-    ```
-    % sudo apt-get install gcc-multilib
-    ```
-    然后需要安装两样工具:  
-    ```
-    % sudo apt-get install build-essential gdb
-    ```
+#### 检查objdump:  
+```    
+% objdump -i
+```  
+要求: 第二行显示elf32-i386.  
+如我本地环境的输出结果为:  
+```  
+BFD header file version (GNU Binutils for Ubuntu) 2.30
+elf64-x86-64
+(header little endian, data little endian)
+i386
+elf32-i386
+(header little endian, data little endian)
+i386
+elf32-iamcu
+(header little endian, data little endian)
+iamcu
+elf32-x86-64
+(header little endian, data little endian)
+i386
+a.out-i386-linux
+(header little endian, data little endian)
+i386
+pei-i386
+(header little endian, data little endian)
+i386
+pei-x86-64
+(header little endian, data little endian)
+i386
+elf64-l1om
+(header little endian, data little endian)
+l1om
+elf64-k1om
+(header little endian, data little endian)
+k1om
+elf64-little
+(header little endian, data little endian)
+i386
+l1om
+k1om
+iamcu
+--More--
+```  
+考虑到我不是32位系统, 所以可能和官网描述有点误差, 暂时先不考虑这个问题, 如果有问题之后再想办法解决.  
+#### 检查gcc环境:  
+```   
+% gcc -m32 -print-libgcc-file-name
+```  
+要求: 输出结果类似 /usr/lib/gcc/i486-linux-gnu/*version*/libgcc.a or /usr/lib/gcc/x86_64-linux-gnu/*version*/32/libgcc.a 即可.  
+如我本地环境的输出结果为:  
+```  
+/usr/lib/gcc/x86_64-linux-gnu/7/32/libgcc.a
+```    
+因为我的gcc版本是7.4, 所以*version*的位置是7.  
+Ubuntu这个发行版还是比较舒服的, 很多库都是预置的, 即使没有使用apt装也是非常方便的. 在刚才的输出结果与上文不匹配时, 需要尝试安装下面这样东西:  
+```  
+% sudo apt-get install gcc-multilib
+```    
+然后需要安装两样工具:  
+```  
+% sudo apt-get install build-essential gdb
+```  
 
 ### QEMU Emulator  
 我们需要为接下来编写的操作系统提供一个虚拟运行环境, 这里使用的是qemu模拟器. 下面一段摘自百度百科[$^{[1]}$](#ref1):  
@@ -89,17 +89,25 @@ comments: true
 > 5. 增加了模拟速度，某些程序甚至可以实时运行  
 > 6. 可以在其他平台上运行Linux的程序  
 > 7. 可以储存及还原运行状态(如运行中的程序)  
-> 8. 可以虚拟网络卡 
+> 8. 可以虚拟网络卡   
 
-总之看了半天, 我也不清楚为什么要用它, 反正官方叫用的, 那就用就对了.  
+总之看了半天, 我也不清楚为什么要用它, 反正官方叫用的, 那就用就对了.   
 
-根据"みさか9982"同学所提供的资料[$^{[2]}$](#ref2), 我尝试手动编译qemu. 在补全了所需的环境后, make出现了编译错误, 导致了编译的无法进行, 而且并没有找到原因(可能是gcc的版本过高了?). 在Jo叔的建议下, 直接使用apt进行安装:  
-```
+根据みさか9982(cxy)同学所提供的资料[$^{[2]}$](#ref2), 我尝试手动编译qemu. 在补全了所需的环境后, make出现了编译错误, 导致了编译的无法进行, 而且并没有找到原因(可能是gcc的版本过高了?). 在Jo叔的建议下, 直接使用apt进行安装:  
+```  
 % sudo apt install qemu
-```
+```  
 
 ### Debugging tips
-这部分暂时不提了, 等用到的时候再说.   
+#### Reference - JOS makefile  
+这边主要说明jos makefile的几种模式:  
+```make qemu``` : 不知道到底是怎么弄的反正就是弄出来一个qemu的VGA console窗口, 并且映射一份输出到终端里. 关闭qemu需要在终端里键入C-c或者是C-a x.  
+```make qemu-nox``` : 跟刚才唯一不同的就是, 这个没有VGA console窗口.  
+```make qemu-gdb``` : 同```make qemu```, 并允许gdb接入.(暂时还不知道怎么用)  
+```make qemu-nox-gdb``` : 同```make qemu-nox```, 并允许gdb接入.  
+还有一些不知道怎么用.  
+
+剩下的部分暂时不提了, 等用到的时候再说.   
 直接参考官网文档: [https://pdos.csail.mit.edu/6.828/2018/labguide.html](https://pdos.csail.mit.edu/6.828/2018/labguide.html)
 
 ## Lab1: Booting a PC  
@@ -109,14 +117,134 @@ comments: true
 所以这个部分跳过.  
 
 ### Part I: PC Bootstrap
-大多数专用名字我不是很喜欢翻译, 但是bootstrap这个词比较重要. 平时我们见的比较多的可能是它的简写形式, boot. 全写是bootstrap, 译为"引导".   
-#### Getting Started with x86 assembly
+大多数专用名字我不是很喜欢翻译, 但是bootstrap这个词比较重要. 平时我们见的比较多的可能是它的简写形式, boot. 全写是bootstrap, 译为"引导".  
+
+#### Getting Started with x86 assembly  
 讲的汇编, 说是不需要通读手册, 而是在需要的时候回来查.   
 AT&T的汇编, 在我看csapp第三章的时候已经略有了解, 但是水平还是很菜, 并且没有真正写过. 走一步看一步好了.    
 
+#### Simulating the x86   
+再学个单词, simulate, 模拟.   
+cd到lab目录, 本地环境make的结果已经不在了, 大致上跟官网写的一样, 就把官网的抄来了:   
+```  
++ as kern/entry.S
++ cc kern/entrypgdir.c
++ cc kern/init.c
++ cc kern/console.c
++ cc kern/monitor.c
++ cc kern/printf.c
++ cc kern/kdebug.c
++ cc lib/printfmt.c
++ cc lib/readline.c
++ cc lib/string.c
++ ld obj/kern/kernel
++ as boot/boot.S
++ cc -Os boot/main.c
++ ld boot/boot
+boot block is 380 bytes (max 510)
++ mk obj/kern/kernel.img
+```  
+接着```make qemu```就能看到qemu的界面.  
+此时我本地环境的终端输出结果如下:  
+```   
+***
+*** Use Ctrl-a x to exit qemu
+***
+qemu-system-i386 -nographic -drive file=obj/kern/kernel.img,index=0,media=disk,format=raw -serial mon:stdio -gdb tcp::26000 -D qemu.log 
+6828 decimal is XXX octal!
+entering test_backtrace 5
+entering test_backtrace 4
+entering test_backtrace 3
+entering test_backtrace 2
+entering test_backtrace 1
+entering test_backtrace 0
+leaving test_backtrace 0
+leaving test_backtrace 1
+leaving test_backtrace 2
+leaving test_backtrace 3
+leaving test_backtrace 4
+leaving test_backtrace 5
+Welcome to the JOS kernel monitor!
+Type 'help' for a list of commands.
+K> 
+```  
+最原始的jos提供了两个指令, 一个是顾名思义(原文使用的词是obvious)的help, 另一个是一个内核监控器(kernel monitor).  
+我们尝试先执行help, 再执行kerninfo, 再尝试使用C-a x退出.  
+```  
+K> help
+help - Display this list of commands
+kerninfo - Display information about the kernel
+K> kerninfo
+Special kernel symbols:
+  _start                  0010000c (phys)
+  entry  f010000c (virt)  0010000c (phys)
+  etext  f01019e9 (virt)  001019e9 (phys)
+  edata  f0113060 (virt)  00113060 (phys)
+  end    f01136a0 (virt)  001136a0 (phys)
+Kernel executable memory footprint: 78KB
+K> QEMU: Terminated
+```   
+kerninfo输出的结果跟官网给的是有误差的, 但是估计应该是不影响后面的操作.  
 
+#### The PC's Physical Address Space
+这段就简单把官网的"图"搬过来了.  
+```
+
++------------------+  <- 0xFFFFFFFF (4GB)
+|      32-bit      |
+|  memory mapped   |
+|     devices      |
+|                  |
+/\/\/\/\/\/\/\/\/\/\
+
+/\/\/\/\/\/\/\/\/\/\
+|                  |
+|      Unused      |
+|                  |
++------------------+  <- depends on amount of RAM
+|                  |
+|                  |
+| Extended Memory  |
+|                  |
+|                  |
++------------------+  <- 0x00100000 (1MB)
+|     BIOS ROM     |
++------------------+  <- 0x000F0000 (960KB)
+|  16-bit devices, |
+|  expansion ROMs  |
++------------------+  <- 0x000C0000 (768KB)
+|   VGA Display    |
++------------------+  <- 0x000A0000 (640KB)
+|                  |
+|    Low Memory    |
+|                  |
++------------------+  <- 0x00000000
+```
+这里说到第一代PC, 处理器还是16位的Intel 8088, 并且只能为1MB的物理内存提供寻址(原文是were only capable of addressing 1MB of physical memory).  
+最下面的低内存区(Low Memory)的640KB, 就是我们平时所说的RAM(random-access memory). 值得说明的是, 原文是这样写的:  
+> The 640KB area marked "Low Memory" was the *only* random-access memory (RAM) that an early PC could use;   
+
+这里的*only*被使用了着重处理, 强调RAM*只有*这640KB.  
+而且还听说更早一些的计算机的RAM甚至小到16KB, 这640KB已经算很多了.  
+
+接下来从0x000A0000到0x000FFFFF的384KB是提供给硬件使用的, 比如视频显示缓冲区(video display buffers, 这个buffers我是非常不想翻译的...),  还有保存在NVM中的固件(原文是and firmware held in non-volatile memory). NVM这东西我也是第一次简单, 并不是很了解, 所以有请百度百科[$^{[3]}$](#ref3):  
+> Non-volatile memory，非易失存储器，具有非易失、按字节存取、存储密度高、低能耗、读写性能接近DRAM，但读写速度不对称，寿命有限。  
+
+好了, 没用, 上wikipedia[$^{[4]}$](#ref4):  
+> Non-volatile data storage can be categorized into electrically addressed systems (read-only memory) and mechanically addressed systems (hard disks, optical disc, magnetic tape, holographic memory, and such). Generally speaking, electrically addressed systems are expensive, have limited capacity, but are fast, whereas mechanically addressed systems are more cost effective per bit, but are slower.
+
+*看上去这玩意儿有点像cache?*   
+
+接下来64KB的内存区域, 从0x000F0000到0x000FFFFF, 非常非常非常的重要, 这部分内存是提供给基本输入/输出系统(Basic Input/Output System, BIOS)使用的. 之前的机器的这段内存, 是真正的只读内存(原文是held in true read-only memory(ROM)), 但是现在的机器变成了可以更新的闪存(原文是updateable flash memory). BIOS的用处是执行一些系统基础的初始化(原文是is responsible for performing basic system initialization), 比如激活显示卡(activating the video card), 检查安装内存大小(checking the amount of memory installed). 这些初始化工序完成后, BIOS会从合适的区域((appropriate location)载入(load)系统, 比如软盘(floppy disk), 硬盘(hard disk), 光盘(CD-ROM), 或者是网络中(or the network), 然后把机器的控制权(control of machine)递交给(pass)操作系统.  
+*真像父母把女儿养大, 最后连嫁妆一起嫁给女婿了...*
+
+这里断开, 我先歇会儿.  
+
+---
 
 ### 参考资料
 [本家]: [6.828 / Fall 2018](https://pdos.csail.mit.edu/6.828/2018/index.html)  
-[1]: <a id="ref1">[QEMU - 百度百科](https://baike.baidu.com/item/QEMU/)</a>  
+[1]: <a id="ref1">[QEMU_百度百科](https://baike.baidu.com/item/QEMU/)</a>  
 [2]: <a id="ref2">[MIT-6.828-JOS-环境搭建](https://www.cnblogs.com/gatsby123/p/9746193.html)</a>  
+[3]: <a id="ref3">[NVM （Non-volatile Memory，固定存储器，非易失存储器）_百度百科](https://baike.baidu.com/item/NVM)</a>  
+[4]: <a id="ref4">[Non-volatile memory-Wikipedia](https://en.wikipedia.org/wiki/Non-volatile_memory)</a>
