@@ -1,11 +1,9 @@
 ---
 layout: post
-title:  "实分析第二章练习"
-date:   2019-05-12
-excerpt: "陶.实分析 第二章 所有思考题 练习题 的尝试解题，顺带LaTex的测试"
-tag:
-- Maths
-comments: true
+title: 实分析第二章练习
+categories: Maths
+description: 陶.实分析 第二章 所有思考题 练习题 的尝试解题，顺带LaTex的测试
+keywords: Maths
 ---
 ## 2.2 加法
 ### P21 - 证明两个自然数的和仍旧是自然数.

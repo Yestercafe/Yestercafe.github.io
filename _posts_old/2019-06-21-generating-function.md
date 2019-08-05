@@ -1,11 +1,9 @@
 ---
 layout: post
-title:  "差劲的算法学习 - 母函数"
-date:   2019-06-21
-excerpt: "差劲的算法学习系列, 母函数的简单研究"
-tag:
-- Algorithms
-comments: true
+title: 差劲的算法学习 - 母函数
+categories: Algorithms
+description: 差劲的算法学习系列, 母函数的简单研究
+keywords: Algorithms, ACM
 ---
 
 期末考试还剩下三门比较复杂的学科, 稍作休息今天先来研究一下母函数.  

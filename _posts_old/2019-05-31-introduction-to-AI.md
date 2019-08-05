@@ -1,11 +1,9 @@
 ---
 layout: post
-title:  大数据与人工智能培训-人工智能概论
-date:   2019-05-31
-excerpt: 大数据与人工智能培训第二天上午的内容
-tag:
-- AI
-comments: true
+title: 大数据与人工智能培训-人工智能概论
+categories: AI
+description: 大数据与人工智能培训第二天上午的内容
+keywords: AI
 ---
 > 挺可惜的, 昨天的大数据实战因为C语言期末考试而错过了, 后三天的内容全是人工智能了.
 

@@ -1,11 +1,9 @@
 ---
 layout: post
-title:  大数据与人工智能培训-机器学习及其典型算法
-date:   2019-05-31
-excerpt: 兰智大数据与人工智能培训第二天下午的内容
-tag:
-- AI
-comments: true
+title: 大数据与人工智能培训-机器学习及其典型算法
+categories: AI
+description: 兰智大数据与人工智能培训第二天下午的内容
+keywords: AI
 ---
 
 ### 什么是机器学习?  

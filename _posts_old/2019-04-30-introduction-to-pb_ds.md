@@ -1,12 +1,9 @@
 ---
 layout: post
-title:  "pb_ds库简述"
-date:   2019-04-30
-excerpt: "pb_ds库简述——非主流的强大数据结构库"
-tag:
-- cpp
-- pb_ds
-comments: true
+title: pb_ds库简述
+categories: pb_ds
+description: pb_ds库简述——非主流的强大数据结构库
+keywords: pb_ds, cpp
 ---
 ~~非常少见地使用了中文文件名~~   
 为了区分STL和pb_ds库中的容器和函数, 该篇博文中所有出现的类 / 函数 / 方法等, 均将在前面加上名称空间名(namespace).
