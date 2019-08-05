@@ -103,9 +103,9 @@ gitment:
 # https://github.com/gitalk/gitalk#install
 gitalk:
     owner: yescafe
-    repo: gitpage-comment
-    clientID: 7e0734695222d76aab1f
-    clientSecret: ce6bd05494044f47a6ca2bf3b7f14679add7d39b
+    repo: yescafe.github.io
+    clientID: 057f47cb67e94e89d523
+    clientSecret: 2526dcfab77db21807553a8c1b5367901cc16e20
 # 在使用其它评论组件时可点击显示 Disqus
 lazy_load_disqus : false
 
