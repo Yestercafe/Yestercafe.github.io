@@ -5,10 +5,6 @@ categories: pb_ds
 description: pb_ds库简述——非主流的强大数据结构库
 keywords: pb_ds, cpp
 ---
-
-pb_ds库简述——非主流的强大数据结构库
-
-~~非常少见地使用了中文文件名~~   
 为了区分STL和pb_ds库中的容器和函数, 该篇博文中所有出现的类 / 函数 / 方法等, 均将在前面加上名称空间名(namespace).
 ### 一. 绪言
 众所周知, C++有STL(Standard Template Library). STL中包含了非常多的容器(Containers)和容器适配器(Container Adaptors), 这里稍微地不完全地列举一下(包括他们的中文名):
