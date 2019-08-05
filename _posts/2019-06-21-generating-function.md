@@ -19,7 +19,7 @@ keywords: Algorithms, ACM
 
 这题按照正常的思路 -- 穷举, 原因很简单, 因为只有四种砝码嘛, 虽然穷举是最无脑的方法, 但是也是最容易编写代码的方法. 下面给出一个$O(N^4)$的"*算法?*".
 
-{% highlight cpp %}
+```c++
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -50,7 +50,7 @@ int main()
 
     return 0;
 }
-{% endhighlight %}   
+```   
 
 说句老实话, 这是我今年写过**最蠢**的代码了. 
 
@@ -117,27 +117,27 @@ $$
 于是像这样所有的$6\times 6=36$个项乘完之后, 合并同类项, 最终得到的最简多项式, 每一项的系数, 也就对应出现"幂指数和"情况时的所有可能数.   
 
 我们将最终的结果转化为向量, 即:  
-{% highlight cpp %}
+```c++
 std::vector<int> coefficient_vec {1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1};  
-{% endhighlight %}  
+```  
 并对出现的所有情况进行求和:  
-{% highlight cpp %}
+```c++
 auto sum = std::accumulate(std::begin(coefficient_vec), std::end(coefficient_vec), 
                            0, std::plus<int>());
 assert(6 * 6 == sum);
-{% endhighlight %}  
+```  
 接着便可以求每一种情况出现的概率了:  
-{% highlight cpp %}
+```c++
 for (int i = 0; i < coefficient_vec.size(); ++i) {
     std::cout << i + 1 << ": " 
               << std::setprecision(3) << std::fixed
               << coefficient_vec.at(i) / double(sum)
               << std::endl;
 }
-{% endhighlight %}  
+```  
 
 完整的测试代码:
-{% highlight cpp %}
+```c++
 #include <iostream>
 #include <cassert>  // assert
 #include <vector>   // std::vector
@@ -163,11 +163,11 @@ int main()
 
     return 0;
 }
-{% endhighlight %}  
+```  
 
 这意味着假如我们要投掷*10*个色子, 我们其实只需要将类似这样的*10*个多项式相乘化简即可. 我们知道两个多项式相乘的复杂度为$O(N^2)$, *10*个多项式相乘只需要重复刚才的$O(N^2)$即可, 也就是变成了$O(N^3)$.  
 下面将给出一个程序实例, 计算投$n$个$m(1...m)$面色子出现点数之和$k$的概率.  
-{% highlight cpp %}
+```c++
 #include <iostream>  // std::cout, std::endl
 #include <cassert>  // assert
 #include <vector>   // std::vector
@@ -238,7 +238,7 @@ int main()
 
     return 0;
 }
-{% endhighlight %}
+```
 
 上面的代码只是提供了一个思路, 实际运行起来效率还是非常慢.  
 
