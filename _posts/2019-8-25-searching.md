@@ -154,7 +154,7 @@ int main()
     walked[0][0] = true;  // set the starting point is `walked`
     auto steps = solve(Node(0, 0, 0));  // call searching function
     if (steps > 0) {
-        printf("You can get out this maze by at lease %d step!\n", steps);
+        printf("You can get out this maze by at least %d step!\n", steps);
     } else {
         cout << "Maybe, you\'ll be lost in this infinite way." << endl;
     }
