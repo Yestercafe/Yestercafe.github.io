@@ -27,7 +27,7 @@ using namespace std;
 using Node = pair<int, int>;
 
 char map[W][W];
-const int DIRTS[4][2] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};  // direction updater steps
+const int DIRTS[4][2] { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };  // direction updater steps
 bool walked[W][W] = {false};  // the `pos`s that has already been walked
 
 bool solve(const Node&);
@@ -126,7 +126,7 @@ const char AVB  = '0' + 0;
 using Node = tuple<int, int, int>;
 
 char map[W][W];
-const int DIRTS[4][2] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+const int DIRTS[4][2] { {1, 0}, {-1, 0}, {0, 1}, {0, -1} };
 bool walked[W][W] = {false};
 
 queue<Node> records;
