@@ -1,0 +1,103 @@
+---
+layout: post
+title: 差劲的算法学习 - 优先搜索
+categories: Algorithms
+description: 差劲的算法学习系列, DFS和BFS
+keywords: Algorithms, ACM
+---
+今天来总结一下关于DFS和BFS的问题.  
+
+## DFS, Depth-First-Search, 深度优先搜索
+
+DFS其实是非常简单的. 与其说DFS是比较常用的搜索方式, 不如说它是对递归的一个很好的应用.   
+还是那句话, 用到DFS的场合非常多, 不只是在寻路算法中. 比如我影响比较深的是第一次参加的省赛校选拔时候的一道压轴题--不相邻质数环, 或者叫[约瑟夫环](https://baike.baidu.com/item/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF), 就是一道非常经典的DFS的题目.     
+这边的代码还是拿比较常见的走迷宫举例.  
+
+方便起见, 这里就选择固定的迷宫区域大小, 和固定的起点和终点(分别为左上和右下).  
+
+```c++
+#include <iostream>
+#include <utility>
+#define W 5
+
+const char WALL = '0' + 1;
+const char AVB  = '0' + 0;
+
+using namespace std;
+using Node = pair<int, int>;
+
+char map[W][W];
+const int DIRTS[4][2] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};  // direction updater steps
+bool walked[W][W] = {false};  // the `pos`s that has already been walked
+
+bool solve(const Node&);
+
+int main()
+{
+    for (int i = 0; i < W; ++i) {
+        for (int j = 0; j < W; ++j) {
+            cin >> map[i][j];   // import the whole map
+        }
+    }
+
+    if (map[0][0] != AVB || map[W-1][W-1] != AVB) {
+        cerr << "This is not a correct maze." << endl;
+        return -1;
+    }
+
+    walked[0][0] = true;  // set the starting point is `walked`
+    auto isReachable = solve(Node(0, 0));  // call searching function
+    if (isReachable) {
+        cout << "You can get out this maze!" << endl;
+    } else {
+        cout << "Maybe, you\'ll be lost in this infinite way." << endl;
+    }
+
+    return 0;
+}
+
+bool solve(const Node& pos)
+{
+    // use this output to do recursive visualization
+    // cout << "solve((" << pos.first << ", " << pos.second << "))" << endl;
+    auto [posx, posy] {pos};
+
+    if (posx == W-1 && posy == W-1) {  // if reach the deguchi
+        return true;
+    }
+    
+    for (int r = 0; r < 4; ++r) {  // `r` means the moving direction flag
+        // update next pos
+        auto nextx = posx + DIRTS[r][0];
+        auto nexty = posy + DIRTS[r][1];
+
+        if (nextx >= 0 && nexty >= 0 // not exceed the bound at left and top
+            && nextx < W && nexty < W  // not exceed the bound at right and bottom
+            && !walked[nextx][nexty]  // the next pos is not walked
+            && map[nextx][nexty] != WALL) // the next pos is not `WALL`
+        {
+            // when the next pos is available
+            walked[nextx][nexty] = true;  // set next pos is `walked`
+            auto hasSolution = solve(Node(nextx, nexty));  // solve problem by recursive
+            walked[nextx][nexty] = false;  // `stack-pop` operation, this operation is binded with recursive stack pop.
+            // `solve`'s return-value means `has solution`
+            if (hasSolution) {  // a SIGNIFICENT part of this recursive
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// test case data (for W is 5):
+/*
+01000
+01010
+01010
+01010
+00010
+*/
+```
+
+花了点时间写了一份比较详细的注释, 全部的解释都在注释里. 就不在此再次赘述了.  
+不过值得一提的是, DFS算法在迷宫寻路中的
