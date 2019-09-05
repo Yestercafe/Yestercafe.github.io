@@ -1,8 +1,8 @@
 ---
 layout: post
-title: C++ Templates: The Complete Guide 阅读笔记 部分1
+title: C++ Templates-The Complete Guide Node Part I
 categories: cpp
-description: C++ Templates: The Complete Guide 阅读笔记 部分1
+description: C++ Templates-The Complete Guide 阅读笔记第一部分
 keywords: cpp
 ---
 
