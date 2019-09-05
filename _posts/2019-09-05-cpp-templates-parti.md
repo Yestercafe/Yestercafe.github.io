@@ -1,4 +1,4 @@
----
+v---
 layout: post
 title: C++ Templates-The Complete Guide Node Part I
 categories: cpp
@@ -33,7 +33,6 @@ keywords: cpp
 
 ## Chapter 1 - Function Templates  
 ### Defining and Using 声明和使用
-`basics/max1.hpp`  
 ```c++  
 template<typename T>
 T max (T a, T b)
@@ -57,7 +56,6 @@ template< comma-separated-list-of-parameters >
 5. 并且`T`类型还需要支持拷贝构造.  
 6. 老标准用的是`class`关键字, `typename`是进化版本. 原因没有多复杂, 仅仅是`class`这个词容易产生误解而已, 因为任何类型都可以作为`class`类型的实参.  
 
-`basics/max1.cpp`  
 ```c++
 #include "max1.hpp"
 #include <iostream>
@@ -138,7 +136,7 @@ T max (T const& a, T const& b)
 ```
 传`int`变量进去, `T`会自动推导成`int`, 因为传进去的实参类型能与`int const&`匹配.  
 
-*自动类型转换*在类型推导时被**严格限制**了:  
+但是, *自动类型转换*在类型推导时被**严格限制**了:  
 - 调用函数时, 参数使用引用传递, 任何自动类型转换都不能正常进行. 简单说就是所有的`T`类型必须要全部精准的一模一样才能正常推导.   
 - 调用函数时, 参数使用值传递, 类型会在*消去限制类类型修饰符(decay)*后检查匹配. 这个单词是我乱翻译的, 解释一下就是: const或volatile被忽略\引用转换为被引用的类型, 比如int&转换为int\原生数组或者函数转换位对应的指针类型. 简而言之就是所有的`T`在*decay*之后类型要一模一样才能正常推导.  
 
@@ -226,7 +224,8 @@ auto max (T1 a, T2 b)
     return b < a ? a : b;
 }
 ```
-`auto`关键字作为函数返回值直接写在函数名前面的这种, 是C++14的特性. 之后我会渐渐弱化"某某是C++1x标准的特性"的概念, 反正我们都是直接`-std=c++2a`, 目的是为了研究C++的高阶用法, **而不是**研究某一个版本的标准. 
+`auto`关键字作为函数返回值直接写在函数名前面的这种, 是C++14的特性. 之后我会渐渐弱化"某某是C++1x标准的特性"的概念, 反正我们都是直接`-std=c++2a`, 目的是为了研究C++的高阶用法, **而不是**研究某一个版本的标准.   
+
 C++11的版本写起来要复杂一点点, 因为11时代还不支持函数从`return`语句中直接推导返回值类型, 需要一个*后置返回值类型侦测*(这东西原文叫做*a corresponding trailing return
 type (which would be introduced with a -> at the end)*)
 
@@ -237,4 +236,304 @@ auto max (T1 a, T2 b) -> decltype(b<a?a:b)
 {
     return b < a ? a : b;
 }
+```   
+这里其实可以采取简化的写法, 把`b<a`改称`true`也还是可以推导出`a`和`b`的上位类型. 
+
+但是在有些情况下, `T`必须是引用类型, 这时的返回值可能需要一些细微的调整:  
+```c++
+#include <type_traits>
+template<typename T1, typename T2>
+auto max (T1 a, T2 b) -> typename std::decay<decltype(true?
+a:b)>::type
+{
+    return b < a ? a : b;
+}
 ```
+`std::decay`是`type_traits`中提供的使用C++元能力编写出来的"结构体", 当然这玩意儿是结构体只是一个幌子了.  
+
+#### Return Type as Common Type 以common_type_t类型返回
+顾名思义, 直接上代码:  
+```c++
+#include <type_traits>
+template<typename T1, typename T2>
+std::common_type_t<T1,T2> max (T1 a, T2 b)
+{
+    return b < a ? a : b;
+}
+```
+虽然说好不提C++1x的特性, 但是点名批评C++11. 虽然C++11算是Modern C++的一个好的开始, 但是还是有不少特性上的"bug"在后期的版本才有修复. 以上的版本只适用于C++14以后的版本, C++11的版本:  
+```c++
+#include <type_traits>
+template<typename T1, typename T2>
+typename std::common_type<T1,T2>::type max (T1 a, T2 b)
+{
+    return b < a ? a : b;
+}
+```
+
+### Default Template Arguments 默认模板参数
+刚才的有一个代码里已经出现过了的, 类似于函数的默认参数, 函数模也可以指定模板参数的默认值.  
+```c++
+#include <type_traits>
+template<
+    typename T1, 
+    typename T2, 
+    typename RT = std::decay_t<decltype(true ? T1() : T2())>
+>
+RT max (T1 a, T2 b)
+{
+    return b < a ? a : b;
+}
+```
+稍微把原书的代码按照标准文档上的标准重新排版了一下.  
+代码比较简单也就不解释了. 需要注意的是, 上面的这个代码调用了`T1`和`T2`的默认构造器.  
+下面再给出使用`common_type`的版本:  
+```c++
+#include <type_traits>
+template<
+    typename T1, 
+    typename T2,
+    typename RT = std::common_type_t<T1, T2>
+>
+RT max (T1 a, T2 b)
+{
+    return b < a ? a : b;
+}
+```
+
+### Overloading Function Templates 重载函数模板
+*我也没搞清楚这里为什么用的是overload而不是override. *
+
+想常规的函数一样, 函数模板也支持重载, 并且C++编译器会帮助决定到底应该使用函数的哪一个版本. 但实际编译器实现这个功能的方法是非常复杂的, 这里不做讨论.  
+
+```c++
+int max (int a, int b)
+{
+    return b < a ? a : b;
+}
+template<typename T>
+T max (T a, T b)
+{
+    return b < a ? a : b;
+}
+int main()
+{
+::max(7, 42);  // calls the nontemplate for two ints
+::max(7.0, 42.0);  // calls max<double> (by argument deduction)
+::max(’a’, ’b’);  // calls max<char> (by argument deduction)
+::max<>(7, 42);  // calls max<int> (by argument deduction)
+::max<double>(7, 42);  // // calls max<double> (no argument deduction)
+::max(’a’, 42.7);  // //calls the nontemplate for two ints
+}
+```
+
+需要特别提出的只有两个调用, 一个是`::max<>(7, 42)`, 这个很明显, 是有意调用带模板的版本的; 一个是`::max(’a’, 42.7)`, 因为模板参数不支持自动类型转换, 所以调用的是`int (int, int)`的版本.  
+
+接下来, 讨论两种推导之间的PK:  
+```c++
+template<typename T1, typename T2>
+auto max (T1 a, T2 b)
+{
+    return b < a ? a : b;
+}
+template<typename RT, typename T1, typename T2>
+RT max (T1 a, T2 b)
+{
+    return b < a ? a : b;
+}
+```
+这个主要还是会根据指定的模板参数来定:  
+```c++
+auto a = ::max(4, 7.2);  // uses first template
+auto b = ::max<long double>(7.2, 4);  // uses second template
+auto c = ::max<int>(4, 7.2);  // ERROR: both function templates match
+```
+原文使用了我非常喜欢的一个词, ambiguity, Both templates match, which causes the overload resolution process normally to prefer none and result in an ambiguity error.
+
+接着讨论C风格字符串和指针之间的问题.  
+```c++
+#include <cstring>
+#include <string>
+
+// maximum of two values of any type:
+template<typename T>
+T max (T a, T b)
+{
+    return b < a ? a : b;
+}
+
+// maximum of two pointers:
+template<typename T>
+T* max (T* a, T* b)
+{
+    return *b < *a ? a : b;
+}
+
+// maximum of two C-strings:
+char const* max (char const* a, char const* b)
+{
+    return std::strcmp(b,a) < 0 ? a : b;
+}
+
+int main()
+{
+    int a = 7;
+    int b = 42;
+    auto m1 = ::max(a,b);  // max() for two values of type int
+    std::string s1 = "hey";
+    std::string s2 = "you";
+    auto m2 = ::max(s1,s2);  // max() for two values of type std::string
+    int* p1 = &b;
+    int* p2 = &a;
+    auto m3 = ::max(p1,p2); // max() for two pointers
+    char const* x = hello";
+    char const* y = "world";
+    auto m4 = ::max(x,y);  // max() for two C-strings
+}
+```
+注意, 所有`max`的重载都是值传递.  
+在常规情况下, 应该尽量不在不必要重载函数模板的时候做更多的更改, 简单点讲就是尽量不要用模板生产出更多的函数重载. 否则, 可能会产生一些奇怪的问题. 比如下面这种情况, 我先稍微研究一下, 等下再说:    
+```c++
+#include <cstring>
+
+// maximum of two values of any type (call-by-reference)
+template<typename T>
+T const& max (T const& a, T const& b)
+{
+    return b < a ? a : b;
+}
+
+// maximum of two C-strings (call-by-value)
+char const* max (char const* a, char const* b)
+{
+    return std::strcmp(b,a) < 0 ? a : b;
+}
+
+// maximum of three values of any type (call-by-reference)
+template<typename T>
+T const& max (T const& a, T const& b, T const& c)
+{
+    return max (max(a,b), c); // error if max(a,b) uses call-by-value
+}
+
+int main ()
+{
+    auto m1 = ::max(7, 42, 68);  // OK
+    char const* s1 = "frederic";
+    char const* s2 = "anica";
+    char const* s3 = "lucas";
+    auto m2 = ::max(s1, s2, s3);  //run-time ERROR
+}
+```
+这个代码错误最恶心的地方是, 他会报一个run-time error, 而不是编译错误. 原因是, 在C风格字符串作为实参调用`max(a, b)`的时候, 创造了一个全新的临时*局部*值, 并作为引用返回, 但是显然这个引用引用的原临时变量, 会在函数返回后被销毁, 最终变成了一个*无效引用(dangling reference)*. 
+
+其实这段话我是每怎么读懂的. 这里参考了一下由objdump解析出来的汇编代码:  
+```asm
+0000000000401159 <main>:
+  401159:	55                   	push   %rbp
+  40115a:	48 89 e5             	mov    %rsp,%rbp
+  40115d:	48 83 ec 40          	sub    $0x40,%rsp
+  401161:	c7 45 e4 44 00 00 00 	movl   $0x44,-0x1c(%rbp)
+  401168:	c7 45 e8 2a 00 00 00 	movl   $0x2a,-0x18(%rbp)
+  40116f:	c7 45 ec 07 00 00 00 	movl   $0x7,-0x14(%rbp)
+  401176:	48 8d 55 e4          	lea    -0x1c(%rbp),%rdx
+  40117a:	48 8d 4d e8          	lea    -0x18(%rbp),%rcx
+  40117e:	48 8d 45 ec          	lea    -0x14(%rbp),%rax
+  401182:	48 89 ce             	mov    %rcx,%rsi
+  401185:	48 89 c7             	mov    %rax,%rdi
+  401188:	e8 42 00 00 00       	callq  4011cf <_Z3maxIiERKT_S2_S2_S2_>
+  40118d:	8b 00                	mov    (%rax),%eax
+  40118f:	89 45 fc             	mov    %eax,-0x4(%rbp)
+  401192:	48 c7 45 d8 10 20 40 	movq   $0x402010,-0x28(%rbp)
+  401199:	00 
+  40119a:	48 c7 45 d0 19 20 40 	movq   $0x402019,-0x30(%rbp)
+  4011a1:	00 
+  4011a2:	48 c7 45 c8 1f 20 40 	movq   $0x40201f,-0x38(%rbp)
+  4011a9:	00 
+  4011aa:	48 8d 55 c8          	lea    -0x38(%rbp),%rdx
+  4011ae:	48 8d 4d d0          	lea    -0x30(%rbp),%rcx
+  4011b2:	48 8d 45 d8          	lea    -0x28(%rbp),%rax
+  4011b6:	48 89 ce             	mov    %rcx,%rsi
+  4011b9:	48 89 c7             	mov    %rax,%rdi
+  4011bc:	e8 49 00 00 00       	callq  40120a <_Z3maxIPKcERKT_S4_S4_S4_>
+  4011c1:	48 8b 00             	mov    (%rax),%rax
+  4011c4:	48 89 45 f0          	mov    %rax,-0x10(%rbp)
+  4011c8:	b8 00 00 00 00       	mov    $0x0,%eax
+  4011cd:	c9                   	leaveq 
+  4011ce:	c3                   	retq
+
+000000000040120a <_Z3maxIPKcERKT_S4_S4_S4_>:
+  40120a:	55                   	push   %rbp
+  40120b:	48 89 e5             	mov    %rsp,%rbp
+  40120e:	53                   	push   %rbx
+  40120f:	48 83 ec 38          	sub    $0x38,%rsp
+  401213:	48 89 7d d8          	mov    %rdi,-0x28(%rbp)
+  401217:	48 89 75 d0          	mov    %rsi,-0x30(%rbp)
+  40121b:	48 89 55 c8          	mov    %rdx,-0x38(%rbp)
+  40121f:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+  401223:	48 8b 18             	mov    (%rax),%rbx
+  401226:	48 8b 45 d0          	mov    -0x30(%rbp),%rax
+  40122a:	48 8b 10             	mov    (%rax),%rdx
+  40122d:	48 8b 45 d8          	mov    -0x28(%rbp),%rax
+  401231:	48 8b 00             	mov    (%rax),%rax
+  401234:	48 89 d6             	mov    %rdx,%rsi
+  401237:	48 89 c7             	mov    %rax,%rdi
+  40123a:	e8 e7 fe ff ff       	callq  401126 <_Z3maxPKcS0_>
+  40123f:	48 89 de             	mov    %rbx,%rsi
+  401242:	48 89 c7             	mov    %rax,%rdi
+  401245:	e8 dc fe ff ff       	callq  401126 <_Z3maxPKcS0_>
+  40124a:	48 89 45 e8          	mov    %rax,-0x18(%rbp)
+  40124e:	b8 00 00 00 00       	mov    $0x0,%eax
+  401253:	48 83 c4 38          	add    $0x38,%rsp
+  401257:	5b                   	pop    %rbx
+  401258:	5d                   	pop    %rbp
+  401259:	c3                   	retq
+```
+拷贝的有点多, 主要是不知道要怎么裁减. 主要盯着callq指令调用地址后面的注释就行了.  
+
+主函数第二次callq的函数是`_Z3maxIPKcERKT_S4_S4_S4_`, 这很正常, 区别是`S2`的`int`型, 但是从这里并无法确定`S4`究竟是什么类型. 进入`_Z3maxIPKcERKT_S4_S4_S4_`的代码, 函数两次调用了`_Z3maxPKcS0_`, 这个函数没有尾缀, 所以一定是上面没有模板的`max`函数. 这样之前的困惑就得到了解决, `S4`应该是`char const*&`型的. 
+
+这个需要考虑到编译器的机制了. 站在写代码人的角度考虑, 刚才说过:  
+> 在常规情况下, 应该尽量不在不必要重载函数模板的时候做更多的更改, 简单点讲就是尽量不要用模板生产出更多的函数重载. 否则, 可能会产生一些奇怪的问题  
+
+所以编译器也定然会符合这个要求做事 -- 如果能找到现成的函数签名能符合要求, 就不再通过模板去再生成一套代码, 毕竟为了防止冲突嘛. 主函数中的C风格字符串是`char const*`型的, 首先编译器会生成一套`T`为`char const*`的三参数`max`函数代码. 并且以引用的方式将主函数中的三个字符型指针传到了这个`max`里. 由于这个`max`必须要返回一个引用, 而在实际进行过程中, 某些引用在函数返回时变成了*无效引用(dangling reference)*. 最终导致这样的run-time error.  
+
+这块一些含糊的地方, 明天找个人问问再补上.   
+
+为什么整型调用的时候没有出现这种情况? 原因是三个C风格字符串是定义在主函数中的, 而三个整数是以字面值的形式直接传给`max`作为参数的, 引用的域其实是不同的.  
+
+下面这个代码, 涉及一种特殊情况:   
+```c++
+#include <iostream>
+
+// maximum of two values of any type:
+template<typename T>
+T max (T a, T b)
+{
+    std::cout << "max<T>() \n";
+    return b < a ? a : b;
+}
+
+// maximum of three values of any type:
+template<typename T>
+T max (T a, T b, T c)
+{
+    return max (max(a,b), c);  // uses the template version even for ints
+}  // because the following declaration comes
+   // too late:
+
+// maximum of two int values:
+int max (int a, int b)
+{
+    std::cout << "max(int,int) \n";
+    return b < a ? a : b;
+}
+int main()
+{
+    ::max(47,11,33);  // OOPS: uses max<T>() instead of max(int,int)
+}
+```
+
+这里为什么会调用模板的版本, 因为对于三参数`max`来说, 模板版本的二参数`max`在其之前被声明, 而非模板版本的`max`在其之后被声明, 所以没有可见性.  
+
+### But, Shouldn't We ...? 但是, 什么是禁止做的?  
