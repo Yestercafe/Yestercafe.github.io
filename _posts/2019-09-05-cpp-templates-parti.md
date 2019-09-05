@@ -65,11 +65,12 @@ template< comma-separated-list-of-parameters >
 int main()
 {
     int i = 42;
-    std::cout << "max(7,i): " << ::max(7,i) << ’\n’;
+    std::cout << "max(7,i): " << ::max(7,i) << '\n';
     double f1 = 3.4; double f2 = -6.7;
-    std::cout << "max(f1,f2): " << ::max(f1,f2) << ’\n’;
-    std::string s1 = "mathematics"; std::string s2 = "math";
-    std::cout << "max(s1,s2): " << ::max(s1,s2) << ’\n’;
+    std::cout << "max(f1,f2): " << ::max(f1,f2) << '\n';
+    std::string s1 = "mathematics";
+    std::string s2 = "math";
+    std::cout << "max(s1,s2): " << ::max(s1,s2) << '\n';
 }
 ```
 `Outputs:`  
@@ -124,7 +125,7 @@ void foo(T t)
 
 ### Compiling and Linking 编译和链接  
 后面好像还有专门讲的, 这里只强调一点:  
-**带模板函数的定义和声明都放在头文件里, 写在一起, 分开写会报链接错误.**
+**带模板函数的定义和声明都放在头文件里, 写在一起, 分文件写会报链接错误.**
 
 ### Template Argument Deduction 模板参数推导
 这玩意编译器写得很智能, 不用考虑那么多的. 比如:  
