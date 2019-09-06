@@ -1,4 +1,4 @@
-v---
+---
 layout: post
 title: C++ Templates-The Complete Guide Node Part I
 categories: cpp
@@ -28,10 +28,10 @@ keywords: cpp
 
 因为之前写的一些内容比较累赘, 基本就是在翻译全书了, 所以本次会大幅度减少篇幅.  
 
-# Part I. The Basics
+# Part I. The Basics 基础知识
 本部分主要介绍一些模板基础.  
 
-## Chapter 1 - Function Templates  
+## Chapter 1 - Function Templates 函数模板
 ### Defining and Using 声明和使用
 ```c++  
 template<typename T>
@@ -302,8 +302,6 @@ RT max (T1 a, T2 b)
 ```
 
 ### Overloading Function Templates 重载函数模板
-*我也没搞清楚这里为什么用的是overload而不是override. *
-
 想常规的函数一样, 函数模板也支持重载, 并且C++编译器会帮助决定到底应该使用函数的哪一个版本. 但实际编译器实现这个功能的方法是非常复杂的, 这里不做讨论.  
 
 ```c++
@@ -318,16 +316,16 @@ T max (T a, T b)
 }
 int main()
 {
-::max(7, 42);  // calls the nontemplate for two ints
-::max(7.0, 42.0);  // calls max<double> (by argument deduction)
-::max(’a’, ’b’);  // calls max<char> (by argument deduction)
-::max<>(7, 42);  // calls max<int> (by argument deduction)
-::max<double>(7, 42);  // // calls max<double> (no argument deduction)
-::max(’a’, 42.7);  // //calls the nontemplate for two ints
+    ::max(7, 42);  // calls the nontemplate for two ints
+    ::max(7.0, 42.0);  // calls max<double> (by argument deduction)
+    ::max('a', 'b');  // calls max<char> (by argument deduction)
+    ::max<>(7, 42);  // calls max<int> (by argument deduction)
+    ::max<double>(7, 42);  // // calls max<double> (no argument deduction)
+    ::max('a', 42.7);  // //calls the nontemplate for two ints
 }
 ```
 
-需要特别提出的只有两个调用, 一个是`::max<>(7, 42)`, 这个很明显, 是有意调用带模板的版本的; 一个是`::max(’a’, 42.7)`, 因为模板参数不支持自动类型转换, 所以调用的是`int (int, int)`的版本.  
+需要特别提出的只有两个调用, 一个是`::max<>(7, 42)`, 这个很明显, 是有意调用带模板的版本的; 一个是`::max('a', 42.7)`, 因为模板参数不支持自动类型转换, 所以调用的是`int (int, int)`的版本.  
 
 接下来, 讨论两种推导之间的PK:  
 ```c++
@@ -427,8 +425,8 @@ int main ()
 ```
 这个代码错误最恶心的地方是, 他会报一个run-time error, 而不是编译错误. 原因是, 在C风格字符串作为实参调用`max(a, b)`的时候, 创造了一个全新的临时*局部*值, 并作为引用返回, 但是显然这个引用引用的原临时变量, 会在函数返回后被销毁, 最终变成了一个*无效引用(dangling reference)*. 
 
-其实这段话我是每怎么读懂的. 这里参考了一下由objdump解析出来的汇编代码:  
-```asm
+其实这段话我是没怎么读懂的. 这里参考了一下由objdump解析出来的汇编代码:  
+```plain
 0000000000401159 <main>:
   401159:	55                   	push   %rbp
   40115a:	48 89 e5             	mov    %rsp,%rbp
@@ -489,18 +487,18 @@ int main ()
   401258:	5d                   	pop    %rbp
   401259:	c3                   	retq
 ```
-拷贝的有点多, 主要是不知道要怎么裁减. 主要盯着callq指令调用地址后面的注释就行了.  
+拷贝的有点多, 主要是不知道要怎么裁减. 主要盯着callq指令调用地址后面的tag就行了.  
 
-主函数第二次callq的函数是`_Z3maxIPKcERKT_S4_S4_S4_`, 这很正常, 区别是`S2`的`int`型, 但是从这里并无法确定`S4`究竟是什么类型. 进入`_Z3maxIPKcERKT_S4_S4_S4_`的代码, 函数两次调用了`_Z3maxPKcS0_`, 这个函数没有尾缀, 所以一定是上面没有模板的`max`函数. 这样之前的困惑就得到了解决, `S4`应该是`char const*&`型的. 
+主函数第二次callq的函数是`_Z3maxIPKcERKT_S4_S4_S4_`, 这很正常, 区别是`S2`的`int`型, 但是从这里并无法确定`S4`究竟是什么类型. 进入`_Z3maxIPKcERKT_S4_S4_S4_`的代码, 函数两次调用了`_Z3maxPKcS0_`, 这个函数没有尾缀, 所以一定是上面没有模板的`max`函数. 这样之前的困惑就得到了解决, `S4`应该是`char const*`型的. 
 
 这个需要考虑到编译器的机制了. 站在写代码人的角度考虑, 刚才说过:  
 > 在常规情况下, 应该尽量不在不必要重载函数模板的时候做更多的更改, 简单点讲就是尽量不要用模板生产出更多的函数重载. 否则, 可能会产生一些奇怪的问题  
 
-所以编译器也定然会符合这个要求做事 -- 如果能找到现成的函数签名能符合要求, 就不再通过模板去再生成一套代码, 毕竟为了防止冲突嘛. 主函数中的C风格字符串是`char const*`型的, 首先编译器会生成一套`T`为`char const*`的三参数`max`函数代码. 并且以引用的方式将主函数中的三个字符型指针传到了这个`max`里. 由于这个`max`必须要返回一个引用, 而在实际进行过程中, 某些引用在函数返回时变成了*无效引用(dangling reference)*. 最终导致这样的run-time error.  
+所以编译器也定然会符合这个要求做事 -- 如果能找到现成的函数签名能符合要求, 就不再通过模板去再生成一套代码, 毕竟为了防止冲突嘛. 主函数中的C风格字符串是`char const*`型的, 首先编译器会生成一套`T`为`char const*`的三参数`max`函数代码. 并且以引用的方式将主函数中的三个字符型指针传到了这个`max`里. 但是在三参数`max`调用二参数`max`的时候使用的是`char const*`版本, 它的返回值也是`char const*`. 而三参数`max`将`max (max(a,b), c)`调用之后临时生成的局部变量引用返回了, 但实际这个临时变量在三参数`max`返回之后就已经销毁了, 所以, dangling reference出现在这里.  
 
-这块一些含糊的地方, 明天找个人问问再补上.   
+为什么整型调用的时候没有出现这种情况? 那是因为`int`型的三参数`max`调用的是模板实例化出来的二参数`max`, 全程使用引用, 所以不存在这样的问题.  
 
-为什么整型调用的时候没有出现这种情况? 原因是三个C风格字符串是定义在主函数中的, 而三个整数是以字面值的形式直接传给`max`作为参数的, 引用的域其实是不同的.  
+其实把`char const*`参数版本的`max`的定义给删掉, 这个代码就可以正常运行了. 或者将参数类型改成`char const* const&`.  
 
 下面这个代码, 涉及一种特殊情况:   
 ```c++
@@ -536,4 +534,55 @@ int main()
 
 这里为什么会调用模板的版本, 因为对于三参数`max`来说, 模板版本的二参数`max`在其之前被声明, 而非模板版本的`max`在其之后被声明, 所以没有可见性.  
 
-### But, Shouldn't We ...? 但是, 什么是禁止做的?  
+### But, Shouldn't We ...? 但是, 什么是禁止做的?   
+#### Pass by Value or by Reference? 值传递还是引用传递?  
+这个问题上面遇到了. 直接给出答案就是更多的时候使用值传递. 但是很奇怪, 之前看过的书上或者人们推崇的不都是引用+`const`修饰来传递除简单类型(比如fundamental types或者`std::string_view`)外的其他类型吗? 为什么这里又建议用值传递了? 书中给出了值传递的好处:  
+- The syntax is simple.  
+- 语法简单.  
+- Compilers optimize better.  
+- 编译器更容易优化.   
+- Move semantics often makes copies cheap.  
+- 移动语义更容易作用于拷贝传递.  
+- And sometimes there is no copy or move at all.
+- 有时根本不会有拷贝和移动. 这句没怎么懂.  
+另外, 加上模板后:  
+- A template might be used for both simple and complex types, so choosing the approach for complex types might be counter-productive for simple types.
+- 模板参数可以接收简单类型和复杂类型, 如果一味地使用对专门对复杂类型考虑的优化操作, 有可能会对简单类型产生适得其反的效果.  
+- As a caller you can often still decide to pass arguments by reference, using std::ref() and std::cref() (see Section 7.3 on page 112).
+- functional中提供了可供调用者决定使用的`std::ref()`和`std::cref()`进行强制引用.  
+- Although passing string literals or raw arrays always can become a problem, passing them by reference often is considered to become the bigger problem. All this will be discussed in detail in Chapter 7. For the moment inside the book we will usually pass arguments by value unless some functionality is only possible when using references.
+- 字符串字面值和原生数组可能会在引用时遇到更大的麻烦. 更多的内容会在后面讨论.  
+
+#### Why Not inline? 内联函数
+不知道原文在说啥, 也从来不用`inline`, 懒得看了.  
+
+#### Why Not constexpr? `constexpr`函数  
+编译期函数嘛, 学过C++的都知道. 上代码:   
+```c++
+template<typename T1, typename T2>
+constexpr auto max (T1 a, T2 b)
+{
+    return b < a ? a : b;
+}
+```
+然后就可以  
+```c++
+int a[::max(sizeof(char),1000u)];
+std::array<std::string, ::max(sizeof(char),1000u)> arr;
+```
+了, 用法没什么特别的地方. 但是要注意一定要传`unsigned`型的字面值, 不然比较大小的时候会有警告.  
+
+### 章总结
+- 函数模板能为不同模板参数生成一个家族或者说是一个系列的函数.  
+- 你传实际参数进用模板参数类型的参数时, 大多情况下编译期会自动推导模板参数.  
+- 可以指定leading的模板参数.   
+    举个例子就是`template<typename RT, typename T1, typename T2>`, 之前的这个`RT`就是所谓的leading. 
+- 可以指定默认模板参数.  
+- 可以重载函数模板.  
+- 在手动重载函数模板之前, 确保重载出来的函数签名没有用过, 或者是产生冲突之类的.  
+- 尽量少的重载函数模板, 主要也就是防止冲突.  
+- 确保调用某个函数时编译器对所有函数重载版本的可见性.  
+
+
+## Chapter 2 - Class Templates 类模板  
+
