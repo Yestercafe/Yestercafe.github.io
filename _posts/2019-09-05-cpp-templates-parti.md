@@ -123,7 +123,7 @@ void foo(T t)
 
 ### Compiling and Linking 编译和链接  
 后面好像还有专门讲的, 这里只强调一点:  
-**带模板函数的定义和声明都放在头文件里, 写在一起, 分文件写会报链接错误.**
+**函数模板的定义和声明都放在头文件里, 写在一起, 分文件写会报链接错误.**
 
 ### Template Argument Deduction 模板参数推导
 这玩意编译器写得很智能, 不用考虑那么多的. 比如:  
@@ -272,7 +272,7 @@ typename std::common_type<T1,T2>::type max (T1 a, T2 b)
 ```
 
 ### Default Template Arguments 默认模板参数
-刚才的有一个代码里已经出现过了的, 类似于函数的默认参数, 函数模也可以指定模板参数的默认值.  
+刚才的有一个代码里已经出现过了的, 类似于函数的默认参数, 函数模板也可以指定模板参数的默认值.  
 ```c++
 #include <type_traits>
 template<
@@ -426,7 +426,7 @@ int main ()
 这个代码错误最恶心的地方是, 他会报一个run-time error, 而不是编译错误. 原因是, 在C风格字符串作为实参调用`max(a, b)`的时候, 创造了一个全新的临时*局部*值, 并作为引用返回, 但是显然这个引用引用的原临时变量, 会在函数返回后被销毁, 最终变成了一个*无效引用(dangling reference)*. 
 
 其实这段话我是没怎么读懂的. 这里参考了一下由objdump解析出来的汇编代码:  
-```plain
+```x86asm
 0000000000401159 <main>:
   401159:	55                   	push   %rbp
   40115a:	48 89 e5             	mov    %rsp,%rbp
@@ -585,4 +585,336 @@ std::array<std::string, ::max(sizeof(char),1000u)> arr;
 
 
 ## Chapter 2 - Class Templates 类模板  
+### Implementation of Class Template Stack 类模板栈的实现
+```c++
+#include <vector>
+#include <cassert>
 
+template<typename T>
+class Stack {
+  private:
+    std::vector<T> elems;
+  public:
+    void push(T const& elem);
+    void pop();
+    T const& top() const;
+    bool empty() const {
+        return elems.empty();
+    }
+};
+
+template<typename T>
+void Stack<T>::push (T const& elem)
+{
+    elems.push_back(elem);
+}
+
+template<typename T>
+void Stack<T>::pop ()
+{
+    assert(!elems.empty());
+    elems.pop_back();
+}
+
+template<typename T>
+T const& Stack<T>::top () const
+{
+    assert(!elems.empty());
+    return elems.back();
+}
+```
+
+这个类模板内部调用了C++标准库的vector<>类模板. 所以在做它的实现的时候不用考虑内存管理, 拷贝构造器, 赋值运算符这些东西.  
+
+#### Declaration of Class Templates 类模板的声明
+声明类模板和函数模板基本一致:  
+```c++
+template<typename T>
+class Stack {
+    ...
+};
+```
+同样的, 这里的`typename`也可以用`class`替代.  
+
+同函数模板一样, 在把类模板用作声明的时候需要指定模板参数, 除非模板参数通过某种途径能够被编译器自动推导. 
+
+但是在类的定义中使用自己的类名时不需要指定模板参数, 不指定时就表示他自己, 用Java的话说就是`this.class`:  
+```c++
+template<typename T>
+class Stack {
+    ...
+    Stack (Stack const&);
+    Stack& operator= (Stack const&);
+    ...
+};
+```
+等价于:   
+```c++
+template<typename T>
+class Stack {
+    Stack (Stack<T> const&);
+    Stack<T>& operator= (Stack<T> const&);
+    ...
+};
+```
+但是在类外的成员方法定义中出现的类名需要指定模板参数:  
+```c++
+template<typename T>
+bool operator== (Stack<T> const& lhs, Stack<T> const& rhs);
+```
+
+注意: 不同于非模板类, 类模板不能在函数或代码块中声明. 通常情况下, 模板只能在全局或者名称空间scope中, 以及类中声明.   
+
+#### Implementation of Member Functions 成员函数的实现
+上面的代码中, 类中的`push`函数的实现没有什么特别需要说明的地方.   
+但是需要说明的是, 为什么`vector<>::pop_back()`没有返回移除的那个最后的元素. 这样可以保证*异常安全性(exception safety)*, 你不可能保证返回移除元素版本的`pop()`是完备的异常安全的. *比如说移除的元素不能被拷贝?* 如果忽略这样的风险, 就可以实现下面的版本了:  
+```c++
+template<typename T>
+T Stack<T>::pop ()
+{
+    assert(!elems.empty());
+    T elem = elems.back();
+    elems.pop_back();
+    return elem;
+}
+```
+
+`top`函数也没什么需要特别说明的地方.  
+
+`empty`函数的定义时写在类内的, 所以默认内联.  
+
+### Use of Class Template Stack 类模板栈的使用
+看原文中介绍好像说C++17才开始支持类模板参数的推导的, 但是正常情况写C++17的时候其实很少, 习惯上还是保留了类模板参数的手动指定.  
+
+代码部分学过C++的都会写, 不贴了.  
+
+注意, 只有被调用了的类模板的成员函数(其实按照代码来看它们也都是函数模板)才会被实例化.  
+
+下面的行为都是被允许的:  
+```c++
+void foo(Stack <int> const& s)
+{
+    using IntStack = Stack<int>;
+    Stack<int> istack[10];
+    IntStack istack2[10];
+
+    Stack<float*> floatPtrStack;
+
+    Stack<Stack<int>> intStackStack;
+}
+```
+从上面的代码可以看到, 类模板类型可以alias, 支持类型闭包.  
+
+### Partial Usage of Class Templates 类模板的部分用法
+模板参数**必须**提供所有需要的操作符支持.  
+
+#### Concepts
+刚才说了模板参数必须要提供所有需要的支持, 这个该如何办到呢? C++17正式引入了新的语义*概念(concept)*, 来提供在**标准库中**模板实例化时的一些限制.  
+但是很可惜的是, C++17使用concepts或多或少只是出现在标准文档或者注释中, 真正引入是C++20. C++20正式引入*concept*成为了C++语法的一个部分. 目前不论是20的range, 还是concepts, 这方面的资料比较少, 或者说我没有特别去关注这个, 所以代码暂时还不知道应该怎么去写.  
+
+但是别忘了, 早在C++11, Modern C++问世的时候, C++的元能力被完全开发, 标准库中加入了**type_traits**, 提供给我们的一些元函数可以帮助我们解决这个问题:  
+```c++
+template<typename T>
+class C
+{
+    static_assert(std::is_default_constructible<T>::value, "Class C requires default-constructible elements");
+    ...
+};
+```
+*traits*这本书的后面肯定会讨论的, 猜都不用猜.  
+
+本书的Appendix E部分(也是本篇的Appendix E部分, 放在最后了)给出了C++20的concepts的代码实现, 这里将会尝试在加了`-std=c++2a`的g++中复现下面的代码.  
+
+< INSERT >
+
+
+
+
+
+
+
+
+## Appendix E - Concepts
+非常幸运的是, 标准委员会在这本书出版之前, 为C++20草案提出了一个新的内容 -- **concepts**. 如今我才有幸能在这本书的附录看到关于C++20 concepts的相关代码. 虽然可能和最终版有所偏差, 但是我会在C++2a标准下尽量进行所有尝试. 目前的gcc版本是`gcc (GCC) 9.2.1 20190827 (Red Hat 9.2.1-1)`.  
+
+### Using Concepts 使用*概念*
+#### Dealing with Requirements 处理*要求*
+首先, 通过修复前面Chapter 1中的`max`函数模板的漏洞的代码, 先熟悉一下concepts的相关语法.  
+```c++
+template<typename T> requires LessThanComparable<T>
+    T max(T a, T b) {
+    return b < a ? a : b;
+}
+```
+稍微找了一下markdown的配置代码, Java, Python的高亮关键字都看到了, 就是没见到C++的. 所以, requires已经是关键字了, 只是这里显示不出来.   
+
+这第一个代码暂时还没法跑起来. [`LessThanComparable`](https://en.cppreference.com/w/cpp/named_req/LessThanComparable)是一个叫做[*named requirements*](https://en.cppreference.com/w/cpp/named_req)的东西, 不是某个头文件里面定义的, 2a暂时还没有这玩意儿. 但是稍后在下一节会给出如何作为concept来手动定义它.     
+
+`LessThanComparable<T>`是一个*布尔谓词(Boolean predicate)*, 简单说就是他能够产生一个布尔值. 这个布尔谓词通过一个常量表达式进行评估(应该是类似traits的东西), 并且最重要的是, 同静态断言, 这个评估会在编译期进行, 会在编译期给予程序*约束(constraint)*.   
+当我们尝试使用这个模板时, 在二相翻译的第一阶段结束之后, 第二阶段之前会优先进行**requires语句(requires clause)**的评估, 并且需要其产生一个`true`值, 第二阶段翻译才能开始; 反之, 如果它产生了一个`false`值, 编译期会发出错误并指出是哪一个**要求(requirement)**部分失败.  
+
+`require`语句不一定需要通过*概念(concepts)*进行表示, 任何一个布尔常量表达式都可以使用, 甚至可以使用`true`. 所以接下来的这个代码将可以运行:  
+```c++
+class Person
+{
+  private:
+    std::string name;
+  public:
+    template<typename STR>
+      requires std::is_convertible_v<STR, std::string>
+    explicit Person(STR&& n)
+     : name(std::forward<STR>(n)) {
+        std::cout << "TMPL-CONSTR for ’" << name << "’\n";
+    }
+    ...
+};
+```
+这里面涉及一些比较复杂的东西, 比如*traits*, *完美转发(perfect forwarding)*, 这些是正文需要讨论的东西, 这里不做讨论.   
+[`std::is_convertible_v<>`](https://en.cppreference.com/w/cpp/types/is_convertible)来自traits, 原来的版本是`std::is_convertible<>::value`, 学习过C++17特性的都知道, `_v`和`_t`这种尾缀是C++17搞出来的traits的新特性, 比以前更方便使用: 
+```c++
+template<class From, class To>
+inline constexpr bool is_convertible_v = is_convertible<From, To>::value;
+```
+就不用多说了, 判断类型转换是否可行的traits.
+
+上面的代码, 加上头文件进行细微修改之后的版本是:  
+```c++
+#include <type_traits>
+#include <string>
+#include <iostream>
+
+class Person
+{
+  private:
+    std::string name;
+  public:
+    template<typename STR>
+      requires std::is_convertible_v<STR, std::string>
+    explicit Person(STR&& n)
+     : name(std::forward<STR>(n)) {
+        std::cout << "TMPL-CONSTR for ’" << name << "’\n";
+    }
+};
+```
+使用`g++ -fconcepts -std=c++2a -c ./concepts_demo.cpp`进行编译, 可得目标文件.  
+
+#### Dealing with Multiple Requirements 处理多*要求*
+上代码:  
+```c++
+template<typename Seq>
+  requires Sequence<Seq> &&
+           EqualityComparable<typename Seq::value_type>
+typename Seq::iterator find(Seq const& seq,
+                            typename Seq::value_type const& val)
+{
+    return std::find(seq.begin(), seq.end(), val);
+}
+```
+这里使用的两个named requirement, 第一个`Sequence`, cppreference上提供的名称是[`SequenceContainer`](https://en.cppreference.com/w/cpp/named_req/SequenceContainer), 用来约束模板参数为线性容器; 第二个[`EqualityComparable`](https://en.cppreference.com/w/cpp/named_req/EqualityComparable), 用来约束模板参数可以进行*等价比较*(瞎编的, 其实就是支不支持`operator==`).   
+
+然后衔接这两个requirement的是非常熟悉的`&&`逻辑且运算符. 同样的, 如果想表达'alternative'的意思, 可以使用`||`逻辑或运算符. 但是不推荐使用或, 这可能会潜在地增加编译器负担.  
+
+在有些情况下, 用concept是非常爽的:  
+```c++
+template<typename T>
+  requires Integral<T> ||
+           FloatingPoint<T>
+T power(T b, T p);
+```
+这样子使用requirement非常繁琐.  
+```c++
+template<typename T, typename U>
+  requires SomeConcept<T, U>
+auto f(T x, U y) -> decltype(x+y)
+```
+使用了用户定义的concept之后, 类似的操作变得简单了.  
+
+#### Shorthand Notation for Single Requirements 单个*要求*的简写
+在模板参数列表后面再加上一串requires clause会让代码显得头重脚轻, 于是C++提供了一种缩写的方式, 不知道这能不能算语法糖?  
+```c++
+// Original 
+template<typename T>
+  requires LessThanComparable<T>
+T max(T a, T b) {
+    return b < a ? a : b;
+}
+
+// Shorthand Notation
+template<LessThanComparable T>
+T max(T a, T b) {
+    return b < a ? a : b;
+}
+```
+又比如刚才上面那个代码:  
+```c++
+// Original 
+template<typename Seq>
+  requires Sequence<Seq> &&
+           EqualityComparable<typename Seq::value_type>
+typename Seq::iterator find(Seq const& seq,
+                            typename Seq::value_type const& val)
+{
+    return std::find(seq.begin(), seq.end(), val);
+}
+
+// Shorthand Notation 
+template<Sequence Seq>
+  requires EqualityComparable<typename Seq::value_type>
+typename Seq::iterator find(Seq const& seq,
+                            typename Seq::value_type const& val)
+{
+    return std::find(seq.begin(), seq.end(), val);
+}
+```
+这样就看起来舒服多了. 
+
+### Defining Concepts 定义*概念*
+概念的定义更像布尔型`constexpr`变量模板, 但是没有明确指出变量类型:  
+```c++
+template<typename T>
+concept MyConcept = ... ;
+```
+比如刚才的`LessThanComparable`, 我们的自主定义是:  
+```c++
+template<typename T>
+concept LessThanComparable = requires(T x, T y) {
+    { x < y } -> bool;
+};
+```
+这里有一些非常有意思的东西, 颠覆了以往的C++的概念. 
+1. requires后面圆括号里看起来像参数列表的东西, 是彻彻底地的**虚构变量(dummy variables)**, 这些看上去是参数的虚假变量, 不会在任何时候有一个实参传进来作为形参被调用, 而只是用来辅助定义概念.  
+2. 这段`{ x < y } -> bool;`看起来像返回值的又像Lambda的玩意儿, 其实也仅仅是用来描述概念的. 这个*语法(syntax, 原文这里没有把叫做"语句")*有两个含义: 表达式`x < y`必须合法, 意思就是`T`类型必须支持`operator<`; 这个表达式必须要支持转换成`bool`类型(注意不一定是要`bool`类型值).   
+
+在这个`->`之前可以插入一个关键字`noexcept`, 表示括号内的表达式不会抛出异常.  
+
+这里如果不加`-> type`, 也可以交给编译期自动推导:  
+```c++
+template<typename T>
+concept Swappable = requires(T x, T y) {
+    swap(x, y);
+};
+```
+
+requires表达式还支持表示相关类型, 比如`T`类型如果作为一个线性容器内部包含的`elem_type`或者`iterator`之类的, 但是注意, 这玩意儿也需要定义:  
+```c++
+template<typename Seq>
+concept Sequence = requires(Seq seq) {
+    typename Seq::iterator;
+    { seq.begin() } -> Seq::iterator;
+    ...
+};
+```
+但是这里又要考虑一个隐患, 假设这个`Seq`没有迭代器怎么办? 这时可以使用嵌套的requires:  
+```c++
+template<typename Seq>
+concept Sequence = requires(Seq seq) {
+    typename Seq::iterator;
+    requires Iterator<typename Seq::iterator>;
+    { seq.begin() } -> Seq::iterator;
+    ...
+};
+```
+`Iterator`可以作为concept再单独定义嘛.  
+这种嵌套的requires被叫做**嵌套要求(nested requirement)**.
+
+### Overloading on Constraints *约束*重载 
