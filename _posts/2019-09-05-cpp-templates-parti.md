@@ -866,7 +866,8 @@ typename Seq::iterator find(Seq const& seq,
     return std::find(seq.begin(), seq.end(), val);
 }
 ```
-这样就看起来舒服多了. 
+这样就看起来舒服多了.   
+这样定义的模板被叫做*约束模板(constrained template)*.  
 
 ### Defining Concepts 定义*概念*
 概念的定义更像布尔型`constexpr`变量模板, 但是没有明确指出变量类型:  
@@ -917,4 +918,83 @@ concept Sequence = requires(Seq seq) {
 `Iterator`可以作为concept再单独定义嘛.  
 这种嵌套的requires被叫做**嵌套要求(nested requirement)**.
 
-### Overloading on Constraints *约束*重载 
+### Overloading on Constraints 模板约束重载 
+我们先看下面的两个函数模板声明:  
+```c++
+template<IntegerLike T> void print(T val);
+template<StringLike T> void print(T val);
+```
+这两个声明虽然使用了相同的模板, 但是*约束*也是模板签名的一部分, 并且能在重载时被成功识别.   
+但是需要保证在使用重载时, 只有一个签名的约束符合要求. 比如有这么两个字面值`"6"_NS`和`"7"_NS`, 它们可以像整数一样做运算, 比如乘法等于`"42"_NS`, 并且能像字符串一样使用. 这样的字面值类型同时匹配`IntegerLike`和`StringLike`, 自然会产生歧义. 但是对于这些歧义, 编译器有一些解决手段.   
+
+#### Constraint Subsumption 约束涵摄
+上面的例子中已经说过了约束重载的问题. 虽然可能会有写一些类型会对多个约束概念同时匹配, 但是我们还是要尽力想办法减少这样的冲突出现.  
+
+所以, subsumption这个词是什么意思? 就是给我中文"涵摄"我也不会知道他的意思, 这里先参看了一下百度百科, 再想办法从原文中理解这个词的含义.  
+> **涵摄**这样的过程通常由许多复杂的思维步骤组成。是法律规定与事实之间的对应关系，任何一个法律行为或事件都要对应相应的法律规定。  
+> 法律适用的涵摄：即将具体的案例事实（Sachverhalt=S），置于法律规范的要件(Tatbestand=T)之下,以获得一定结论（R）的一种思维过程。易言之，即认定某特定事实是否该当于法律规范的要件，而发生一定的权利义务关系。  
+
+经过一定的理解后, 可以把"涵摄"直接理解成*条件的包含*, 具体化到C++应该叫*概念的包含*.  
+
+有些时候可能需要提供一系列类似的概念, 这些概念之间存在涵摄关系. 比如标准库的迭代器分类: input iterator, forward iterator, bidirectional iterator, randomaccess iterator等等, 以及C++17提供的contiguous iterator(邻接迭代器, 这个我是真的没见过).    
+
+假设我们有一个关于`ForwardIterator`的定义:  
+```c++
+template<typename T>
+concept ForwardIterator = ...;
+```
+
+那么我们就可以直接基于`ForwardIterator`定义一个更加精致(原文是more refined)概念`BidirectionalIterator`:  
+```c++
+template<typename T>
+concept BidirectionalIterator =
+    ForwardIterator<T> &&
+    requires (T it) {
+        { --it } -> T&
+    };
+```
+这样我们基于forward iterators提供的机能, 又添加了前缀自减运算符的机能, 创造了对bidirectional iterators的概念.   
+
+接着考虑实现`std::advance()`算法, 使用约束模板对forward iterators和bidirectional iterators进行重载.  
+```c++
+template<ForwardIterator T, typename D>
+void advanceIter(T& it, D n)
+{
+    assert(n >= 0);
+    for (; n != 0; --n) { ++it; }
+}
+template<BidirectionalIterator T, typename D>
+void advanceIter(T& it, D n)
+{
+    if (n > 0) {
+        for (; n != 0; --n) { ++it; }
+    } else if (n < 0) {
+        for (; n != 0; ++n) { --it; }
+    }
+}
+```
+
+很显然, 传一个`ForwardIterator`作为`advanceIter`的模板参数, 会被第一个模板选择, 因为只有第一个模板符合要求. 但是如果传一个`BidirectionalIterator`作为模板参数, 上面的两个模板都匹配. 这时编译器会选择*更精确*概念. 因为前面说过, `BidirectionalIterator`涵摄`ForwardIterator`, 前者比后者*更精确*, 所以编译器针对`BidirectionalIterator`会选择第二个模板进行实例化.  
+
+#### Constraints and Tag Dispatching 约束和标签调度
+标签调度暂时没有看到, 先留着.  
+
+### Concept Tips 小提示
+最后, 也是这本书的最最后, 他们希望在未来的版本中能提供更多实用的关于如何设计*约束模板库*的教程. 本人在此感谢作者们的辛勤付出.  
+
+接着提供三个观察(observation).  
+
+#### Testing Concepts 测试概念
+之前说过概念其实就是布尔谓词, 他们其实就是合法的布尔常量表达式, 于是我们可以直接对概念使用静态断言.  
+```c++
+static_assert(C<T1, T2, ...>, "Model failure");
+```
+书中建议使用这种方法测试概念对简单类型的设计. 包括推向概念意味着什么的边界的类型, 回答类似下面的问题:   
+- Do interfaces and/or algorithms need to copy and/or move objects of the types being modeled?  
+- 接口和/或算法需要*被仿造类型*复制和/或移动的对象吗?  
+- What conversions are acceptable? Which ones are needed?
+- 什么样的类型转换是许可的? 而其中又有哪些是需要的? 
+- Is the basic set of operations assumed by the template unique? For example, can it operate using either *= or * and =?
+- 特定模板是否能使用基础运算集合? 比如, 它是否支持`*=`或者`*`和`=`?
+
+#### Concept Granularity 概念粒度
