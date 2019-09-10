@@ -725,10 +725,7 @@ class C
 
 本书的Appendix E部分(也是本篇的Appendix E部分, 放在最后了)给出了C++20的concepts的代码实现, 这里将会尝试在加了`-std=c++2a`的g++中复现下面的代码.  
 
-< INSERT >
-
-
-
+### Friends 友元
 
 
 
@@ -998,3 +995,4 @@ static_assert(C<T1, T2, ...>, "Model failure");
 - 特定模板是否能使用基础运算集合? 比如, 它是否支持`*=`或者`*`和`=`?
 
 #### Concept Granularity 概念粒度
+从这里开始, 英语水平实在优先, 看不懂, 先告辞了.  
