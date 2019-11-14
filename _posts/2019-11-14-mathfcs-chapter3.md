@@ -7,6 +7,8 @@ keywords: Maths
 ---
 
 ## 真值表
+
+
 | $P$ | $_{\mathrm{NOT}}(P)$ |
 | :--: | :--: |
 | $\mathbf{T}$ | $\mathbf{F}$ |
