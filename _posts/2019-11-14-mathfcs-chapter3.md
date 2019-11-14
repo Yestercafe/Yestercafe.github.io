@@ -7,41 +7,40 @@ keywords: Maths
 ---
 
 ## 真值表
+| $P$ | $_{\mathrm{NOT}}(P)$ |
+| :--: | :--: |
+| $\mathbf{T}$ | $\mathbf{F}$ |
+| $\mathbf{F}$ | $\mathbf{T}$ |
 
-|      $P$     |  $_{\mathrm{NOT}}(P)$ |  
-|     :--:     |     :--:    |  
-| $\mathbf{T}$ | $\mathbf{F}$ |  
-| $\mathbf{F}$ | $\mathbf{T}$ |   
-   
-| $P$ | $Q$ | $P\ _{\mathrm{AND}}\ Q$ |  
+| $P$ | $Q$ | $P\ _{\mathrm{AND}}\ Q$ |
 |    :--:      |    :--:      |     :--:     |
 | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
 | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ |
 | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{F}$ |
 | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |
 
-| $P$ | $Q$ | $P\ _{\mathrm{OR}}\ Q$ |  
+| $P$ | $Q$ | $P\ _{\mathrm{OR}}\ Q$ |
 |    :--:      |    :--:      |     :--:     |
 | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
 | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{T}$ |
 | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{T}$ |
 | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |
 
-| $P$ | $Q$ | $P\ _{\mathrm{XOR}}\ Q$ |  
+| $P$ | $Q$ | $P\ _{\mathrm{XOR}}\ Q$ |
 |    :--:      |    :--:      |     :--:     |
 | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{F}$ |
 | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{T}$ |
 | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{T}$ |
 | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |
 
-| $P$ | $Q$ | $P\ _{\mathrm{IFF}}\ Q$ |  
+| $P$ | $Q$ | $P\ _{\mathrm{IFF}}\ Q$ |
 |    :--:      |    :--:      |     :--:     |
 | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
 | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ |
 | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{F}$ |
 | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{T}$ |
 
-| $P$ | $Q$ | $P\ _{\mathrm{IMPLIES}}\ Q$ |  
+| $P$ | $Q$ | $P\ _{\mathrm{IMPLIES}}\ Q$ |
 |    :--:      |    :--:      |     :--:     |
 | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
 | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ |
@@ -49,14 +48,13 @@ keywords: Maths
 | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{T}$ |
 
 ## 符号表示
-
-| English | Symbolic Notation |   
-| :------ | :---------------- |    
-| $_{\mathrm{NOT}}(P)$ | $\lnot P, \bar{P}$ |     
-| $P\ _{\mathrm{AND}}\ Q$ | $P\land Q$ |   
+| English | Symbolic Notation |
+| :------ | :---------------- |
+| $_{\mathrm{NOT}}(P)$ | $\lnot P, \bar{P}$ |
+| $P\ _{\mathrm{AND}}\ Q$ | $P\land Q$ |
 | $P\ _{\mathrm{OR}}\ Q$ | $P\lor Q$ |
 | $P\ _{\mathrm{IMPLIES}}\ Q$ | $P\longrightarrow Q$ |
-| $\mathrm{if}\ P\ \mathrm{then}\ Q$ | $P\longrightarrow Q$ |  
+| $\mathrm{if}\ P\ \mathrm{then}\ Q$ | $P\longrightarrow Q$ |
 | $P\ _{\mathrm{IFF}}\ Q$ | $P\longleftrightarrow Q$ |
 | $P\ _{\mathrm{XOR}}\ Q$ | $P\oplus Q$ |
 
@@ -67,17 +65,16 @@ keywords: Maths
 
 举个栗子: 对于公式 $A\ \mathrm{AND}\ (B\ \mathrm{OR}\ C)$
 的真值表:   
-
 | $A$ | $B$ | $C$ | $A\ \mathrm{AND}\ (B\ \mathrm{OR}\ C)$ |
-| :--: | :--: | :--: | :--: |   
-| $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |  
-| $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{T}$ |  
-| $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{T}$ |  
-| $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |  
-| $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{F}$ |  
-| $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ |  
-| $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{F}$ |  
-| $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |  
+| :----------: | :----------: | :----------: | :----------: |
+| $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
+| $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{T}$ |
+| $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{T}$ |
+| $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |
+| $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{F}$ |
+| $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{F}$ | $\mathbf{F}$ |
+| $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{T}$ | $\mathbf{F}$ |
+| $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{F}$ |
 
 DNF: $(A\ \mathrm{AND}\ B\ \mathrm{AND}\ C)\ \mathrm{OR}\ (A\ \mathrm{AND}\ B\ \mathrm{AND}\ \bar{C})\ \mathrm{OR}\ (A\ \mathrm{AND}\ \bar{B}\ \mathrm{AND}\ C)$  
 CNF: $(\bar{A}\ \mathrm{OR}\ B\ \mathrm{OR}\ C)\ \mathrm{AND}\ (A\ \mathrm{OR}\ \bar{B}\ \mathrm{OR}\ \bar{C})\ \mathrm{AND}\ (A\ \mathrm{OR}\ \bar{B}\ \mathrm{OR}\ C)\ \mathrm{AND}\ (A\ \mathrm{OR}\ B\ \mathrm{OR}\ \bar{C})\ \mathrm{AND}\ (A\ \mathrm{OR}\ B\ \mathrm{OR}\ C)$
