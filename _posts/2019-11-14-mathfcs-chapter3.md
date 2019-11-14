@@ -50,6 +50,8 @@ keywords: Maths
 | $\mathbf{F}$ | $\mathbf{F}$ | $\mathbf{T}$ |
 
 ## 符号表示
+
+
 | English | Symbolic Notation |
 | :------ | :---------------- |
 | $_{\mathrm{NOT}}(P)$ | $\lnot P, \bar{P}$ |
@@ -67,6 +69,8 @@ keywords: Maths
 
 举个栗子: 对于公式 $A\ \mathrm{AND}\ (B\ \mathrm{OR}\ C)$
 的真值表:   
+
+
 | $A$ | $B$ | $C$ | $A\ \mathrm{AND}\ (B\ \mathrm{OR}\ C)$ |
 | :----------: | :----------: | :----------: | :----------: |
 | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
