@@ -7,11 +7,11 @@ keywords: Maths
 ---
 
 ## 真值表
-|      $P$     |  $_{\mathrm{NOT}}(P)$ |
-|     :--:     |     :---:    |
-| $\mathbf{T}$ | $\mathbf{F}$ |
-| $\mathbf{F}$ | $\mathbf{T}$ | 
-
+|      $P$     |  $_{\mathrm{NOT}}(P)$ |  
+|     :--:     |     :--:    |  
+| $\mathbf{T}$ | $\mathbf{F}$ |  
+| $\mathbf{F}$ | $\mathbf{T}$ |   
+   
 | $P$ | $Q$ | $P\ _{\mathrm{AND}}\ Q$ |  
 |    :--:      |    :--:      |     :--:     |
 | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |
@@ -49,7 +49,7 @@ keywords: Maths
 
 ## 符号表示
 | English | Symbolic Notation |   
-| :-- | :-- |    
+| :------ | :---------------- |    
 | $_{\mathrm{NOT}}(P)$ | $\lnot P, \bar{P}$ |     
 | $P\ _{\mathrm{AND}}\ Q$ | $P\land Q$ |   
 | $P\ _{\mathrm{OR}}\ Q$ | $P\lor Q$ |
@@ -64,7 +64,7 @@ keywords: Maths
 问我范式是什么? 说不清楚, 只可意会.  
 
 举个栗子: 对于公式 $A\ \mathrm{AND}\ (B\ \mathrm{OR}\ C)$
-的真值表:  
+的真值表:   
 | $A$ | $B$ | $C$ | $A\ \mathrm{AND}\ (B\ \mathrm{OR}\ C)$ |
 | :--: | :--: | :--: | :--: |   
 | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ | $\mathbf{T}$ |  
