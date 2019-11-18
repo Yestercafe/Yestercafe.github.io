@@ -179,3 +179,81 @@ $7n+1$. 但我觉得我的方法不是最简的.
 
 ### 课后作业  
 #### 习题3.7  
+
+### 测试题  
+#### 习题3.8  
+(a). 有6个变量嘛, 所以应该是$2^6 = 64$行. 所以也就说明了列真值表这种方法, 也不是在所有场合下都很有效.  
+(b). 我们先假设$P$为真的情况, 此时$\bar{P}$为假, 所以$Q$就必须为真; 以此类推可以推出, $R$, $S$都必为真, 接着容易得$M$为真, $N$为假, 这是一组解; 假设$P$为假的情形, 从后往前推, $M$依旧必须为真, $N$依旧必须为假, 同样的, $\bar{S}\ \mathrm{OR}\ P$必须为真, 于是$S$必须为假, 以此类推, $R$, $Q$必须为假, 这是另外一组解. 根据刚才的推理, 我们发现有且仅有这两种组合.  
+
+#### 习题3.9  
+(a). $n-1$.  
+(c). **证明.** 根据题目和图形的描述, 很容易理解到, 这题就是求叶子节点个数为n的完满二叉树的非叶子结点的个数, 我们使用数学手段推导:  
+底层节点有$n$个, 根据二叉树的性质, 上层节点数应为下层节点数的$\frac{1}{2}$. 根节点只有一个, 我们干脆反过来考虑, 统计总节点数:    
+$$2^0 + 2^1 + 2^2 + \dots + 2^{\ulcorner logn \urcorner - 1} + n$$  
+题目中也说到n是2的幂了(不然也不会是完满二叉树的), 所以上式就可以化为:  
+$$2^0 + 2^1 + 2^2 + \dots + 2^{logn - 1} + n$$   
+我们要求的其实不是所有节点的数目, 而是非叶子节点的数目, 所以直接减掉:   
+$$2^0 + 2^1 + 2^2 + \dots + 2^{logn - 1}$$   
+然后就是一个非常简单的级数求和了:   
+$$2^{logn}-1 = n -1$$
+所以在$n$位输入顺序电路中, 一共有$n- 1$个$\mathrm{AND}$门. $\square$   
+(b). 同样我们还是使用数学手段来说明这个问题. 设一个$\mathrm{AND}$门的运算速度为$v$, 当然, 多个与门并行运算的速度也为$v$, 我们这里来计算$n-1$个与门在两种方案下的平均运算速度:  
+- 先考虑线性运算的方案, 很显然, 这些与门的平均运算速度为$\frac{(n-1)v}{n-1} = v$.  
+- 考虑树形的运算速度. 按树状运算, 树的每一层的与运算都应该是并行的, 整个花费的时间, 应该为树深度乘速度, 即$\frac{(n - 1)v}{depth}$. 参考离散数学中的知识, 二叉树的深度应该为$\llcorner logN \lrcorner + 1$, 其中$N$为树的节点数. 因为这是一棵完满二叉树, 所以问题得到简化, 其深度就为$logn+1$(这个可以用归纳法从一层开始说明). 代入式中, 有$\frac{(n - 1)v}{\llcorner log(n-1) \lrcorner + 1}$.  
+- 所以树形运算的平均速度应为线性运算的$\frac{n-1}{logn+1}$倍, 即$\bar{v}_2=\frac{n-1}{logn+1}\bar{v}_1$, 当$n\rightarrow \infty$时, 该等式变为了$\lim\limits_{n\rightarrow \infty}\bar{v}_2=\frac{n}{logn}\bar{v}_1\stackrel{n::=2^k}{\iff}\lim\limits_{n\rightarrow \infty}\bar{v}_2=\frac{2^k}{k}\bar{v}_1$.   
+
+实际计算出来速度好像不是单纯的指数倍, 但是时间确实是指数倍没毛病的.  
+
+## 3.3节习题  
+### 练习题  
+#### 习题3.10  
+$M\longrightarrow Q$, $\mathbf{N}$, 真值赋值为$\mathbf{TT, TF, FF}$.  
+
+$M\longrightarrow (\bar{P}\lor \bar{Q})$, $\mathbf{N}$, 真值赋值为$\mathbf{TFF, TFT, TTF, TTT, FTT}$.   
+
+$M\ \mathrm{IMPLIES}\ [M\ \mathrm{AND}\ (P\ \mathrm{IMPLIES}\ M)]$, 这后面的都有些麻烦, 先化简.  
+这里先引入一个mfcs中没有提到, 但是离散数学中提到了的一个公式:  
+$$p\rightarrow q \iff p\lor \lnot q$$  
+所以,   
+$M\longrightarrow (M\land (P\longrightarrow M))$  
+$\iff M\lor \lnot (M\land (P\longrightarrow M))$  
+$\iff M\lor \lnot (M\land (P\lor \bar M))$  
+$\iff M\lor \lnot (M\land (P\lor \bar M))$  
+$\iff M\lor \lnot ((M\land P)\lor (M\land \bar M))$  
+$\iff M\lor \lnot(M\land P)$  
+$\iff M\lor (\bar M \lor\bar P)$  
+$\iff (M\lor \bar M)\lor \bar P$  
+$\iff \mathbf{T}\lor \bar P$  
+$\iff \mathbf{T}$  
+所以这是一个$\mathbf{V}$.   
+
+$(P\lor Q)\longrightarrow Q$  
+$\iff (P\lor Q)\lor \bar Q$  
+$\iff P\lor (Q\lor \bar Q)$  
+$\iff P\lor \mathbf{T}$  
+$\iff T$  
+所以这也是一个$\mathbf{V}$.
+
+$(P\lor Q)\longrightarrow (\bar P\land \bar Q)$   
+$\iff (P\lor Q)\longrightarrow \lnot(P\lor Q)$  
+$\stackrel{R::=P\lor Q}{\iff} R\longrightarrow \bar R$  
+因为$\mathbf{T}\longrightarrow \mathbf{F}$为真, $\mathbf{F}\longrightarrow \mathbf{T}$为假, 所以这是一个$\mathbf{N}$. 真值赋值为$\mathbf{TT, TF, FT}$.  
+
+$(P\lor Q)\longrightarrow (M\land (P\longrightarrow M))$  
+$\iff \dots \iff (P\lor Q)\lor \lnot(\bar M \lor\bar P)$  
+$\iff \dots \iff\mathbf{T}$   
+这是一个$\mathbf{V}$.  
+
+$(P\oplus Q)\longrightarrow Q$  
+$\iff ((P\lor Q)\land \lnot(P\land Q))\longrightarrow Q$  
+$\iff ((P\lor Q)\land (\bar P\lor \bar Q))\lor \bar Q$  
+$\iff (((P\lor Q)\land \bar P)\lor ((P\lor Q)\land \bar Q)))\lor \bar Q$  
+$\iff ((Q\land \bar P)\lor (P\land \bar Q))\lor \bar Q$  
+$\iff (P\land \bar Q)\lor ((Q\land \bar P)\lor \bar Q)$  
+$\iff (P\land \bar Q)\lor (P\lor \bar Q)$  
+$\iff ((P\land \bar Q)\lor P)\lor \bar Q$  
+$\iff P\lor \bar Q$(吸收律)  
+早想到吸收律了, 但是由于这本书里没有说这个, 所以一直在尝试使用已知的公式去替换, 结果循环了. 吸收律公式如下:  
+$$P\land (P\lor Q) \iff P\lor (P\land Q)\iff P$$   
+所以这也是一个$\mathbf{N}$, 成真赋值为$\mathbf{TT, TF, FF}$.  
+
