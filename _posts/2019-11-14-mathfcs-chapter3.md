@@ -134,7 +134,7 @@ $$\exists x \forall y.\ P(x, y)\ \mathrm{IMPLIES}\ \forall y\exists x.\ P(x, y) 
 ### 课后作业  
 #### 习题3.4  
 我在想原题的描述是不是有问题, 这根本就是一个行为$2^n$, 列为n的矩阵. 是个递归, 用Python简单实现一下:  
-```Python
+```python
 def generate(lst, limits):
     if len(lst) == limits:
         for e in lst: print(e, end = ' ')
@@ -199,8 +199,8 @@ $$2^{logn}-1 = n -1$$
 所以在$n$位输入顺序电路中, 一共有$n- 1$个$\mathrm{AND}$门. $\square$   
 (b). 同样我们还是使用数学手段来说明这个问题. 设一个$\mathrm{AND}$门的运算速度为$v$, 当然, 多个与门并行运算的速度也为$v$, 我们这里来计算$n-1$个与门在两种方案下的平均运算速度:  
 - 先考虑线性运算的方案, 很显然, 这些与门的平均运算速度为$\frac{(n-1)v}{n-1} = v$.  
-- 考虑树形的运算速度. 按树状运算, 树的每一层的与运算都应该是并行的, 整个花费的时间, 应该为树深度乘速度, 即$\frac{(n - 1)v}{depth}$. 参考离散数学中的知识, 二叉树的深度应该为$\llcorner logN \lrcorner + 1$, 其中$N$为树的节点数. 因为这是一棵完满二叉树, 所以问题得到简化, 其深度就为$logn+1$(这个可以用归纳法从一层开始说明). 代入式中, 有$\frac{(n - 1)v}{\llcorner log(n-1) \lrcorner + 1}$.  
-- 所以树形运算的平均速度应为线性运算的$\frac{n-1}{logn+1}$倍, 即$\bar{v}_2 = \frac{n-1}{logn+1} \bar{v}_1$ , 当$n\rightarrow \infty$时, 该等式变为了$\lim\limits_{n\rightarrow \infty}\bar{v}_2=\frac{n}{logn}\bar{v}_1\stackrel{n::=2^k}{\iff}\lim\limits_{n\rightarrow \infty}\bar{v}_2=\frac{2^k}{k}\bar{v}_1$.   
+- 考虑树形的运算速度. 按树状运算, 树的每一层的与运算都应该是并行的, 整个花费的时间, 应该为树深度乘速度, 即$\frac{(n - 1)v}{depth}$. 参考离散数学中的知识, 二叉树的深度应该为$\llcorner logN \lrcorner + 1$, 其中$N$为树的节点数. 代入式中, 有$\frac{(n - 1)v}{\llcorner log(n-1) \lrcorner + 1}$.  
+- 所以树形运算的平均速度应为线性运算的$\frac{n-1}{logn+1}$倍, 即$\bar{v} _2 = \frac{n-1}{logn+1} \bar{v} _1$, 当$n\rightarrow \infty$时, 该等式变为了$\lim\limits_{n\rightarrow \infty}\bar{v}_2=\frac{n}{logn}\bar{v}_1\stackrel{n::=2^k}{\iff}\lim\limits_{n\rightarrow \infty}\bar{v}_2=\frac{2^k}{k}\bar{v}_1$.   
 
 实际计算出来速度好像不是单纯的指数倍, 但是时间确实是指数倍没毛病的.  
 
