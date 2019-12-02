@@ -126,8 +126,142 @@ OS/2 and Linux all run in paged 32-bit protected mode.
 
 有时候程序必须要暂停去处理一些需要相应的重要事件. 计算机硬件提供了一种叫做**中断(interrupts)**的机制去处理(handle)这些事件. 比如鼠标移动了, 计算机需要暂停程序运行, 去移动屏幕上的光标. 这时终止请求会被的递交给*interrupt handler(中断控制器)*, 中断控制器会处理中断. 每种不同类型的中断用不同的整数来表示. 在物理内存的开始处, 有一个*中断向量表(table of interrupt vectors)*, 其中包含了中断控制器的分块地址. 刚才说的用来表示中断类型的整数是表中的必不可少的索引值.  
 
-*下面这段中出现的"发起", 都翻译子raised from这个词, 感觉有点像raise exceptions的那个意思.*  
+*下面这段中出现的"发起", 都翻译自raised from这个词, 感觉有点像raise exceptions的那个意思.*  
 CPU外还可以发起*外部中断(external interrupts)*, 其实鼠标属于这种外部发起的. 很多的I/O设备都会发起外部中断.  
 相对的, 内部中断在CPU内部被发起, 无论是CPU内部错误还是直接发起的中断指令, 其中错误中断被叫做*traps*. 产生中断的中断指令被叫做*软件中断(software interrupts)*. 比如DOS提供了各种各样的中断用的API, 现代的操作系统可以直接调用C提供的接口.  
 
 很多中断控制器会在引起本次中断的程序运行完毕后返回. 它们会恢复中断前的所有寄存器值. 所以, 中断控制器发生前后看起来就好像跟什么都没发生过一样, 除了损失了一些时钟周期. *traps*在通常情况下不会返回, 他们通常会中断程序运行. 
+
+### 汇编语言
+#### 机器语言
+每一个指令都有它自己特定的**操作码(*operation code*, or *opcode* for short)**, opcode总是在一条指令的开头. 很多指令会包含数据(data). 机器语言用二进制表示(或者是十六进制).   
+
+#### 汇编语言
+汇编语言用文本存储. 比如举个例子:  
+```asm  
+add eax, ebx
+```  
+汇编指令的通用格式为:
+```asm
+mnemonic operand(s)
+```
+mnemonic查了一下是助记符号的意思, operand操作数. 
+这里提到了一个名词, *assembler(汇编器)*, 之前还遇到过一个叫disassembler的软件, 那个是反汇编器. 干吗用的, 就跟高级语言的编译器一样, 将汇编代码转换成机器码. 但是考虑到汇编指令转换机器码, 就只是映射关系, 所以比高级语言编译器要简单的多.  
+
+#### 指令运算数
+每一个指令自己有一个运算数定值(0到3), 并且分别对应下面四种运算数类型:  
+> **register:** These operands refer directly to the contents of the CPU’s registers.  
+> **memory:** These refer to data in memory. The address of the data may be a constant hardcoded into the instruction or may be computed using values of registers. Address are always offsets from the beginning of a segment.  
+> **immediate:** These are fixed values that are listed in the instruction itself. They are stored in the instruction itself (in the code segment), not in the data segment.  
+> **implied:** There operands are not explicitly shown. For example, the increment instruction adds one to a register or memory. The one is implied.  
+
+寄存器, 内存, 立即数和蕴含数(?).  
+
+#### 基础指令
+最基础的就是mov了, 不解释了.  
+```asm
+mov dest, src
+```
+数据从src中拷贝到dest. 
+注意两点:  
+1. dest和src都不能是内存操作数.  
+2. 两个操作数必须是同一规格的.  
+
+例子:  
+```asm  
+mov eax, 3 ; store 3 into EAX register (3 is immediate operand)
+mov bx, ax ; store the value of AX into the BX register
+```    
+
+add指令用来加整数:    
+```asm  
+add eax, 4 ; eax = eax + 4
+add al, ah ; al = al + ah
+```   
+
+sub指令用来减:  
+```asm   
+sub bx, 10 ; bx = bx - 10
+sub ebx, edi ; ebx = ebx - edi
+```   
+
+inc和dec用来使值增减1. 因为这里的增量1是隐含的操作数, 所以inc和dec的机器码要比执行类似操作的add和sub要短.  
+```asm
+inc ecx  ; ecx++
+dev dl   ; dl--
+```  
+
+#### Directives(指令, 但不同于instructions)
+Directives是汇编器的而不是CPU的artifact(something observed in a scientific investigation or experiment that is not naturally present but occurs as a result of the preparative or investigative procedure). 它们被用于指导汇编器去做什么事或者是通知汇编器什么. **它们不会被翻译成机器码.** 指令的常用法:  
+- 定义常量
+- 定义存储数据的内存
+- 组织内存为segment
+- 视情况包含源代码
+- 包含其它文件
+
+NASM代码(之前没介绍, 这是本书用的汇编)使用像C一样的预处理器来实现指令. NASM的预处理器指令以%开头(C中用的是#).  
+
+##### ```equ```指令
+用于定义一个符号(symbol). 格式:  
+```asm  
+[symbol] equ [value]
+```    
+符号不能被二次定义.   
+
+##### ```%define```指令
+用法类似于C语言的宏:  
+```asm
+%define SIZE 100
+move   eax, SIZE
+```  
+
+##### 数据指令
+这里说到了数据指令有两种手段去保留内存, 一个是定义一个内存空间, 另一个是定义空间并初始化值.  
+第一种可以使用RES*X*指令, X是一个字母, 用来表示对象的规格. 比如B表示字节, W表示字, D表示双字, Q表示四字, T表示十字节. 
+第二种使用D*X*, X同上. 可以给这些内存空间标上一个label, 举一些例子:  
+```asm
+L1 db   0       ; byte labeled L1 with initial value 0
+L2 dw   1000    ; word labeled L2 with initial value 1000
+L3 db   110101b ; byte initialized to binary 110101 (53 in decimal)
+L4 db   12h     ; byte initialized to hex 12 (18 in decimal)
+L5 db   17o     ; byte initialized to octal 17 (15 in decimal)
+L6 dd   1A92h   ; double word initialized to hex 1A92
+L7 resb 1       ; 1 uninitialized byte
+L8 db   "A"     ; byte initialized to ASCII code for A (65)
+```  
+单引号和双引号的作用一样. 以上的这些数据被线性安排在内存里, 比如L2就在L1的后面.  
+可以定义内存序列:  
+```asm  
+L9  db 0, 1, 2, 3            ; defines 4 bytes
+L10 db "w", "o", "r", ’d’, 0 ; defines a C string = "word"
+L11 db ’word’, 0             ; same as L10
+```  
+对于较大的内存序列, NASM有一个TIMES指令:  
+```asm   
+L12 times 100 db 0 ; equivalent to 100 (db 0)’s
+L13 resw 100       ; reserves room for 100 words
+```  
+要注意的是这些标签, 同C的指针类似, 它们是表示的是内存空间的地址, 取值需要有类似"解引用"的操作:  
+```asm
+mov al, [L1]   ; copy byte at L1 into AL
+mov eax, L1    ; EAX = address of byte at L1
+mov [L1], ah   ; copy AH into byte at L1
+mov eax, [L6]  ; copy double word at L6 into EAX
+add eax, [L6]  ; EAX = EAX + double word at L6
+add [L6], eax  ; double word at L6 += EAX
+mov al, [L6]   ; copy first byte of double word at L6 into AL
+```  
+最后一行, 我们看到的是L6只有第一个字节被拷贝进了al寄存器中, 这是NASM的一个重要属性--不会持续追踪label的数据规格. 不同于C, C是可以通过指针类型来判断指针指向内存空间的规格的. 
+
+考虑下面这个指令:   
+```asm
+mov [L6], 1         ; store a 1 at L6
+```  
+上面说了不追踪label的规格, 所以这里编译器并不知道L6的规格, 于是需要手动指定, 加上一个*规格指定器(size specifier)*:  
+```asm
+mov dword [L6], 1   ; store a 1 at L6
+```  
+这告诉汇编器以双字1存储到L6位置.   
+其它的规格指定器还有BYTE, WORD, QWORD和TWORD.  
+
+#### Input & Output
