@@ -296,16 +296,18 @@ mov dword [L6], 1   ; store a 1 at L6
 
 ; 初始化的数据放到.data段中
 segment .data
-
-prompt1 db "Enter a number: ", 0
-prompt2 db "Enter another number: ", 0
-outmsg1 db "You entered ", 0
+int main()
+{
+        int ret_status;
+        ret_status = asm_main();
+        return ret_status;
+}
 outmsg2 db " and ", 0
 outmsg3 db ", the sum of these is ", 0
 
 ; 未初始化的数据方到.bss段中
 input1 resd 1
-input2 resd 2
+input2 resd 1
 
 ; 代码放到.text段中
 segment .text
@@ -343,7 +345,7 @@ asm_main:
         call     print_int
         mov      eax, outmsg3
         call     print_string
-        mov      eax, ebx
+        mov      eax, ebx第二块
         call     print_int
         call     print_nl
         
@@ -351,4 +353,72 @@ asm_main:
         mov      eax, 0
         leave
         ret
+```  
+```c
+// file: driver.c
+int main()
+{
+    int ret_status;
+    ret_status = asm_main();
+    return ret_status;
+}
+```   
+```makefile
+# Makefile
+base    := asm_io.o driver.o
+req     := $(base) asm_io.inc
+cc      := gcc
+ccflags := -m32
+na      := nasm
+naflags := -f elf
+asmsobj := first.o
+
+first: first.o $(req)
+        $(cc) $(ccflags) first.o $(base) -o first
+
+$(asmsobj): %.o: %.asm
+        $(na) $(naflags) $<第二块
+asm_io.o: asm_io.asm asm_io.inc
+        $(na) $(naflags) -d ELF_TYPE asm_io.asm
+
+driver.o: driver.c
+        $(cc) $(ccflags) -c $< -o $@
+
+.PHONY:
+clean:
+        rm -f *.o
+```  
+```bash
+# propmt of `make --just-print`
+nasm -f elf first.asm
+nasm -f elf -d ELF_TYPE asm_io.asm
+gcc -m32 -c driver.c -o driver.o
+gcc -m32 first.o asm_io.o driver.o -o first
 ```
+```bash
+# Dependencies
+# dnf
+sudo dnf install glibc-devel.i686
+# apt 
+sudo apt install gcc-multilib
+```
+```
+Result:
+Enter a number: 1
+Enter another number: 2
+Register Dump # 1
+EAX = 00000003 EBX = 00000003 ECX = 6337CF5E EDX = FFDD4004
+ESI = F7F80E24 EDI = 00000000 EBP = FFDD3FB8 ESP = FFDD3F98
+EIP = 080491E7 FLAGS = 0206                PF   
+Memory Dump # 2 Address = 0804C04C
+0804C040 65 72 20 6E 75 6D 62 65 72 3A 20 00 59 6F 75 20 "er number: ?You "
+0804C050 65 6E 74 65 72 65 64 20 00 20 61 6E 64 20 00 2C "entered ? and ?,"
+You entered 1 and 2, the sum of these is 3
+```
+
+解释一下:   
+第一块是first.asm汇编代码, 也是这个程序的主要逻辑部分. 需要以来本书作者编写的asm_io.inc库, 原书的下载地址已经失效, 到这个地方下: [http://pacman128.github.io/pcasm](http://pacman128.github.io/pcasm)  
+第二块是汇编的驱动程序driver.c, 编译时需要用32位, 且需将单单其编译成目标文件(```-c```)  
+第三块是一个Makefile.  
+第四块是依赖库, 不装32位程序好像跑不起来.  
+第五块是运行结果.  
