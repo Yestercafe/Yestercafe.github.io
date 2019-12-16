@@ -345,7 +345,7 @@ asm_main:
         call     print_int
         mov      eax, outmsg3
         call     print_string
-        mov      eax, ebx第二块
+        mov      eax, ebx
         call     print_int
         call     print_nl
         
@@ -377,7 +377,7 @@ first: first.o $(req)
         $(cc) $(ccflags) first.o $(base) -o first
 
 $(asmsobj): %.o: %.asm
-        $(na) $(naflags) $<第二块
+        $(na) $(naflags) $<
 asm_io.o: asm_io.asm asm_io.inc
         $(na) $(naflags) -d ELF_TYPE asm_io.asm
 
