@@ -289,6 +289,7 @@ mov dword [L6], 1   ; store a 1 at L6
 - ```dump_math```: 打印数字处理器(math coprocessor)的寄存器值. 单参同dump_regs.
 
 ### 1.4 Creating a Program
+#### 代码
 ```asm
 ; file: first.asm
 
@@ -416,9 +417,211 @@ Memory Dump # 2 Address = 0804C04C
 You entered 1 and 2, the sum of these is 3
 ```
 
-解释一下:   
+#### 解释
 第一块是first.asm汇编代码, 也是这个程序的主要逻辑部分. 需要以来本书作者编写的asm_io.inc库, 原书的下载地址已经失效, 到这个地方下: [http://pacman128.github.io/pcasm](http://pacman128.github.io/pcasm)  
 第二块是汇编的驱动程序driver.c, 编译时需要用32位, 且需将单单其编译成目标文件(```-c```)  
 第三块是一个Makefile.  
 第四块是依赖库, 不装32位程序好像跑不起来.  
 第五块是运行结果.  
+
+他这里稍微提了大端和小端表示法的问题, csapp上有说, 不提了.  
+
+好了, 因为找到了这书的中文版, 所以之后就没有英文标题了.  
+
+## 第2章 - 基本汇编语言
+### 2.1 整型工作方式
+#### 2.1.1 整型表示法
+这里主要是要介绍负整数在内存中的表示.   
+##### 原码 (Signed magnitude)
+原码是最简单的, 一个符号位加上一串原码, 比如用$\underline{0}1111111$表示+127, $\underline{1}1111111$表示-127, 符号位用下划线表示了. 但是这样表示会带来一些麻烦--0的表示和运算的问题, 具体的不提了, csapp上都有.  
+
+##### 反码 (One’s complement)
+一个数的反码可以通过将这个数的每一位求反得. 比如$\underline{0}0111000 (+56)$, 反过来就是$\underline{1}1000111(-56)$. 这样表示虽然可以解决一部分数运算的问题, 但是仍然会有0的问题. 
+
+##### 补码 (Two’s complement)
+怎么找到一个数的补码, 求反再加1就可以了. 比如$\underline{0}0111000 (+56)$的补码是$\underline{1}1001000(-56)$. 重点是我们算一下0的, 0的补码还是它本身, 这样就解决了在原码和反码中出现的正负0的问题. 补码就是计算机内存中存储整数的方式, 这样存储的好处, csapp上都有提, 在这里就不多赘述了.  
+
+#### 2.1.2 正负号延伸
+##### 减小数据的大小
+减小数据的大小就是截去高位, 关键在于不是所有数都可以截. 为了能转换正确, 对于无符号数要求截去的数都为0; 对于有符号数, 要求移除的位都是1或者0. 否则, 这个数的数值就会和之前不同.   
+
+##### 增大数据的大小
+扩大数据大小, 对于无符号只需要在前面添加0就可以了, 对于有符号数, 需要在前面添加多个和符号位相同的位. 具体的证明过程csapp上有. 在汇编中, 使用mov指令就可以轻松把AL中的无符号字节扩展到AX中:  
+```asm
+mov    ah, 0
+```
+但是难办的是AX扩展到EAX. 前文有提到AX的高8位是AH, 低8位是AL, 而EAX的高16位无法表示. 80386给我们提供了如下方式扩展AX中的无符号字节:  
+```asm
+movzx  eax, ax
+movzx  eax, al
+movzx  ax, al
+movzx  ebx, ax
+```
+对于有符号的, 8086提供了几条指令来扩展: CBW(Convert Byte to Word)将AL扩展到AX, CWD(Convert Word to Double word)可以将AX扩展成DX:AX, 注意不是EAX. 80386又加入了CWDE(Convert Word to Double word Extended), 可以直接将AX扩展到EAX. CDQ(Convert Double word to Quad word)甚至可以将EAX扩展到EDX:EAX(64位). 最后, 还有个MOVSX, 用法和MOVZX一样, 只是对于有符号作用.  
+
+##### C语言中的应用
+直接来看一个C代码:   
+```c
+unsigned char uchar = 0xFF;
+signed char schar = 0xFF;
+int a = (int) uchar;        /∗ a = 255 (0x000000FF) ∗/
+int b = (int) schar;        /∗ b = −1 (0xFFFFFFFF) ∗/
+```
+不看书上是怎么说的了. 考虑到已经学习过csapp, 所以直接看汇编好了:  
+```c
+int main(void) {
+    volatile unsigned char uchar = 0xff;
+    volatile signed   char schar = 0xff;
+    volatile int a = (int) uchar;
+    volatile int b = (int) schar;
+    return 0;
+}
+```
+```asm
+	.file	"integer_extend_test.c"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB0:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movb	$-1, -1(%rbp)
+	movb	$-1, -2(%rbp)
+	movzbl	-1(%rbp), %eax
+	movzbl	%al, %eax
+	movl	%eax, -8(%rbp)
+	movzbl	-2(%rbp), %eax
+	movsbl	%al, %eax
+	movl	%eax, -12(%rbp)
+	movl	$0, %eax
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE0:
+	.size	main, .-main
+	.ident	"GCC: (GNU) 9.2.1 20190827 (Red Hat 9.2.1-1)"
+	.section	.note.GNU-stack,"",@progbits
+```
+可以很容易盯上这两句:  
+```asm
+movzbl	%al, %eax
+movsbl	%al, %eax
+```
+gcc生成的汇编代码和我们这里写的汇编mov方向是反的, 所以应该是al扩展成eax, 但是注意他们的指令是不一样的, 一个是movzbl, 一个movsbl. 
+
+然后书中还提到了一个标准库函数```fgetc```的bug, 这个函数虽然是读取字符的, 但是它却返回一个int值. 在对于EOF和字符0xFF处理上, 这个函数显得束手无策. 书中推荐用int型来接收```fgetc```的返回值. 
+
+#### 2.1.3 补码运算
+FLAGS寄存器为add和sub提供了两种状态, overflow和carry flag. 如果操作的正确结果太大了以致于不匹配有符号数运算的目的操作数(简单说就是目的操作数溢出了), 溢出标志位被置位. 如果在加法中的最高有效位有一个进位或在减法中的最高有效位有一个借位, 进位标志位将被置位.(没看懂, 说的好像是运算过程中用的) 所以FLAGS可以用来检查无符号数运算的溢出情况. 补码运算的优势, 在于它把整数运算构成环状(见csapp和群论, 因为接触过环论不能确定这里说的"环"跟环论的环有没有关系). 根据csapp, 无符号有符号的加减法指令各只需要一个.   
+乘法和除法不同, 有提供给无符号的MUL和DIV, 提供给有符号的IMUL和IDIV. 
+```asm
+mul    source
+```
+mul支持这种比较落后的乘法, 根据source的大小, 判断到底是把它跟AL乘放AX里, 还是把它跟AX乘放DX:AX里, 还是把它跟EAX乘放EDX:EAX里. 而imul提供了更多的格式:  
+```asm
+imul   dest, src1           ; dest *= src1
+imul   dest, src1, src2     ; dest  = src1 * src2
+```
+相对应的, div和idiv也一样.    
+
+NEG指令通过计算补码来获取单个操作数的相反数, 可以是8位, 16位, 32位寄存器或着内存区域.  
+
+#### 2.1.4 程序例子
+```asm
+%include "asm_io.inc"
+
+segment .data
+prompt db "Enter a number: ", 0
+square_msg db "Square of input is ", 0
+cube_msg db "Cube of input is ", 0
+cube25_msg db "Cube of input times 25 is ", 0
+quot_msg db "Quotient of cube/100 is ", 0
+rem_msg db "Remainer of cube/100 is ", 0
+neg_msg db "The negation of the remainder is ", 0
+
+segment .bss
+input resd 1
+
+segment .text
+    global asm_main
+asm_main:
+    enter 0, 0
+    pusha
+
+    mov eax, prompt
+    call print_string
+
+    call read_int
+    mov [input], eax
+    
+    imul eax               ; edx:eax = eax * eax
+    mov ebx, eax
+    mov eax, square_msg
+    call print_string
+    mov eax, ebx
+    call print_int
+    call print_nl
+
+    mov ebx, eax
+    imul ebx, [input]      ; ebx *= [input]
+    mov eax, cube_msg
+    call print_string
+    mov eax, ebx
+    call print_int
+    call print_nl
+
+    imul ecx, ebx, 25      ; ecx = ebx * 25
+    mov eax, cube25_msg
+    call print_string
+    mov eax, ecx
+    call print_int
+    call print_nl
+
+    mov eax, ebx
+    cdq                    ; use cdq to extend eax to edx:eax, initialize edx
+    mov ecx, 100           ; CAN'T divided by immediate
+    idiv ecx               ; edx:eax /= ecx
+    mov ecx, eax
+    mov eax, quot_msg
+    call print_string
+    mov eax, ecx
+    call print_int
+    call print_nl
+    mov eax, rem_msg
+    call print_string
+    mov eax, edx
+    call print_int
+    call print_nl
+
+    neg edx
+    mov eax, neg_msg
+    call print_string
+    mov eax, edx
+    call print_int
+    call print_nl
+
+    popa
+    mov eax, 0
+    leave
+    ret
+```
+自己手敲了一遍, 东西挺简单的, 但是由于是汇编, 所以变得异常复杂.   
+运行结果看下, 程序不解释:  
+```
+$ ./math
+Enter a number: 4
+Square of input is 16
+Cube of input is 64
+Cube of input times 25 is 1600
+Quotient of cube/100 is 0
+Remainer of cube/100 is 64
+The negation of the remainder is -64
+```
+
+#### 2.1.5 扩充京都运算
