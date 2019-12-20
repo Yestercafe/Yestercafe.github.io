@@ -518,7 +518,7 @@ gcc生成的汇编代码和我们这里写的汇编mov方向是反的, 所以应
 然后书中还提到了一个标准库函数```fgetc```的bug, 这个函数虽然是读取字符的, 但是它却返回一个int值. 在对于EOF和字符0xFF处理上, 这个函数显得束手无策. 书中推荐用int型来接收```fgetc```的返回值. 
 
 #### 2.1.3 补码运算
-FLAGS寄存器为add和sub提供了两种状态, overflow和carry flag. 如果操作的正确结果太大了以致于不匹配有符号数运算的目的操作数(简单说就是目的操作数溢出了), 溢出标志位被置位. 如果在加法中的最高有效位有一个进位或在减法中的最高有效位有一个借位, 进位标志位将被置位.(没看懂, 说的好像是运算过程中用的) 所以FLAGS可以用来检查无符号数运算的溢出情况. 补码运算的优势, 在于它把整数运算构成环状(见csapp和群论, 因为接触过环论不能确定这里说的"环"跟环论的环有没有关系). 根据csapp, 无符号有符号的加减法指令各只需要一个.   
+FLAGS寄存器为add和sub提供了两种状态, overflow和carry flag. 如果操作的正确结果太大了以致于不匹配有符号数运算的目的操作数(简单说就是目的操作数溢出了), 溢出标志位被置位. 如果在加法中的最高有效位有一个进位或在减法中的最高有效位有一个借位, 进位标志位将被置位.(2.1.5节会说) 所以FLAGS可以用来检查无符号数运算的溢出情况. 补码运算的优势, 在于它把整数运算构成环状(见csapp和群论, 因为接触过环论不能确定这里说的"环"跟环论的环有没有关系). 根据csapp, 无符号有符号的加减法指令各只需要一个.   
 乘法和除法不同, 有提供给无符号的MUL和DIV, 提供给有符号的IMUL和IDIV. 
 ```asm
 mul    source
@@ -624,4 +624,36 @@ Remainer of cube/100 is 64
 The negation of the remainder is -64
 ```
 
-#### 2.1.5 扩充京都运算
+#### 2.1.5 扩充精度运算
+```ADC: operand1 = operand1 + carry flag + operand2```  
+```SBB: operand1 = operand1 - carry flag - operand2```  
+
+用法很简单, 举例将EDX:EAX和EBX:ECX中存储的64位整数求和, 那么就是:  
+```asm
+add  eax, ecx
+adc  edx, ebx
+```
+相减就是:  
+```asm
+sub  eax, ecx
+sbb  edx, ebx
+```
+
+### 2.2 控制结构
+#### 2.2.1 比较
+比较结果存在FLAGS里.   
+对于无符号, FLAGS有两个标志位非常重要: 零标志位(Zero flag, ZF)和进位标志位(carry flag, CF), 如果比较结果为0, 零标志位将会被置1.   
+```asm
+cmp  vleft, vright
+```
+这个比较会计算vleft - vright的值:   
+- 如果vleft = vright, 那么ZF就被置1了.  
+- 如果vleft > vright, 那么ZF就不被置位, CF也不会.  
+- 如果vleft < vright, 那么ZF不会, 但是CF会被置位(算作借位)
+
+对于有符号, FLAGS有三个标志位: ZF, 溢出标志位(Overflow flag, OF)和符号标志位(Sign flag, SF). 如果一个操作结果上溢或者下溢OF就会被置位; 如果一个操作的结果为负数, 则SF会被置位:  
+- 如果vleft = vright, ZF被置位
+- 如果vleft > vright, SF $=$ OF
+- 如果vleft < vright, SF $\neq$ OF
+
+#### 2.2.2 分支指令
