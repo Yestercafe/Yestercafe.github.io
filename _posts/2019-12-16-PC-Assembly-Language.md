@@ -12,7 +12,7 @@ Lab1真的挺麻烦的, 看不懂代码, 需要的前置知识有点小多, 汇�
 
 因为内容不算太多, 所以就放在一篇里面了. 新的这个博客模板也挺方便的, 旁边会自动生成目录.  
 
-## 第一章 - 导论
+## 第1章 - 导论
 最开始的导论部分说了一些基础知识.    
 
 ### 1.1 数值系统  
@@ -232,9 +232,9 @@ L8 db   "A"     ; byte initialized to ASCII code for A (65)
 单引号和双引号的作用一样. 以上的这些数据被线性安排在内存里, 比如L2就在L1的后面.  
 可以定义内存序列:  
 ```asm  
-L9  db 0, 1, 2, 3            ; defines 4 bytes
+L9  db 0, 1, 2, 3        ; defines 4 bytes
 L10 db "w", "o", "r", ’d’, 0 ; defines a C string = "word"
-L11 db ’word’, 0             ; same as L10
+L11 db ’word’, 0         ; same as L10
 ```  
 对于较大的内存序列, NASM有一个TIMES指示符:  
 ```asm   
@@ -255,7 +255,7 @@ mov al, [L6]   ; copy first byte of double word at L6 into AL
 
 考虑下面这个指令:   
 ```asm
-mov [L6], 1         ; store a 1 at L6
+mov [L6], 1     ; store a 1 at L6
 ```  
 上面说了不追踪label的规格, 所以这里编译器并不知道L6的规格, 于是需要手动指定, 加上一个*规格指定器(size specifier)*:  
 ```asm
@@ -299,9 +299,9 @@ mov dword [L6], 1   ; store a 1 at L6
 segment .data
 int main()
 {
-        int ret_status;
-        ret_status = asm_main();
-        return ret_status;
+    int ret_status;
+    ret_status = asm_main();
+    return ret_status;
 }
 outmsg2 db " and ", 0
 outmsg3 db ", the sum of these is ", 0
@@ -312,48 +312,48 @@ input2 resd 1
 
 ; 代码放到.text段中
 segment .text
-        global   asm_main
+    global   asm_main
 asm_main:
-        enter    0,0                  ; 开始执行
-        pusha
+    enter    0,0          ; 开始执行
+    pusha
 
-        mov      eax, prompt1
-        call     print_string
+    mov      eax, prompt1
+    call     print_string
 
-        call     read_int
-        mov      [input1], eax
+    call     read_int
+    mov      [input1], eax
 
-        mov      eax, prompt2
-        call     print_string
+    mov      eax, prompt2
+    call     print_string
 
-        call     read_int
-        mov      [input2], eax
+    call     read_int
+    mov      [input2], eax
 
-        mov      eax, [input1]
-        add      eax, [input2]
-        mov      ebx, eax
+    mov      eax, [input1]
+    add      eax, [input2]
+    mov      ebx, eax
 
-        dump_regs 1
-        dump_mem  2, outmsg1, 1
+    dump_regs 1
+    dump_mem  2, outmsg1, 1
 
-        mov      eax, outmsg1
-        call     print_string
-        mov      eax, [input1]
-        call     print_int
-        mov      eax, outmsg2
-        call     print_string
-        mov      eax, [input2]
-        call     print_int
-        mov      eax, outmsg3
-        call     print_string
-        mov      eax, ebx
-        call     print_int
-        call     print_nl
-        
-        popa
-        mov      eax, 0
-        leave
-        ret
+    mov      eax, outmsg1
+    call     print_string
+    mov      eax, [input1]
+    call     print_int
+    mov      eax, outmsg2
+    call     print_string
+    mov      eax, [input2]
+    call     print_int
+    mov      eax, outmsg3
+    call     print_string
+    mov      eax, ebx
+    call     print_int
+    call     print_nl
+    
+    popa
+    mov      eax, 0
+    leave
+    ret
 ```  
 ```c
 // file: driver.c
@@ -375,19 +375,19 @@ naflags := -f elf
 asmsobj := first.o
 
 first: first.o $(req)
-        $(cc) $(ccflags) first.o $(base) -o first
+    $(cc) $(ccflags) first.o $(base) -o first
 
 $(asmsobj): %.o: %.asm
-        $(na) $(naflags) $<
+    $(na) $(naflags) $<
 asm_io.o: asm_io.asm asm_io.inc
-        $(na) $(naflags) -d ELF_TYPE asm_io.asm
+    $(na) $(naflags) -d ELF_TYPE asm_io.asm
 
 driver.o: driver.c
-        $(cc) $(ccflags) -c $< -o $@
+    $(cc) $(ccflags) -c $< -o $@
 
 .PHONY:
 clean:
-        rm -f *.o
+    rm -f *.o
 ```  
 ```bash
 # propmt of `make --just-print`
@@ -410,7 +410,7 @@ Enter another number: 2
 Register Dump # 1
 EAX = 00000003 EBX = 00000003 ECX = 6337CF5E EDX = FFDD4004
 ESI = F7F80E24 EDI = 00000000 EBP = FFDD3FB8 ESP = FFDD3F98
-EIP = 080491E7 FLAGS = 0206                PF   
+EIP = 080491E7 FLAGS = 0206        PF   
 Memory Dump # 2 Address = 0804C04C
 0804C040 65 72 20 6E 75 6D 62 65 72 3A 20 00 59 6F 75 20 "er number: ?You "
 0804C050 65 6E 74 65 72 65 64 20 00 20 61 6E 64 20 00 2C "entered ? and ?,"
@@ -464,8 +464,8 @@ movzx  ebx, ax
 ```c
 unsigned char uchar = 0xFF;
 signed char schar = 0xFF;
-int a = (int) uchar;        /∗ a = 255 (0x000000FF) ∗/
-int b = (int) schar;        /∗ b = −1 (0xFFFFFFFF) ∗/
+int a = (int) uchar;    /∗ a = 255 (0x000000FF) ∗/
+int b = (int) schar;    /∗ b = −1 (0xFFFFFFFF) ∗/
 ```
 不看书上是怎么说的了. 考虑到已经学习过csapp, 所以直接看汇编好了:  
 ```c
@@ -525,10 +525,10 @@ mul    source
 ```
 mul支持这种比较落后的乘法, 根据source的大小, 判断到底是把它跟AL乘放AX里, 还是把它跟AX乘放DX:AX里, 还是把它跟EAX乘放EDX:EAX里. 而imul提供了更多的格式:  
 ```asm
-imul   dest, src1           ; dest *= src1
+imul   dest, src1       ; dest *= src1
 imul   dest, src1, src2     ; dest  = src1 * src2
 ```
-相对应的, div和idiv也一样.    
+相对应的, div和idiv也一样. 但是要注意, 8/16/32位除法对应的结果, 分别放在AL/AX/EAX中, 余数放在了AH/DX/EDX中. 
 
 NEG指令通过计算补码来获取单个操作数的相反数, 可以是8位, 16位, 32位寄存器或着内存区域.  
 
@@ -560,7 +560,7 @@ asm_main:
     call read_int
     mov [input], eax
     
-    imul eax               ; edx:eax = eax * eax
+    imul eax           ; edx:eax = eax * eax
     mov ebx, eax
     mov eax, square_msg
     call print_string
@@ -584,9 +584,9 @@ asm_main:
     call print_nl
 
     mov eax, ebx
-    cdq                    ; use cdq to extend eax to edx:eax, initialize edx
-    mov ecx, 100           ; CAN'T divided by immediate
-    idiv ecx               ; edx:eax /= ecx
+    cdq            ; use cdq to extend eax to edx:eax, initialize edx
+    mov ecx, 100       ; CAN'T divided by immediate
+    idiv ecx           ; edx:eax /= ecx
     mov ecx, eax
     mov eax, quot_msg
     call print_string
@@ -657,4 +657,249 @@ cmp  vleft, vright
 - 如果vleft < vright, SF $\neq$ OF
 
 #### 2.2.2 分支指令
-jmp类似于C的goto语句, 即无条件跳转
+JMP类似于C的goto语句, 即无条件分支, 它的唯一参数是一个代码标号, 简单说就是指向某一个代码位置的指针名, 会被汇编器和连接器翻译成地址.  
+下面这段话照搬了, 因为暂时还不知道怎么用:  
+> **SHORT** 这个跳转类型局限在一小范围内。它仅仅可以在内存中向上或向
+下移动128字节。这个类型的好处是相对于其它的,它使用较少的内
+存。它使用一个有符号字节来储存跳转的 位移 。位移表示向前或向后
+移动的字节数(位移须加上EIP)。为了指定一个短跳转,需在JMP指令
+里的变量之前使用关键字SHORT。  
+> **NEAR** 这个跳转类型是无条件和有条件分支的缺省类型,它可以用来跳
+到一段中的任意地方。事实上,80386支持两种类型的近跳转。其中
+一个的位移使用两个字节。它就允许你向上或向下移动32,000个字
+节。另一种类型的位移使用四个字节,当然它就允许你移动到代码段
+中的任意位置。四字节类型是386保护模式的缺省类型。两个字节类
+型可以通过在JMP指令里的变量之前放置关键字WORD来指定。  
+> **FAR** 这个跳转类型允许控制转移到另一个代码段。在386保护模式下,这
+种事情是非常鲜见的。
+
+有关代码标号的问题, 将会体现在之后的汇编代码里. 简单说它类似于C中goto的标号, 而且之前一直在出现的asm_main也就是一个标号.  
+
+JMP还有其他版本的有条件分支指令, 下面列举了:  
+
+
+| 指令 | 功能 |
+| -- | -- |
+JZ | JNP如果ZF被置位了,就分支
+JNZ | 如果ZF没有被置位了,就分支
+JO | 如果OF被置位了,就分支
+JNO | 如果OF没有被置位了,就分支
+JS | 如果SF被置位了,就分支
+JNS | 如果SF没有被置位了,就分支
+JC | 如果CF被置位了,就分支
+JNC | 如果CF没有被置位了,就分支
+JP | 如果PF被置位了,就分支
+JNP | 如果PF没有被置位了,就分支
+
+
+用法都跟JMP一样. 其中PF是奇偶被追陈述(Parity flag), 用来表示结果中的低8位1的位数值为奇数个或偶数个, 暂时不知道有什么用.  
+
+以上的这些指令用于判断两个量的相等或者大小还是很容易的, 但是仿佛不容易表示大于等于和小于等于, 具体不举例子了. 80x86提供了额外的分支指令:  
+有符号:
+
+
+| 指令 | 功能 |
+| -- | -- |
+| JE | 如果vleft = vright,则分支 |
+| JNE | 如果vleft != vright,则分支 |
+| JL, JNGE | 如果vleft < vright,则分支 |
+| JLE, JNG | 如果vleft ≤ vright,则分支 |
+| JG, JNLE | 如果vleft > vright,则分支 |
+| JGE, JNL | 如果vleft ≥ vright,则分支 |
+
+
+无符号:
+
+
+| 指令 | 功能 |
+| -- | -- |
+| JE | 如果vleft = vright,则分支 |
+| JNE | 如果vleft != vright,则分支 |
+| JB, JNAE | 如果vleft < vright,则分支 |
+| JBE, JNA | 如果vleft ≤ vright,则分支 |
+| JA, JNBE | 如果vleft > vright,则分支 |
+| JAE, JNB | 如果vleft ≥ vright,则分支 |
+
+
+
+*这个表格真心不好整理...*
+这些指令有点顾名思义了, N是not, G是greater, L是less, E是equal, A和B我猜应该是after和before.  
+
+嫖一段代码:  
+```c
+if (EAX >= 5)
+    EBX = 1;
+else
+    EBX = 2;
+```  
+```asm
+    cmp eax, 5
+    jge thenblock
+    mov ebx, 2
+    jmp next
+thenblock:
+    mov ebx, 1
+next:
+```  
+
+#### 2.2.3 循环指令
+**LOOP** ECX自减,如果ECX $\neq$ 0,分支到代码标号指向的地址  
+**LOOPE, LOOPZ** ECX自减(FLAGS寄存器没有被修改),如果ECX $\neq$ 0而且ZF = 1,则分支  
+**LOOPNE, LOOPNZ** ECX自减(FLAGS没有改变), 如 果ECX $\neq$ 0而且ZF = 0,则分支  
+
+再嫖一段:  
+```c
+int sum = 0;
+for (int i = 10; i > 0; i--)
+    sum += i;
+```  
+```asm
+    mov eax, 0      ; sum
+    mov ecx, 10     ; i
+loop_start:
+    add eax, ecx
+    loop loop_start
+```  
+
+### 2.3 翻译标准的控制结构
+#### 2.3.1 if语句
+```c
+if (condition)
+    then_block;
+else
+    else_block:
+```  
+```asm
+    ; set FLAGS
+    jxx else_block  ; select xx: if condition == false, exec else_block
+    ; then_block
+    jmp endif
+else_block:
+    ; else_block
+endif:
+```  
+
+#### 2.3.2 while循环
+```c
+while (condition)
+    loop_block;
+```  
+```asm  
+while:
+    ; set FLAGS
+    jxx endwhile  ; select xx: if condition == false, exec else_block
+    ; loop_block
+    jmp while
+endwhile:
+```
+
+#### 2.3.3 do...while循环
+```c
+do {
+    loop_block;
+} while (condition);
+```
+```asm
+do:
+    ; loop_block
+    ; set FLAGS
+    jxx do        ; select xx: if condition == false, exec else_block
+```
+
+### 2.4 例子: 查找素数
+下面先给出一个C语言的版本:  
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    unsigned guess;    // 当前对素数的猜测
+    unsigned factor;   // 猜测数的可能的因子
+    unsigned limit;    // 查找这个值以下的素数
+
+    printf("Find primes up to: ");
+    scanf("%u", &limit);
+    printf("2\n");     // 把头两个素数作为特殊情况处理
+    printf("3\n");
+    guess = 5;         // 初始化猜测数
+    while (guess <= limit) {
+        factor = 3;
+        while (factor * factor > guess &&
+               guess % factor != 0)
+            factor += 2;
+        if (guess % factor != 0)
+            printf("%d\n", guess);
+        guess += 2;    // 只考虑奇数
+    }
+}
+```
+然后下面是汇编的版本:
+```asm
+%include "asm_io.inc"
+
+segment .data
+Message db  "Find primes up to: ", 0
+
+segment .bss
+Limit resd 1
+Guess resd 1
+
+segment .text
+    global asm_main
+asm_main:
+    enter 0, 0
+    pusha
+
+    mov eax, Message
+    call print_string
+    call read_int                ; scanf("%u", &limit);
+    mov [Limit], eax
+
+    mov eax, 2                   ; printf("2\n");
+    call print_int
+    call print_nl
+    mov eax, 3                   ; printf("3\n");
+    call print_int
+    call print_nl
+
+    mov dword [Guess], 5         ; Guess = 5;
+while_limit:                     ; while (Guess <= Limit)
+    mov eax, [Guess]
+    cmp eax, [Limit]
+    jnbe end_while_limit         ; use jnbe since numbers are unsigned. 我寻思用ja应该也可以
+
+    mov ebx, 3                   ; `ebx means` factor = 3;
+while_factor:
+    mov eax, ebx
+    mul eax                      ; edx:eax = eax * eax
+    jo end_while_factor          ; if answer won’t fit in eax alone
+    cmp eax, [Guess]
+    jnb end_while_factor         ; if !(factor * factor < guess)
+    mov eax, [Guess]
+    mov edx, 0
+    div ebx                      ; edx = edx:eax % ebx
+    cmp edx, 0
+    je end_while_factor          ; if !(guess % factor != 0)
+
+    add ebx, 2                   ; factor += 2;
+    jmp while_factor
+end_while_factor:
+    je end_if                    ; if !(guess % factor != 0)
+    mov eax, [Guess]
+    call print_int
+    call print_nl
+end_if:
+    add dword [Guess], 2         ; guess += 2;
+    jmp while_limit
+end_while_limit:
+
+    popa 
+    mov eax, 0
+    leave
+    ret
+```
+
+第二章完结啦!   
+
+## 第3章 - 位操作
+### 3.1 移位运算
