@@ -4,3 +4,10 @@
       - C
       - Java
       - Python
+- name: Tech
+  keyworks:
+      - Hadoop
+      - Mapreduce
+      - Spark
+      - ML
+      - DL
