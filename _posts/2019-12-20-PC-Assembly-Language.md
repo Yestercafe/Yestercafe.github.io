@@ -903,3 +903,111 @@ end_while_limit:
 
 ## 第3章 - 位操作
 ### 3.1 移位运算
+#### 3.1.1 逻辑移位
+逻辑移位很简单, 多了就去掉, 缺了就加0.   
+SHL和SHR指令分别表示逻辑左移和逻辑右移. 接收两个操作数, 第一个是要移位的对象, 第二个要不是常数, 要不可以是CL寄存器的值. 
+
+#### 3.1.2 移位的应用
+快速乘除就不说了.  
+逻辑移位只能用在无符号数上.  
+
+#### 3.1.3 算术移位
+算术左移SAL(Shift Arithmetic Left)会被翻译成与SHL一样的机器码, 即这两个指令的作用是相同的.  
+算术右移SAR(Shift Arithmetic Right)大体上与SHR相同, 但是它不会无脑在左边空位上补0, 而是会复制符号位.   
+具体的不在这里过多解释了, csapp上都看过了.  
+
+#### 3.1.4 循环移位
+已经够顾名思义的了, 向左向右分别是ROL和ROR. 还有个带上CF的版本, RCL和RCR, 比如想要移位AX, 那么总共参与运算的位就是17位--AX和CF, 最终结果存放在AX里. 
+
+#### 3.1.5 简单应用
+这个代码还蛮有意思的, 摘抄一下:  
+```asm
+    mov bl, 0          ; bl: the number of `on` in eax
+    mov ecx, 32        ; loop counter
+count_loop:
+    rol eax, 1
+    jnc skip_inc       ; if CF == 0, then goto skip_inc
+    inc bl
+skip_inc:
+    loop count_loop
+```
+这个代码的用处是统计32位整数eax的为`1`的位的个数. 这里的rol使用的恰到好处, 循环32次后, eax会被还原成原来的样子.  
+
+### 3.2 布尔按位运算
+#### 3.2.1 AND运算符
+略
+
+#### 3.2.2 OR运算符
+略略
+
+#### 3.2.3 XOR运算符
+略略略
+
+#### 3.2.4 NOT运算符
+略略略略, 等等, NOT运算符可以直接或者一个数的反码(这里翻译版写的是补码, 个人感觉有点奇怪, 就去看了一下原版, 是one’s complement反码. 翻译出错). 然后想着写了个代码验证以下:  
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int a = 10;
+    asm("notl    -4(%rbp)");
+    printf("NOT a = %d\n", a);
+    return 0;
+}
+```
+```
+$ ./test_asm    
+NOT a = -11
+```
+
+#### 3.2.5 TEST指令
+TEST指令执行一次AND运算, 然后基于可能的结果对FLAGS进行设置. 比如结果为0, ZF会被置位.  
+
+#### 3.2.6 位操作的应用
+直接使用书上的例子:  
+```asm
+mov ax, 0C123H
+or  ax, 8             ; 开启位3,  ax = C12BH
+and ax, 0FFDFH        ; 关闭位5,  ax = C10BH
+xor ax, 8000H         ; 求反位31, ax = 410BH
+```
+上面的操作, 不过就是下面三种行为的一种:  
+- 开启位$i$, 与$2^i$进行OR运算
+- 关闭位$i$, 与只有位$i$为off的二进制数进行AND运算, 这个操作数通常被称为掩码(mask)
+- 求反位$i$, 与$2^i$进行XOR运算
+
+AND可以用来计算除以2的几次方后的余数, 将它与$2^i-1$的掩码做AND运算, 就可以得到除以$2^i$的余数. 这个原理很简单的, 就不演示了.   
+
+下面这个比较有意思, 它可以开启或者关闭任意的比特位:   
+开启eax的位cl:  
+```asm
+mov cl, bh
+mov ebx, 1
+shl ebx, cl
+or eax, ebx
+```
+关闭eax的位cl:
+```asm
+mov cl, bh
+mov ebx, 1
+shl ebx, cl
+not ebx
+and eax, ebx
+```
+还有个求反任何一个比特位的书象征性地留作了作业, 其实也很简单:  
+求反eax的位cl:
+```asm
+mov cl, bh
+mov ebx, 1
+shl ebx, cl
+xor eax, ebx
+```
+
+然后这里有个非常重要的东西, 就是80x86程序中会经常出现:  
+```asm
+xor eax, eax      ; eax = 0
+```
+这样用XOR运算的方式赋eax为0, 要比同样功能的`mov eax, 0`的机器代码的指令要少(机器码的长度).   
+
+### 3.3 避免使用条件分支
