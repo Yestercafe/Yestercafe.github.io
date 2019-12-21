@@ -384,7 +384,7 @@ int main()
     int* p1 = &b;
     int* p2 = &a;
     auto m3 = ::max(p1,p2); // max() for two pointers
-    char const* x = hello";
+    char const* x = "hello";
     char const* y = "world";
     auto m4 = ::max(x,y);  // max() for two C-strings
 }
