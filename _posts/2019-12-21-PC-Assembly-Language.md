@@ -41,7 +41,7 @@ $
 后面说了一下怎么用 8421 码转换二进制为十六进制, 很简单, 这辈子也都不会忘, 所以略过.  
 
 ### 1.2 计算机结构  
-#### 1.2.1 Memory(内存)
+#### 1.2.1 Memory (内存)
 在没有弄清楚 memory 这个词的实际意义之前, 先不在这里把翻译标成"内存", 即使十有八九都是对的.  
 
 存储空间 (memory) 有着一套特殊的计量单位体系, 最小的单位是 1 字节(1 byte), 注意不是 1 个位(1 bit). 一台有 32 megabytes(32 MiB) 存储空间(原文依旧是 memory)可以保存 32 兆字节(32 million bytes)的数据信息. *看到这个兆字节我就想到了 Android O 开始中文语言环境下存储空间单位也变成汉字(类似"兆字节""吉字节")这种睿智的改动.* 在内存 (memory) 中的每一个字节, 都被标上了一个独一无二的标签, 这就是**地址 (address)**.  
@@ -58,7 +58,7 @@ $
 
 计算机会使用**时钟 (clock)** 来*同步指令执行 (to synchronize the execution of the instructions)*. 这个时钟会以固定的频率发出脉冲(这个固定频率一般被叫做**时钟速度 (clock speed)**). 比如你买了个 1.5GHz 的电脑, 那它的时钟发脉冲的频率就是 1.5GHz. 这个单位挺有意思, Hz 好像不常识中的按每分钟计的, 而是以一个常数比率进行节拍 (beats). CPU 的各个部分会根据这个节拍(通常被称为**时钟周期 (cycle)**) 让他们的操作正确的进行, 就像节拍器能帮助曲子以正确的旋律演奏一样. *真可爱, 这是原文的比喻哦~* 一个指令需要多少个这样的节拍执行, 是跟 CPU 代数和型号有关系的. *这意思就是不能光看频率了? 频率相同性能也可能不同?* 
 
-#### 1.2.3 CPU 80x86系列
+#### 1.2.3 CPU 80x86 系列
 IBM 型 PC 有一块来自 80x86 家族的 CPU, 这些 CPU 只是代数或者型号不同, 都是一个妈生的, 所以*基础机器语言*是一样的, 但是每一代都有增强 (enhance). 下面是原文:  
 > **8088,8086:** These CPU’s from the programming standpoint are identical. They were the CPU’s used in the earliest PC’s. They provide several 16-bit registers: AX, BX, CX, DX, SI, DI, BP, SP, CS, DS, SS, ES, IP, FLAGS. They only support up to one megabyte of memory and only operate in *real mode*. In this mode, a program may access any memory address, even the memory of other programs! This makes debugging and security very difficult! Also, program memory has to be divided into *segments*. Each segment can not be larger than 64K.  
 > **80286:** This CPU was used in AT class PC’s. It adds some new instructions to the base machine language of the 8088/86. However, its main new feature is 16-bit protected mode. In this mode, it can access up to 16 megabytes and protect programs from accessing each other’s memory.  
@@ -74,7 +74,7 @@ IBM 型 PC 有一块来自 80x86 家族的 CPU, 这些 CPU 只是代数或者型
 
 仅从这两点就可以看出, 这升级也是有够明显的.  
 
-#### 1.2.4 8086 16位寄存器
+#### 1.2.4 8086 16 位寄存器
 8086CPU 提供了四个一般用途 (general purpose) 的寄存器, 或者叫通用寄存器吧, AX, BX, CX 和 DX. 这四个寄存器都能被分解成 2 个 8 位寄存器, 比如 AX 可以被分成 AH 和 AL. *8 位? 8 位也就是一个字节, 于是自然这就是高 8 位和低 8 位了, AH 的 H 表示 HIGH, AL 的 L 表示 LOW.* 虽然可以拆, 但不代表他们独立, 修改了 AX 的值, AH 和 AL 的值也会随之改变, 并且? *vis versa*? 搜了一下好像是"反之亦然"的意思.
 
 SI 和 DI 通常作为指针使用, 也可以当通用寄存器, 但是不能被分解成两个 8 位的.   
@@ -87,7 +87,7 @@ IP是 *Instruction Pointer*, 这个和 CS 已经在 Lab1 里遇到过了, 毕竟
 
 FLAGS 挺特殊的, 写 C 的时候也经常用到 flag, 道理都差不多, 就是存上一个指令的执行信息的(如果有这样的信息的话).
 
-#### 1.2.5 80386 32位寄存器  
+#### 1.2.5 80386 32 位寄存器  
 刚才也提到过了, 80386 开始 16 位寄存器都被扩展成 32 位了. 但是为了保证对下的兼容性, AX还是原来的那个 16 位寄存器, EAX 表示新扩展出来的 32 位寄存器. 于是 AX 就变成了 EAX 的低 16 位, AL 就变成了 EAX 的低 8 位. **注意!** 没有可以**直接访问** EAX 的高 16 位的方法.  
 
 #### 1.2.6 实模式
@@ -102,7 +102,7 @@ $$047C0+0048=04808$$
 2. 每一个字节内存的索引方式不唯一. 比如刚才的 04808 可以被 047C:0048, 047D:0038,
 047E:0028 或者是 047B:0058 引用. 这样会对比较地址造成一定的影响.  
 
-#### 1.2.7 16位保护模式
+#### 1.2.7 16 位保护模式
 在 80286 的 16 位保护模式中, selector 值翻译成物理地址的方式与实模式完全不同. 在保护模式中, selector 值来自*描述符表 (descriptor table)* 中的一个*索引 (index)* 值. 在两个模式中, 程序都是被分块 (segements) 的. 在实模式中, 程序块的地址都是固定的, 并用 selector 值表示一个块开始位置的节的值; 但是在保护模式中, 这些块的地址不是固定的, 甚至都不用全部放入内存.  
 
 保护模式使用了一种技术叫做**虚拟内存 (virtual memory)**, 虚拟内存最基本的用途是让正在使用的数据和代码在内存中, 其他的数据和代码临时存放在 disk 中, segments 能按需在内存和 disk 中切换. 这些切换操作对操作系统是完全透明的, 程序不需要针对虚拟内存这种设计专门编写.  
@@ -111,7 +111,7 @@ $$047C0+0048=04808$$
 
 16 位保护模式的最大缺点还是 offset 只有 16 位, 因此块大小还是被限制在了 64K, 大序列 (array) 的索引还是一个问题.  
 
-#### 1.2.8 32位保护模式
+#### 1.2.8 32 位保护模式
 80386 引入了 32 位保护模式. 80286 的 16 位保护模式和 80386 的 32 位保护模式有两个主要区别:  
 1. offsets 被扩展到了 32 位. 这就允许 offset 能够将最大范围扩大到四十亿字节. 从而, 块被扩展到了 4 gigabytes(4 GiB).  
 2. 块能被分成更小的 4K 单位, 被称为**页面 (pages)**. 虚拟内存的工作对象从原来的块变成了 pages, 这意味只有块中的某个部分会被放到内存中工作. 毕竟最大已经可以扩展到 4GiB 了, 整块再放进去不合实际.  
@@ -763,7 +763,7 @@ loop_start:
 ```  
 
 ### 2.3 翻译标准的控制结构
-#### 2.3.1 if语句
+#### 2.3.1 if 语句
 ```c
 if (condition)
     then_block;
@@ -780,7 +780,7 @@ else_block:
 endif:
 ```  
 
-#### 2.3.2 while循环
+#### 2.3.2 while 循环
 ```c
 while (condition)
     loop_block;
@@ -794,7 +794,7 @@ while:
 endwhile:
 ```
 
-#### 2.3.3 do...while循环
+#### 2.3.3 do...while 循环
 ```c
 do {
     loop_block;
@@ -900,7 +900,6 @@ end_while_limit:
     ret
 ```
 
-第二章完结啦!   
 
 ## 第3章 - 位操作
 ### 3.1 移位运算
@@ -1012,3 +1011,133 @@ xor eax, eax      ; eax = 0
 这样用 XOR 运算的方式赋 eax 为 0, 要比同样功能的 `mov eax, 0` 的机器代码的指令要少(机器码的长度).   
 
 ### 3.3 避免使用条件分支
+现代处理器的*预测执行* (利用 CPU 的并行能力同时执行多条指令)可能会与条件分支发生冲突, 浪费了处理器的时间, 所以需要避免使用条件分支.  
+比如之前在 3.1.5 中的代码, 使用了一个 skip_inc 条件分支来跳过 inc bl 的过程, 但是这是完全不需要的, 可以通过下面的方式改写:  
+```asm
+    mov bl, 0
+    mov ecx, 32
+count_loop:
+    shl eax, 1
+    adc bl, 0
+    loop count_loop
+```
+
+接着是一个求两数最大值的程序, 正常情况下应该使用一个 cmp, 然后把较大的那个数输出, 但是下面的例子避免了使用条件分支:  
+```asm
+; file: max.asm
+%include "asm_io.inc"
+
+segment .data
+message1 db "Enter a number: ", 0
+message2 db "Enter another number: ", 0
+message3 db "The larger number is: ", 0
+
+segment .bss
+input1 resd 1       ; store the first number
+
+segment .text
+    global asm_main
+asm_main:
+    enter 0, 0
+    pusha
+
+    mov eax, message1
+    call print_string
+    call read_int          ; input the first number
+    mov [input1], eax
+
+    mov eax, message2
+    call print_string
+    call read_int          ; input the second number (in eax)
+
+    xor ebx, ebx           ; ebx = 0
+    cmp eax, [input1]      ; compare the first with the second
+    setg bl                ; ebx = (input2 > input1) ? 1: 0
+    neg ebx                ; ebx = (input2 > input1) ? 0xFFFFFFFF : 0
+    mov ecx, ebx           ; ecx = (input2 > input1) ? 0xFFFFFFFF : 0
+    and ecx, eax           ; ecx = (input2 > input1) ? input2 : 0
+    not ebx                ; ebx = (input2 > input1) ? 0 : 0xFFFFFFFF
+    and ebx, [input1]      ; ebx = (input2 > input1) ? 0 : input1
+    or ecx, ebx            ; ecx = (input2 > input1) ? input2 : input1
+
+    mov eax, message3
+    call print_string
+    mov eax, ecx
+    call print_int
+    call print_nl
+
+    popa
+    mov eax, 0
+    leave
+    ret
+```
+两点:  
+1. setg 的用法注释已经写得很清楚了
+2. neg 可以用 dec 代替, 但是值会反过来
+
+### 3.4 在 C 中进行位操作
+#### 3.4.1 C 中的按位运算
+先吹一波 C 语言 nb, 很多高级语言都不支持这样的功能.  
+对 C 语言位操作简单说明:  
+- AND 运算符使用二元运算符 & 来描述
+- OR 运算符使用二元运算符 | 来描述
+- XOR 运算符使用二元运算符 ^ 来描述
+- NOT 运算符使用二元运算符 ~ 来描述
+- SHL/SAL 运算符使用二元运算符 << 来描述
+- SHR/SAR 运算符使用二元运算符 >> 来描述
+例子就不举了.  
+
+#### 3.4.2 在C中使用按位运算
+第一段给提示说, 一个好的C编译器会自动把 x *= 2 这种使用移位来运算.  
+举例 POSIX 的 API 位三种不同类型的用户保留了文件权限: user, group 和 others, 然后每一个类型的用户都可以被授予读, 写和/或执行. 其实也就是我们在 Linux 中比较常见的 chmod 指令, POSIX 也有一个系统函数叫 chmod. 然后来看下代码:  
+```c
+chmod("foo", S_IRUSR | S_IWUSR | S_IRGRP);
+```
+然后它还提供了一个结构体类型 stat, 用来存储某一个文件的权限位. 同名的 stat 函数可以将一个文件的权限放入到一个 struct stat 变量中. 
+> 下面是一个移除文件的others用户的写权限和增加owner用户的读权限的例子: 
+> ```c
+> struct stat file_stats;  /* stat()使用的结构体 */
+> stat("foo", &file_stats); /* 读文件信息file stats.st mode中有权限位 */
+> chmod("foo", (file_stats.st_mode & ~S_IWOTH) | S_IRUSR);
+> ```
+
+### 3.5 Big 和 Little Endian 表示法
+之前有提到过大端小端的, csapp 上有, 我也不太想提. 但是既然原文说了, 这里就稍微提一点:  
+对于双字 $12345678_{16}$, 如果是 big endian 表示法, 就会是 12 34 56 78; 如果是 little endian 表示法, 就会是 78 56 34 12. 原文提到一个正常人是无法接受 little endian 表示法的, 或者 Intel 公司的工程师会不会是抖 S? 但是广大的程序员群体接受了. 不管是 big 还是 little, 区别只在于 human being, 而不在于 CPU 的电路, 电路是无序的, 对于 CPU 而言它才不管你到底是哪个在先哪个在后. 同样的, 对于比特位, 在 CPU 中的排列顺序也是无从得知的, 因为 CPU 或内存中没有对单个比特位进行编址, 所以我们无从得知它们的排列. 所以还要纠结那么多干嘛呢?  
+
+下面摘抄的C语言代码, 其实非常简单, 可以看出当前的处理器到底是 big 还是 little endian 表示. 啊, 算了, 原书的代码有点恶心, 我用我喜欢的方式重写了一下:    
+```cpp
+#include <cstdio>
+#include <cstddef>
+
+template<typename T, std::size_t SIZE>
+union Convert {
+    T src;
+    char dest[SIZE];
+};
+
+int main()
+{
+    unsigned int a = 0x12345678;
+    Convert<decltype(a), sizeof(a)> convert;
+    convert.src = a;
+    for (auto c: convert.dest) {
+        printf("%x ", c);
+    }
+    putchar(012);
+    return 0;
+}
+```
+```
+$ ./endian_test 
+78 56 34 12
+```
+因为我的电脑是因特尔处理器, 所以理所当然, 用的是 little endian 表示法. 
+
+#### 3.5.1 什么时候需在乎这种东西?
+算是一个小插曲吧, 多的不说了, 就是两台计算机在交换信息的时候. TCP/IP消息头都会以 big endian 格式来存储整型. 然后巴拉巴拉讲了一堆网络的东西. 最后说了486处理器提供了BSWAP指令来交换32位寄存器中的字节, 也就是大小端转换, 然后XCHG指令可以, 有点抽象, 举个例子:  
+```asm
+xchg ah, al       ; 交换ax中的字节
+```
+
+### 3.6 计算位数
