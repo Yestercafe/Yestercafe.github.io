@@ -1,8 +1,8 @@
 ---
 layout: post
 title: PC Assembly Language - 6.828 Assembly Guide Book
-categories: [Assembly, MIT 6.828]
-description: MIT 6.828 指定的汇编教材
+categories: Assembly
+description: MIT 6.828 指定的汇编参考书
 keywords: Assembly, 6.828
 ---
 
