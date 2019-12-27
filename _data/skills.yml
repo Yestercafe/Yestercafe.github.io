@@ -5,7 +5,7 @@
       - C++
 
 - name: Big Data Development Keywords
-  keyworks:
+  keywords:
       - Hadoop
       - Mapreduce
       - Spark
