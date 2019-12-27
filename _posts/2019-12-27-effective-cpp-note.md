@@ -2,7 +2,7 @@
 layout: post
 title: Effective C++ 中文第三版阅读笔记
 categories: cpp
-description: pb_ds库简述——非主流的强大数据结构库
+description: effcpp笔记, 2020年的敲门砖
 keywords: cpp
 ---
 
