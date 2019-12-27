@@ -124,7 +124,7 @@ std::cout << ctb[0];                // call const TextBlock::operator[]
 
 tb[0] = 'x';                        // No problem
 ctb[0] = 'x';                       // ERROR!
-```signature
+```
 - 见上面的代码和注释.
 - 我在读这段的过程中陷入了一个误区, 影响const和non-const不同结果的const成员函数, 即在函数签名式(signature)后面的那个`const`.  
 
