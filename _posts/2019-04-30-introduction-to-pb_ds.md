@@ -1,7 +1,7 @@
 ---
 layout: post
 title: pb_ds库简述
-categories: pb_ds
+categories: cpp
 description: pb_ds库简述——非主流的强大数据结构库
 keywords: pb_ds, cpp
 ---
