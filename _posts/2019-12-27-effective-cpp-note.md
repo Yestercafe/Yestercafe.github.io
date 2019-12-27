@@ -65,13 +65,13 @@ inline void callWithMax(const T& a, const T& b) {
 }
 ```
 - 宏不会招致函数调用带来的额外开销.  
-- 类函数宏是不安全的. 在调用`f`之前, `a`的递增次数竟然取决于与谁比较.   从斯特
+- 类函数宏是不安全的. 在调用`f`之前, `a`的递增次数竟然取决于与谁比较.  
 
 总结:
 - 对于单纯变量, 最好以`const`对象或enums替换`#define`. 
 - 对于形似函数的宏(macros), 最好改用inline函数替换`#define`. 
 
-### 条款03. 尽可能使用const - Use const whenever possible. 
+### 条款03: 尽可能使用const - Use const whenever possible. 
 ```cpp
 char greeting[] = "hello";
 char* p = greeting;              // non-const pointer, non-const data
@@ -128,3 +128,198 @@ ctb[0] = 'x';                       // ERROR!
 - 见上面的代码和注释.
 - 我在读这段的过程中陷入了一个误区, 影响const和non-const不同结果的const成员函数, 即在函数签名式(signature)后面的那个`const`.  
 
+
+```cpp
+class CTextBlock {
+public:
+    ...
+    std::size_t length() const;
+private:
+    char* pText;
+    mutable std::size_t textLength;
+    mutable bool lengthIsValid;
+};
+std::size_t CTextBlock::length() const
+{
+    if (!lengthIsValid) {
+        textLength = std::strlen(pText);
+        lengthIsValid = true;
+    }
+    return textLength;
+}
+```
+- 这段介绍了两个概念bitwise constness和logical constness, 见P21. 在这里精简了没有给出代码.  
+  - bitwise constness指成员函数只有在不更改对象的任何成员变量(静态成员除外)时才可以说是const. 
+  - logical constness主张一个`const`成员函数可以修改它所处理的对象内的某些部分.  
+- 如果需要在const成员函数中修改成员的值, 需要使用mutable关键字进行修饰.  
+
+```cpp
+class Textblcok {
+public:
+    ...
+    const char& operator[](std::size_t position) const
+    {
+        ...     // 边界检测 (bounds checking)
+        ...     // 志记数据访问 (log access data)
+        ...     // 检验数据完整性 (verify data integrity)
+        return text[postion];
+    }
+    char& operator[](std::size_t postion)
+    {
+        return 
+          const_cast<char&>(
+            static_cast<const TextBlock&>(*this)
+                [position]
+          );
+    }
+};
+```
+- 可以看出, operator[]的其中一个版本中加入了一下额外的功能. 为了防止两个版本的实现重复(可能会伴随编译时间, 维护, 代码膨胀等一系列让人头疼的问题), 这里采用的方法是 -- 用operator[]去调用另外一个operator[].  
+- 这里面使用的关键性技术是类型转换那一部分, 也就是常量性移除(casting away constness). 
+- const成员函数承诺绝不改变其对象的逻辑状态(logical state). 这就是本例为什么不通过const版本调用non-const的原因, 这样会导致其对象的逻辑状态改变.  
+  
+
+总结:
+- 将某些东西声明为`const`可以帮助编译器侦测错误用法. `const`可被施加于任何作用域内的对象, 函数参数, 函数返回类型, 成员函数本体.  
+- 编译器强制实施bitwise constness, 但你编写程序时应该使用"概念上的常量性"(conceptual constness).  
+- 当`const`和non-`const`成员函数有着实质等价的实现时, 令non-`const`版本调用`const`版本可避免代码重复   
+
+
+### 条款04: 确定对象被使用前已先被初始化 - Make sure that objects are initialized before they're used.  
+- 读取未初始化的值是UB. 
+- "对象的初始化动作何时一定发生, 何时不一定发生"的规则非常复杂. 最佳的处理方式是: 永远在使用变量之前先将它初始化. 
+  - 对于无任何成员的内置类型, 必须手工完成, 不论是手工初始化, 还是使用input stream完成初始化. 
+  - 内置类型外的任何其他东西, 初始化的责任落在构造函数(constructors)身上. 需确保每一个构造函数都将对象的每一个成员初始化.  
+
+```cpp
+class PhoneNumber { ... };
+class ABEntry {
+public:
+    ABEntry(const std::string& name, const std::string& address,
+            const std::list<PhoneNumber>& phones);
+private:
+    std::string theName;
+    std::string theAddress;
+    std::list<PhoneNumber> thePhones;
+    int numTimesConsulted;
+};
+
+// Version 1
+ABEntry::ABEntry(const std::string& name, const std::string& address,
+                 const std::list<PhoneNumber>& phones)
+{
+    theName = name;           // 这些都是赋值(assignments)
+    theAddress = address;
+    thePhones = phones;
+    numTimesConsulted = 0;
+}
+
+// Version 2
+ABEntry::ABEntry(const std::string& name, const std::string& address,
+                 const std::list<PhoneNumber>& phones)
+   :theName(name),            // 这些都是初始化(initializations)
+    theAddress(address),
+    thePhones(phones),
+    numTimesConsulted(0)
+{ }
+```
+- 上例提供了两个版本的构造函数. 第一种并不是初始化, 而是赋值. 
+- C++规定, 对象的成员变量的初始化动作发生在进入构造函数本体之前. 即, `theName`, `theAddress`, `thePhones`在进入构造函数之前就已经被调用了它们的默认构造函数. 但因为`numTimesConsulted`是内置类型, 不能保证在赋值操作之前已经获得了初值.  
+- 第二个版本的写法是member initialzation list(成员初值列). 相较于第一个版本的, 第二个版本直接调用了`theName`, `theAddress`, `thePhones`的拷贝构造函数, 而非先调用它们的默认构造函数, 再对它们进行赋值. 第一个版本的默认构造函数被浪费了.  
+  
+*我一直很喜欢用的使用一个private成员函数包含所有成员的赋值操作, 为(wei2)所有构造器调用的方法, 在书中被叫做"伪初始化"(pseudo-initialization), 在书中被拒绝了 -- 尽量使用成员初值列完成"真正的初始化".*
+
+最后讨论"不同编译单元内定义的non-local static对象"的初始化次序.  
+- 首先明确什么是static对象. 其寿命从被构造出来直到程序结束为止, 因此stack和heap-based对象被排除. 它包括global对象, 定义于namespace作用域内的对象, 在类内/在函数内以及在文件作用域内被声明为static对象. 
+- 函数内的static对象被称为local static对象. 其他都都被叫做non-local static对象. 
+
+```cpp
+// 库中的
+class FileSystem {
+public:
+    ...
+    std::size_t numDisks() const;  // 众多成员函数之一
+    ...
+};
+extern FileSystem tfs;
+
+// 程序库用户建立的类
+class Directory {
+public:
+    Directory( /*params*/ );
+    ...
+};
+Directory::Directory( /*params*/ )
+{
+    ...
+    std::size_t disks = tfs.numDisks();
+    ...
+}
+
+Directory tempDir( /*params*/ );
+```
+- tfs必须在tempDie初始化之前被初始化. 
+- 但是无法确保tfs在tempDir之前被初始化.  
+- "正确的初始化次序"无法被明确定义, 甚至不值得寻找"可决定正确次序"的特殊情况.  
+
+```cpp拒绝
+{
+    static FileSystem fs;
+    return fs;
+}
+
+class Directory { ... };
+Directory::Directory( /*params*/ )
+{
+    ...
+    std::size_t disks = tfs().numDisks();
+    ...
+}
+Directory& tempDir()
+{
+    static Directory td;
+    return td;
+}
+```
+- 这种方法非常巧妙, 直接用心去体会代码比较合适.  
+- 将每个non-local static对象搬到自己的专属函内, 该对象在该函数内被声明为static, 然后将该变量的引用返回出来. 换句话说就是non-local static对象被local static对象代替. 很显然这个过程中fs被初始化了(调用了它的默认构造函数). 这是设计模式***Singleton***模式的一个常见实现手法.  
+- *为了保证多线程安全, 需要在单线程启动阶段(single-threaded startup portion)手工调用所有的reference-retruning函数, 这可以消除初始化相关的"竞速形势(race conditions)".*
+
+总结:
+- 为内置型对象进行手工初始化, 因为C++不保证初始化它们.  
+- 构造函数最好使用成员初值列(member initialization list), 而不要在构造函数本体内使用赋值操作(assignment). 初值列列出的成员变量, 其排列次序应该和它们在calss中的声明次序相同.  
+- 为免除"跨编译单元的初始化次序"问题, 请以local static对象替换non-local static对象. 
+
+
+## 2. 构造/析构/赋值运算 - Constructors, Destructors, and Assignment Operators
+### 条款05: 了解C++默默编写并调用哪些函数 - Know what functions C++ silently writes and calls.
+- 编译器会为一个空类自动生成一个拷贝构造函数, 一个拷贝赋值操作符, 和一个析构函数. 
+- 当一个类没有声明任何构造函数时, 编译器也会为你声明一个默认构造函数. 所以空类也会被生成一个默认构造函数.  
+- 生成的析构函数是个non-virtual的, 除非它的基类自身声明了virtual析构函数.  
+- 一个类即不声明拷贝构造函数也不声明拷贝赋值运算符, 编译器会为其创建(如果它们被调用的话). 
+
+```cpp
+template<typename T>
+class NamedObject {
+public:
+    NamedObject(const char* name, const T& value);
+    NamedObject(const std::string& name, const T& value);
+    ...
+private:
+    std::string nameValue;
+    T objectValue;
+};
+
+NamedObject<int> no1("Smallest Prime Number", 2);
+NamedObject<int> no2(no1);
+```
+- 对于`no2`, 拷贝构造函数被调用了. 
+- 编译器生成的拷贝构造函数作用在`no1.nameValue`, `no1.objectValue`与`no2.nameValue`, `no2.objectValue`之间. 成员`NamedObject<int>::nameValue`是std::string型, 在`NamedObject`的拷贝构造函数中, 其拷贝构造函数被调用; 成员`NamedObject<int>::objectValue`是内置类型`int`, 所以`no2.nameValue`会拷贝`no1.nameValue`的每一个字节来完成初始化.  
+
+
+- 对于内含引用元素, `const`元素的类, 编译器会拒绝生成赋值动作. 还有一种情形就是一个派生类的基类的拷贝赋值运算符被声明为了`private`, 编译器会拒绝为该派生类生成拷贝赋值运算符.  
+
+总结:
+- 编译器可以暗自为class创建默认构造函数, 拷贝构造函数, 拷贝赋值操作符, 以及析构函数.  
+
+### 条款06. 若不想使用编译器自动生成的函数, 就该明确拒绝 - Explicitly disallow the use of compiler-generated functions you do not want.
