@@ -1,10 +1,10 @@
-- name: Programming Language
+- name: Programming Language Keywords
   keywords:
-      - C++
-      - C
       - Java
       - Python
-- name: Tech
+      - C++
+
+- name: Big Data Development Keywords
   keyworks:
       - Hadoop
       - Mapreduce
