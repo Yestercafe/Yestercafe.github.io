@@ -6,7 +6,8 @@ description: effcpp笔记, 2020年的敲门砖
 keywords: cpp
 ---
 
-开一个新坑, 这个坑比较短, 应该寒假之前就能解决, 算作是2020年的开年作了.
+开一个新坑, 这个坑比较短, 应该寒假之前就能解决, 算作是2020年的开年作了.  
+更新, 寒假前没有完成, 寒假开头赶工.   
 
 ## 1. 让自己习惯C++ - Accustoming Yourself to C++
 ### 条款 01: 视C++为一个语言联邦 - View C++ as a federation of languages.
@@ -322,4 +323,172 @@ NamedObject<int> no2(no1);
 总结:
 - 编译器可以暗自为class创建默认构造函数, 拷贝构造函数, 拷贝赋值操作符, 以及析构函数.  
 
-### 条款06. 若不想使用编译器自动生成的函数, 就该明确拒绝 - Explicitly disallow the use of compiler-generated functions you do not want.
+### 条款06: 若不想使用编译器自动生成的函数, 就该明确拒绝 - Explicitly disallow the use of compiler-generated functions you do not want.  
+- 如果没有手动声明拷贝构造函数或拷贝赋值运算符, 且有人尝试调用时, 系统会自动生成(条款05)且产出的函数为`public`.
+- 对于上一条的问题, 下面有一种解决方法:  
+  - 为阻止这些函数被创建, 得自行声明它们为`private`, 这样可以直接阻止人们调用它们. 但是缺点是成员函数或者友元还是可以成功调用.    
+  - 为了防止刚才的情况发生, 可以不定义它们. 当有人在尝试调用它们的时候, 会获得一个链接错误(linkage error). 
+  - 上面这种做法(或者说是伎俩)是为大家接受的, 所以也被用在了C++ iostream程序库中.  
+  - 如果客户尝试拷贝了使用了以上方法的类, 编译器会阻挠他(因为函数为`private`); 如果是成员函数或者友调用了, 那么将会被链接器拦截.  
+
+```c++
+class Uncopyable {
+protected:
+    Uncopyable() { }                          // 允许派生对象构造和析构
+    ~Uncopyable() { }
+private:
+    Uncopyable(const Uncopyable&);            // 但是阻止拷贝行为
+    Uncopyable& operator=(const Uncopyable&);
+};
+
+class HomeForSale: private Uncopyable {       // class不再声明
+    ...                                       // 拷贝构造和拷贝
+};                                            // 赋值运算符
+```
+- 对于刚才的方法, 使用基类的方法可以简化一系列操作.  
+- 上面的`Uncopyable`基类还有很多细节, 之后的条款中会用提及相关的内容.  
+
+总结:
+- 为驳回编译器自动(暗自)提供的机能, 可将相应的成员函数声明为`private`并且不予实现. 使用像`Uncopyable`这样的基类也是一种做法.  
+
+### 条款07: 为多态基类声明virtual析构函数 - Declear destructors virtual in polymorphic base classes. 
+```c++
+class TimeKeeper {
+public:
+    TimeKeeper();
+    ~TimeKeeper();
+    ...
+};
+class AtomicClock: public TimeKeeper { ... };   // 原子钟
+class WaterClock: public TimeKeeper ( ... );    // 水钟
+class WristWatch: public TimeKeeper { ... };    // 腕表
+
+TimeKeeper* getTimeKeeper();        // 返回一个指针, 指向一个
+                                    // TimeKeeper派生类的动态分配对象
+
+TimeKeeper* ptk = getTimeKeeper();  // 从TimeKeeper继承体系
+                                    // 获得一个动态分配对象
+...                                 // 运用它 ... 
+delete ptk;                         // 释放它, 避免资源泄漏
+```
+- 上面是一个基类和三个派生类, 以及一个工厂函数.  
+- 为遵守工厂函数的规定, 被`getTimeKeeper()`返回的对象必须位于堆(heap)区. 因此为了避免泄漏内存和其他资源, 应将工厂函数返回的每一个对象delete掉.  
+- 见条款13和条款18.  
+
+```c++
+class TimeKeeper {
+public:
+    TimeKeeper();
+    virtual ~TimeKeeper();
+    ...
+};
+TimeKeeper* ptk = getTimeKeeper();
+...
+delete ptk;                             // Now, right!
+```
+- C++明确指出, 当一个派生类对象经由一个基类指针被删除, 而该基类带着一个非虚析构函数, 其结果为UB -- 实际执行时通常发生的是对象的派生成分没被销毁; 如果`getTimeKeeper`返回指针指向一个`AtomicClock`对象, 其内的`AtomicClock`成分可能没被销毁, 而`AtomicClock`的析构函数也未能执行起来. 总之就是会出现一种诡异"局部销毁"的对象. 
+- 消除以上问题的方法很简单, 即给基类的添加虚析构函数.  
+
+- 不要为不做基类的函数声明`virtual`成员函数. C++实现虚函数, 使用的是一种vptr(virtual table pointer)映射到vtbl(virtual table), 也就是俗称的虚函数表. 一个虚函数需要一个vptr携带信息, 如果不需要虚函数还加上虚修饰, 则增加了一些(沢山)不必要的空间占用.  
+
+```c++
+class AWOV {                 // AWOV = "Abstract w/o Virtuals"
+public:
+    virutal ~AWOV() = 0;     // 声明纯虚析构函数
+};
+```
+- 纯虚函数导致抽象类, 抽象类不能被实例化. 抽象类类似Java的接口, 纯虚函数必须被派生类实现. 
+- 析构函数的运作方式是, 最深层(或者是另一种理解上的表层)的派生类的析构函数最先被调用, 然后调用每一个基类的析构函数. 编译器会为`AWOV`类的每一个派生类创建一个对`~AWOV`的调用行为, 于是你必须为派生类中的这个函数进行定义, 否则链接器就不高兴了.  
+- "给基类一个虚析构函数"这个规则只适用于多态基类身上, 这种设计目的为了用来"通过基类接口处理派生对象", 比如说刚才的那个例子. 
+
+总结:
+- 带多态性质的基类应声明一个虚析构函数. 如果类带有任何虚函数, 它就应该拥有一个虚析构函数. 
+- 类设计目的如果不是作为基类使用, 或不是为了具备多态性, 就不该声明虚析构函数.   
+
+### 条款08: 别让异常逃离析构函数 - Prevent exceptions from leaving destructors.
+- C++并不禁止析构函数吐出异常, 但是它不推荐你这么做. (因为可能会引发UB.)  
+
+```c++
+class DBConnection {                   // 假设这是一个用于数据库连接的类
+public:
+    ...
+    static DBConnection create();      // ...
+    void close();                      // 关闭连接, 失败则抛出异常
+};
+
+class DBConn {                         // DBConnection的管理类, 见第三章
+public:
+    ...
+    // Version O
+    ~DBConn()                          // 确保数据库连接总是会被关闭
+    {
+        db.close();
+    }
+private:
+    DBConnection db;
+};
+
+{                                       // 开启一个区块
+    DBConn dbc(DBConnection::create()); // 建立一个DBConnection对象并交给DBConn对象管理
+    ...                                 // 通过DBConn的接口使用DBConnection对象
+}                                       // 在区块结束点, DBConn对象被销毁
+                                        // 因而自动为DBConnection对象调用close
+
+// Version 1
+DBConnn::~DBConn()
+{
+    try { db.close(); }
+    catch (...) {
+        制作运转记录, 记下对close的调用失败;
+        std::abort();
+    }
+}
+
+// Version 2
+DBConn::~DBConn()
+{
+    try { db.close; }
+    catch (...) {
+        制作运转记录, 记下对close的调用失败;
+    }
+}
+```
+- 如果`DBConn`的析构函数调用`DBConnection`对象的`close`函数成功, 一切无事; 如果抛出异常, Version O就会传播这个异常, 这不是C++所希望的.  
+- Version 1介绍了一种处理异常的版本 -- 调用`abort`强迫程序结束, 这样可以直接将UB扼杀于摇篮.  
+- Version 2介绍了另一种处理异常的版本 -- 直接吞下异常. 虽然这是一种可行的方案, 但是太过草率. 这种方法用于出错了程序还必须要执行下去时.  
+
+```c++
+// Version 3
+class DBConn {
+public:
+    ...
+    void close()
+    {
+        db.close();
+        closed = true;
+    }
+    ~DBConn()
+    {
+        if (!closed) {
+            try {
+                db.close();
+            }
+            catch (...) {
+                制作运转记录, 记下对close的调用失败;
+                ...       // 吞下异常
+            }
+        }
+    }
+private:
+    DBConnection db;
+    bool closed;
+};
+```
+- Version 3提供了一个用户接口, 将调用`close`的责任从`DBConn`析构函数手上转移到了`DBConn`的用户手上, 但仍有其析构函数制造一个双保险. 这样能给用户机会第一手去处理异常, 而避免析构函数自动完成了"过早结束程序"或者"发生UB"之类的风险. 
+- 这种做法并没有违反"肆无忌惮转移负担"和条款18.  
+
+总结:
+- 析构函数绝对不要吐出异常. 如果一个析构函数调用的函数可能抛出异常, 析构函数应该捕捉任何异常, 然后吞下它们(不传播)或结束程序.  
+- 如果客户需要对某个操作函数运行期间抛出的异常做出反应, 那么类应该提供一个普通函数(而非在析构函数中)执行该操作. 
+
+### 条款09: 绝不在构造和析构过程中调用虚函数 - Never call virtual functions during construction or destruction.
