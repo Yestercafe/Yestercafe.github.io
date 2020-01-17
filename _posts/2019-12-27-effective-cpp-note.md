@@ -491,4 +491,163 @@ private:
 - 析构函数绝对不要吐出异常. 如果一个析构函数调用的函数可能抛出异常, 析构函数应该捕捉任何异常, 然后吞下它们(不传播)或结束程序.  
 - 如果客户需要对某个操作函数运行期间抛出的异常做出反应, 那么类应该提供一个普通函数(而非在析构函数中)执行该操作. 
 
-### 条款09: 绝不在构造和析构过程中调用虚函数 - Never call virtual functions during construction or destruction.
+### 条款09: 绝不在构造和析构过程中调用虚函数 - Never call virtual functions during construction or destruction. 
+- 不该在构造函数和析构函数期间调用虚函数, 因为这样的调用不会带来预想的结果. 
+
+```c++
+class Transaction {
+public:
+    Transaction();                              // 所有交易的基类
+    virtual void logTransaction() const = 0;    // 做出一份因类型不同而不同
+                                                // 的日志记录
+    ...
+};
+
+Transaction::Transaction()                      // 基类的构造函数实现
+{
+    ...
+    logTransaction();                           // 最后动作是记录这笔交易
+}
+
+class BuyTransaction: public Transaction {
+public:
+    virtual void logTransaction() const;        // 记录此类交易
+    ...
+};
+
+class SellTransaction: public Transaction {
+public:
+    virtual void logTransaction() const;        // 同上
+    ...
+};
+
+BuyTransaction b;
+```
+- `BuyTransaction`构造函数会被调用, 但是`Transaction`构造函数一定会更早调用. 但是那时虚函数还不是虚函数(或者应该说vptr还没有记录内容).   
+- 派生对象内的基类成分会在派生类自身成分被构造之前被构造妥当.   
+- 更深层的意思, 派生对象在执行派生类构造函数之前, 不会成为一个派生类对象, 而会成为一个基类对象.   
+
+- 析构函数的执行顺序在上一条款说过, 同理. 
+
+```c++
+class Transaction {
+public:
+    Transaction()
+    { init(); }                   // 调用非虚函数
+    virtual void logTransaction() const = 0;
+private:
+    void init()
+    {
+        ...
+        logTransaction();         // 这里调用虚函数
+    }
+};
+```
+- 如果`Transaction`有多个构造函数, 将它们重复的部分放入一个`init`初始化函数中是非常优秀的做法. 
+- 但是这样仍在基类的构造函数中深层地调用了虚函数. 构造析构过程不能调用虚函数, 且它们调用的其它函数也要符合这一约束. 
+
+```c++
+class Transaction {
+public:
+    explicit Transaction(const std::string& logInfo);
+    void logTransaction(const std::string& logInfo) const;
+    ...
+};
+Transaction::Transaction(const std::string& logInfo)
+{
+    ...
+    logTransaction(logInfo);
+}
+class BuyTransaction: public Transaction {
+public:
+    BuyTransaction( *parameters* )
+     : Transaction(createLogString( *parameters* ))
+    { ... }
+    ...
+private:
+    static std::string createLogString( *parameters* );
+};
+```
+- 使用上面的方法可以避免本条例中提到的问题. 
+
+总结:
+- 在构造和析构期间不要调用虚函数, 因为这类调用从不下降至派生类(比起当前执行构造函数和析构函数的那层).  
+
+### 条款10: 令operator=返回一个引用指向`*this` - Have assignment operators return a reference to `*this`.
+```c++
+int x, y, z;
+x = y = z = 15;        // 赋值连锁形式
+x = (y = (z = 15));    // <解析>
+```
+- 赋值采用右结合律. 
+- 为了实现连锁赋值, 赋值操作符必须返回一个引用指向操作符左侧的实参. 这是为类实现操作符时应该遵循的协议. 
+
+```c++
+class Widget {
+public:
+    ...
+    Widget& operator+=(const Widget& rhs)
+    {
+        ...
+        return *this;
+    }
+    Widget& operator=(const Widget& rhs)
+    {
+        ...
+        return *this;
+    }
+    ...
+};
+```
+
+总结:
+- 令赋值(assignment)操作符返回一个指向`*this`的引用.  
+
+### 条款11: 在operator=中处理自我赋值 - Handle assignment to self in operator=.
+```c++
+class Widget { ... };
+Widget w;
+...
+w = w;                   // 愚蠢的自我赋值
+a[i] = a[j];             // 潜在的自我赋值
+*px = *py;               // 潜在的自我赋值
+
+class Base { ... };
+class Derived: public Base { ... };
+void doSomething(const Base& rb, Derived* pd);  // 更加潜在的
+                            //rb和*pd可能指向同一个对象
+```
+- 虽然第一种自我赋值看起来很愚蠢, 但是它合法.
+- 第二种和第三种潜在的自我赋值是别名(aliasing)导致的. 
+- 第四种也可能存在一种潜在的自我赋值行为. 
+
+```c++
+class Bitmap { ... };
+class Widget {
+    ...
+private:
+    Bitmap* pb;
+};
+
+// 不安全版本
+Widget&
+Widget::operator=(const Widget& rhs)
+{
+    delete pb;
+    pb = new Bitmap(*rhs.pb);
+    return *this;
+}
+
+// 安全版本
+Widget&
+Widget::operator=(const Widget& rhs)
+{
+    if (this == &rhs) return *this;
+
+    delete pb;
+    pb = new Bitmap(*rhs.pb);
+    return *this;
+}
+```
+- 如果遵循条款13和条款14的忠告运用对象管理资源, 那么你的赋值运算符或许是"自我赋值安全的"(self-assignment-safe), 无须额外操心; 而如果尝试自行管理资源, 可能会掉进"在停止使用资源之前意外释放它"的陷阱. 
+- 
