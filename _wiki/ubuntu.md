@@ -191,11 +191,11 @@ reference: [https://mirror.tuna.tsinghua.edu.cn/help/anaconda](https://mirror.tu
 
 ## PyTorch
 可以自己去官网配, 这里只提供使用 conda 安装的两种方案:  
-non-conda: 
+non-cuda: 
 ```bash
 conda install pytorch torchvision cpuonly -c pytorch
 ```
-conda 10.1:
+cuda 10.1:
 ```bash
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 ```
