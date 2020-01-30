@@ -11,34 +11,34 @@ keywords: Linux, Ubuntu
 
 ## 常用的 URL 集合
 ### 软件
-VSCode: https://code.visualstudio.com/docs/?dv=linux64_deb  
-IntelliJ IDEA: https://www.jetbrains.com/idea/download  
-PyCharm: https://www.jetbrains.com/pycharm/download
+VSCode: [https://code.visualstudio.com/docs/?dv=linux64_deb](https://code.visualstudio.com/docs/?dv=linux64_deb)  
+IntelliJ IDEA: [https://www.jetbrains.com/idea/download](https://www.jetbrains.com/idea/download)  
+PyCharm: [https://www.jetbrains.com/pycharm/download](https://www.jetbrains.com/pycharm/download)  
 
 ### 库
-Tensorflow: https://www.tensorflow.org  
-Tensorflow google.cn: https://tensorflow.google.cn/  
-PyTorch: https://pytorch.org
+Tensorflow: [https://www.tensorflow.org](https://www.tensorflow.org)  
+Tensorflow google.cn: [https://tensorflow.google.cn](https://tensorflow.google.cn)  
+PyTorch: [https://pytorch.org](https://pytorch.org)  
 
 ### 镜像站
-Tsinghua Open Source Mirror: https://mirrors.tuna.tsinghua.edu.cn   
+Tsinghua Open Source Mirror: [https://mirrors.tuna.tsinghua.edu.cn](https://mirrors.tuna.tsinghua.edu.cn)    
 
 ### 发行版
-KDE neon: https://neon.kde.org   
+KDE neon: [https://neon.kde.org](https://neon.kde.org)   
 
 ### repos
-electron-ssr-backup repo: https://github.com/qingshuisiyuan/electron-ssr-backup  
-ClashY repo: https://github.com/SpongeNobody/Clashy   
-ohmyzsh: https://github.com/ohmyzsh/ohmyzsh  
-zsh-syntax-highlighting: https://github.com/zsh-users/zsh-syntax-highlighting  
-zsh-autosuggestions: https://github.com/zsh-users/zsh-autosuggestions  
+electron-ssr-backup repo: [https://github.com/qingshuisiyuan/electron-ssr-backup](https://github.com/qingshuisiyuan/electron-ssr-backup)  
+ClashY repo: [https://github.com/SpongeNobody/Clashy](https://github.com/SpongeNobody/Clashy)   
+ohmyzsh: [https://github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)  
+zsh-syntax-highlighting: [https://github.com/zsh-users/zsh-syntax-highlighting](https://github.com/ohmyzsh/ohmyzsh)  
+zsh-autosuggestions: [https://github.com/zsh-users/zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)  
 
 ## Ubuntu 安装
 不知道为何, 在我的 x1c 上安装 Ubuntu 18.04 以后的版本会显示不出 grub 菜单. 而且稳定起见, 也还是推荐安装 Ubuntu 16.04 LTS 或者 Ubuntu 18.04 LTS. 速度慢的话可以去 Tsinghua Open Source Mirror 下载.   
 还有一个比较好的 KDE 桌面环境的版本, KDE neon. 但是因为*听说* kde 桌面环境的系统级代理只能作用于 kde 的 stock app, 所以还没有尝试过, 毕竟装系统非常麻烦.  
 
-Tsinghua Open Source Mirror: https://mirrors.tuna.tsinghua.edu.cn   
-KDE neon: https://neon.kde.org   
+Tsinghua Open Source Mirror: [https://mirrors.tuna.tsinghua.edu.cn](https://mirrors.tuna.tsinghua.edu.cn)   
+KDE neon: [https://neon.kde.org](https://neon.kde.org)   
 
 ## apt
 ```bash
@@ -93,8 +93,8 @@ ClashY:
 export http_proxy=127.0.0.1:2340;export https_proxy=127.0.0.1:2340
 ```
 
-electron-ssr-backup repo: https://github.com/qingshuisiyuan/electron-ssr-backup  
-ClashY repo: https://github.com/SpongeNobody/Clashy
+electron-ssr-backup repo: [https://github.com/qingshuisiyuan/electron-ssr-backup](https://github.com/qingshuisiyuan/electron-ssr-backup)  
+ClashY repo: [https://github.com/SpongeNobody/Clashy](https://github.com/SpongeNobody/Clashy)  
 
 ## zsh
 zsh 在第二步已经一并装好了, 直接安装 oh-my-zsh 
@@ -116,9 +116,9 @@ chsh -s /bin/zsh `whoami`
 chsh -s /bin/zsh root
 ```
 
-ohmyzsh: https://github.com/ohmyzsh/ohmyzsh  
-zsh-syntax-highlighting: https://github.com/zsh-users/zsh-syntax-highlighting  
-zsh-autosuggestions: https://github.com/zsh-users/zsh-autosuggestions  
+ohmyzsh: [https://github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)  
+zsh-syntax-highlighting: [https://github.com/zsh-users/zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)  
+zsh-autosuggestions: [https://github.com/zsh-users/zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)  
 
 ## snap 的代理配置
 ```bash
@@ -134,7 +134,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart snapd
 ```
 
-reference: https://kuricat.com/gist/snap-install-too-slow-zmbjy
+reference: [https://kuricat.com/gist/snap-install-too-slow-zmbjy](https://kuricat.com/gist/snap-install-too-slow-zmbjy)  
 
 ## pip
 pip 官方 source 的下载速度鸡贼慢, 使用代理除外. 这个源是不推荐换的, 因为截止到去年年底, 使用清华源还是无法正确安装 Tensorflow 2.1, 建议还是使用 pip 官方 source.
@@ -147,12 +147,12 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 ```
 提供一些其他的源: 
 > （1）阿里云 http://mirrors.aliyun.com/pypi/simple/  
-> （2）豆瓣http://pypi.douban.com/simple/  
+> （2）豆瓣 http://pypi.douban.com/simple/  
 > （3）清华大学 https://pypi.tuna.tsinghua.edu.cn/simple/  
 > （4）中国科学技术大学 http://pypi.mirrors.ustc.edu.cn/simple/  
-> （5）华中科技大学http://pypi.hustunique.com/  
+> （5）华中科技大学 http://pypi.hustunique.com/  
 
-reference: https://blog.csdn.net/sinat_21591675/article/details/82770360  
+reference: [https://blog.csdn.net/sinat_21591675/article/details/82770360](https://blog.csdn.net/sinat_21591675/article/details/82770360)    
 
 ## Tensorflow
 ```bash
@@ -161,8 +161,8 @@ python3 -m pip install --upgrade pip
 # pip install tensorflow
 pip install tensorflow --user
 ```
-Tensorflow: https://www.tensorflow.org  
-Tensorflow google.cn: https://tensorflow.google.cn/  
+Tensorflow: [https://www.tensorflow.org](https://www.tensorflow.org)  
+Tensorflow google.cn: [https://tensorflow.google.cn](https://tensorflow.google.cn/)  
 
 ## conda
 Anaconda 可以去官网或者清华镜像站下载. 
@@ -186,8 +186,8 @@ custom_channels:
   simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
 ```
 
-Anaconda: https://www.anaconda.com/distribution  
-reference: https://mirror.tuna.tsinghua.edu.cn/help/anaconda  
+Anaconda: [https://www.anaconda.com/distribution](https://www.anaconda.com/distribution)  
+reference: [https://mirror.tuna.tsinghua.edu.cn/help/anaconda](https://mirror.tuna.tsinghua.edu.cn/help/anaconda)  
 
 ## PyTorch
 可以自己去官网配, 这里只提供使用 conda 安装的两种方案:  
@@ -200,4 +200,4 @@ conda 10.1:
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 ```
 
-PyTorch: https://pytorch.org
+PyTorch: [https://pytorch.org](https://pytorch.org)   
