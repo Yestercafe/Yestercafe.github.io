@@ -298,6 +298,7 @@ Directory& tempDir()
 - 当一个类没有声明任何构造函数时, 编译器也会为你声明一个默认构造函数. 所以空类也会被生成一个默认构造函数.  
 - 生成的析构函数是个non-virtual的, 除非它的基类自身声明了virtual析构函数.  
 - 一个类即不声明拷贝构造函数也不声明拷贝赋值运算符, 编译器会为其创建(如果它们被调用的话). 
+- 后补: 编译器生成的拷贝构造函数和拷贝赋值操作符会拷贝类中的每一个成员.  
 
 ```cpp
 template<typename T>
@@ -630,8 +631,7 @@ private:
 };
 
 // 不安全版本
-Widget&
-Widget::operator=(const Widget& rhs)
+Widget& Widget::operator=(const Widget& rhs)
 {
     delete pb;
     pb = new Bitmap(*rhs.pb);
@@ -639,8 +639,7 @@ Widget::operator=(const Widget& rhs)
 }
 
 // 安全版本
-Widget&
-Widget::operator=(const Widget& rhs)
+Widget& Widget::operator=(const Widget& rhs)
 {
     if (this == &rhs) return *this;
 
@@ -648,6 +647,157 @@ Widget::operator=(const Widget& rhs)
     pb = new Bitmap(*rhs.pb);
     return *this;
 }
+
+// 异常安全性(exception safety)
+Widget& Widget::operator=(const Widget& rhs)
+{
+    Bitmap* pOrig = pb;
+    pb = new Bitmap(*rhs.pb);
+    delete pOrig;
+    return *this;
+}
+
+// 证同测试+异常安全性(可能会降低效率)
+Widget& Widget::operator=(const Widget& rhs)
+{
+    if (this == &rhs) return *this;
+
+    Bitmap* pOrig = pb;
+    pb = new Bitmap(*rhs.pb);
+    delete pOrig;
+    return *this;
+}
 ```
 - 如果遵循条款13和条款14的忠告运用对象管理资源, 那么你的赋值运算符或许是"自我赋值安全的"(self-assignment-safe), 无须额外操心; 而如果尝试自行管理资源, 可能会掉进"在停止使用资源之前意外释放它"的陷阱. 
-- 
+- 安全版本使用一种"证同测试(identity test)"的方法, 达到自我赋值检验的目的.  
+- 异常安全性的版本见条款29.  
+
+```c++
+class Bitmap { ... };
+class Widget {
+    ...
+    void swap(Widget& rhs);   // 交换*this和rhs的数据, 详见条款29
+    ...
+};
+
+Widget& operator=(const Widget& rhs)
+{
+    Widget temp(rhs);
+    swap(temp);
+    return *this;
+}
+
+// 另一个精巧的版本
+Widget& operator=(Widget rhs)    // 副本在值传递的时候产生
+{
+    swap(rhs);
+    return *this;
+}
+```
+- 道理如此简单, 见代码. btw, 这种技术被叫做copy-and-swap.  
+- 精巧版本的代码虽然牺牲了代码的清晰性, 但是将"拷贝操作"从函数本体内移到"函数参数构造阶段"可令编译器有时生成更高效的代码.   
+
+总结:
+- 确保当对象自我复制时`operator=`有良好行为. 其中技术包括比较"来源对象"和"目标对象"的地址, 精心周到的语句顺序, 以及copy-and-swap.  
+- 确定任何函数如果操作一个以上的对象, 而其中多个对象是同一个对象时, 其行为仍然正确.  
+
+### 条款12: 复制对象时勿忘其每一个成分 - Copy all parts of an object.   
+- 良好的面向对象系统(OO-systems)会将对象的内部封装起来, 只保留两个函数负责对象拷贝, 一个是拷贝构造函数, 另一个是拷贝赋值操作符, 将它们统称为拷贝函数.  
+- 条款5中提到编译器会在必要时为我们生成拷贝函数, 并说明这些生成版函数的行为: 将被拷贝对象的所有对象变量都做一份拷贝.  
+- 原书说如果自己写拷贝函数编译器可能会不高兴并且会报复你:  
+
+```c++
+void logCall(const std::string& funcName);
+class Customer {
+public:
+    ...
+    Customer(const Customer& rhs);
+    Customer& operator=(const Customer& rhs);
+    ...
+private:
+    std::string name;
+};
+
+Customer::Customer(const Customer& rhs)
+  : name(rhs.name)
+{
+    logCall("Customer copy constructor");
+}
+
+Customer& Customer::operator=(const Customer& rhs)
+{
+    logCall("Customer copy assignment operator");
+    name = rhs.name;
+    return *this;
+}
+
+// Update
+class Date { ... }l
+class Customer {
+public:
+    ...
+private:
+    std::string name;
+    Date lastTransaction;
+};
+```
+- `Customer`的成员被修改了, 但是既有的拷贝函数并未做对应的变动, 变成了局部拷贝(partial copy).  
+- 即使在最高警告级别中(条款53), 大多数编译器对此不会发出任何怨言, 这是编译器在报复你 -- 既然你拒绝它们为你生成拷贝函数, 如果你的代码不完全, 它们也不会告诉你.   
+- 如果你为类添加了一个成员变量, 你必须同时修改拷贝函数.  
+
+```c++
+class PriorityCustomer: public Customer {
+public:
+    ...
+    PriorityCustomer(const PriorityCustomer& rhs);
+    PriorityCustomer& operator=(const PriorityCustomer& rhs);
+    ...
+private:
+    int priority;
+};
+
+PriorityCustomer::PriorityCustomer(const PriorityCustomer& rhs) 
+  : priority(rhs.priority)
+{
+    logCall("PriorityCustomer copy constructor");
+}
+
+PriorityCustomer&
+PriorityCustomer::operator=(const PriorityCustomer& rhs)
+{
+    logCall("PriorityCustomer copy assignment operator");
+    priority = rhs.priority;
+    return *this;
+}
+```
+- 派生类的拷贝赋值操作符看似好像复制了其类内的每一个成员. 但是其实它只复制了类的派生成分, 并没有复制其基类成分. 
+- 同样的, 编译器会报复你. 对于此派生类的拷贝构造, 派生成分被复制, 针对基类成分编译器会调用基类的默认构造函数; 对于其拷贝复制操作符, 它不会修改基类成分.  
+- 于是修正的方法容易又复杂 -- 为派生类调用修改基类成分对应的方法: 
+```c++
+PriorityCustomer::PriorityCustomer(const PriorityCustomer& rhs) 
+  : Customer(rhs),
+    priority(rhs.priority)
+{
+    logCall("PriorityCustomer copy constructor");
+}
+
+PriorityCustomer&
+PriorityCustomer::operator=(const PriorityCustomer& rhs)
+{
+    logCall("PriorityCustomer copy assignment operator");
+    Customer::operator=(rhs);
+    priority = rhs.priority;
+    return *this;
+}
+```
+
+> 令拷贝赋值操作符调用拷贝构造函数时不合理的, 因为这就像试图构造一个已经存在的对象. 这件事如此荒谬, 乃至于根本没有相关语法. 是有一些看似如你所愿的语法, 但其实不是; 也的确有些语法背后真正做了它, 但它们在某些情况下会造成你的对象败坏, 所以我不打算将那些语法呈现给你看. 单纯地接受这个叙述吧: 你不该令拷贝赋值操作符调用拷贝构造函数.    
+> 反方向 -- 令拷贝构造函数调用拷贝赋值操作符 -- 同样无意义. 构造函数用来初始化新对象, 而赋值操作符只施行于已初始化对象身上. 对一个尚未构造好的对象赋值, 就像在一个尚未初始化的对象身上做"只对已初始化对象才有意义"的事一样. 无聊嘛! 别尝试. 
+
+- 在条款9中提到的, 使用一个`init`函数去替换多构造函数中重复的部分的类似做法, 同样可以运用于这俩拷贝函数上.  
+
+总结:
+- 拷贝函数应该缺包复制"对象内的所有成员变量"及"所有基类成分".  
+- 不要尝试以某个拷贝函数实现另一个拷贝函数. 应该将共同机能放进第三个函数中, 并由两个拷贝函数共同调用.  
+## 3. 资源管理 - Resource Management
+### 条款13. 以对象管理资源 - Use objects to manage resources. 
