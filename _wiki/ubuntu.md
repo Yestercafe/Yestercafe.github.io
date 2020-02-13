@@ -154,6 +154,13 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 
 reference: [https://blog.csdn.net/sinat_21591675/article/details/82770360](https://blog.csdn.net/sinat_21591675/article/details/82770360)    
 
+### pqi
+在知乎上看到一个自动配置 pip 源的工具, 很方便, pip 就可以装:   
+```bash
+pip install pqi
+```
+用法见指令.    
+
 ## Tensorflow
 ```bash
 # pip install --upgrade pip
