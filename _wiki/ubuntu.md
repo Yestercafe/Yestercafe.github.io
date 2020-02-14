@@ -54,7 +54,7 @@ reference: [https://www.jianshu.com/p/cf445a2c55e8](https://www.jianshu.com/p/cf
 先到 Software & Updates 中更换 apt 源.
 ```bash
 sudo apt update && sudo apt upgrade && sudo apt autoremove
-sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh
+sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnome-tweak-tool
 sudo apt install -y ibus-pinyin ibus-mozc  # IME
 ```
 
