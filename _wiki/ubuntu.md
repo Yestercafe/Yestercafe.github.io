@@ -41,6 +41,7 @@ Tsinghua Open Source Mirror: [https://mirrors.tuna.tsinghua.edu.cn](https://mirr
 KDE neon: [https://neon.kde.org](https://neon.kde.org)   
 
 ## apt
+先到 Software & Updates 中更换 apt 源.
 ```bash
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh
