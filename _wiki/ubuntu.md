@@ -40,6 +40,14 @@ zsh-autosuggestions: [https://github.com/zsh-users/zsh-autosuggestions](https://
 Tsinghua Open Source Mirror: [https://mirrors.tuna.tsinghua.edu.cn](https://mirrors.tuna.tsinghua.edu.cn)   
 KDE neon: [https://neon.kde.org](https://neon.kde.org)   
 
+# 时间
+Windows 和 Ubuntu 会因为时间存储标准不同产生时差. 双方面均可修改, 这里选用在 Windows 下修改.
+在 Powershell 下执行: 
+```powershell
+reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_DWORD /d 1
+```
+或者添加指令对应的注册表文件项重启即可.
+
 ## apt
 先到 Software & Updates 中更换 apt 源.
 ```bash
