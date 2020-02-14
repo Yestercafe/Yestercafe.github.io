@@ -44,6 +44,7 @@ KDE neon: [https://neon.kde.org](https://neon.kde.org)
 ```bash
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh
+sudo apt install -y ibus-pinyin ibus-mozc  # IME
 ```
 
 ## 完成 git 配置
