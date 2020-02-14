@@ -40,7 +40,7 @@ zsh-autosuggestions: [https://github.com/zsh-users/zsh-autosuggestions](https://
 Tsinghua Open Source Mirror: [https://mirrors.tuna.tsinghua.edu.cn](https://mirrors.tuna.tsinghua.edu.cn)   
 KDE neon: [https://neon.kde.org](https://neon.kde.org)   
 
-# 时间
+## 时间
 Windows 和 Ubuntu 会因为时间存储标准不同产生时差. 双方面均可修改, 这里选用在 Windows 下修改.
 在 Powershell 下执行: 
 ```powershell
@@ -58,11 +58,14 @@ sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnom
 sudo apt install -y ibus-pinyin ibus-mozc  # IME
 ```
 
-## 完成 git 配置
+## git
 ### git 配置
 ```bash
 git config --global user.name yescafe
 git config --global user.email qyc027@gmail.com
+git config --global http.proxy socks5://127.0.0.1:2341  # 以 ClashY 为例
+git config --global http.sslVerify false
+git config --global https.proxy socks5://127.0.0.1:2341
 ```
 ### ssh 密钥
 ```bash
@@ -70,7 +73,7 @@ ssh-keygen -t rsa -C qyc027@gmail.com
 ```
 添加到 GitHub 上.   
 
-## 代理配置
+## 代理方案
 ### 方案一. Electron-ssr
 直接找到存盘的 deb 包进行安装. 
 ```bash
@@ -132,7 +135,7 @@ ohmyzsh: [https://github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh
 zsh-syntax-highlighting: [https://github.com/zsh-users/zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)  
 zsh-autosuggestions: [https://github.com/zsh-users/zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)  
 
-## snap 的代理配置
+## snap 代理
 ```bash
 sudo systemctl edit snapd
 
@@ -183,7 +186,7 @@ pip install tensorflow --user
 Tensorflow: [https://www.tensorflow.org](https://www.tensorflow.org)  
 Tensorflow google.cn: [https://tensorflow.google.cn](https://tensorflow.google.cn/)  
 
-## conda
+## Anaconda
 Anaconda 可以去官网或者清华镜像站下载. 
 
 conda 源不确定有没有像 pip 一样的隐患, 速度慢可以配一下: 
