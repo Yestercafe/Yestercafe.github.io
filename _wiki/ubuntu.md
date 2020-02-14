@@ -48,6 +48,8 @@ reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 ```
 或者添加指令对应的注册表文件项重启即可.
 
+reference: [https://www.jianshu.com/p/cf445a2c55e8](https://www.jianshu.com/p/cf445a2c55e8)
+
 ## apt
 先到 Software & Updates 中更换 apt 源.
 ```bash
