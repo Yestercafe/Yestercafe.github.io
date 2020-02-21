@@ -657,7 +657,7 @@ cmp  vleft, vright
 - 如果 vleft < vright, SF $\neq$ OF
 
 #### 2.2.2 分支指令
-JMP 类似于 C 的goto 语句, 即无条件分支, 它的唯一参数是一个代码标号, 简单说就是指向某一个代码位置的指针名, 会被汇编器和连接器翻译成地址.  
+JMP 类似于 C 的 goto 语句, 即无条件分支, 它的唯一参数是一个代码标号, 简单说就是指向某一个代码位置的指针名, 会被汇编器和连接器翻译成地址.  
 下面这段话照搬了, 因为暂时还不知道怎么用:  
 > **SHORT** 这个跳转类型局限在一小范围内。它仅仅可以在内存中向上或向
 下移动 128 字节。这个类型的好处是相对于其它的,它使用较少的内
@@ -1141,3 +1141,374 @@ xchg ah, al       ; 交换ax中的字节
 ```
 
 ### 3.6 计算位数
+计算一个双字的开位的数量.  
+#### 3.6.1 方法一
+```c
+int count_bits(unsigned int data)
+{
+    int cnt = 0;
+
+    while (data != 0) {
+        data = data & (data - 1);
+        cnt++;
+    }
+    return cnt;
+}
+```
+解释:  
+举个例子:   
+```
+data     = xxxxx10000
+data - 1 = xxxxx01111
+```
+显而易见, 每次循环 `data` 的最右边一位 `1` 都会变为 `0`.
+
+#### 3.6.2 方法二
+打表.  
+```c
+static unsigned char byte_bit_count[256];
+
+void initialize_count_bits()
+{
+    int cnt, i, data;
+    
+    for (i = 0; i < 256; i++) {
+        cnt = 0;
+        data = i;
+        while (data != 0) {            // 引用方法一
+            data = data & (data - 1);
+            cnt++;
+        }
+        byte_bit_count[i] = cnt;
+    }
+}
+
+int count_bits(unsigned int data)
+{
+    const unsigned char* byte = (unsigned char *)&data;
+    return byte_bit_count[byte[0]] + byte_bit_count[byte[1]] +
+           byte_bit_count[byte[2]] + byte_bit_count[byte[3]];
+}
+```
+将一个双字拆成 4 个字节计算. `byte[0]` 可以用 `(data >> 24) & 0x000000FF` 代替.   
+
+#### 3.6.3 方法三
+这个方法可以说是 CSAPP 的 Data Lab 里非常经典的使用掩码折叠一个二进制数的方法了.  
+```c
+int count_bits(unsigned int x)
+{
+    static unsigned int mask[] = { 0x55555555,
+                                   0x33333333,
+                                   0x0F0F0F0F,
+                                   0x00FF00FF,
+                                   0x0000FFFF };
+    int i;
+    int shift;   /* 向右移动的位数 */
+
+    for (i = 0, shift = 1; i < 5; i++, shift *= 2) {
+        x = (x & mask[i]) + ((x >> shift) & mask[i]);
+    }
+    return x;
+}
+```
+
+## 第4章 - 子程序
+### 4.1 间接寻址
+间接寻址允许寄存器像指针变量一样运作, 使用方括号进行间接寻址: 
+```asm
+mov    ax, [Data]     ; ax = Data
+mov    ebx, Data      ; ebx = &Data
+mov    ax, [ebx]      ; ax = *ebx
+```
+所有32位寄存器, 通用寄存器 EAX, EBX, ECX, EDX, 指针寄存器 ESI, EDI, 都可以用来间接寻址. 一般来说 16 位或 8 位寄存器不可.  
+
+### 4.2 子程序的简单例子
+子程序就像 C 中的函数需要被调用.   
+```asm
+; file: sub1.asm
+%include "asm_io.inc"
+
+segment .data
+prompt1 db "Enter a number: ", 0
+prompt2 db "Enter another number: ", 0
+outmsg1 db "You entered ", 0
+outmsg2 db " and ", 0
+outmsg3 db ", the sum of these is ", 0
+
+segment .bss
+input1 resd 1
+input2 resd 1
+
+segment .text
+    global asm_main
+asm_main:
+    enter 0, 0
+    pusha
+
+    mov eax, prompt1
+    call print_string
+
+    mov ebx, input1
+    mov ecx, ret1
+    jmp short get_int
+
+ret1:
+    mov eax, prompt2
+    call print_string
+
+    mov ebx, input2
+    mov ecx, $ + 7        ; ecx = 当前地址 + 7
+    jmp short get_int
+
+    mov eax, [input1]
+    add eax, [input2]
+    mov ebx, eax
+
+    mov eax, outmsg1
+    call print_string
+    mov eax, [input1]
+    call print_int
+    mov eax, outmsg2
+    call print_string
+    mov eax, [input2]
+    call print_int
+    mov eax, outmsg3
+    call print_string
+    mov eax, ebx
+    call print_int
+    call print_nl
+
+    popa
+    mov eax, 0
+    leave
+    ret
+
+; 子程序 get_int
+; 参数:
+;   ebx - 存储整型双字地址
+;   ecx - 返回指令的地址
+; 注意:
+;   eax 的值已经被破坏掉了
+get_int:
+    call read_int
+    mov [ebx], eax
+    jmp ecx
+```
+程序没太大疑惑, 问题在于 `$ + 7` 的这个 7 确定很难.   
+
+### 4.3 堆栈
+堆栈是按 LIFO 队列管理的一块内存区域. `PUSH` 和 `POP` 指令就不多介绍了.   
+SS 段寄存器指定包含堆栈的段, ESP 寄存器包含将要移除栈数据的地址.   
+`PUSH` 指令通过把 ESP 减 4 向堆栈中插入一个双字, 然后把双字存储到 [ESP] 中. `POP`相反操作.   
+80x86 提供一条 `PUSHA` 把 EAX, EBX, ECX, EDX, ESI, EDI 和 EBP 寄存器中的值推入栈. 相反有 `POPA`.   
+
+### 4.4 `CALL` 和 `RET` 指令
+没什么好说的, 看修改后的代码:  
+```asm
+; file: sub2.asm
+%include "asm_io.inc"
+
+segment .data
+prompt1 db "Enter a number: ", 0
+prompt2 db "Enter another number: ", 0
+outmsg1 db "You entered ", 0
+outmsg2 db " and ", 0
+outmsg3 db ", the sum of these is ", 0
+
+segment .bss
+input1 resd 1
+input2 resd 1
+
+segment .text
+    global asm_main
+asm_main:
+    enter 0, 0
+    pusha
+
+    mov eax, prompt1
+    call print_string
+
+    mov ebx, input1
+    call get_int
+
+ret1:
+    mov eax, prompt2
+    call print_string
+
+    mov ebx, input2
+    call get_int
+
+    mov eax, [input1]
+    add eax, [input2]
+    mov ebx, eax
+
+    mov eax, outmsg1
+    call print_string
+    mov eax, [input1]
+    call print_int
+    mov eax, outmsg2
+    call print_string
+    mov eax, [input2]
+    call print_int
+    mov eax, outmsg3
+    call print_string
+    mov eax, ebx
+    call print_int
+    call print_nl
+
+    popa
+    mov eax, 0
+    leave
+    ret
+
+; 子程序 get_int
+; 参数:
+;   ebx - 存储整型双字地址
+;   (已经不需要你了) ecx - 返回指令的地址
+; 注意:
+;   eax 的值已经被破坏掉了
+get_int:
+    call read_int
+    mov [ebx], eax
+    ret
+```
+
+### 4.5 调用约定
+广泛约定: 使用一条 `CALL` 指令来调用代码再通过 `RET` 指令返回.  
+#### 4.5.1 在堆栈上传递参数
+参数为了传递, 需要在 `CALL` 指令执行之前入栈. 这些参数不会由子程序弹出, 如果弹出, 返回地址会被先弹出, 这样很显然不行. 并且这些参数可以很容易被间接寻址访问到([ESP+4]).   
+如果子程序内部使用了堆栈储存数据, 那么刚才与 ESP 相加的数字就会发生改变. 比如子程序多压了一个双字, 那么刚才的加 4 就会变成 加 8. 为了解决这个问题, 80386提供另一个寄存器 EBP. C 调用约定要求子程序首先把 EBP 的值保存到堆栈中, 然后再使 EBP 的值等于 ESP. 这样 EBP 的原始值就能被保存.   
+展示这些约定子程序的一般格式:  
+```asm
+subprogram_label:
+    push ebp
+    mov  ebp, esp
+; subprogram code
+    pop  ebp
+    ret
+```
+图不展示了, 自己脑部一下: 把 [EBP] 保存到堆栈中, 再把 ESP 存到 EBP 中, 之后即使是子程序使用堆栈存储结构, 也只是会改变 ESP 的值, 返回地址在 EBP+4, 参数在 EBP+8; 子程序返回值前, 复原 [EBP] 的原始值, 最开始已经保存在堆栈中了, 直接弹出就好了; 注意 subprogram code 部分会最终将 ESP 还原到初始位置.   
+
+下面展示了 C 编译器传递参数的做法:  
+```asm
+    push dword 1
+    call fun
+    add esp, 4
+```
+有些编译器会使用 `POP ECX` 来移除参数, 这条指令确实比使用 `ADD` 占用更少的字节, 但是会改变 ECX 寄存器的值.  
+
+接下来会用上面的约定演示一个 demo:
+```asm
+; file: sub3.asm
+%include "asm_io.inc"
+
+segment .data
+sum dd 0
+
+segment .bss
+input resd 1
+
+; pseudocode
+; i = 1;
+; sum = 0;
+; while (get_int(i, &input), input != 0) {
+;     sum += input;
+;     i++;
+; }
+; print_sum(num);
+
+segment .text
+    global asm_main
+asm_main:
+    enter 0, 0
+    pusha
+    
+    mov edx, 1         ; edx -- i in pseudocode
+while_loop:
+    push edx
+    push dword input
+    call get_int
+    add esp, 8
+
+    mov eax, [input]
+    cmp eax, 0
+    je end_while       ; input == 0 then exit loop
+
+    add [sum], eax     ; sum += input
+
+    inc edx
+    jmp short while_loop
+
+end_while:
+    push dword [sum]
+    call print_sum
+    pop ecx            ; 程序马上就要结束了, 这里完全可以使用 pop ecx 取代 add esp, 4
+
+    popa
+    leave
+    ret
+
+; 子程序 get_int
+; 参数 (顺序压入栈)
+;   输入的个数(储存在[ebp+12]中)
+;   储存输入字的地址(储存在[ebp+8]中)
+; 注意:
+;   eax 和 ebx 的值都被销毁了!
+segment .data
+prompt db  ") Enter an integer number (0 to quit): ", 0
+
+segment .text
+get_int:
+    push ebp
+    mov ebp, esp
+
+    mov eax, [ebp + 12]
+    call print_int
+
+    mov eax, prompt
+    call print_string
+
+    call read_int
+    mov ebx, [ebp + 8]
+    mov [ebx], eax             ; 将输入存储到内存中
+
+    pop ebp
+    ret
+
+; 子程序 print_sum
+; 输出总数
+; 参数:
+;   需要输出的总数(储存在[ebp+8]中)
+; 注意: eax 的值被销毁了
+; 
+segment .data
+result db "The sum is ", 0
+
+segment .text
+print_sum:
+    push ebp
+    mov ebp, esp
+
+    mov eax, result
+    call print_string
+
+    mov eax, [ebp + 8]
+    call print_int
+    call print_nl
+
+    pop ebp
+    ret
+```
+
+#### 4.5.2 堆栈上的局部变量
+恩, 就是 C 里的局部变量, 子程序的局部变量也被保存在堆栈中:  
+```asm
+subprogram_label:
+    push ebp
+    mov ebp, esp
+    sub esp, LOCAL_BYTES     ; LOCAL_BYTES 指局部变量需要的字节数
+; subprogram code
+    mov esp, ebp             ; 释放局部变量
+    pop ebp
+    ret
+```
