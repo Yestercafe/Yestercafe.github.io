@@ -12,7 +12,7 @@ Lab1 真的挺麻烦的, 看不懂代码, 需要的前置知识有点小多, 汇
 
 因为内容不算太多, 所以就放在一篇里面了. 新的这个博客模板也挺方便的, 旁边会自动生成目录.  
 
-## 第1章 - 导论
+## 第 1 章 - 导论
 最开始的导论部分说了一些基础知识.    
 
 ### 1.1 数值系统  
@@ -286,7 +286,7 @@ mov dword [L6], 1   ; store a 1 at L6
 - `dump_regs`: 打印寄存器值到标准输出的宏. 接受一个参数. 这个参数用来区分不同的 dump_regs 指令. 
 - `dump_mem`: 打印一块内存的值. 接受三个参数. 第一个参数同 dump_reg 的单参, 第二个是显示的地址(可以是标签), 第三个是用来指定想要显示第二个参数(地址)开始的 16 字节的节的数目.
 - `dump_stack`: 顾名思义, 打印 CPU 栈中的值. 三个参数, 第一个同, 第二个参数指定将要打印栈指针 `EBP` 地址以降 (below) 的双字数目, 第三个参数指定同第二个参数中地址以升 (above) 的双字数目. 
-- `dump_math`: 打印数字处理器 (math coprocessor) 的寄存器值. 单参同 dump_regs.
+- `dump_math`: 打印数学协处理器 (math coprocessor) 的寄存器值. 单参同 dump_regs.
 
 ### 1.4 创建一个程序
 #### 代码
@@ -428,7 +428,7 @@ You entered 1 and 2, the sum of these is 3
 
 好了, 因为找到了这书的中文版, 所以之后就没有英文标题了.  
 
-## 第2章 - 基本汇编语言
+## 第 2 章 - 基本汇编语言
 ### 2.1 整型工作方式
 #### 2.1.1 整型表示法
 这里主要是要介绍负整数在内存中的表示.   
@@ -659,19 +659,19 @@ cmp  vleft, vright
 #### 2.2.2 分支指令
 JMP 类似于 C 的 goto 语句, 即无条件分支, 它的唯一参数是一个代码标号, 简单说就是指向某一个代码位置的指针名, 会被汇编器和连接器翻译成地址.  
 下面这段话照搬了, 因为暂时还不知道怎么用:  
-> **SHORT** 这个跳转类型局限在一小范围内。它仅仅可以在内存中向上或向
-下移动 128 字节。这个类型的好处是相对于其它的,它使用较少的内
-存。它使用一个有符号字节来储存跳转的位移。位移表示向前或向后
-移动的字节数(位移须加上 EIP)。为了指定一个短跳转,需在 JMP 指令
-里的变量之前使用关键字 SHORT。  
+> **SHORT** 这个跳转类型局限在一小范围内. 它仅仅可以在内存中向上或向
+下移动 128 字节. 这个类型的好处是相对于其它的,它使用较少的内
+存. 它使用一个有符号字节来储存跳转的位移. 位移表示向前或向后
+移动的字节数(位移须加上 EIP). 为了指定一个短跳转,需在 JMP 指令
+里的变量之前使用关键字 SHORT.   
 > **NEAR** 这个跳转类型是无条件和有条件分支的缺省类型,它可以用来跳
-到一段中的任意地方。事实上, 80386 支持两种类型的近跳转。其中
-一个的位移使用两个字节。它就允许你向上或向下移动 32,000 个字
-节。另一种类型的位移使用四个字节,当然它就允许你移动到代码段
-中的任意位置。四字节类型是 386 保护模式的缺省类型。两个字节类
-型可以通过在 JMP 指令里的变量之前放置关键字 WORD 来指定。  
-> **FAR** 这个跳转类型允许控制转移到另一个代码段。在 386 保护模式下,这
-种事情是非常鲜见的。
+到一段中的任意地方. 事实上, 80386 支持两种类型的近跳转. 其中
+一个的位移使用两个字节. 它就允许你向上或向下移动 32,000 个字
+节. 另一种类型的位移使用四个字节,当然它就允许你移动到代码段
+中的任意位置. 四字节类型是 386 保护模式的缺省类型. 两个字节类
+型可以通过在 JMP 指令里的变量之前放置关键字 WORD 来指定.   
+> **FAR** 这个跳转类型允许控制转移到另一个代码段. 在 386 保护模式下,这
+种事情是非常鲜见的. 
 
 有关代码标号的问题, 将会体现在之后的汇编代码里. 简单说它类似于 C 中 goto 的标号, 而且之前一直在出现的 asm_main 也就是一个标号.  
 
@@ -901,7 +901,7 @@ end_while_limit:
 ```
 
 
-## 第3章 - 位操作
+## 第 3 章 - 位操作
 ### 3.1 移位运算
 #### 3.1.1 逻辑移位
 逻辑移位很简单, 多了就去掉, 缺了就加 0.   
@@ -1212,7 +1212,7 @@ int count_bits(unsigned int x)
 }
 ```
 
-## 第4章 - 子程序
+## 第 4 章 - 子程序
 ### 4.1 间接寻址
 间接寻址允许寄存器像指针变量一样运作, 使用方括号进行间接寻址: 
 ```asm
@@ -1512,3 +1512,639 @@ subprogram_label:
     pop ebp
     ret
 ```
+
+### 4.6 多模块程序
+首先声明 pcasm_examples repo 里面所有的程序都是多模块程序, 因为它们由 C 驱动文件和汇编目标文件加上 C 库目标文件组成. asm_io.inc 文件中就将 `read_int` 等程序定义在外部的(extern).    
+如果想外部模块访问一个变量, 需要将它声明为 global. 下面将给出上一个代码的多模块版本.  
+```asm
+; file: main4.asm
+%include "asm_io.inc"
+
+segment .data
+sum dd 0
+
+
+segment .bss
+input resd 1
+
+segment .text
+    global asm_main
+    extern get_int, print_sum
+asm_main:
+    enter 0, 0
+    pusha
+    
+    mov edx, 1         ; edx -- i in pseudocode
+while_loop:
+    push edx
+    push dword input
+    call get_int
+    add esp, 8
+
+    mov eax, [input]
+    cmp eax, 0
+    je end_while       ; input == 0 then exit loop
+
+    add [sum], eax     ; sum += input
+
+    inc edx
+    jmp short while_loop
+
+end_while:
+    push dword [sum]
+    call print_sum
+    pop ecx            ; 程序马上就要结束了, 这里完全可以使用 pop ecx 取代 add esp, 4
+
+    popa
+    leave
+    ret
+```
+```asm
+; sub4.asm
+%include "asm_io.inc"
+
+segment .data
+prompt db  ") Enter an integer number (0 to quit): ", 0
+
+segment .text
+    global get_int, print_sum
+get_int:
+    enter 0, 0
+
+    mov eax, [ebp + 12]
+    call print_int
+
+    mov eax, prompt
+    call print_string
+
+    call read_int
+    mov ebx, [ebp + 8]
+    mov [ebx], eax             ; 将输入存储到内存中
+
+    leave
+    ret
+
+segment .data
+result db "The sum is ", 0
+
+segment .text
+print_sum:
+    enter 0, 0
+
+    mov eax, result
+    call print_string
+
+    mov eax, [ebp + 8]
+    call print_int
+    call print_nl
+
+    leave
+    ret
+```
+
+### 4.7 C 与汇编的接口技术
+原文阐述了几个观点. 首先, 现今完全使用汇编书写的程序已经很少了, 现代编译器能将高级语言非常有效地转换为机器代码, 而且托编译器的福, 高级语言更容易移植. 另外, 本书使用的 NASM 目前没有任何一个编译器支持, Borland 和 Microsoft 使用的是 MASM 格式, DJGPP 和 Linux 中 gcc 要求的是 GAS 格式, 也是所有 GNU 编译器使用的汇编程序, GAS 使用的是 AT&T 语法.    
+最后, 如今使用汇编的意义:  
+- 需要直接访问计算机的硬件特性, 用原生 C 难以完成.  
+- 编译器优化地不够好, 程序必须尽可能快地执行. 但是现代编译器编译出的代码, 已经能媲美顶尖汇编程序员的代码了(就不说其他的, gcc 作为一个自举编译器源码都已经有 20 million 行了).  
+
+不过机器级代码是美的, 就我个人而言, 用心体会程序的美才是最主要的目的.  
+
+#### 4.7.1 保存寄存器
+C 假设子程序保存了 EBX, ESI, EDI, EBP, CS, DS, SS, ES 这几个寄存器的值, 但不意味不能在子程序内部修改它们, 不过改完得在返回之前恢复. 但是 EBX, ESI, EDI 不能改变, 这些寄存器用于 `register` 变量, 由堆栈保管.  
+
+#### 4.7.2 函数名
+Linux gcc 编译器不附加任何字符. DJGPP 的 gcc 附带一个前缀下划线, 比如 `_asm_main`. 当然, 由于我们使用的是 Linux gcc, 所以自然在上面所有的程序中都没有下划线开头.  
+
+#### 4.7.3 传递参数
+注意一点就好, C 函数越右边的参数越先入栈, 意思就是函数第一个参数总是在 EBP+8 的位置. 
+原文解释了 C 可变参数, 这是很好理解的.  
+
+#### 4.7.4 计算局部变量的地址
+举个例子, 我想拿某一个函数的第一个参数的地址:  
+```asm
+mov eax, ebp - 8
+```
+这样是不可以的. `MOV` 存储到 EAX 里的值必须能由 Assembler 计算出来(意思就是必须是常量), 而 ebp 不是. 有一条指令可以完成需求, `LEA` aka Load Effective Address, 加载有效地址:  
+```asm
+lea eax, [ebp - 8]
+```
+但要注意, `LEA` 指令永远不会从内存中读取数据, 而仅是计算其他指令会用到的地址, 接着将这个地址存储进第一个操作数. 所以 `LEA` 不用指定内存大小.  
+
+#### 4.7.5 返回值
+返回值通过 EAX 返回. 如果是 64 位值通过 EDX:EAX 返回, 浮点数存储在数学协处理器(math coprocessor, 前文有提到过, 当时翻译错了, 已更正)中的 ST0 寄存器中.  
+
+#### 4.7.6 其他调用约定
+```c
+void f(int) __attribute__((cdecl));
+```
+`cdecl` 可以换成 Borland 和 Microsoft 还有 Pascal 所使用的 `stdcall` 约定. 
+前文中有提到 Pascal 编译器对函数调用的约定, 与 C 的不太相同, 但是本笔记中没有提及, 所以这里也就不提了. 大致上说的是 C 可以通过一些对函数的标记改变"这种"约定标准(即 `push ebp`, `mov ebp, esp`, `pop ebp`啥的), 当然, 缺省值就是我们熟悉的这个 C 约定.   
+
+#### 4.7.7 样例
+下面这个程序的编译方式参考 pcasm_examples repo 中的 Makefile.  
+```c
+// file: main5.c
+#include <stdio.h>
+
+void calc_sum(int, int *) __attribute__((cdecl));
+
+int main(void)
+{
+    int n, sum;
+
+    printf("Sum integers up to: ");
+    scanf("%d", &n);
+    calc_sum(n, &sum);
+    printf("Sum is %d\n", sum);
+
+    return 0;
+}
+```
+```asm
+; file: sub5.asm
+; subprogram: calc_sum
+; 求整数 1 到 n 的和
+; 参数:
+;   n - 从 1 加到多少 ([ebp+8])
+;   sump - 指向总数的 `int *` 指针 ([ebp+12])
+; pseudocode:
+; void calc_sum(int n, int *sump)
+; {
+;     int i, sum = 0;
+;     for (i = 1; i <= n; i++)
+;         sum += i;
+;     *sump = sum;
+; }
+%include "asm_io.inc"
+
+segment .text
+    global calc_sum
+;
+; 局部变量:
+;   存储在 [ebp - 4] 里的 sum 值
+calc_sum:
+    enter 4, 0
+    push ebx               ; 重要!!
+
+    mov dword [ebp-4], 0   ; sum = 0
+    dump_stack 1, 2, 4     ; 输出堆栈中从 ebp-8 到 ebp+16 的值
+    mov ecx, 1             ; ecx -- i in pseudocode
+for_loop:
+    cmp ecx, [ebp+8]       ; 比较 i 和 n
+    jnle end_for           ; 如果 i > n, 则退出循环; 这里表达 !(i <= n) 的逻辑更符合 pseudocode 的意思
+
+    add [ebp-4], ecx       ; sum += 1
+    inc ecx                ; i++
+    jmp short for_loop
+
+end_for:
+    mov ebx, [ebp+12]      ; ebx = sump
+    mov eax, [ebp-4]       ; eax = sum
+    mov [ebx], eax         ; *sump = sum
+
+    pop ebx
+    leave
+    ret
+```
+注意一下汇编代码的 L24, 对于 C 调用约定, EBX 的值不能被调用函数改变, 如果不这么做程序甚至可能不会正确运行.  
+
+代码中展示了 asm_io.inc 中 dump_stack 的运作方式. 第一个参数是数字序号, 第二个参数决定显示 EBP 以下多少个双字, 第三个决定以上多少个双字. (前文中我自己翻译的是以降和以升)  
+
+当然, 这个代码可以使用返回值的模式重写, 将局部变量作为返回值返回(`mov eax, [ebp-4]`). 这里就不作演示了.  
+
+#### 4.7.8 在汇编程序中调用 C 函数
+举一个调用标准库 `scanf` 的例子:  
+```asm
+segment .data
+format db "%d", 0
+
+segment .text
+...
+    lea eax, [ebp-16]
+    push eax
+    push dword format
+    call scanf
+    add esp, 8
+...
+```
+具体可以参考 asm_io.asm 中的代码.  
+
+### 4.8 可重入和递归子程序
+一个可重入子程序必须满足:  
+- 它不能修改代码指令, 简单说就是不能在调用过程中修改了自己的代码. 这种行为在高级语言中非常困难, 但是汇编中很简单:  
+    ```asm
+    mov word [cs:$+7], 5  ; 将5复制到前面七个字节的字中
+    add ax, 2             ; 前面的语句将2改成了5!
+    ```
+    这些代码在 real mode 下可以运行, 但是在保护模式下的操作系统上不行, 因为代码段被标识为 read-only. 
+- 它不能修改全局变量, 比如 data 和 bss 段中的数据. 所有的变量应存储在堆栈中. 
+
+书写可重入代码有几个好处:   
+- 可以递归调用. 
+- 可以被多个进程共享. 原文:
+    > 在许多多任务操作系统上,如果一个程序有许多实例正在运行,那么只有 一份 代码的拷贝在内存中. 共享库和DLL(Dynamic Link Libraries ,动态链接库 )同样使用了这种技术. 
+- 可以运行在多线程程序中. 其实道理同上. 
+
+#### 4.8.1 递归子程序
+递归子程序直接或间接调用它们自己, 但这样的行为必须要有一个终止条件. 
+原文使用了 factorial 进行演示.  
+```asm
+; calculate n!
+segment .text
+    global fact
+fact:
+    enter 0, 0
+    
+    mov eax, [ebp+8]    ; eax = n
+    cmp eax, 1
+    jbe term_cond       ; if n <= 1, terminate
+    dec eax
+    push eax
+    call fact           ; eax = fact(n - 1)
+    pop ecx
+    mul dword [ebp+8]   ; edx:eax = eax * [ebp+8]
+    jmp short end_fact
+term_cond:
+    mov eax, 1
+end_fact:
+    leave
+    ret
+```
+
+还有一个更有趣的更复杂的递归, 先给出它的 C 代码:  
+```c
+void f(int x)
+{
+    int i;
+    for (i = 0; i < x; i++) {
+        print("%d ", i);
+        f(i);
+    }
+}
+```
+为了方便阅读输出, 稍作了修改. 然后是这个函数的汇编版本
+```asm
+%define i ebp-4
+%define x ebp+8              ; 有用的 macros
+segment .data
+format db "%d ", 0
+segment .text
+    global _f
+    extern printf
+f:
+    enter 4, 0               ; alloc i
+
+    mov dword [i], 0         ; i = 0
+lp:
+    mov eax, [i]
+    cmp eax, [x]
+    jnl quit                 ; is i < x?
+
+    ; call printf
+    push eax
+    push format
+    call printf
+    add esp, 8
+
+    ; call f
+    push dword [i]
+    call f
+    pop eax
+
+    inc dword [i]
+    jmp short lp
+quit:
+    leave
+    ret
+```
+
+#### 4.8.2 回顾一下 C 变量的存储类型
+这段直接搬运原文:   
+> - **global, 全局**   
+> 这些变量定义在任何函数的外面, 且储存在固定的内存空间中(在 data 或 bss 段), 而且从程序的开始一直到程序的结束都存在. 缺省情况下, 它们能被程序中的任何一个函数访问; 但是, 如果它们被声明为 static, 那么只有在同一模块中的函数才能访问它们(也就是说, 依照汇编的术语, 这个变量是内部的, 不是外部的). 
+> - **static, 静态**  
+> 在一个函数中, 它们是被声明为静态的局部变量. (不幸的是, C 使用关键字 static 有两种目的!)这些变量同样储存在固定的内存空间中(在 data 或 bss 段),但是只能被定义它的函数直接访问.   
+> - **automatic, 自动**   
+> 它是定义在一个函数内的 C 变量的缺省类型. 当定义它们的函数被调用了,这些变量就被分配在堆栈上,而当函数返回了又从堆栈中移除. 因此,它们没有固定的内存空间.   
+> - **register, 寄存器**   
+> 这个关键字要求编译器使用寄存器来储存这个变量的数据. 这仅仅是一个要求. 编译器并不一定要遵循. 如果变量的地址使用在程序的任意的地方, 那么就不会遵循(因为寄存器没有地址). 同样, 只有简单的整形数据可以是寄存器变量. 结构类型不可以; 因为它们的大小不匹配寄存器! C 编译器通常会自动将普通的自动变量转换成寄存器变量, 而不需要程序员给予暗示.   
+> - **volatile, 不稳定的**  
+> 这个关键字告诉编译器这个变量值随时都会改变. 这就意味着当变量被更改了, 编译器不能做出任何推断. 通常编译器会将一个变量的值暂时存在寄存器中, 且在出现这个变量的代码部分使用这个寄存器. 但是, 编译器不能对不稳定类型的变量做这种类型的优化. 一个不稳定变量的最普遍的例子就是: 它可以被多线程程序的两个线程修改. 考虑下面的代码:  
+>   ```
+>   x = 10;   
+>   y = 20;
+>   z = x;
+>   ```
+>   如果x可以被另一个线程修改. 那么其它线程可以会在第 1 行和第 3 行之间修改 x 的值, 以致于 z 将不会等于10. 但是, 如果 x 没有被声明为不稳定类型, 编译器就会推断 x 没有改变,然后再将 z 置为 10.   
+> 不稳定类型的另一个使用就是避免编译器为一个变量使用一个寄存器. 
+
+吐槽一句, 就是因为 `auto` 可以直接缺省, 所以 C++11才把 `auto` 拿去用作其它更重要的用途了.  
+
+## 第 5 章 - 数组
+### 5.1 介绍
+数组是内存中一个连续数据列表块. 想要访问数组中任何一个元素, 只需要知道下面三个细节, 任何一个元素的地址就都能被计算出来:  
+1. 首地址  
+2. 每个元素的字节数  
+3. 这个元素的下标  
+
+所以 0 作首元素下标是非常方便的.  
+
+#### 5.1.1 定义数组
+##### 在 data 和 bss 段中定义数组
+data 段定义一个 initialized array, 可以使用标准的 db, dw, 等等指示符. NASM 提供了一个好用的 TIMES 指示符, 将在下面的代码中演示. 
+bss 段定义一个 uninitialized array, 可以使用 resb, resw, 等等指示符. 记得后面要指定保留多少个内存单元的操作数.  
+```asm
+segment .data
+; 定义 10 个双字的数组并初始化为 1, 2, ..., 10
+a1 dd 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+; 定义 10 个字的数组并初始化为 0
+a2 dw 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+; 使用 TIMES
+a3 times 10 dw 0
+; 定义一个字节数组包含 200 个 0 和 100 个 1
+a4 times 200 db 0
+   times 100 db 1
+
+segment .bss
+; 定义 10 个双字的数组, uninitialized
+a5 resd 10
+; 定义 100 个字的数组, uninitialized
+a6 resw 100
+```
+
+##### 以局部变量的方式在堆栈上定义数组
+没有直接的方法, 要人工算. 确保在 ESP 分配的局部变量空间是 4 的倍数, 这样可以加速内存访问. 
+
+#### 5.1.2 访问数组中的元素
+因为汇编不像某些高级语言有下标操作符, 所以得人工算地址.   
+比如:  
+```asm
+...
+array1 db 5, 4, 3, 2, 1
+array2 dw 5, 4, 3, 2, 1
+...
+    mov a1, [array1 + 3]  ; al = array1[3]
+    mov ax, [array2 + 2]  ; ax = array2[1]
+    mov ax, [array2 + 1]  ; ax = ??
+```
+之所以步长不一样, 是因为每个元素占用的字节数不一样. 不论是对于 C 语言还是 C 编译器, 这个步长会由指针变量的类型决定, 但在汇编中, 这个步长取决于程序员的认知.   
+
+数组求和:
+```asm
+    mov ebx, array1       ; ebx = addr of array1
+    mov dx, 0             ; dx -- sum
+    mov ah, 0             ; 为下面使用的 ax 提供高八位
+    mov ecx, 5
+lp:
+    mov al, [ebx]         ; al = *ebx
+    add dx, ax            ; dx += ax
+    inc ebx               ; ebx++
+    loop lp
+```
+首先, `ADD` 的两个操作数必须为相同的大小. 其次, 这样的求和, 超出 DL 的范围是有可能的, 所以这里选择了更大的 DX. 为了将 AL 扩为 AX, 将 AH 设置为 0 也是理所当然了.   
+
+上面的代码还能写成其他版本的:  
+Version 2:
+```asm
+    mov ebx, array1       ; ebx = addr of array1
+    mov dx, 0             ; dx -- sum
+    mov ecx, 5
+lp:
+    add dl, [ebx]         ; dl += *ebx
+    jnc next              ; 若没有进位, 则跳转到 next; JNC 见 2.2.2
+    inc dh
+next:
+    inc ebx               ; ebx++
+    loop lp
+```
+这个版本利用 carry flag 来完成对 DH 的变动.  
+Version 3:
+```asm
+    mov ebx, array1       ; ebx = addr of array1
+    mov dx, 0             ; dx -- sum
+    mov ecx, 5
+lp:
+    add dl, [ebx]         ; dl += *ebx
+    adc dh, 0             ; dh += carry flag + 0
+    inc ebx               ; bx++
+    loop lp
+```
+道理和版本 2 相同, 但是这个版本更精密.  
+这种方只适用于无符号数值, 如果对于有符号数, 需要先用 CBW 指令将 AL 扩为 AX 再才能进行加法操作.   
+
+#### 5.1.3 更高级的间接寻址
+间接内存引用格式:  
+```
+[base reg + factor*index reg + constant]
+[基址寄存器 + 系数*变址 + 常量]
+```
+**base reg** 可以是 EAX, EBX, ECX, EDX, EBP, ESP, ESI, EDI.    
+**factor** 可以是 1, 2, 4, 8 (1 可以省略).   
+**index reg** 可以是 EAX, EBX, ECX, EDX, EBP, ESI, EDI (ESP 不可以).  
+**constant** 一个 32 位常量, 可以是一个标签或者标签表达式.   
+
+#### 5.1.4 例子
+这个程序不使用 driver.c 作为驱动程序, 详见 pcasm_examples repo 中的 Makefile 文件. 
+```asm
+; file: array1.asm
+%define ARRAY_SIZE 100
+%define NEW_LINE 10
+
+segment .data
+FirstMsg db "First 10 elements of array", 0
+Prompt db "Enter index of element to display: ", 0
+SecondMsg db "Element %d is %d", NEW_LINE, 0
+ThirdMsg db "Elements 20 through 29 of array", 0
+InputFormat db "%d", 0
+
+segment .bss
+array resd ARRAY_SIZE
+
+segment .text
+    extern puts, printf, scanf, dump_line
+    global asm_main
+asm_main:
+    enter 4, 0
+    push ebx
+    push esi
+
+; initialize array as 100, 99, 98, ...
+    mov ecx, ARRAY_SIZE
+    mov ebx, array
+init_loop:
+    mov [ebx], ecx
+    add ebx, 4
+    loop init_loop
+
+    push dword FirstMsg
+    call puts
+    pop ecx
+
+    push dword 10
+    push dword array
+    call print_array
+    add esp, 8
+
+Prompt_loop:
+    push dword Prompt
+    call printf
+    pop ecx
+
+    lea eax, [ebp-4]            ; get addr of ebp-4
+    push eax
+    push dword InputFormat
+    call scanf
+    add esp, 8
+    cmp eax, 1                  ; eax = scanf retval
+    je InputOK
+
+    call dump_line
+    jmp Prompt_loop
+
+InputOK:
+    mov esi, [ebp-4]
+    push dword [array + 4*esi]
+    push esi
+    push dword SecondMsg
+    call printf
+    add esp, 12
+
+    push dword ThirdMsg
+    call puts
+    pop ecx
+
+    push dword 10
+    push dword array + 20*4
+    call print_array
+    add esp, 8
+
+    pop esi
+    pop ebx
+    mov eax, 0
+    leave
+    ret
+
+; subprogram: print_array
+; 调用的 C 程序把双字数组的元素当作有符号整型来显示. 
+; C 函数原型:
+; void print_array(const int* a, int n);
+; 参数:
+;   a - pointer to array will be prompted (ebp + 8)
+;   n - the number of numbers prompted (ebp + 12)
+
+segment .data
+OutputFormat db "%-5d %5d", NEW_LINE, 0
+
+segment .text
+    global print_array
+print_array:
+    enter 0, 0
+    push esi
+    push ebx
+
+    xor esi, esi                 ; esi = 0
+    mov ecx, [ebp + 12]          ; ecx - n
+    mov ebx, [ebp + 8]           ; ebx = a
+print_loop:
+    push ecx                     ; printf 会改变 ecx, 先保存
+
+    push dword [ebx + 4*esi]
+    push esi
+    push dword OutputFormat
+    call printf
+    add esp, 12
+
+    pop ecx
+    inc esi
+    loop print_loop
+
+    push ebx
+    pop esi
+    leave
+    ret
+```
+```c
+// file: array1c.c
+#include <stdio.h>
+
+int asm_main(void);
+void dump_line(void);
+
+int main()
+{
+    return asm_main();
+}
+
+void dump_line()
+{
+    int ch;
+    while ((ch = getchar()) != EOF && ch != '\n')
+        continue;
+}
+```
+
+##### 再看一下 LEA 指令
+```asm
+lea ebx, [4*eax + eax]
+```
+这条代码可以有效地将 5 * EAX 的值存到 EBX 中, 并且相对于 MUL 指令它更快速便捷. 但是得确保方括号里的简介访问表达式合法, 比如 6 * EAX 就没法用 LEA.  
+
+#### 5.1.5 多维数组
+##### 二维数组
+考虑三行二列数组:    
+```c
+int a[3][2];
+```
+C 编译器将为这个数组保留 6($=2\times 3$) 个整型的空间(连续), 并像下面这样来映射元素:  
+| 下标 | 0 | 1 | 2 | 3 | 4 | 5 |
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| 元素 | `a[0][0]` | `a[0][1]` | `a[1][0]` | `a[1][1]` | `a[2][0]` | `a[2][1]` |
+
+关于怎么换算不多说了, 不同位置上的 offset 乘上不同的 factor 就可以了.  
+
+##### 大于二维
+考虑这个:    
+```c
+int b[4][3][2]
+```
+在内存中, 这个数组会被当作四个大小为 `[3][2]` 的二维数组连续存储: 
+| 下标 | 0 | 1 | 2 | 3 | 4 | 5 |
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| 元素 | `b[0][0][0]` | `b[0][0][1]` | `b[0][1][0]` | `b[0][1][1]` | `b[0][2][0]` | `b[0][2][1]` |
+
+| 下标 | 6 | 7 | 8 | 9 | 10 | 11 |
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| 元素 | `b[1][0][0]` | `b[1][0][1]` | `b[1][1][0]` | `b[1][1][1]` | `b[1][2][0]` | `b[1][2][1]` |
+
+道理和二维数组一样, 稍微想一下就能想到. 这边直接给出通项:    
+$$D_2\times D_3 \times\cdots\times D_n\times i_1 + D_3\times D_4\times\cdots\times D_n\times i_2 + \cdots + D_n\times i_{n-1} + i_n$$   
+拿 \sum 和 \prod 压缩一下就是:    
+$$\sum\limits^n_{j=1} \left(\prod\limits^n_{k=j+1}D_{k}\right)i_j$$  
+$D_1$没有出现在公式中.   
+
+这是 C 按行表示法的公式, 隔壁 FORTRAN 的按列表示法:    
+$$\sum\limits^n_{j=1} \left(\prod\limits^{j-1}_{k=1}D_{k}\right)i_j$$   
+$D_n$没有出现在公式中.   
+
+##### 在 C 语言中, 传递多维数组的参数
+所以这样就很好理解了, 为什么下面的代码不能编译: 
+```c
+void f(int a[][]);
+```
+而下面的代码就可以被编译:  
+```c
+void f(int a[][2]);
+```
+下面的代码也可以被编译通过:  
+```c
+void f(int *a[]);
+```
+高维数组一定要这样才能被编译:   
+```c
+void f(int a[][4][3][2]);
+```
+
+:)
+
+### 5.2 数组/串处理指令
