@@ -459,7 +459,7 @@ movzx  ebx, ax
 ```
 对于有符号的, 8086 提供了几条指令来扩展: CBW(Convert Byte to Word) 将 AL 扩展到 AX, CWD(Convert Word to Double word) 可以将 AX 扩展成 DX:AX, 注意不是 EAX. 80386 又加入了 CWDE(Convert Word to Double word Extended), 可以直接将 AX 扩展到 EAX. CDQ(Convert Double word to Quad word)甚至可以将 EAX 扩展到 EDX:EAX (64 位). 最后, 还有个 MOVSX, 用法和 MOVZX 一样, 只是对于有符号作用.  
 
-##### C语言中的应用
+##### C 语言中的应用
 直接来看一个C代码:   
 ```c
 unsigned char uchar = 0xFF;
@@ -680,7 +680,7 @@ JMP 还有其他版本的有条件分支指令, 下面列举了:
 
 | 指令 | 功能 |
 | -- | -- |
-| JZ | JNP 如果 ZF 被置位了, 就分支 |
+| JZ | 如果 ZF 被置位了, 就分支 |
 | JNZ | 如果 ZF 没有被置位, 就分支 |
 | JO | 如果 OF 被置位了, 就分支 |
 | JNO | 如果 OF 没有被置位, 就分支 |
@@ -934,16 +934,16 @@ skip_inc:
 这个代码的用处是统计 32 位整数 eax 的为 `1` 的位的个数. 这里的 rol 使用的恰到好处, 循环 32 次后, eax 会被还原成原来的样子.  
 
 ### 3.2 布尔按位运算
-#### 3.2.1 AND运算符
+#### 3.2.1 AND 运算符
 略
 
-#### 3.2.2 OR运算符
+#### 3.2.2 OR 运算符
 略略
 
-#### 3.2.3 XOR运算符
+#### 3.2.3 XOR 运算符
 略略略
 
-#### 3.2.4 NOT运算符
+#### 3.2.4 NOT 运算符
 略略略略, 等等, NOT 运算符可以直接或者一个数的反码(这里翻译版写的是补码, 个人感觉有点奇怪, 就去看了一下原版, 是 one’s complement 反码. 翻译出错). 然后想着写了个代码验证以下:  
 ```c
 #include <stdio.h>
@@ -961,7 +961,7 @@ $ ./test_asm
 NOT a = -11
 ```
 
-#### 3.2.5 TEST指令
+#### 3.2.5 TEST 指令
 TEST 指令执行一次 AND 运算, 然后基于可能的结果对 FLAGS 进行设置. 比如结果为 0, ZF 会被置位.  
 
 #### 3.2.6 位操作的应用
@@ -1087,8 +1087,8 @@ asm_main:
 - SHR/SAR 运算符使用二元运算符 >> 来描述
 例子就不举了.  
 
-#### 3.4.2 在C中使用按位运算
-第一段给提示说, 一个好的C编译器会自动把 x *= 2 这种使用移位来运算.  
+#### 3.4.2 在 C 中使用按位运算
+第一段给提示说, 一个好的 C 编译器会自动把 x *= 2 这种使用移位来运算.  
 举例 POSIX 的 API 位三种不同类型的用户保留了文件权限: user, group 和 others, 然后每一个类型的用户都可以被授予读, 写和/或执行. 其实也就是我们在 Linux 中比较常见的 chmod 指令, POSIX 也有一个系统函数叫 chmod. 然后来看下代码:  
 ```c
 chmod("foo", S_IRUSR | S_IWUSR | S_IRGRP);
@@ -2084,7 +2084,7 @@ void dump_line()
 }
 ```
 
-##### 再看一下 LEA 指令
+##### 再看一下 `LEA` 指令
 ```asm
 lea ebx, [4*eax + eax]
 ```
@@ -2154,3 +2154,288 @@ void f(int a[][4][3][2]);
 :)
 
 ### 5.2 数组/串处理指令
+80x86 家族提供了几条与数组一起使用的串指令. 它们使用变址寄存器 ESI 和 EDI 执行一个操作, 然后再进行自增自减操作. FLAGS 寄存器里的 DF (direction flag) 决定了它们的变化方向. `CLD` 和 `STD` 分别用来让 DF 成为增方向和减方向.   
+
+#### 5.2.1 读写内存
+下面的 pseudocode 介绍了几个指令的作用:  
+```
+LODSB AL = [DS:ESI]
+      ESI = ESI ± 1
+LODSW AX = [DS:ESI]
+      ESI = ESI ± 2
+LODWD EAX = [DS:ESI]
+      ESI = ESI ± 4
+STOSB [ES:EDI] = AL
+      EDI = EDI ± 1
+STOSW [ES:EDI] = AX
+      EDI = EDI ± 2
+STOSD [ES:EDI] = EAX
+      EDI = EDI ± 4
+```
+注意 ESI 是专门用来读的, SI 代表了 Source Index, 相反, DI 表示 Destination Index, EDI 是专门用来写的. 注意它们的数据寄存器是固定的(AL, AX, EAX). 
+
+接下来是一个拷贝数组的代码:  
+```asm
+segment .data
+array1 dd 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+segment .bss
+array2 resd 10
+
+segment .text
+    cld                 ; DON'T FORGET!
+    mov esi, array1
+    mov edi, array2
+    mov ecx, 10
+lp:
+    lodsd
+    stosd
+    loop lp
+```
+记住那个 CLD, 一个普遍的错误就是 DF 不确定导致的, 所以一定要先确定 DF 的值的正确.  
+LODSx 和 STOSx 指令的联合使用非常普遍. 事实上, 一条 MOVSx 串处理指令可以完成这个联合使用的功能:  
+```
+MOVSB byte [ES:EDI] = byte [DS:ESI]
+      ESI = ESI ± 1
+      EDI = EDI ± 1
+MOVSW word [ES:EDI] = word [DS:ESI]
+      ESI = ESI ± 2
+      EDI = EDI ± 2
+MOVSD dword [ES:EDI] = dword [DS:ESI]
+      ESI = ESI ± 4
+      EDI = EDI ± 4
+```
+
+#### 5.2.2 `REP` 前缀指令
+80x86 家族提供了一个前缀指令 `REP`, 它能让 `REP` 后面的指令重复执行 ECX 次.    
+比如说这个将数组元素全部设置为 0 的代码:  
+```asm
+segment .bss
+array resd 10
+
+segment .text
+    cld
+    mov edi, array
+    mov ecx, 10
+    xor eax, eax
+    rep stosd
+```
+
+#### 5.2.3 串比较指令
+```
+CMPSB 比较字节[DS:ESI]和[ES:EDI]
+      ESI = ESI ± 1
+      EDI = EDI ± 1
+CMPSW 比较字[DS:ESI]和[ES:EDI]
+      ESI = ESI ± 2
+      EDI = EDI ± 2
+CMPSD 比较双字[DS:ESI]和[ES:EDI]
+      ESI = ESI ± 4
+      EDI = EDI ± 4
+SCASB 比较AL和[ES:EDI]
+      EDI ± 1
+SCASW 比较AX和[ES:EDI]
+      EDI ± 2
+SCASD 比较EAX和[ES:EDI]
+      EDI ± 4
+```
+跟 CMP 的效果一样, 会设置 FLAGS 寄存器.   
+
+#### 5.2.4 `REPx` 前缀指令
+```asm
+REPE, REPZ   当 ZF 标志位为 1 或重复次数不超过 ECX 时, 重复执行指令
+REPNE, REPNZ 当 ZF 标志位为 0 或重复此数不超过 ECX 时, 重复执行指令
+```
+这前缀基本就是跟 CMP 系列原配了.  
+看个代码: 
+```
+segment .text
+    cld
+    mov esi, block1
+    mov edi, block2
+    mov ecx, size
+    repe cmpsb          ; 当 ZF 为 1 时, 重复执行
+    je equal            ; 如果 ZF 为 1, 跳转到 equal
+; 如果 ZF 为 0
+    jmp onward
+equal:
+    ; 如果相等执行的代码
+onward:
+    ; 如果不相等执行的代码
+```
+
+#### 5.2.5 样例
+本章最后一节, 例子有点复杂.  
+```asm
+; file: memory.asm
+global asm_copy, asm_find, asm_strlen, asm_strcpy
+
+segment .text
+; function asm_copy
+; 复制内存块
+; C 原型
+; void asm_copy(void* dest, const void* src, unsigned sz);
+; 参数:
+;   dest - 指向复制操作的目的缓冲区指针
+;   src  - 指向复制操作的源缓冲区指针
+;   sz   - 需要复制的字节数
+
+%define dest [ebp+8]
+%define src  [ebp+12]
+%define sz   [ebp+16]
+asm_copy:
+    enter 0, 0
+    push esi
+    push edi
+
+    mov esi, src
+    mov edi, dest
+    mov ecx, sz
+
+    cld
+    rep movsb          ; 从 [DS:ESI] 向 [ES:EDI] 拷贝
+
+    pop edi
+    pop esi
+    leave
+    ret
+
+; function asm_find
+; 根据一给定的字节值查找内存
+; void* asm_fin(const void* src, char target, unsigned sz);
+; 参数:
+;   src    - 指向需要查找的缓冲区的指针
+;   target - 需要查找的字节值
+;   sz     - 在缓冲区中的字节总数
+; 返回值:
+;   如果找到了 target, 返回指向在缓冲区中第一次出现 target 的地方的指针
+;   否则
+;     返回NULL
+; 注意: target 是一个字节值, 但是被当作一个双字压入栈中.
+;      字节值存储在低八位上.
+%define src    [ebp+8]
+%define target [ebp+12]
+%define sz     [ebp+16]
+asm_find:
+    enter 0, 0
+    push edi
+
+    mov eax, target        ; 真正要使用的是 AL
+    mov edi, src
+    mov ecx, sz
+    cld
+    
+    repne scasb            ; 扫描直到 ECX = 0 或 [ES:EDI] = AL 才停止
+
+    je found_it            ; 如果 ZF = 1, 就是找到了
+    mov eax, 0             ; 如果没找到, 返回 NULL
+    jmp short quit
+
+found_it:
+    mov eax, edi
+    dec eax                ; 如果找到了, 就返回(DI - 1), 因为多加了
+quit:
+    pop edi
+    leave
+    ret
+
+; function asm_strlen
+; 返回字符串的长度
+; unsigned asm_strlen(const char *);
+; 参数:
+;   src - 指向字符串的指针
+; 返回值:
+;   字符串中的字符数
+
+%define src [ebp+8]
+asm_strlen:
+    enter 0,0
+    push edi
+
+    mov edi, src
+    mov ecx, 0FFFFFFFFh    ; ECX 设置尽可能大的初值
+    xor al, al
+    cld
+
+    repnz scasb            ; 扫描终止符 0
+
+    mov eax, 0FFFFFFFEh
+    sub eax, ecx;          ; eax = 0xFFFFFFFE - (0xFFFFFFFF - n_loop - 1), 因为 repnz 会多执行一步
+
+    pop edi
+    leave
+    ret
+
+; function asm_strcpy
+; 复制一个字符串
+; void asm_strcpy(char* dest, const char* src)
+; 参数:
+;   dest - 指向进行复制操作的目的字符串
+;   src  - 指向进行复制操作的源字符串
+
+%define dest [ebp+8]
+%define src  [ebp+12]
+asm_strcpy:
+    enter 0, 0
+    push esi
+    push edi
+
+    mov esi, src
+    mov edi, dest
+    xor al, al
+    cld
+
+cpy_loop:
+    lodsb            ; 关于为什么不能把两个合并
+    stosb            ; 是因为作为"中间变量"的 AL 是有用的
+    or al, al        ; 这个运算看似没有用, 但是会设置 ZF, 如果 al 为 0, ZF 会置位
+    jnz cpy_loop     ; 如果 ZF 没置位, 则继续
+
+    pop edi
+    pop esi
+    leave
+    ret
+```
+```c
+// file: memex.c
+#include <stdio.h>
+
+#define STR_SIZE 30
+
+void asm_copy(void*, const void*, unsigned) __attribute__((cdecl));
+void* asm_find(const void*, char, unsigned) __attribute__((cdecl));
+unsigned asm_strlen(const char*) __attribute__((cdecl));
+void asm_strcpy(char*, const char*) __attribute__((cdecl));
+
+int main()
+{
+    char st1[STR_SIZE] = "test string";
+    char st2[STR_SIZE];
+    char* st;
+    char ch;
+
+    asm_copy(st2, st1, STR_SIZE);
+    printf("%s\n", st2);
+
+    printf("Enter a char:");
+    scanf("%c", &ch);
+    st = asm_find(st2, ch, STR_SIZE);
+
+    if (st)
+        printf("Found it: %s\n", st);
+    else
+        printf("Not found\n");
+    
+    st1[0] = 0;
+    printf("Enter string:");
+    scanf("%s", st1);
+    printf("len = %u\n", asm_strlen(st1));
+
+    asm_strcpy(st2, st1);
+    printf("%s\n", st2);
+
+    return 0;
+}
+```
+
+## 第 6 章 - 浮点
