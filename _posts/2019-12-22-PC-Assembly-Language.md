@@ -1839,7 +1839,7 @@ quit:
 >   如果x可以被另一个线程修改. 那么其它线程可以会在第 1 行和第 3 行之间修改 x 的值, 以致于 z 将不会等于10. 但是, 如果 x 没有被声明为不稳定类型, 编译器就会推断 x 没有改变,然后再将 z 置为 10.   
 > 不稳定类型的另一个使用就是避免编译器为一个变量使用一个寄存器. 
 
-吐槽一句, 就是因为 `auto` 可以直接缺省, 所以 C++11才把 `auto` 拿去用作其它更重要的用途了.  
+吐槽一句, 就是因为 `auto` 可以直接缺省, 所以 C++11 才把 `auto` 拿去用作其它更重要的用途了.  
 
 ## 第 5 章 - 数组
 ### 5.1 介绍
@@ -2444,8 +2444,12 @@ int main()
 传统的浮点数二进制表示法很简单就不介绍了, 不仅存的十进制数不精确还占空间. 
 为了简化硬件, 采用固定的格式来存储浮点数. 这种格式类似科学技术法:     
 规范的浮点数:    
-$$1.\overline{s_n \dots s_0}_2 \times 2^{\overline{e_{m} \dots e_0}_2}$$    
-其中 $1.\overline{s_n \dots s_0}_2$ 是有效数而 $2^{\overline{e_{m} \dots e_0}_2}$ 是指数.   
+
+$$1.\overline{s_n \dots s_0}_2 \times 2^{\overline{e_{m} \dots e_0}_2}$$
+
+其中:   
+- $1.\overline{s_n \dots s_0}_2$ 是有效数   
+- $2^{\overline{e_{m} \dots e_0}_2}$ 是指数.     
 
 #### 6.1.2 IEEE 浮点表示法
 IEEE, aka Institute of Electrical and Electronic Engineers, 电气于电子工程师学会设计了这款存储浮点数的特殊二进制格式. 本书和 CSAPP 上都有较为详细的介绍, 我们来看下本书上是怎么介绍的.  
@@ -2455,7 +2459,7 @@ IEEE, aka Institute of Electrical and Electronic Engineers, 电气于电子工�
 ![](/images/posts/pcasm-chapter6_float32.png)
 
 *Notes:*  
-- **s, sign**
+- **s, sign**  
     符号位 - 0 = 正数, 1 = 负数.   
 - **e, biased exponent**  
     偏置系数(8-bits) = 真实的指数 + 7F. 值 00 和 FF 有特殊含义.   
@@ -2465,7 +2469,7 @@ IEEE, aka Institute of Electrical and Electronic Engineers, 电气于电子工�
 几点注意:  
 1. IEEE 格式不使用补码表示负部, 而是直接使用类似原码技术的单个符号位表示.  
 2. 二进制的指数不会直接存储, 取而代之的是将"指数 + 7F"存储入 e 标记的位 23~30 中. 使这个 biased exponent 总是非负的. 
-3. 6.1.1 中的 $1.\overline{s_n \dots s_0}_2$, 因为领头的总是 1, 所以这个 1 不存储. 
+3. 有效数的 $1.\overline{s_n \dots s_0}_2$, 因为领头的总是 1, 所以这个 1 不存储. 
 4. e 和 f 的某些组合有特殊含义:  
    - $e = 0\ and\ f = 0$. 表示 0 (0 不能被规范化). 注意因为符号位, 所以它跟原码一样分正负零.  
    - $e = 0\ and\ f \neq 0$. 表示一个非规范数.  
@@ -2475,7 +2479,7 @@ IEEE, aka Institute of Electrical and Electronic Engineers, 电气于电子工�
 规范的单精度数的数量级范围为从 $1.0 \times 2^{-126}$($1.1755\times 10^{-35}$) 到 $1.111\cdots\times 2^{127}$($\approx 3.4028\times 10^{35}$). 
 
 ##### 非规格化数 (Denormalized numbers)
-非规范化数可以用来表示那些值太小了以致于不能以规范格式描述的数(也就是小于$1.0\times 2^{−126}$).   
+非规范化数可以用来表示那些值太小了以致于不能以规范格式描述的数(也就是小于 $1.0\times 2^{−126}$).   
 当 $e = 0$ 时, 将指数锁死为 -127, f 存储其有效数的所有比特位. 举个例子:  
 $1.001_2\times 2^{−129}$, 按照约定这是一个规范化数, 虽然超出了单精度的范围, 但是可以用非规范化数来表示: $0.01001_2\times 2^{−127}$, 接着将有效数的所有比特位全部存储:  
 $$\underline{0}\ 000\ 0000\ 0\ \underline{001\ 0010\ 0000\ 0000\ 0000\ 0000}$$
