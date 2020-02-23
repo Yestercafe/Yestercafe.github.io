@@ -2444,7 +2444,7 @@ int main()
 传统的浮点数二进制表示法很简单就不介绍了, 不仅存的十进制数不精确还占空间. 
 为了简化硬件, 采用固定的格式来存储浮点数. 这种格式类似科学技术法:     
 规范的浮点数:    
-$$1.\overline{s_n \dots s_0}_2 \times 2^{\overline{e_{m} \dots e_0}_2}$$
+$$1.\overline{s_n \dots s_0}_2 \times 2^{\overline{e_{m} \dots e_0}_2}$$    
 其中 $1.\overline{s_n \dots s_0}_2$ 是有效数而 $2^{\overline{e_{m} \dots e_0}_2}$ 是指数.   
 
 #### 6.1.2 IEEE 浮点表示法
