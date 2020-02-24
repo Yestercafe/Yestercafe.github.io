@@ -6,8 +6,9 @@ description: 个人的 Ubuntu 配置方法
 keywords: Linux, Ubuntu
 ---
 重装系统后反复去找一些东西的配置非常麻烦, 于是整合一下. 注意两点:  
-1. 长期更新  
-2. 不一定是按顺序配置的
+1. 长期更新.  
+2. 不一定是按顺序配置的.  
+3. 下列所有在 Ubuntu 18.04 LTS 测试通过.  
 
 ## 常用的 URL 集合
 ### 软件
@@ -21,14 +22,14 @@ Tensorflow google.cn: [https://tensorflow.google.cn](https://tensorflow.google.c
 PyTorch: [https://pytorch.org](https://pytorch.org)  
 
 ### 镜像站
-Tsinghua Open Source Mirror: [https://mirrors.tuna.tsinghua.edu.cn](https://mirrors.tuna.tsinghua.edu.cn)    
+Tsinghua Open Source Mirrors: [https://mirrors.tuna.tsinghua.edu.cn](https://mirrors.tuna.tsinghua.edu.cn)    
 
 ### 发行版
 KDE neon: [https://neon.kde.org](https://neon.kde.org)   
 
-### repos
-electron-ssr-backup repo: [https://github.com/qingshuisiyuan/electron-ssr-backup](https://github.com/qingshuisiyuan/electron-ssr-backup)  
-ClashY repo: [https://github.com/SpongeNobody/Clashy](https://github.com/SpongeNobody/Clashy)   
+### 仓库
+electron-ssr-backup: [https://github.com/qingshuisiyuan/electron-ssr-backup](https://github.com/qingshuisiyuan/electron-ssr-backup)  
+ClashY: [https://github.com/SpongeNobody/Clashy](https://github.com/SpongeNobody/Clashy)   
 ohmyzsh: [https://github.com/ohmyzsh/ohmyzsh](https://github.com/ohmyzsh/ohmyzsh)  
 zsh-syntax-highlighting: [https://github.com/zsh-users/zsh-syntax-highlighting](https://github.com/ohmyzsh/ohmyzsh)  
 zsh-autosuggestions: [https://github.com/zsh-users/zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)  
@@ -40,7 +41,7 @@ zsh-autosuggestions: [https://github.com/zsh-users/zsh-autosuggestions](https://
 Tsinghua Open Source Mirror: [https://mirrors.tuna.tsinghua.edu.cn](https://mirrors.tuna.tsinghua.edu.cn)   
 KDE neon: [https://neon.kde.org](https://neon.kde.org)   
 
-## 时间
+## 时间(双系统)
 Windows 和 Ubuntu 会因为时间存储标准不同产生时差. 双方面均可修改, 这里选用在 Windows 下修改.
 在 Powershell 下执行: 
 ```powershell
@@ -54,7 +55,7 @@ reference: [https://www.jianshu.com/p/cf445a2c55e8](https://www.jianshu.com/p/cf
 先到 Software & Updates 中更换 apt 源.
 ```bash
 sudo apt update && sudo apt upgrade && sudo apt autoremove
-sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnome-tweak-tool
+sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnome-tweak-tool openjdk-8-jdk
 sudo apt install -y ibus-pinyin ibus-mozc  # IME
 ```
 
@@ -63,19 +64,30 @@ sudo apt install -y ibus-pinyin ibus-mozc  # IME
 ```bash
 git config --global user.name yescafe
 git config --global user.email qyc027@gmail.com
-git config --global http.proxy socks5://127.0.0.1:2341  # 以 ClashY 为例
-git config --global http.sslVerify false
-git config --global https.proxy socks5://127.0.0.1:2341
+```
+### git 代理
+#### http 协议
+```bash
+git config --global http.proxy 127.0.0.1:port
+git config --global https.proxy 127.0.0.1:port
+```
+#### git 协议
+git 协议是走 ssh 的, 直接修改 ssh 的配置:  
+~/.ssh/config:
+```
+Host github.com
+User git
+ProxyCommand nc -x 127.0.0.1:port %h %p
 ```
 ### ssh 密钥
 ```bash
 ssh-keygen -t rsa -C qyc027@gmail.com
 ```
-添加到 GitHub 上.   
+添加到 GitHub 上.  
 
-## 代理方案
+## 代理工具方案
 ### 方案一. Electron-ssr
-直接找到存盘的 deb 包进行安装. 
+直接找到存盘的 deb 包进行安装.  
 ```bash
 sudo dpkg -i `ls | grep ssr`
 ```
@@ -86,17 +98,22 @@ sudo apt install -y python libcanberra-gtk-module libcanberra-gtk3-module gconf2
 ```
 
 ### 方案二. ClashY
-直接到 ClashY repo releases 中下载 AppImage 包, 或者应该会有存盘, 加 executable 权限运行. 
-desktop 文件参考配置: 
+直接到 ClashY repo releases 中下载 AppImage 包, 或者应该会有存盘, 加 executable 权限运行.  
+desktop 文件参考配置:  
 ```desktop
+#!/usr/bin/env xdg-open
 [Desktop Entry]
-Name=clashy
-Exec=/home/ivan/Documents/Clashy.AppImage
+Version=1.0
 Terminal=false
 Type=Application
-Icon=electron-ssr
-Categories=Development;
+Name=ClashY
+Exec=/home/ivan/Programs/ClashY/Clashy-0.1.9.AppImage
+Icon=/home/ivan/Programs/ClashY/icon.ico
+StartupWMClass=ClashY
 ```
+*图标可以去 source repo 下载: [icon.ico](https://github.com/SpongeNobody/Clashy/raw/master/build-resources/icon.ico)*
+
+ClashY 目前不支持 Linux/GNOME 自动设置系统代理, 所以系统代理需要手动配置.  
 
 Terminal 中的配置, 注意端口号的不同.  
 electron-ssr:  
@@ -105,14 +122,15 @@ export http_proxy=127.0.0.1:12333;export https_proxy=127.0.0.1:12333
 ```
 ClashY:  
 ```bash
-export http_proxy=127.0.0.1:2340;export https_proxy=127.0.0.1:2340
+export https_proxy=http://127.0.0.1:2340;export http_proxy=http://127.0.0.1:2340;export all_proxy=socks5h://127.0.0.1:2341
 ```
+可以直接从 ClashY 后台小猫咪图标的右键菜单中直接复制这段指令.  
 
 electron-ssr-backup repo: [https://github.com/qingshuisiyuan/electron-ssr-backup](https://github.com/qingshuisiyuan/electron-ssr-backup)  
 ClashY repo: [https://github.com/SpongeNobody/Clashy](https://github.com/SpongeNobody/Clashy)  
 
 ## zsh
-zsh 在第二步已经一并装好了, 直接安装 oh-my-zsh 
+zsh 在第二步已经一并装好了, 直接安装 oh-my-zsh  
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
@@ -122,10 +140,10 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/p
 ```
 插件 zsh-autosuggestions:
 ```bash
-git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
 ```
 
-最后为当前用户和 root 用户设置默认终端: 
+最后为当前用户和 root 用户设置默认终端:  
 ```bash
 chsh -s /bin/zsh `whoami`
 chsh -s /bin/zsh root
@@ -160,7 +178,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple
 [install]
 trusted-host = https://pypi.tuna.tsinghua.edu.cn
 ```
-提供一些其他的源: 
+提供一些其他的源:  
 > （1）阿里云 http://mirrors.aliyun.com/pypi/simple/  
 > （2）豆瓣 http://pypi.douban.com/simple/  
 > （3）清华大学 https://pypi.tuna.tsinghua.edu.cn/simple/  
@@ -187,9 +205,9 @@ Tensorflow: [https://www.tensorflow.org](https://www.tensorflow.org)
 Tensorflow google.cn: [https://tensorflow.google.cn](https://tensorflow.google.cn/)  
 
 ## Anaconda
-Anaconda 可以去官网或者清华镜像站下载. 
+Anaconda 可以去官网或者清华镜像站下载.  
 
-conda 源不确定有没有像 pip 一样的隐患, 速度慢可以配一下: 
+conda 源不确定有没有像 pip 一样的隐患, 速度慢可以配一下:  
 ```
 # vim ~/.condarc
 channels:
@@ -209,11 +227,12 @@ custom_channels:
 ```
 
 Anaconda: [https://www.anaconda.com/distribution](https://www.anaconda.com/distribution)  
+Anaconda 2019.10 on Tsinghua Mirrors: https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-2019.10-Linux-x86_64.sh  
 reference: [https://mirror.tuna.tsinghua.edu.cn/help/anaconda](https://mirror.tuna.tsinghua.edu.cn/help/anaconda)  
 
 ## PyTorch
 可以自己去官网配, 这里只提供使用 conda 安装的两种方案:  
-non-cuda: 
+non-cuda:  
 ```bash
 conda install pytorch torchvision cpuonly -c pytorch
 ```
@@ -223,3 +242,19 @@ conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 ```
 
 PyTorch: [https://pytorch.org](https://pytorch.org)   
+
+## VSCode
+安装 VSCode, 安装 Settings Sync 插件, 填写 Gist Token 下载我自己的配置:  
+```
+e90863b86fb537376f54a1c9e1049039
+```
+详见 VSCode Wiki.  
+reference: [https://yescafe.github.io/wiki/vscode/](https://yescafe.github.io/wiki/vscode/)
+
+VSCode 64-bit .deb download: [https://code.visualstudio.com/docs/?dv=linux64_deb](https://code.visualstudio.com/docs/?dv=linux64_deb)
+
+## SwitchyOmega
+登录 Google account 即可开启同步.  
+这里备份以下 GFWList 的 URL:  
+[https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt](https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt)
+
