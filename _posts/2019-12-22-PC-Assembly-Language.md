@@ -2776,3 +2776,214 @@ string S {
 
 ### 7.2 汇编语言和 C++
 #### 7.2.1 重载函数与名字改编
+C++ 使用 C 一样的链接过程, 但是为了能够进行函数重载, C++ 编译器会对函数的名称进行修改. 不过这样的修改是没有标准的. 比如下面这个函数:  
+```c++
+void f(int x, int y, double z);
+```
+Borland C++ 会将它改变为 `@f$qiid`, DJGPP 会将它改变为 `_f_Fiid`.  
+但是可以得出下面的结论: 对 C++ 而言, 函数名称和函数参数共同组成了函数签名, 返回值并不是签名的一部分.  
+C++ 的所有函数都会进行名称改写. 和函数签名一样, 编译器同样通过编码变量类型来改编全局变量的变量名. 这样, 如果你在一个文件中定义了一个全局变量而在另一个文件中使用了错误的类型, 会产生一个链接错误. C++ 这个特性被叫做类型安全链接(typesafe linking).  
+因为不同编译器使用不同的命名改编规则, 所以不同的编译器编译的 C++ 代码不可能链接到一起. 这一点对预编译的 C++ 库来说非常重要.  
+
+再来考虑一下 C++ 调用 C 函数的问题. 如果 C++ 编译器一定会为函数改名, 那么 C 的函数怎么办. 比如 `printf` 函数的原型:  
+```c++
+int printf(const char*, ...);
+```
+DJGPP 会将它改编为 `_printf_FPCce`(F for function, P for pointer, C for const, c for char and e for ellipsis), 这样它就不会调用正规 C 库中正规的 `printf` 函数了. 于是这时候, 下面的语法就显得尤为重要了:  
+```c++
+extern "C" int print(const char*, ...);
+```
+这会告诉编译器不要在这个函数上使用 C++ 的改编规则. 还有另外一个更常见的, 允许一个代码块不使用 C++ 的改变规则:  
+```c++
+extern "C" {
+    // C 链接的全局变量和函数原型
+}
+```
+当今的 C / C++ 编译器中的 ANSI C 头文件中, 都会看到:  
+```c++
+#ifdef __cplusplus
+extern "C" {
+#endif
+// ...
+#ifdef __cplusplus
+}
+#endif
+```
+
+### 7.2.2 引用
+C++ 引用实质上就是指针, 只是编译器对程序员隐藏了其指针层. 
+引用是非常方便的, 特别是对于运算符重载来说是非常有用的. 比如对于加号运算符重载来说, 引用的加入能让 `a + b` 成为可能, 而不是写笨拙且混乱的 `&a + &b`.  
+
+### 7.2.3 内联函数
+在 C++ 中内联函数可以取代相对不安全的宏. 考虑下面这个常规的代码:  
+```c++
+#define SQR(x) ((x)*(x))
+```
+在见识过内核中一些宏的写法之后, 能很容易想明白这中间存在的问题. 比如 `SQR(x++)`.  
+宏这样不安全的东西被大量使用在我看来就是简单的死磕时间效率, 毕竟调用一个带参数的函数的开销还是比较大的, 尤其是需要调用千万次的简单函数, 可能函数调用的开销比函数本身的运算开销还要大. 于是, `inline` 函数被引入了, 用法和原理也就不再赘述了.  
+内联函数的最大优点是不需要链接. 现在要考虑的问题是, C++ 调用内联函数的位置将包含内联函数所有的代码, 于是一旦内联函数的任何部分发生变动, 所有使用了这个内联函数的源文件全部需要重新编译. 由于所有这些原因, 内联函数的代码通常放置在头文件里, 也就是相同的原因, 它违反了 C 语言中标准的稳定和快速的准则: 执行的代码语句绝不能放置在头文件中.  
+
+### 7.2.4 类
+C++ 中的类用来描述一个对象类型, 一个对象包括数据成员(data member)和函数成员(function member). 数据成员的存储与 C 结构体相同, 函数成员也不会存储到类的内存中, 但与其他函数不同的是, 它们会传递一个隐藏的参数, 也就是我们熟知的 `this` 指针.  
+有关编译器对成员函数的改变规则就不多赘述了, 不同编译器也有不同的改变方式.  
+
+### 7.2.5 继承和多态(Inheritance and Polymorphism)
+先看下面的代码:  
+```c++
+#include <cstddef>
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+    void __cdecl m() { cout << "A::m()" << endl; }
+    int ad;
+};
+
+class B : publish A {
+public:
+    void __cdecl m() { cout << "B:m()" << endl; }
+    int bd;
+};
+
+void f(A* p) {
+    p->ad = 5;
+    p->m();
+}
+
+int main()
+{
+    A a;
+    B b;
+    cout << "Size of a" << sizeof(a)
+         << " Offset of ad:" << offsetof(A, ad) << endl;
+    cout << "Size of b: " << sizeof(b)
+         << " Offset of ad: " << offsetof(B, ad)
+         << " Offset of bd: " << offsetof(B, bd) << endl;
+    f(&a);
+    f(&b);
+    return 0;
+}
+```
+输出结果为:  
+```
+Size of a: 8 Offset of ad: 4
+Size of b: 12 Offset of ad: 4 Offset of bd: 8
+A::m()
+A::m()
+```
+注意一下最后两行输出. 从汇编程序中, 可以看出对 `A::m` 的调用被硬编码到函数中了. 对于真正的面向对象编程, 成员函数的调用取决于传递给函数的对象类型是什么, 这才是所谓的多态. 而 C++ 在缺省情况下关闭了这个特性, 激活它需要使用 `virtual` 关键字. 经过下面的修改, 第四行能够成功输出 `B::m()` 了:  
+```c++
+class A {
+public:
+    virtual void __cdecl m() { cout << "A::m()" << endl; }
+    int ad;
+};
+
+class B : publish A {
+public:
+    virtual void __cdecl m() { cout << "B:m()" << endl; }
+    int bd;
+};
+```
+输出结果:  
+```
+Size of a: 8 Offset of ad: 4
+Size of b: 12 Offset of ad: 4 Offset of bd: 8
+A::m()
+B::m()
+```
+但是我们会发现, 对象的大小和成员的偏置都发生了变化. 不过我们事先都知道有虚函数表这么个东西了.  
+> 不要为不做基类的函数声明`virtual`成员函数. C++实现虚函数, 使用的是一种vptr(virtual table pointer)映射到vtbl(virtual table), 也就是俗称的虚函数表. 一个虚函数需要一个vptr携带信息, 如果不需要虚函数还加上虚修饰, 则增加了一些(沢山)不必要的空间占用.  
+
+上文摘自我的另一篇有关 Effective C++ 书笔记的博文.  
+
+这本指南中也介绍了. 含有任意虚成员函数的 C++ 类都有一个额外的隐藏的域, 是一个指向 vtable 的指针, 这个指针被存储在偏置 0 的位置.  
+通过分析汇编代码, 可以看出 `m()` 的功能在于查找虚函数表中对应的地址, 然后再调用它. 这种类型的调用是一个晚绑定(late binding)的例子. 相对的, 标准的硬编码成员函数的调用, 是一个早绑定(early binding).  
+
+`__cdecl` 用来明确声明使用的 C 调用约定. 缺省情况下, Microsoft 对于 C++ 类成员函数使用的是不同的约定, 这个约定会将 `this` 指针传递到 ECX 寄存器中, 而不是堆栈. 而 Borland C++ 缺省情况下使用的是 C 调用约定. 这时应显式声明以保万无一失.  
+
+下面这个代码本来我是不打算写上来的, 不过看了以下真的非常精彩, 所以就放上来了:  
+```c++
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+class A {
+public:
+    virtual void __cdecl m1() { cout << "A::m1()" << endl; }
+    virtual void __cdecl m2() { cout << "A::m2()" << endl; }
+    int ad;
+};
+
+class B : public A {
+public:
+    virtual void __cdecl m1() { cout << "B::m1()" << endl; }
+    int bd;
+};
+
+// 显示给定的对象的 vtable
+void print_vtable(A* pa) {
+    // p 把 pa 看作是一个双字数组
+    unsigned* p = reinterpret_cast<unsigned*>(pa);
+    // vt 把 vtable 看作是一个指针数组
+    void** vt = reinterpret_cast<void**>(p[0]);
+
+    cout << hex << "vtable address = " << vt << endl;
+    for (int i = 0; i < 2; i++)
+        cout << "dword " << i << ": " << vt[i] << endl;
+
+    // 用极端的没有权限的方法来调用虚函数
+    void (*m1func_pointer)(A*);    // 函数指针
+    m1func_pointer = reinterpret_cast<void (*)(A*)>(vt[0]);
+    m1func_pointer(pa);
+
+    void (*m2func_pointer)(A*);
+    m2func_pointer = reinterpret_cast<void (*)(A*)>(vt[1]);
+    m2func_pointer(pa);
+}
+
+int main()
+{
+    A a;
+    B b1, b2;
+    cout << "a: " << endl;  print_vtable(&a);
+    cout << "b1: " << endl; print_vtable(&b1);
+    cout << "b2: " << endl; print_vtable(&b2);
+    return 0;
+}
+```
+*老实说这个代码结果我没跑出来.*   
+下面是运行结果:  
+```
+a:
+vtable address = 004120E8
+dword 0: 00401320
+dword 1: 00401350
+A::m1()
+A::m2()
+b1:
+vtable address = 004120F0
+dword 0: 004013A0
+dword 1: 00401350
+B::m1()
+A::m2()
+b2:
+vtable address = 004120F0
+dword 0: 004013A0
+dword 1: 00401350
+B::m1()
+A::m2()
+```
+虽然会有结果, 但是还是那句话, 直接操作内存什么的, 非常不推荐.  
+
+### 7.2.6 C++ 的其它特性
+C++ 还有一些其它的特性, 比如多继承这样恶心的东西, 还有运行时类型识别. 然后它推荐了两本书: Ellis 和 Stroustrup 写的 *The Annotated C++ Reference Manual* 和 Stroustrup 写
+的 *The Design and Evolution of C++*.  
+
+## 后记
+终于, 终于, 终于完结啦! 本是前年暑假计划的 828 的学习, 一直到今天都还没开始呢. 去年年底的时候开了这篇博文, 拉的时间过长了, 最近几天一口气终于更完了.  
+最近有进军深度学习领域嘛, 但是嘛, 作为兴趣个人还是更喜欢底层一点. 所以呢, 6.828 会同步进行.  
+同时纪念这第一篇完整更完的博文.  
+
+正准备打 commit 的时候, 恰得知有亲人在手术室因癌症去世了. 愿所有人平安.  
