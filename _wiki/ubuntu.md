@@ -227,7 +227,7 @@ custom_channels:
 ```
 
 Anaconda: [https://www.anaconda.com/distribution](https://www.anaconda.com/distribution)  
-Anaconda 2019.10 on Tsinghua Mirrors: https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-2019.10-Linux-x86_64.sh  
+Anaconda 2019.10 on Tsinghua Mirrors: [https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-2019.10-Linux-x86_64.sh](https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-2019.10-Linux-x86_64.sh)  
 reference: [https://mirror.tuna.tsinghua.edu.cn/help/anaconda](https://mirror.tuna.tsinghua.edu.cn/help/anaconda)  
 
 ## PyTorch
