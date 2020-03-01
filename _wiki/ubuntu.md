@@ -36,7 +36,7 @@ zsh-autosuggestions: [https://github.com/zsh-users/zsh-autosuggestions](https://
 
 ## Ubuntu 安装
 不知道为何, 在我的 x1c 上安装 Ubuntu 18.04 以后的版本会显示不出 grub 菜单. 而且稳定起见, 也还是推荐安装 Ubuntu 16.04 LTS 或者 Ubuntu 18.04 LTS. 速度慢的话可以去 Tsinghua Open Source Mirror 下载.   
-还有一个比较好的 KDE 桌面环境的版本, KDE neon. 但是因为*听说* kde 桌面环境的系统级代理只能作用于 kde 的 stock app, 所以还没有尝试过, 毕竟装系统非常麻烦.  
+还有一个比较好的 KDE 桌面环境的版本, KDE neon. 但是因为*听说* kde 桌面环境的系统级代理只能作用于 kde 的原生应用, 所以还没有尝试过, 毕竟装系统非常麻烦.  
 
 Tsinghua Open Source Mirror: [https://mirrors.tuna.tsinghua.edu.cn](https://mirrors.tuna.tsinghua.edu.cn)   
 KDE neon: [https://neon.kde.org](https://neon.kde.org)   
@@ -52,7 +52,7 @@ reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsU
 reference: [https://www.jianshu.com/p/cf445a2c55e8](https://www.jianshu.com/p/cf445a2c55e8)
 
 ## apt
-先到 Software & Updates 中更换 apt 源.
+先到 Software & Updates 中更换 apt 源. 推荐 tuna 的.  
 ```bash
 sudo apt update && sudo apt upgrade && sudo apt autoremove
 sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnome-tweak-tool openjdk-8-jdk gdebi
@@ -68,8 +68,8 @@ git config --global user.email qyc027@gmail.com
 ### git 代理
 #### http 协议
 ```bash
-git config --global http.proxy 127.0.0.1:port
-git config --global https.proxy 127.0.0.1:port
+git config --global http.proxy 127.0.0.1:2340
+git config --global https.proxy 127.0.0.1:2340
 ```
 #### git 协议
 git 协议是走 ssh 的, 直接修改 ssh 的配置:  
@@ -77,7 +77,7 @@ git 协议是走 ssh 的, 直接修改 ssh 的配置:
 ```
 Host github.com
 User git
-ProxyCommand nc -x 127.0.0.1:port %h %p
+ProxyCommand nc -x 127.0.0.1:2341 %h %p
 ```
 ### ssh 密钥
 ```bash
@@ -92,7 +92,7 @@ ssh-keygen -t rsa -C qyc027@gmail.com
 sudo dpkg -i `ls | grep ssr`
 ```
 然后使用 Terminal 启动 `electron-ssr`, Terminal 中会输出 debugging log, 便于锁定缺失的依赖.   
-根据 source repo(backup) 提供的 guide 提示, 可以一键补充一些依赖:  
+根据 source repo(backup) 提供的 readme, 需要补充一些依赖:  
 ```bash
 sudo apt install -y python libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1 libssl-dev libsodium-dev
 ```
@@ -229,15 +229,38 @@ custom_channels:
 
 Anaconda: [https://www.anaconda.com/distribution](https://www.anaconda.com/distribution)  
 Anaconda 2019.10 on Tsinghua Mirrors: [https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-2019.10-Linux-x86_64.sh](https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-2019.10-Linux-x86_64.sh)  
-reference: [https://mirror.tuna.tsinghua.edu.cn/help/anaconda](https://mirror.tuna.tsinghua.edu.cn/help/anaconda)  
+reference: [https://mirror.tuna.tsinghua.edu.cn/help/anaconda](https://mirror.tuna.tsinghua.edu.cn/help/anaconda)   
+
+Anaconda desktop 配置参考:  
+```
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Anaconda
+Exec=/home/ivan/anaconda3/bin/anaconda-navigator
+Icon=/home/ivan/anaconda3/pkgs/anaconda-navigator-1.9.7-py37_0/lib/python3.7/site-packages/anaconda_navigator/static/images/anaconda-icon-256x256.png
+Categories=Development;
+Terminal=false
+StartupNotify=true
+StartupWMClass=Anaconda-Navigator
+Actions=notebook;jupyterlab;
+
+[Desktop Action notebook]
+Name=Jupyter Notebook
+Exec=/home/ivan/anaconda3/bin/jupyter notebook
+
+[Desktop Action jupyterlab]
+Name=JupyterLab
+Exec=/home/ivan/anaconda3/bin/jupyter lab
+```
 
 ## PyTorch
 可以自己去官网配, 这里只提供使用 conda 安装的两种方案:  
-non-cuda:  
+without cuda:  
 ```bash
 conda install pytorch torchvision cpuonly -c pytorch
 ```
-cuda 10.1:
+with cuda 10.1:
 ```bash
 conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 ```
@@ -245,7 +268,7 @@ conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 PyTorch: [https://pytorch.org](https://pytorch.org)   
 
 ## VSCode
-安装 VSCode, 安装 Settings Sync 插件, 填写 Gist Token 下载我自己的配置:  
+安装 VSCode, 安装 Settings Sync 插件, 填写 Public Gist Token 下载我自己的配置:  
 ```
 e90863b86fb537376f54a1c9e1049039
 ```
@@ -261,10 +284,11 @@ VSCode 64-bit .deb download: [https://code.visualstudio.com/docs/?dv=linux64_deb
 
 ## deb 包
 使用 gdebi 工具可以快速安装 deb 包和补全依赖.  
+安装:  
 ```bash
 sudo apt install gdebi
 ```
-使用:  
+使用方法:  
 ```bash
 sudo gdebi crossover.deb
 ```
