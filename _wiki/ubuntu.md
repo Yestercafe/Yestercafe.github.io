@@ -55,7 +55,7 @@ reference: [https://www.jianshu.com/p/cf445a2c55e8](https://www.jianshu.com/p/cf
 先到 Software & Updates 中更换 apt 源.
 ```bash
 sudo apt update && sudo apt upgrade && sudo apt autoremove
-sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnome-tweak-tool openjdk-8-jdk
+sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnome-tweak-tool openjdk-8-jdk gdebi
 sudo apt install -y ibus-pinyin ibus-mozc  # IME
 ```
 
@@ -258,3 +258,24 @@ VSCode 64-bit .deb download: [https://code.visualstudio.com/docs/?dv=linux64_deb
 这里备份以下 GFWList 的 URL:  
 [https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt](https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt)
 
+## deb 包
+使用 gdebi 工具可以快速安装 deb 包和补全依赖.  
+```bash
+sudo apt install gdebi
+```
+使用:  
+```bash
+sudo gdebi crossover.deb
+```
+
+## Crossover
+```bash
+sudo dpkg --add-architecture i386
+sudo apt update
+sudo apt install gdebi
+wget http://crossover.codeweavers.com/redirect/crossover.deb
+sudo gdebi crossover.deb
+/opt/cxoffice/bin/cxfix --auto
+```
+
+reference: [https://www.codeweavers.com/support/wiki/linux/linuxtutorial/install](https://www.codeweavers.com/support/wiki/linux/linuxtutorial/install)
