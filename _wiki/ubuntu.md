@@ -99,6 +99,7 @@ sudo apt install -y python libcanberra-gtk-module libcanberra-gtk3-module gconf2
 
 ### 方案二. ClashY
 直接到 ClashY repo releases 中下载 AppImage 包, 或者应该会有存盘, 加 executable 权限运行.  
+*更新: ClashY 已经有 deb 包了.*  
 desktop 文件参考配置:  
 ```desktop
 #!/usr/bin/env xdg-open
