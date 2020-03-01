@@ -55,7 +55,7 @@ reference: [https://www.jianshu.com/p/cf445a2c55e8](https://www.jianshu.com/p/cf
 先到 Software & Updates 中更换 apt 源. 推荐 tuna 的.  
 ```bash
 sudo apt update && sudo apt upgrade && sudo apt autoremove
-sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnome-tweak-tool openjdk-8-jdk gdebi
+sudo apt install -y gcc g++ clang python3 python3-pip vim git wget curl zsh gnome-tweak-tool openjdk-8-jdk gdebi exfat-fuse
 sudo apt install -y ibus-pinyin ibus-mozc  # IME
 ```
 
@@ -171,7 +171,8 @@ sudo systemctl restart snapd
 reference: [https://kuricat.com/gist/snap-install-too-slow-zmbjy](https://kuricat.com/gist/snap-install-too-slow-zmbjy)  
 
 ## pip
-pip 官方 source 的下载速度鸡贼慢, 使用代理除外. 这个源是不推荐换的, 因为截止到去年年底, 使用清华源还是无法正确安装 Tensorflow 2.1, 建议还是使用 pip 官方 source.
+pip 官方 source 的下载速度鸡贼慢, 使用代理除外. 这个源是不推荐换的, 因为截止到去年年底, 使用清华源还是无法正确安装 Tensorflow 2.1, 建议还是使用 pip 官方 source.  
+*更新: tuna 源已经可以正确安装 Tensorflow 了.*  
 ```
 # vim ~/.pip/pip.conf
 [global]
