@@ -9,7 +9,8 @@ comments: false
     <div class="collection-head">
         <div class="container">
             <div class="collection-title">
-              <h3 class="collection-header" id="sub-title"><span>{{ site.subtitle }}</span></h3>
+              <!-- <h1 class="collection-header" id="sub-title"><span>{{ site.subtitle }}</span></h1> -->
+              <h3 class="collection-header"><span>{{ site.subtitle }}</span></h3>
                 <div class="collection-info">
                     <span class="meta-info mobile-hidden">
                         <span class="octicon octicon-location"></span>
@@ -46,7 +47,7 @@ comments: false
                     </p>
                     <p class="repo-list-meta">
                         <span class="meta-info">
-                          <span class="octicon octicon-calendar"></span> {{ post.date | date: "%Y.%m.%d" }}
+                          <span class="octicon octicon-calendar"></span> {{ post.date | date: "%Y-%m-%d" }}
                         </span>
                         {% for cat in post.categories %}
                         <span class="meta-info">
