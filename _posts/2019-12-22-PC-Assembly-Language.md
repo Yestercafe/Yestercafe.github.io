@@ -147,11 +147,11 @@ CPU 外还可以发起*外部中断 (external interrupts)*, 其实鼠标属于�
 
 #### 1.3.2 汇编语言
 汇编语言用文本存储. 比如举个例子:  
-```asm  
+```nasm  
 add eax, ebx
 ```  
 汇编指令的通用格式为:
-```asm
+```nasm
 mnemonic operand(s)
 ```
 mnemonic 查了一下是助记符号的意思, operand 操作数. 
@@ -168,7 +168,7 @@ mnemonic 查了一下是助记符号的意思, operand 操作数.
 
 #### 1.3.4 基础指令
 最基础的就是 mov 了.   
-```asm
+```nasm
 mov dest, src
 ```
 数据从 src 中拷贝到 dest . 
@@ -177,25 +177,25 @@ mov dest, src
 2. 两个操作数必须是同一规格的.  
 
 例子:  
-```asm  
+```nasm  
 mov eax, 3 ; store 3 into EAX register (3 is immediate operand)
 mov bx, ax ; store the value of AX into the BX register
 ```    
 
 add 指令用来加整数:    
-```asm  
+```nasm  
 add eax, 4 ; eax = eax + 4
 add al, ah ; al = al + ah
 ```   
 
 sub 指令用来减:  
-```asm   
+```nasm   
 sub bx, 10 ; bx = bx - 10
 sub ebx, edi ; ebx = ebx - edi
 ```   
 
 inc 和 dec 用来使值增减1. 因为这里的增量 1 是隐含的操作数, 所以 inc 和 dec 的机器码要比执行类似操作的add 和 sub 要短.  
-```asm
+```nasm
 inc ecx  ; ecx++
 dev dl   ; dl--
 ```  
@@ -212,14 +212,14 @@ NASM 代码(之前没介绍, 这是本书用的汇编)使用像 C 一样的预�
 
 ##### 1.3.5.1 ```equ``` 指示符
 用于定义一个符号 (symbol). 格式:  
-```asm  
+```nasm  
 [symbol] equ [value]
 ```    
 符号不能被二次定义.   
 
 ##### 1.3.5.2 ```%define``` 指示符
 用法类似于 C 语言的宏:  
-```asm
+```nasm
 %define SIZE 100
 move   eax, SIZE
 ```  
@@ -228,7 +228,7 @@ move   eax, SIZE
 这里说到了数据指示符有两种手段去保留内存, 一个是定义一个内存空间, 另一个是定义空间并初始化值.  
 第一种可以使用 RES*X* 指令, X是一个字母, 用来表示对象的规格. 比如 B 表示字节, W 表示字, D 表示双字, Q 表示四字, T 表示十字节. 
 第二种使用 D*X*, X 同上. 可以给这些内存空间标上一个 label (从后文来看这些标签不一定是L加上数字的组合), 举一些例子:  
-```asm
+```nasm
 L1 db   0       ; byte labeled L1 with initial value 0
 L2 dw   1000    ; word labeled L2 with initial value 1000
 L3 db   110101b ; byte initialized to binary 110101 (53 in decimal)
@@ -240,18 +240,18 @@ L8 db   "A"     ; byte initialized to ASCII code for A (65)
 ```  
 单引号和双引号的作用一样. 以上的这些数据被线性安排在内存里, 比如 L2 就在 L1 的后面.  
 可以定义内存序列:  
-```asm  
+```nasm  
 L9  db 0, 1, 2, 3        ; defines 4 bytes
 L10 db "w", "o", "r", ’d’, 0 ; defines a C string = "word"
 L11 db ’word’, 0         ; same as L10
 ```  
 对于较大的内存序列, NASM 有一个TIMES 指示符:  
-```asm   
+```nasm   
 L12 times 100 db 0 ; equivalent to 100 (db 0)’s
 L13 resw 100       ; reserves room for 100 words
 ```  
 要注意的是这些标签, 同 C 的指针类似, 它们是表示的是内存空间的地址, 取值需要有类似"解引用"的操作:  
-```asm
+```nasm
 mov al, [L1]   ; copy byte at L1 into AL
 mov eax, L1    ; EAX = address of byte at L1
 mov [L1], ah   ; copy AH into byte at L1
@@ -263,11 +263,11 @@ mov al, [L6]   ; copy first byte of double word at L6 into AL
 最后一行, 我们看到的是 L6 只有第一个字节被拷贝进了 al 寄存器中, 这是 NASM 的一个重要属性--不会持续追踪 label 的数据规格. 不同于 C, C 是可以通过指针类型来判断指针指向内存空间的规格的. 
 
 考虑下面这个指令:   
-```asm
+```nasm
 mov [L6], 1     ; store a 1 at L6
 ```  
 上面说了不追踪 label 的规格, 所以这里编译器并不知道 L6 的规格, 于是需要手动指定, 加上一个*规格指定器 (size specifier)*:  
-```asm
+```nasm
 mov dword [L6], 1   ; store a 1 at L6
 ```  
 这告诉汇编器以双字 1 存储到 L6 位置.   
@@ -284,7 +284,7 @@ mov dword [L6], 1   ; store a 1 at L6
 - `read_char`: 从键盘输入读取单个字符, 将其ASCII码存到 `AL` 中.
 
 接着提供了 include 这些 routines 的方法. 同样类似于 C 语言的预处理器:  
-```asm
+```nasm
 %include "asm_io.inc"
 ```
 
@@ -299,7 +299,7 @@ mov dword [L6], 1   ; store a 1 at L6
 
 ### 1.4 创建一个程序
 #### 代码
-```asm
+```nasm
 ; file: first.asm
 
 %include "asm_io.inc"
@@ -456,11 +456,11 @@ You entered 1 and 2, the sum of these is 3
 
 ##### 增大数据的大小
 扩大数据大小, 对于无符号只需要在前面添加 0 就可以了, 对于有符号数, 需要在前面添加多个和符号位相同的位. 具体的证明过程 CSAPP 上有. 在汇编中, 使用 mov 指令就可以轻松把 AL 中的无符号字节扩展到 AX 中:  
-```asm
+```nasm
 mov    ah, 0
 ```
 但是难办的是 AX 扩展到 EAX. 前文有提到 AX 的高 8 位是 AH, 低 8 位是 AL, 而 EAX 的高 16 位无法表示. 80386 给我们提供了如下方式扩展 AX 中的无符号字节:  
-```asm
+```nasm
 movzx  eax, ax
 movzx  eax, al
 movzx  ax, al
@@ -486,7 +486,7 @@ int main(void) {
     return 0;
 }
 ```
-```asm
+```nasm
 	.file	"integer_extend_test.c"
 	.text
 	.globl	main
@@ -518,7 +518,7 @@ main:
 	.section	.note.GNU-stack,"",@progbits
 ```
 可以很容易盯上这两句:  
-```asm
+```nasm
 movzbl	%al, %eax
 movsbl	%al, %eax
 ```
@@ -529,11 +529,11 @@ gcc 生成的汇编代码和我们这里写的汇编 mov 方向是反的, 所以
 #### 2.1.3 补码运算
 FLAGS 寄存器为 add 和 sub 提供了两种状态, overflow 和 carry flag. 如果操作的正确结果太大了以致于不匹配有符号数运算的目的操作数(简单说就是目的操作数溢出了), 溢出标志位被置位. 如果在加法中的最高有效位有一个进位或在减法中的最高有效位有一个借位, 进位标志位将被置位.(2.1.5 节会说) 所以 FLAGS 可以用来检查无符号数运算的溢出情况. 补码运算的优势, 在于它把整数运算构成环状(见 CSAPP 和群论, 因为接触过环论不能确定这里说的"环"跟环论的环有没有关系). 根据 CSAPP, 无符号有符号的加减法指令各只需要一个.   
 乘法和除法不同, 有提供给无符号的 MUL 和 DIV, 提供给有符号的 IMUL 和 IDIV. 
-```asm
+```nasm
 mul    source
 ```
 mul 支持这种比较落后的乘法, 根据 source 的大小, 判断到底是把它跟 AL 乘放 AX 里, 还是把它跟 AX 乘放DX:AX 里, 还是把它跟 EAX 乘放 EDX:EAX 里. 而 imul 提供了更多的格式:  
-```asm
+```nasm
 imul   dest, src1       ; dest *= src1
 imul   dest, src1, src2     ; dest  = src1 * src2
 ```
@@ -542,7 +542,7 @@ imul   dest, src1, src2     ; dest  = src1 * src2
 NEG 指令通过计算补码来获取单个操作数的相反数, 可以是 8 位, 16 位, 32 位寄存器或着内存区域.  
 
 #### 2.1.4 程序例子
-```asm
+```nasm
 %include "asm_io.inc"
 
 segment .data
@@ -638,12 +638,12 @@ The negation of the remainder is -64
 ```SBB: operand1 = operand1 - carry flag - operand2```  
 
 用法很简单, 举例将 EDX:EAX 和 EBX:ECX 中存储的 64 位整数求和, 那么就是:  
-```asm
+```nasm
 add  eax, ecx
 adc  edx, ebx
 ```
 相减就是:  
-```asm
+```nasm
 sub  eax, ecx
 sbb  edx, ebx
 ```
@@ -652,7 +652,7 @@ sbb  edx, ebx
 #### 2.2.1 比较
 比较结果存在 FLAGS 里.   
 对于无符号, FLAGS 有两个标志位非常重要: 零标志位 (Zero flag, ZF) 和进位标志位 (carry flag, CF), 如果比较结果为 0, 零标志位将会被置 1.   
-```asm
+```nasm
 cmp  vleft, vright
 ```
 这个比较会计算 vleft - vright 的值:   
@@ -742,7 +742,7 @@ if (EAX >= 5)
 else
     EBX = 2;
 ```  
-```asm
+```nasm
     cmp eax, 5
     jge thenblock
     mov ebx, 2
@@ -763,7 +763,7 @@ int sum = 0;
 for (int i = 10; i > 0; i--)
     sum += i;
 ```  
-```asm
+```nasm
     mov eax, 0      ; sum
     mov ecx, 10     ; i
 loop_start:
@@ -779,7 +779,7 @@ if (condition)
 else
     else_block:
 ```  
-```asm
+```nasm
     ; set FLAGS
     jxx else_block  ; select xx: if condition == false, exec else_block
     ; then_block
@@ -794,7 +794,7 @@ endif:
 while (condition)
     loop_block;
 ```  
-```asm  
+```nasm  
 while:
     ; set FLAGS
     jxx endwhile  ; select xx: if condition == false, exec else_block
@@ -809,7 +809,7 @@ do {
     loop_block;
 } while (condition);
 ```
-```asm
+```nasm
 do:
     ; loop_block
     ; set FLAGS
@@ -844,7 +844,7 @@ int main(void)
 }
 ```
 然后下面是汇编的版本:
-```asm
+```nasm
 %include "asm_io.inc"
 
 segment .data
@@ -930,7 +930,7 @@ SHL 和 SHR 指令分别表示逻辑左移和逻辑右移. 接收两个操作数
 
 #### 3.1.5 简单应用
 这个代码还蛮有意思的, 摘抄一下:  
-```asm
+```nasm
     mov bl, 0          ; bl: the number of `on` in eax
     mov ecx, 32        ; loop counter
 count_loop:
@@ -975,7 +975,7 @@ TEST 指令执行一次 AND 运算, 然后基于可能的结果对 FLAGS 进行�
 
 #### 3.2.6 位操作的应用
 直接使用书上的例子:  
-```asm
+```nasm
 mov ax, 0C123H
 or  ax, 8             ; 开启位 3,  ax = C12BH
 and ax, 0FFDFH        ; 关闭位 5,  ax = C10BH
@@ -990,14 +990,14 @@ AND 可以用来计算除以 2 的几次方后的余数, 将它与 $2^i-1$ 的�
 
 下面这个比较有意思, 它可以开启或者关闭任意的比特位:   
 开启 eax 的位 cl:  
-```asm
+```nasm
 mov cl, bh
 mov ebx, 1
 shl ebx, cl
 or eax, ebx
 ```
 关闭 eax 的位 cl:
-```asm
+```nasm
 mov cl, bh
 mov ebx, 1
 shl ebx, cl
@@ -1006,7 +1006,7 @@ and eax, ebx
 ```
 还有个求反任何一个比特位的书象征性地留作了作业, 其实也很简单:  
 求反 eax 的位 cl:
-```asm
+```nasm
 mov cl, bh
 mov ebx, 1
 shl ebx, cl
@@ -1014,7 +1014,7 @@ xor eax, ebx
 ```
 
 然后这里有个非常重要的东西, 就是 80x86 程序中会经常出现:  
-```asm
+```nasm
 xor eax, eax      ; eax = 0
 ```
 这样用 XOR 运算的方式赋 eax 为 0, 要比同样功能的 `mov eax, 0` 的机器代码的指令要少(机器码的长度).   
@@ -1022,7 +1022,7 @@ xor eax, eax      ; eax = 0
 ### 3.3 避免使用条件分支
 现代处理器的*预测执行* (利用 CPU 的并行能力同时执行多条指令)可能会与条件分支发生冲突, 浪费了处理器的时间, 所以需要避免使用条件分支.  
 比如之前在 3.1.5 中的代码, 使用了一个 skip_inc 条件分支来跳过 inc bl 的过程, 但是这是完全不需要的, 可以通过下面的方式改写:  
-```asm
+```nasm
     mov bl, 0
     mov ecx, 32
 count_loop:
@@ -1032,7 +1032,7 @@ count_loop:
 ```
 
 接着是一个求两数最大值的程序, 正常情况下应该使用一个 cmp, 然后把较大的那个数输出, 但是下面的例子避免了使用条件分支:  
-```asm
+```nasm
 ; file: max.asm
 %include "asm_io.inc"
 
@@ -1145,7 +1145,7 @@ $ ./endian_test
 
 #### 3.5.1 什么时候需在乎这种东西?
 算是一个小插曲吧, 多的不说了, 就是两台计算机在交换信息的时候. TCP/IP消息头都会以 big endian 格式来存储整型. 然后巴拉巴拉讲了一堆网络的东西. 最后说了486处理器提供了BSWAP指令来交换32位寄存器中的字节, 也就是大小端转换, 然后XCHG指令可以, 有点抽象, 举个例子:  
-```asm
+```nasm
 xchg ah, al       ; 交换ax中的字节
 ```
 
@@ -1224,7 +1224,7 @@ int count_bits(unsigned int x)
 ## 第 4 章 - 子程序
 ### 4.1 间接寻址
 间接寻址允许寄存器像指针变量一样运作, 使用方括号进行间接寻址: 
-```asm
+```nasm
 mov    ax, [Data]     ; ax = Data
 mov    ebx, Data      ; ebx = &Data
 mov    ax, [ebx]      ; ax = *ebx
@@ -1233,7 +1233,7 @@ mov    ax, [ebx]      ; ax = *ebx
 
 ### 4.2 子程序的简单例子
 子程序就像 C 中的函数需要被调用.   
-```asm
+```nasm
 ; file: sub1.asm
 %include "asm_io.inc"
 
@@ -1313,7 +1313,7 @@ SS 段寄存器指定包含堆栈的段, ESP 寄存器包含将要移除栈数�
 
 ### 4.4 `CALL` 和 `RET` 指令
 没什么好说的, 看修改后的代码:  
-```asm
+```nasm
 ; file: sub2.asm
 %include "asm_io.inc"
 
@@ -1388,7 +1388,7 @@ get_int:
 参数为了传递, 需要在 `CALL` 指令执行之前入栈. 这些参数不会由子程序弹出, 如果弹出, 返回地址会被先弹出, 这样很显然不行. 并且这些参数可以很容易被间接寻址访问到([ESP+4]).   
 如果子程序内部使用了堆栈储存数据, 那么刚才与 ESP 相加的数字就会发生改变. 比如子程序多压了一个双字, 那么刚才的加 4 就会变成 加 8. 为了解决这个问题, 80386提供另一个寄存器 EBP. C 调用约定要求子程序首先把 EBP 的值保存到堆栈中, 然后再使 EBP 的值等于 ESP. 这样 EBP 的原始值就能被保存.   
 展示这些约定子程序的一般格式:  
-```asm
+```nasm
 subprogram_label:
     push ebp
     mov  ebp, esp
@@ -1399,7 +1399,7 @@ subprogram_label:
 图不展示了, 自己脑部一下: 把 [EBP] 保存到堆栈中, 再把 ESP 存到 EBP 中, 之后即使是子程序使用堆栈存储结构, 也只是会改变 ESP 的值, 返回地址在 EBP+4, 参数在 EBP+8; 子程序返回值前, 复原 [EBP] 的原始值, 最开始已经保存在堆栈中了, 直接弹出就好了; 注意 subprogram code 部分会最终将 ESP 还原到初始位置.   
 
 下面展示了 C 编译器传递参数的做法:  
-```asm
+```nasm
     push dword 1
     call fun
     add esp, 4
@@ -1407,7 +1407,7 @@ subprogram_label:
 有些编译器会使用 `POP ECX` 来移除参数, 这条指令确实比使用 `ADD` 占用更少的字节, 但是会改变 ECX 寄存器的值.  
 
 接下来会用上面的约定演示一个 demo:
-```asm
+```nasm
 ; file: sub3.asm
 %include "asm_io.inc"
 
@@ -1511,7 +1511,7 @@ print_sum:
 
 #### 4.5.2 堆栈上的局部变量
 恩, 就是 C 里的局部变量, 子程序的局部变量也被保存在堆栈中:  
-```asm
+```nasm
 subprogram_label:
     push ebp
     mov ebp, esp
@@ -1525,7 +1525,7 @@ subprogram_label:
 ### 4.6 多模块程序
 首先声明 pcasm_examples repo 里面所有的程序都是多模块程序, 因为它们由 C 驱动文件和汇编目标文件加上 C 库目标文件组成. asm_io.inc 文件中就将 `read_int` 等程序定义在外部的(extern).    
 如果想外部模块访问一个变量, 需要将它声明为 global. 下面将给出上一个代码的多模块版本.  
-```asm
+```nasm
 ; file: main4.asm
 %include "asm_io.inc"
 
@@ -1568,7 +1568,7 @@ end_while:
     leave
     ret
 ```
-```asm
+```nasm
 ; sub4.asm
 %include "asm_io.inc"
 
@@ -1631,11 +1631,11 @@ Linux gcc 编译器不附加任何字符. DJGPP 的 gcc 附带一个前缀下划
 
 #### 4.7.4 计算局部变量的地址
 举个例子, 我想拿某一个函数的第一个参数的地址:  
-```asm
+```nasm
 mov eax, ebp - 8
 ```
 这样是不可以的. `MOV` 存储到 EAX 里的值必须能由 Assembler 计算出来(意思就是必须是常量), 而 ebp 不是. 有一条指令可以完成需求, `LEA` aka Load Effective Address, 加载有效地址:  
-```asm
+```nasm
 lea eax, [ebp - 8]
 ```
 但要注意, `LEA` 指令永远不会从内存中读取数据, 而仅是计算其他指令会用到的地址, 接着将这个地址存储进第一个操作数. 所以 `LEA` 不用指定内存大小.  
@@ -1670,7 +1670,7 @@ int main(void)
     return 0;
 }
 ```
-```asm
+```nasm
 ; file: sub5.asm
 ; subprogram: calc_sum
 ; 求整数 1 到 n 的和
@@ -1724,7 +1724,7 @@ end_for:
 
 #### 4.7.8 在汇编程序中调用 C 函数
 举一个调用标准库 `scanf` 的例子:  
-```asm
+```nasm
 segment .data
 format db "%d", 0
 
@@ -1742,7 +1742,7 @@ segment .text
 ### 4.8 可重入和递归子程序
 一个可重入子程序必须满足:  
 - 它不能修改代码指令, 简单说就是不能在调用过程中修改了自己的代码. 这种行为在高级语言中非常困难, 但是汇编中很简单:  
-    ```asm
+    ```nasm
     mov word [cs:$+7], 5  ; 将5复制到前面七个字节的字中
     add ax, 2             ; 前面的语句将2改成了5!
     ```
@@ -1758,7 +1758,7 @@ segment .text
 #### 4.8.1 递归子程序
 递归子程序直接或间接调用它们自己, 但这样的行为必须要有一个终止条件. 
 原文使用了 factorial 进行演示.  
-```asm
+```nasm
 ; calculate n!
 segment .text
     global fact
@@ -1793,7 +1793,7 @@ void f(int x)
 }
 ```
 为了方便阅读输出, 稍作了修改. 然后是这个函数的汇编版本
-```asm
+```nasm
 %define i ebp-4
 %define x ebp+8              ; 有用的 macros
 segment .data
@@ -1863,7 +1863,7 @@ quit:
 ##### 在 data 和 bss 段中定义数组
 data 段定义一个 initialized array, 可以使用标准的 db, dw, 等等指示符. NASM 提供了一个好用的 TIMES 指示符, 将在下面的代码中演示. 
 bss 段定义一个 uninitialized array, 可以使用 resb, resw, 等等指示符. 记得后面要指定保留多少个内存单元的操作数.  
-```asm
+```nasm
 segment .data
 ; 定义 10 个双字的数组并初始化为 1, 2, ..., 10
 a1 dd 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
@@ -1888,7 +1888,7 @@ a6 resw 100
 #### 5.1.2 访问数组中的元素
 因为汇编不像某些高级语言有下标操作符, 所以得人工算地址.   
 比如:  
-```asm
+```nasm
 ...
 array1 db 5, 4, 3, 2, 1
 array2 dw 5, 4, 3, 2, 1
@@ -1900,7 +1900,7 @@ array2 dw 5, 4, 3, 2, 1
 之所以步长不一样, 是因为每个元素占用的字节数不一样. 不论是对于 C 语言还是 C 编译器, 这个步长会由指针变量的类型决定, 但在汇编中, 这个步长取决于程序员的认知.   
 
 数组求和:
-```asm
+```nasm
     mov ebx, array1       ; ebx = addr of array1
     mov dx, 0             ; dx -- sum
     mov ah, 0             ; 为下面使用的 ax 提供高八位
@@ -1915,7 +1915,7 @@ lp:
 
 上面的代码还能写成其他版本的:  
 Version 2:
-```asm
+```nasm
     mov ebx, array1       ; ebx = addr of array1
     mov dx, 0             ; dx -- sum
     mov ecx, 5
@@ -1929,7 +1929,7 @@ next:
 ```
 这个版本利用 carry flag 来完成对 DH 的变动.  
 Version 3:
-```asm
+```nasm
     mov ebx, array1       ; ebx = addr of array1
     mov dx, 0             ; dx -- sum
     mov ecx, 5
@@ -1955,7 +1955,7 @@ lp:
 
 #### 5.1.4 例子
 这个程序不使用 driver.c 作为驱动程序, 详见 pcasm_examples repo 中的 Makefile 文件. 
-```asm
+```nasm
 ; file: array1.asm
 %define ARRAY_SIZE 100
 %define NEW_LINE 10
@@ -2094,7 +2094,7 @@ void dump_line()
 ```
 
 ##### 再看一下 `LEA` 指令
-```asm
+```nasm
 lea ebx, [4*eax + eax]
 ```
 这条代码可以有效地将 5 * EAX 的值存到 EBX 中, 并且相对于 MUL 指令它更快速便捷. 但是得确保方括号里的简介访问表达式合法, 比如 6 * EAX 就没法用 LEA.  
@@ -2190,7 +2190,7 @@ STOSD [ES:EDI] = EAX
 注意 ESI 是专门用来读的, SI 代表了 Source Index, 相反, DI 表示 Destination Index, EDI 是专门用来写的. 注意它们的数据寄存器是固定的(AL, AX, EAX). 
 
 接下来是一个拷贝数组的代码:  
-```asm
+```nasm
 segment .data
 array1 dd 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 
@@ -2224,7 +2224,7 @@ MOVSD dword [ES:EDI] = dword [DS:ESI]
 #### 5.2.2 `REP` 前缀指令
 80x86 家族提供了一个前缀指令 `REP`, 它能让 `REP` 后面的指令重复执行 ECX 次.    
 比如说这个将数组元素全部设置为 0 的代码:  
-```asm
+```nasm
 segment .bss
 array resd 10
 
@@ -2257,7 +2257,7 @@ SCASD 比较EAX和[ES:EDI]
 跟 CMP 的效果一样, 会设置 FLAGS 寄存器.   
 
 #### 5.2.4 `REPx` 前缀指令
-```asm
+```nasm
 REPE, REPZ   当 ZF 标志位为 1 或重复次数不超过 ECX 时, 重复执行指令
 REPNE, REPNZ 当 ZF 标志位为 0 或重复此数不超过 ECX 时, 重复执行指令
 ```
@@ -2281,7 +2281,7 @@ onward:
 
 #### 5.2.5 样例
 本章最后一节, 例子有点复杂.  
-```asm
+```nasm
 ; file: memory.asm
 global asm_copy, asm_find, asm_strlen, asm_strcpy
 
@@ -2583,7 +2583,7 @@ if (fabs(x - y) / fabs(y) < EPS)
 **FIADD *src***, STO += (float) *src*. *src* 必须是内存中的字或双字.  
 
 东西挺多, 下面是对一个双精度数组的元素求和的逻辑片段(这段翻译版喝了假酒, 把 double 翻译成双字了):  
-```asm
+```nasm
 segment .bss
 array resq SIZE
 sum resq 1
@@ -2630,7 +2630,7 @@ lp:
 **LAHF**, 将 FLAGS 寄存器中的比特位导入到 AH 寄存器中.  
 
 下面是一段片段:  
-```asm
+```nasm
 ; if (x > y)
 ;
     fld qword [x]        ; ST0 = x
@@ -2649,7 +2649,7 @@ end_if:
 
 Pentium(奔腾)处理器支持两条新的比较指令, 可以直接改变 FLAGS 寄存器值. FCOMI *src* 和 FCOMIP *src*.  
 
-```asm
+```nasm
 global _dmax
 
 segment .text
