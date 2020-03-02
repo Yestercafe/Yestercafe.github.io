@@ -8,8 +8,6 @@ menu: 链接
 permalink: /links/
 ---
 
-*自己存的一些自己需要的链接*
-
 {% for link in site.data.links %}
 * [{{ link.name }}]({{ link.url }})
 {% endfor %}
