@@ -4,9 +4,9 @@
 baseurl:
 url: https://yescafe.github.io
 date_format: "ordinal"
-title: Yescafe's Blog
+title: Yescafe 的博客
 subtitle: "キボウの道をジグザグ進もう"
-description: "Yestercafe的个人博客"
+description: "Yescafe 的博客"
 keywords: yescafe, Yestercafe
 timezone: Asia/Shanghai
 encoding: "utf-8"
@@ -18,8 +18,8 @@ side_bar_repo_limit: 5
 author: Ivan Chien
 organization: 
 organization_url: 
-github_username: yescafe
-location: Hefei, Anhui, China
+github_username: Yescafe
+location: 中国安徽省合肥市
 email: qyc027@outlook.com
 
 # ---------------- #
@@ -35,16 +35,12 @@ navs:
     label: 分类
 
   -
-    href: /archives/
-    label: 归档
-
-  -
     href: /wiki/
     label: 维基
 
   -
-    href: /links/
-    label: 链接
+    href: /open-source/
+    label: 开源
 
   -
     href: /about/
@@ -66,7 +62,7 @@ paginate: 10
 lsi: false
 quiet: false
 excerpt_separator: "\n\n"
-permalink: /:year/:month/:day/:title/
+permalink: /:year-:month-:day-:title/
 gems:
     - jekyll-github-metadata
     - rouge
