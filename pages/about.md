@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About
+title: 关于
 description: キボウの道をジグザグ進もう
 keywords: yescafe, Yestercafe, Ivan Chien, self
 comments: true

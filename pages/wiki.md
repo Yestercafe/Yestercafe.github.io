@@ -8,7 +8,7 @@ menu: 维基
 permalink: /wiki/
 ---
 
-*原作者和我的一些wiki*
+*Wiki 就是 Wiki, 单纯的 Wiki。*  
 
 <ul class="listing">
 {% for wiki in site.wiki %}

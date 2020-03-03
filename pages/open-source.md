@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Open Source Projects
+title: 开源项目
 keywords: 开源,open-source,GitHub,开源项目
 description: 开源改变世界。
 permalink: /open-source/
@@ -11,7 +11,7 @@ permalink: /open-source/
 
 <section class="container">
     <header class="text-center">
-        <h1>开源工程</h1>
+        <h1>开源项目</h1>
         <p class="lead">我的 <span class="repo-count">{{ sorted_repos.size }}</span> 个 Github 项目</p>
     </header>
     <div class="repo-list">
