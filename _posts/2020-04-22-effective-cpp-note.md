@@ -6,16 +6,37 @@ description: effcpp笔记, 2020年的敲门砖
 keywords: cpp
 ---
 
-开一个新坑, 这个坑比较短, 应该寒假之前就能解决, 算作是2020年的开年作了.  
+开一个新坑, 这个坑比较短(???), 应该寒假之前就能解决, 算作是2020年的开年作了.  
 更新, 寒假前没有完成, 寒假开头赶工.   
 实际上又因为拖延症拖延到疫情快结束了. 这篇的原时间是 2019 年 12 月 17 日, 现在修改到今天的日期. 还算是敲门砖, 毕竟是今年开的第一个文章.   
+
+侧面的目录不方便, 这里再来生成一个:
+- [1. 让自己习惯C++ - Accustoming Yourself to C++](#1-%e8%ae%a9%e8%87%aa%e5%b7%b1%e4%b9%a0%e6%83%afc---accustoming-yourself-to-c)
+  - [条款 01: 视C++为一个语言联邦 - View C++ as a federation of languages.](#%e6%9d%a1%e6%ac%be-01-%e8%a7%86c%e4%b8%ba%e4%b8%80%e4%b8%aa%e8%af%ad%e8%a8%80%e8%81%94%e9%82%a6---view-c-as-a-federation-of-languages)
+  - [条款 02: 尽量以const, enum, inline替换#define - Prefer consts, enums, and inlines to #defines.](#%e6%9d%a1%e6%ac%be-02-%e5%b0%bd%e9%87%8f%e4%bb%a5const-enum-inline%e6%9b%bf%e6%8d%a2define---prefer-consts-enums-and-inlines-to-defines)
+  - [条款 03: 尽可能使用const - Use const whenever possible.](#%e6%9d%a1%e6%ac%be-03-%e5%b0%bd%e5%8f%af%e8%83%bd%e4%bd%bf%e7%94%a8const---use-const-whenever-possible)
+  - [条款 04: 确定对象被使用前已先被初始化 - Make sure that objects are initialized before they're used.](#%e6%9d%a1%e6%ac%be-04-%e7%a1%ae%e5%ae%9a%e5%af%b9%e8%b1%a1%e8%a2%ab%e4%bd%bf%e7%94%a8%e5%89%8d%e5%b7%b2%e5%85%88%e8%a2%ab%e5%88%9d%e5%a7%8b%e5%8c%96---make-sure-that-objects-are-initialized-before-theyre-used)
+- [2. 构造/析构/赋值运算 - Constructors, Destructors, and Assignment Operators](#2-%e6%9e%84%e9%80%a0%e6%9e%90%e6%9e%84%e8%b5%8b%e5%80%bc%e8%bf%90%e7%ae%97---constructors-destructors-and-assignment-operators)
+  - [条款 05: 了解C++默默编写并调用哪些函数 - Know what functions C++ silently writes and calls.](#%e6%9d%a1%e6%ac%be-05-%e4%ba%86%e8%a7%a3c%e9%bb%98%e9%bb%98%e7%bc%96%e5%86%99%e5%b9%b6%e8%b0%83%e7%94%a8%e5%93%aa%e4%ba%9b%e5%87%bd%e6%95%b0---know-what-functions-c-silently-writes-and-calls)
+  - [条款 06: 若不想使用编译器自动生成的函数, 就该明确拒绝 - Explicitly disallow the use of compiler-generated functions you do not want.](#%e6%9d%a1%e6%ac%be-06-%e8%8b%a5%e4%b8%8d%e6%83%b3%e4%bd%bf%e7%94%a8%e7%bc%96%e8%af%91%e5%99%a8%e8%87%aa%e5%8a%a8%e7%94%9f%e6%88%90%e7%9a%84%e5%87%bd%e6%95%b0-%e5%b0%b1%e8%af%a5%e6%98%8e%e7%a1%ae%e6%8b%92%e7%bb%9d---explicitly-disallow-the-use-of-compiler-generated-functions-you-do-not-want)
+  - [条款 07: 为多态基类声明virtual析构函数 - Declear destructors virtual in polymorphic base classes.](#%e6%9d%a1%e6%ac%be-07-%e4%b8%ba%e5%a4%9a%e6%80%81%e5%9f%ba%e7%b1%bb%e5%a3%b0%e6%98%8evirtual%e6%9e%90%e6%9e%84%e5%87%bd%e6%95%b0---declear-destructors-virtual-in-polymorphic-base-classes)
+  - [条款 08: 别让异常逃离析构函数 - Prevent exceptions from leaving destructors.](#%e6%9d%a1%e6%ac%be-08-%e5%88%ab%e8%ae%a9%e5%bc%82%e5%b8%b8%e9%80%83%e7%a6%bb%e6%9e%90%e6%9e%84%e5%87%bd%e6%95%b0---prevent-exceptions-from-leaving-destructors)
+  - [条款 09: 绝不在构造和析构过程中调用虚函数 - Never call virtual functions during construction or destruction.](#%e6%9d%a1%e6%ac%be-09-%e7%bb%9d%e4%b8%8d%e5%9c%a8%e6%9e%84%e9%80%a0%e5%92%8c%e6%9e%90%e6%9e%84%e8%bf%87%e7%a8%8b%e4%b8%ad%e8%b0%83%e7%94%a8%e8%99%9a%e5%87%bd%e6%95%b0---never-call-virtual-functions-during-construction-or-destruction)
+  - [条款 10: 令operator=返回一个引用指向`*this` - Have assignment operators return a reference to `*this`.](#%e6%9d%a1%e6%ac%be-10-%e4%bb%a4operator%e8%bf%94%e5%9b%9e%e4%b8%80%e4%b8%aa%e5%bc%95%e7%94%a8%e6%8c%87%e5%90%91this---have-assignment-operators-return-a-reference-to-this)
+  - [条款 11: 在operator=中处理自我赋值 - Handle assignment to self in operator=.](#%e6%9d%a1%e6%ac%be-11-%e5%9c%a8operator%e4%b8%ad%e5%a4%84%e7%90%86%e8%87%aa%e6%88%91%e8%b5%8b%e5%80%bc---handle-assignment-to-self-in-operator)
+  - [条款 12: 复制对象时勿忘其每一个成分 - Copy all parts of an object.](#%e6%9d%a1%e6%ac%be-12-%e5%a4%8d%e5%88%b6%e5%af%b9%e8%b1%a1%e6%97%b6%e5%8b%bf%e5%bf%98%e5%85%b6%e6%af%8f%e4%b8%80%e4%b8%aa%e6%88%90%e5%88%86---copy-all-parts-of-an-object)
+- [3. 资源管理 - Resource Management](#3-%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86---resource-management)
+  - [条款 13. 以对象管理资源 - Use objects to manage resources.](#%e6%9d%a1%e6%ac%be-13-%e4%bb%a5%e5%af%b9%e8%b1%a1%e7%ae%a1%e7%90%86%e8%b5%84%e6%ba%90---use-objects-to-manage-resources)
+  - [条款 14. 在资源管理类中小心复制行为 - Think carefully about copying behavior in resource-managing classes.](#%e6%9d%a1%e6%ac%be-14-%e5%9c%a8%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86%e7%b1%bb%e4%b8%ad%e5%b0%8f%e5%bf%83%e5%a4%8d%e5%88%b6%e8%a1%8c%e4%b8%ba---think-carefully-about-copying-behavior-in-resource-managing-classes)
+
+
 
 ## 1. 让自己习惯C++ - Accustoming Yourself to C++
 ### 条款 01: 视C++为一个语言联邦 - View C++ as a federation of languages.
 - C++如今已经是一个多重范型编程语言(multiparadigm programming language), 同时支持过程形式(procedural), 面向对象形式(object-oriented), 函数形式(functional), 泛型形式(generic), 元编程形式(metaprogramming).  
 - 语言由次语言(sublanguage)组成, C++由四个次语言组成: C, Object-Oriented C++, Template C++, STL.  
 
-### 条款02: 尽量以const, enum, inline替换#define - Prefer consts, enums, and inlines to #defines.
+### 条款 02: 尽量以const, enum, inline替换#define - Prefer consts, enums, and inlines to #defines.
 ```cpp
 #define ASPECT_RATIO 1.653
 ```
@@ -73,7 +94,7 @@ inline void callWithMax(const T& a, const T& b) {
 - 对于单纯变量, 最好以`const`对象或enums替换`#define`. 
 - 对于形似函数的宏(macros), 最好改用inline函数替换`#define`. 
 
-### 条款03: 尽可能使用const - Use const whenever possible. 
+### 条款 03: 尽可能使用const - Use const whenever possible. 
 ```cpp
 char greeting[] = "hello";
 char* p = greeting;              // non-const pointer, non-const data
@@ -85,7 +106,7 @@ const char* const p = greeting;  // const pointer, const data
 
 ```cpp
 std::vector<int> vec;
-...
+/*...*/
 const std::vector<int>::iterator iter =    // 类似 T* const
     vec.begin();
 *iter = 10;                                // 没问题
@@ -100,7 +121,7 @@ std::vector<int>::const_iterator cIter =   // cIter的作用像个const T*
 
 
 ```cpp
-class Rational { ... };
+class Rational { /*...*/ };
 const Rational operator* (const Rational& lhs, const Rational& rhs);
 ```
 - 譬如`operator*`这样的函数, 返回值类型使用`const`描述可以避免出现如`if(a * b = c)`这样的暴行出现. 
@@ -110,7 +131,7 @@ const Rational operator* (const Rational& lhs, const Rational& rhs);
 ```cpp
 class TextBlock {
 public:
-    ...
+    /*...*/
     const char& operator[](std::size_t position) const
     { return text[position]; }      // operator[] for const对象
     char& operator[](std::size_t position)
@@ -134,7 +155,7 @@ ctb[0] = 'x';                       // ERROR!
 ```cpp
 class CTextBlock {
 public:
-    ...
+    /*...*/
     std::size_t length() const;
 private:
     char* pText;
@@ -158,12 +179,12 @@ std::size_t CTextBlock::length() const
 ```cpp
 class Textblcok {
 public:
-    ...
+    /*...*/
     const char& operator[](std::size_t position) const
     {
-        ...     // 边界检测 (bounds checking)
-        ...     // 志记数据访问 (log access data)
-        ...     // 检验数据完整性 (verify data integrity)
+        /*...*/     // 边界检测 (bounds checking)
+        /*...*/     // 志记数据访问 (log access data)
+        /*...*/     // 检验数据完整性 (verify data integrity)
         return text[postion];
     }
     char& operator[](std::size_t postion)
@@ -187,14 +208,14 @@ public:
 - 当`const`和non-`const`成员函数有着实质等价的实现时, 令non-`const`版本调用`const`版本可避免代码重复   
 
 
-### 条款04: 确定对象被使用前已先被初始化 - Make sure that objects are initialized before they're used.  
+### 条款 04: 确定对象被使用前已先被初始化 - Make sure that objects are initialized before they're used.  
 - 读取未初始化的值是UB. 
 - "对象的初始化动作何时一定发生, 何时不一定发生"的规则非常复杂. 最佳的处理方式是: 永远在使用变量之前先将它初始化. 
   - 对于无任何成员的内置类型, 必须手工完成, 不论是手工初始化, 还是使用input stream完成初始化. 
   - 内置类型外的任何其他东西, 初始化的责任落在构造函数(constructors)身上. 需确保每一个构造函数都将对象的每一个成员初始化.  
 
 ```cpp
-class PhoneNumber { ... };
+class PhoneNumber { /*...*/ };
 class ABEntry {
 public:
     ABEntry(const std::string& name, const std::string& address,
@@ -239,9 +260,9 @@ ABEntry::ABEntry(const std::string& name, const std::string& address,
 // 库中的
 class FileSystem {
 public:
-    ...
+    /*...*/
     std::size_t numDisks() const;  // 众多成员函数之一
-    ...
+    /*...*/
 };
 extern FileSystem tfs;
 
@@ -249,13 +270,13 @@ extern FileSystem tfs;
 class Directory {
 public:
     Directory( /*params*/ );
-    ...
+    /*...*/
 };
 Directory::Directory( /*params*/ )
 {
-    ...
+    /*...*/
     std::size_t disks = tfs.numDisks();
-    ...
+    /*...*/
 }
 
 Directory tempDir( /*params*/ );
@@ -270,12 +291,12 @@ Directory tempDir( /*params*/ );
     return fs;
 }
 
-class Directory { ... };
+class Directory { /*...*/ };
 Directory::Directory( /*params*/ )
 {
-    ...
+    /*...*/
     std::size_t disks = tfs().numDisks();
-    ...
+    /*...*/
 }
 Directory& tempDir()
 {
@@ -294,7 +315,7 @@ Directory& tempDir()
 
 
 ## 2. 构造/析构/赋值运算 - Constructors, Destructors, and Assignment Operators
-### 条款05: 了解C++默默编写并调用哪些函数 - Know what functions C++ silently writes and calls.
+### 条款 05: 了解C++默默编写并调用哪些函数 - Know what functions C++ silently writes and calls.
 - 编译器会为一个空类自动生成一个拷贝构造函数, 一个拷贝赋值操作符, 和一个析构函数. 
 - 当一个类没有声明任何构造函数时, 编译器也会为你声明一个默认构造函数. 所以空类也会被生成一个默认构造函数.  
 - 生成的析构函数是个non-virtual的, 除非它的基类自身声明了virtual析构函数.  
@@ -307,7 +328,7 @@ class NamedObject {
 public:
     NamedObject(const char* name, const T& value);
     NamedObject(const std::string& name, const T& value);
-    ...
+    /*...*/
 private:
     std::string nameValue;
     T objectValue;
@@ -325,7 +346,7 @@ NamedObject<int> no2(no1);
 总结:
 - 编译器可以暗自为class创建默认构造函数, 拷贝构造函数, 拷贝赋值操作符, 以及析构函数.  
 
-### 条款06: 若不想使用编译器自动生成的函数, 就该明确拒绝 - Explicitly disallow the use of compiler-generated functions you do not want.  
+### 条款 06: 若不想使用编译器自动生成的函数, 就该明确拒绝 - Explicitly disallow the use of compiler-generated functions you do not want.  
 - 如果没有手动声明拷贝构造函数或拷贝赋值运算符, 且有人尝试调用时, 系统会自动生成(条款05)且产出的函数为`public`.
 - 对于上一条的问题, 下面有一种解决方法:  
   - 为阻止这些函数被创建, 得自行声明它们为`private`, 这样可以直接阻止人们调用它们. 但是缺点是成员函数或者友元还是可以成功调用.    
@@ -344,7 +365,7 @@ private:
 };
 
 class HomeForSale: private Uncopyable {       // class不再声明
-    ...                                       // 拷贝构造和拷贝
+    /*...*/                                       // 拷贝构造和拷贝
 };                                            // 赋值运算符
 ```
 - 对于刚才的方法, 使用基类的方法可以简化一系列操作.  
@@ -353,24 +374,24 @@ class HomeForSale: private Uncopyable {       // class不再声明
 总结:
 - 为驳回编译器自动(暗自)提供的机能, 可将相应的成员函数声明为`private`并且不予实现. 使用像`Uncopyable`这样的基类也是一种做法.  
 
-### 条款07: 为多态基类声明virtual析构函数 - Declear destructors virtual in polymorphic base classes. 
+### 条款 07: 为多态基类声明virtual析构函数 - Declear destructors virtual in polymorphic base classes. 
 ```c++
 class TimeKeeper {
 public:
     TimeKeeper();
     ~TimeKeeper();
-    ...
+    /*...*/
 };
-class AtomicClock: public TimeKeeper { ... };   // 原子钟
-class WaterClock: public TimeKeeper ( ... );    // 水钟
-class WristWatch: public TimeKeeper { ... };    // 腕表
+class AtomicClock: public TimeKeeper { /*...*/ };   // 原子钟
+class WaterClock: public TimeKeeper ( /*...*/ );    // 水钟
+class WristWatch: public TimeKeeper { /*...*/ };    // 腕表
 
 TimeKeeper* getTimeKeeper();        // 返回一个指针, 指向一个
                                     // TimeKeeper派生类的动态分配对象
 
 TimeKeeper* ptk = getTimeKeeper();  // 从TimeKeeper继承体系
                                     // 获得一个动态分配对象
-...                                 // 运用它 ... 
+/*...*/                                 // 运用它 /*...*/ 
 delete ptk;                         // 释放它, 避免资源泄漏
 ```
 - 上面是一个基类和三个派生类, 以及一个工厂函数.  
@@ -382,10 +403,10 @@ class TimeKeeper {
 public:
     TimeKeeper();
     virtual ~TimeKeeper();
-    ...
+    /*...*/
 };
 TimeKeeper* ptk = getTimeKeeper();
-...
+/*...*/
 delete ptk;                             // Now, right!
 ```
 - C++明确指出, 当一个派生类对象经由一个基类指针被删除, 而该基类带着一个非虚析构函数, 其结果为UB -- 实际执行时通常发生的是对象的派生成分没被销毁; 如果`getTimeKeeper`返回指针指向一个`AtomicClock`对象, 其内的`AtomicClock`成分可能没被销毁, 而`AtomicClock`的析构函数也未能执行起来. 总之就是会出现一种诡异"局部销毁"的对象. 
@@ -407,20 +428,20 @@ public:
 - 带多态性质的基类应声明一个虚析构函数. 如果类带有任何虚函数, 它就应该拥有一个虚析构函数. 
 - 类设计目的如果不是作为基类使用, 或不是为了具备多态性, 就不该声明虚析构函数.   
 
-### 条款08: 别让异常逃离析构函数 - Prevent exceptions from leaving destructors.
+### 条款 08: 别让异常逃离析构函数 - Prevent exceptions from leaving destructors.
 - C++并不禁止析构函数吐出异常, 但是它不推荐你这么做. (因为可能会引发UB.)  
 
 ```c++
 class DBConnection {                   // 假设这是一个用于数据库连接的类
 public:
-    ...
-    static DBConnection create();      // ...
+    /*...*/
+    static DBConnection create();      // /*...*/
     void close();                      // 关闭连接, 失败则抛出异常
 };
 
 class DBConn {                         // DBConnection的管理类, 见第三章
 public:
-    ...
+    /*...*/
     // Version O
     ~DBConn()                          // 确保数据库连接总是会被关闭
     {
@@ -432,7 +453,7 @@ private:
 
 {                                       // 开启一个区块
     DBConn dbc(DBConnection::create()); // 建立一个DBConnection对象并交给DBConn对象管理
-    ...                                 // 通过DBConn的接口使用DBConnection对象
+    /*...*/                                 // 通过DBConn的接口使用DBConnection对象
 }                                       // 在区块结束点, DBConn对象被销毁
                                         // 因而自动为DBConnection对象调用close
 
@@ -440,7 +461,7 @@ private:
 DBConnn::~DBConn()
 {
     try { db.close(); }
-    catch (...) {
+    catch (/*...*/) {
         制作运转记录, 记下对close的调用失败;
         std::abort();
     }
@@ -450,7 +471,7 @@ DBConnn::~DBConn()
 DBConn::~DBConn()
 {
     try { db.close; }
-    catch (...) {
+    catch (/*...*/) {
         制作运转记录, 记下对close的调用失败;
     }
 }
@@ -463,7 +484,7 @@ DBConn::~DBConn()
 // Version 3
 class DBConn {
 public:
-    ...
+    /*...*/
     void close()
     {
         db.close();
@@ -475,9 +496,9 @@ public:
             try {
                 db.close();
             }
-            catch (...) {
+            catch (/*...*/) {
                 制作运转记录, 记下对close的调用失败;
-                ...       // 吞下异常
+                /*...*/       // 吞下异常
             }
         }
     }
@@ -493,7 +514,7 @@ private:
 - 析构函数绝对不要吐出异常. 如果一个析构函数调用的函数可能抛出异常, 析构函数应该捕捉任何异常, 然后吞下它们(不传播)或结束程序.  
 - 如果客户需要对某个操作函数运行期间抛出的异常做出反应, 那么类应该提供一个普通函数(而非在析构函数中)执行该操作. 
 
-### 条款09: 绝不在构造和析构过程中调用虚函数 - Never call virtual functions during construction or destruction. 
+### 条款 09: 绝不在构造和析构过程中调用虚函数 - Never call virtual functions during construction or destruction. 
 - 不该在构造函数和析构函数期间调用虚函数, 因为这样的调用不会带来预想的结果. 
 
 ```c++
@@ -502,25 +523,25 @@ public:
     Transaction();                              // 所有交易的基类
     virtual void logTransaction() const = 0;    // 做出一份因类型不同而不同
                                                 // 的日志记录
-    ...
+    /*...*/
 };
 
 Transaction::Transaction()                      // 基类的构造函数实现
 {
-    ...
+    /*...*/
     logTransaction();                           // 最后动作是记录这笔交易
 }
 
 class BuyTransaction: public Transaction {
 public:
     virtual void logTransaction() const;        // 记录此类交易
-    ...
+    /*...*/
 };
 
 class SellTransaction: public Transaction {
 public:
     virtual void logTransaction() const;        // 同上
-    ...
+    /*...*/
 };
 
 BuyTransaction b;
@@ -540,7 +561,7 @@ public:
 private:
     void init()
     {
-        ...
+        /*...*/
         logTransaction();         // 这里调用虚函数
     }
 };
@@ -553,19 +574,19 @@ class Transaction {
 public:
     explicit Transaction(const std::string& logInfo);
     void logTransaction(const std::string& logInfo) const;
-    ...
+    /*...*/
 };
 Transaction::Transaction(const std::string& logInfo)
 {
-    ...
+    /*...*/
     logTransaction(logInfo);
 }
 class BuyTransaction: public Transaction {
 public:
     BuyTransaction( *parameters* )
      : Transaction(createLogString( *parameters* ))
-    { ... }
-    ...
+    { /*...*/ }
+    /*...*/
 private:
     static std::string createLogString( *parameters* );
 };
@@ -575,7 +596,7 @@ private:
 总结:
 - 在构造和析构期间不要调用虚函数, 因为这类调用从不下降至派生类(比起当前执行构造函数和析构函数的那层).  
 
-### 条款10: 令operator=返回一个引用指向`*this` - Have assignment operators return a reference to `*this`.
+### 条款 10: 令operator=返回一个引用指向`*this` - Have assignment operators return a reference to `*this`.
 ```c++
 int x, y, z;
 x = y = z = 15;        // 赋值连锁形式
@@ -587,35 +608,35 @@ x = (y = (z = 15));    // <解析>
 ```c++
 class Widget {
 public:
-    ...
+    /*...*/
     Widget& operator+=(const Widget& rhs)
     {
-        ...
+        /*...*/
         return *this;
     }
     Widget& operator=(const Widget& rhs)
     {
-        ...
+        /*...*/
         return *this;
     }
-    ...
+    /*...*/
 };
 ```
 
 总结:
 - 令赋值(assignment)操作符返回一个指向`*this`的引用.  
 
-### 条款11: 在operator=中处理自我赋值 - Handle assignment to self in operator=.
+### 条款 11: 在operator=中处理自我赋值 - Handle assignment to self in operator=.
 ```c++
-class Widget { ... };
+class Widget { /*...*/ };
 Widget w;
-...
+/*...*/
 w = w;                   // 愚蠢的自我赋值
 a[i] = a[j];             // 潜在的自我赋值
 *px = *py;               // 潜在的自我赋值
 
-class Base { ... };
-class Derived: public Base { ... };
+class Base { /*...*/ };
+class Derived: public Base { /*...*/ };
 void doSomething(const Base& rb, Derived* pd);  // 更加潜在的
                             //rb和*pd可能指向同一个对象
 ```
@@ -624,9 +645,9 @@ void doSomething(const Base& rb, Derived* pd);  // 更加潜在的
 - 第四种也可能存在一种潜在的自我赋值行为. 
 
 ```c++
-class Bitmap { ... };
+class Bitmap { /*...*/ };
 class Widget {
-    ...
+    /*...*/
 private:
     Bitmap* pb;
 };
@@ -674,11 +695,11 @@ Widget& Widget::operator=(const Widget& rhs)
 - 异常安全性的版本见条款29.  
 
 ```c++
-class Bitmap { ... };
+class Bitmap { /*...*/ };
 class Widget {
-    ...
+    /*...*/
     void swap(Widget& rhs);   // 交换*this和rhs的数据, 详见条款29
-    ...
+    /*...*/
 };
 
 Widget& operator=(const Widget& rhs)
@@ -702,7 +723,7 @@ Widget& operator=(Widget rhs)    // 副本在值传递的时候产生
 - 确保当对象自我复制时`operator=`有良好行为. 其中技术包括比较"来源对象"和"目标对象"的地址, 精心周到的语句顺序, 以及copy-and-swap.  
 - 确定任何函数如果操作一个以上的对象, 而其中多个对象是同一个对象时, 其行为仍然正确.  
 
-### 条款12: 复制对象时勿忘其每一个成分 - Copy all parts of an object.   
+### 条款 12: 复制对象时勿忘其每一个成分 - Copy all parts of an object.   
 - 良好的面向对象系统(OO-systems)会将对象的内部封装起来, 只保留两个函数负责对象拷贝, 一个是拷贝构造函数, 另一个是拷贝赋值操作符, 将它们统称为拷贝函数.  
 - 条款5中提到编译器会在必要时为我们生成拷贝函数, 并说明这些生成版函数的行为: 将被拷贝对象的所有对象变量都做一份拷贝.  
 - 原书说如果自己写拷贝函数编译器可能会不高兴并且会报复你:  
@@ -711,10 +732,10 @@ Widget& operator=(Widget rhs)    // 副本在值传递的时候产生
 void logCall(const std::string& funcName);
 class Customer {
 public:
-    ...
+    /*...*/
     Customer(const Customer& rhs);
     Customer& operator=(const Customer& rhs);
-    ...
+    /*...*/
 private:
     std::string name;
 };
@@ -733,10 +754,10 @@ Customer& Customer::operator=(const Customer& rhs)
 }
 
 // Update
-class Date { ... }l
+class Date { /*...*/ }l
 class Customer {
 public:
-    ...
+    /*...*/
 private:
     std::string name;
     Date lastTransaction;
@@ -749,10 +770,10 @@ private:
 ```c++
 class PriorityCustomer: public Customer {
 public:
-    ...
+    /*...*/
     PriorityCustomer(const PriorityCustomer& rhs);
     PriorityCustomer& operator=(const PriorityCustomer& rhs);
-    ...
+    /*...*/
 private:
     int priority;
 };
@@ -799,6 +820,112 @@ PriorityCustomer::operator=(const PriorityCustomer& rhs)
 
 总结:
 - 拷贝函数应该缺包复制"对象内的所有成员变量"及"所有基类成分".  
-- 不要尝试以某个拷贝函数实现另一个拷贝函数. 应该将共同机能放进第三个函数中, 并由两个拷贝函数共同调用.  
+- 不要尝试以某个拷贝函数实现另一个拷贝函数. 应该将共同机能放进第三个函数中, 并由两个拷贝函数共同调用.
+
+
 ## 3. 资源管理 - Resource Management
-### 条款13. 以对象管理资源 - Use objects to manage resources. 
+### 条款 13. 以对象管理资源 - Use objects to manage resources. 
+```c++
+class Investment { /*...*/ };          // root class
+Investment* createInvestment();    // 返回指针, 指向 Investment 体系内的动态分配对象.
+                                   // 调用者有责任删除它
+
+// ver.1
+void f()
+{
+    Investment* pInv = createInvestment();
+    /*...*/
+    delete pInv;                   // **该 delete 坑会因为各种原因无法访达**
+}
+
+// ver.2
+void f()
+{
+    std::auto_ptr<Investment> pInv(createInvestment());
+    /*...*/
+}
+
+```
+- 为确保 `createInvestment` 返回的资源总是被释放, 我们将资源放进对象内, 我们便可以依赖 C++ 的"析构函数自动调用机制"确保资源被释放. 
+- 标准库提供的 `auto_ptr` 就提供了类似的功能, 其析构函数会在其离开作用域或函数时被调用, 其指向的对象会被调用 `delete`. 
+
+通过这个简单的例子示范"以对象管理资源"的两个关键思想:   
+- **获得资源后立刻放进管理对象(managing object)内**. 以上代码中 `createInvestment` 返回的资源被当作管理者 `auto_ptr` 的初值. 实际上这就是"资源取得便是初始化"(Resource Acquisition Is Initialization; RAII). 
+- **管理对象运用析构函数确保资源被释放**.
+
+```c++
+std::auto_ptr<Investment> pInv1(createInvestment());   // pInv1 指向返回物
+std::auto_ptr<Investment> pInv2(pInv1);                // pInv2 指向对象, pInv1 被设置为 null
+pInv1 = pInv2;                    // pInv1 指向对象, pInv2 被设置为 null
+```
+- 根据以上特性可以总结, 一个对象不能被多个 `auto_ptr` 引用, 否则可能会悬垂引用的问题.  
+- 所以这里对的 `auto_ptr` 的复制行为, 被类似移动的行为替代了.  
+
+```c++
+void f()
+{
+    /*...*/
+    std::tr1::shared_ptr<Investment> pInv1(createInvestment());  // pInv1 指向返回物
+    std::tr1::shared_ptr<Investment> pInv2(pInv1);     // pInv1 和 pInv2 指向同一个对象
+    pInv1 = pInv2;    // 无变化
+}
+```
+- 新标准库中添加了 `shared_ptr` 对象作为"引用计数型智能指针"(reference-counting smart pointer; RCSP). 原书的 C++ 版本可能较旧, 名称空间相对可能有一些区别. 
+
+```c++
+std::auto_ptr<std::string> aps(new std::string[10]);  // 错误
+std::tr1::shared_ptr<int> spi(new int[1024]);         // 错误
+```
+- 注意, 无论是以上哪个智能指针, 析构函数内完成的都是 `delete` 动作而不是 `delete[]` 动作.  
+- 标准库没有这样进行针对性设计的原因, 是例如 `vector` 或是 `string` 这样的几乎可以取代动态分配而得到的数组.  
+- 如果一定要用针对数组设计的智能指针, 参考条款 55 的 Boost 内容.  
+
+总结:  
+- 为防止资源泄露, 请使用 RAII 对象, 它们在构造函数中获得资源并在析构函数中释放资源.
+- 两个常被使用的 RAII 类分别是 `std::tr1::shared_ptr` 和 `std::auto_ptr`. 前者通常是最佳选择, 因为其拷贝行为比较直观. 如果使用后者, 复制动作会使它指向 null.
+
+### 条款 14. 在资源管理类中小心复制行为 - Think carefully about copying behavior in resource-managing classes. 
+条款 13 中提到 RAII, 只适用于分配在堆上的资源. 对于其他的资源, 智能指针往往不适合作为资源掌管者. 所以, 有可能需要建立自己的资源管理类.  
+
+```c++
+void lock(Mutex* pm);       // 锁定 pm 所指的互斥器
+void unlock(Mutex* pm);     // 将互斥器解除锁定
+
+class Lock {
+public:
+    explicit Lock(Mutex* pm)
+     : mutexPtr(pm)
+    { lock(mutexPtr); }
+    ~Lock() { unlock(mutexPtr); }
+private:
+    Mutex* mutexPtr;
+};
+
+Mutex m;
+{                           // 建立一个作用域用来定义 critical section
+    Lock m1(&m);            // 构造器会帮助锁定互斥器
+}                           // 作用域末尾, 析构器调用, 自动解除互斥器锁定
+Lock ml1(&m);               // 锁定 m
+Lock ml2(ml1);              // 将 ml1 复制到 ml2 身上. 会发生什么?
+```
+- 对于 RAII 对象的复制, 条款 13 中已经提到过, 有两种解决方案, 分别为 `auto_ptr` 代表的禁止复制和 `shared_ptr` 代表的对底层资源的"引用计数法". 
+
+```c++
+class Lock {
+public:
+    explicit Lock(Mutex* pm)
+     : mutexPtr(pm, unlock)      // 以某个 Mutex 初始化 shared_ptr, 第二个参数为删除器
+    {
+        lock(mutexPtr.get());
+    }
+private:
+    std::tr1::shared_ptr<Mutex> mutexPtr;
+};
+```
+- `tr1::shared_ptr` 允许指定删除器, 那是一个函数或者函数对象, 将会在引用计数为 0 时被调用.  
+
+还有一种拷贝方法是执行深度拷贝(deep copying). 
+
+总结: 
+- 复制 RAII 对象必须一并复制它所管理的资源, 所以资源的复制行为决定 RAII 对象的复制行为.
+- 普遍而常见的 RAII 类拷贝行为是: 抑制拷贝, 施行引用计数法. 不过其他行为也都可能被实现. 
