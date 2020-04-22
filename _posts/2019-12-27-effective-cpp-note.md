@@ -799,7 +799,8 @@ PriorityCustomer::operator=(const PriorityCustomer& rhs)
 
 总结:
 - 拷贝函数应该缺包复制"对象内的所有成员变量"及"所有基类成分".  
-- 不要尝试以某个拷贝函数实现另一个拷贝函数. 应该将共同机能放进第三个函数中, 并由两个拷贝函数共同调用.  
+- 不要尝试以某个拷贝函数实现另一个拷贝函数. 应该将共同机能放进第三个函数中, 并由两个拷贝函数共同调用.
+
 
 ## 3. 资源管理 - Resource Management
 ### 条款 13. 以对象管理资源 - Use objects to manage resources. 
