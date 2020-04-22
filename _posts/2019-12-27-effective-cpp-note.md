@@ -10,6 +10,27 @@ keywords: cpp
 更新, 寒假前没有完成, 寒假开头赶工.   
 实际上又因为拖延症拖延到疫情快结束了. 这篇的原时间是 2019 年 12 月 17 日, 现在修改到今天的日期. 还算是敲门砖, 毕竟是今年开的第一个文章.   
 
+侧面的目录不方便, 这里再来生成一个:
+- [1. 让自己习惯C++ - Accustoming Yourself to C++](#1-%e8%ae%a9%e8%87%aa%e5%b7%b1%e4%b9%a0%e6%83%afc---accustoming-yourself-to-c)
+  - [条款 01: 视C++为一个语言联邦 - View C++ as a federation of languages.](#%e6%9d%a1%e6%ac%be-01-%e8%a7%86c%e4%b8%ba%e4%b8%80%e4%b8%aa%e8%af%ad%e8%a8%80%e8%81%94%e9%82%a6---view-c-as-a-federation-of-languages)
+  - [条款 02: 尽量以const, enum, inline替换#define - Prefer consts, enums, and inlines to #defines.](#%e6%9d%a1%e6%ac%be-02-%e5%b0%bd%e9%87%8f%e4%bb%a5const-enum-inline%e6%9b%bf%e6%8d%a2define---prefer-consts-enums-and-inlines-to-defines)
+  - [条款 03: 尽可能使用const - Use const whenever possible.](#%e6%9d%a1%e6%ac%be-03-%e5%b0%bd%e5%8f%af%e8%83%bd%e4%bd%bf%e7%94%a8const---use-const-whenever-possible)
+  - [条款 04: 确定对象被使用前已先被初始化 - Make sure that objects are initialized before they're used.](#%e6%9d%a1%e6%ac%be-04-%e7%a1%ae%e5%ae%9a%e5%af%b9%e8%b1%a1%e8%a2%ab%e4%bd%bf%e7%94%a8%e5%89%8d%e5%b7%b2%e5%85%88%e8%a2%ab%e5%88%9d%e5%a7%8b%e5%8c%96---make-sure-that-objects-are-initialized-before-theyre-used)
+- [2. 构造/析构/赋值运算 - Constructors, Destructors, and Assignment Operators](#2-%e6%9e%84%e9%80%a0%e6%9e%90%e6%9e%84%e8%b5%8b%e5%80%bc%e8%bf%90%e7%ae%97---constructors-destructors-and-assignment-operators)
+  - [条款 05: 了解C++默默编写并调用哪些函数 - Know what functions C++ silently writes and calls.](#%e6%9d%a1%e6%ac%be-05-%e4%ba%86%e8%a7%a3c%e9%bb%98%e9%bb%98%e7%bc%96%e5%86%99%e5%b9%b6%e8%b0%83%e7%94%a8%e5%93%aa%e4%ba%9b%e5%87%bd%e6%95%b0---know-what-functions-c-silently-writes-and-calls)
+  - [条款 06: 若不想使用编译器自动生成的函数, 就该明确拒绝 - Explicitly disallow the use of compiler-generated functions you do not want.](#%e6%9d%a1%e6%ac%be-06-%e8%8b%a5%e4%b8%8d%e6%83%b3%e4%bd%bf%e7%94%a8%e7%bc%96%e8%af%91%e5%99%a8%e8%87%aa%e5%8a%a8%e7%94%9f%e6%88%90%e7%9a%84%e5%87%bd%e6%95%b0-%e5%b0%b1%e8%af%a5%e6%98%8e%e7%a1%ae%e6%8b%92%e7%bb%9d---explicitly-disallow-the-use-of-compiler-generated-functions-you-do-not-want)
+  - [条款 07: 为多态基类声明virtual析构函数 - Declear destructors virtual in polymorphic base classes.](#%e6%9d%a1%e6%ac%be-07-%e4%b8%ba%e5%a4%9a%e6%80%81%e5%9f%ba%e7%b1%bb%e5%a3%b0%e6%98%8evirtual%e6%9e%90%e6%9e%84%e5%87%bd%e6%95%b0---declear-destructors-virtual-in-polymorphic-base-classes)
+  - [条款 08: 别让异常逃离析构函数 - Prevent exceptions from leaving destructors.](#%e6%9d%a1%e6%ac%be-08-%e5%88%ab%e8%ae%a9%e5%bc%82%e5%b8%b8%e9%80%83%e7%a6%bb%e6%9e%90%e6%9e%84%e5%87%bd%e6%95%b0---prevent-exceptions-from-leaving-destructors)
+  - [条款 09: 绝不在构造和析构过程中调用虚函数 - Never call virtual functions during construction or destruction.](#%e6%9d%a1%e6%ac%be-09-%e7%bb%9d%e4%b8%8d%e5%9c%a8%e6%9e%84%e9%80%a0%e5%92%8c%e6%9e%90%e6%9e%84%e8%bf%87%e7%a8%8b%e4%b8%ad%e8%b0%83%e7%94%a8%e8%99%9a%e5%87%bd%e6%95%b0---never-call-virtual-functions-during-construction-or-destruction)
+  - [条款 10: 令operator=返回一个引用指向`*this` - Have assignment operators return a reference to `*this`.](#%e6%9d%a1%e6%ac%be-10-%e4%bb%a4operator%e8%bf%94%e5%9b%9e%e4%b8%80%e4%b8%aa%e5%bc%95%e7%94%a8%e6%8c%87%e5%90%91this---have-assignment-operators-return-a-reference-to-this)
+  - [条款 11: 在operator=中处理自我赋值 - Handle assignment to self in operator=.](#%e6%9d%a1%e6%ac%be-11-%e5%9c%a8operator%e4%b8%ad%e5%a4%84%e7%90%86%e8%87%aa%e6%88%91%e8%b5%8b%e5%80%bc---handle-assignment-to-self-in-operator)
+  - [条款 12: 复制对象时勿忘其每一个成分 - Copy all parts of an object.](#%e6%9d%a1%e6%ac%be-12-%e5%a4%8d%e5%88%b6%e5%af%b9%e8%b1%a1%e6%97%b6%e5%8b%bf%e5%bf%98%e5%85%b6%e6%af%8f%e4%b8%80%e4%b8%aa%e6%88%90%e5%88%86---copy-all-parts-of-an-object)
+- [3. 资源管理 - Resource Management](#3-%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86---resource-management)
+  - [条款 13. 以对象管理资源 - Use objects to manage resources.](#%e6%9d%a1%e6%ac%be-13-%e4%bb%a5%e5%af%b9%e8%b1%a1%e7%ae%a1%e7%90%86%e8%b5%84%e6%ba%90---use-objects-to-manage-resources)
+  - [条款 14. 在资源管理类中小心复制行为 - Think carefully about copying behavior in resource-managing classes.](#%e6%9d%a1%e6%ac%be-14-%e5%9c%a8%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86%e7%b1%bb%e4%b8%ad%e5%b0%8f%e5%bf%83%e5%a4%8d%e5%88%b6%e8%a1%8c%e4%b8%ba---think-carefully-about-copying-behavior-in-resource-managing-classes)
+
+
+
 ## 1. 让自己习惯C++ - Accustoming Yourself to C++
 ### 条款 01: 视C++为一个语言联邦 - View C++ as a federation of languages.
 - C++如今已经是一个多重范型编程语言(multiparadigm programming language), 同时支持过程形式(procedural), 面向对象形式(object-oriented), 函数形式(functional), 泛型形式(generic), 元编程形式(metaprogramming).  
