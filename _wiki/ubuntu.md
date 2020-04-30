@@ -269,10 +269,16 @@ conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
 PyTorch: [https://pytorch.org](https://pytorch.org)   
 
 ## VSCode
-安装 VSCode, 安装 Settings Sync 插件, 填写 Public Gist Token 下载我自己的配置:  
+安装 VSCode, 安装 Settings Sync 插件~~, 填写 Public Gist Token 下载我自己的配置:~~  
+
+~~
+
 ```
 e90863b86fb537376f54a1c9e1049039
 ```
+~~
+
+直接登录 GitHub 帐号即可. 
 详见 VSCode Wiki.  
 reference: [https://yescafe.github.io/wiki/vscode/](https://yescafe.github.io/wiki/vscode/)
 
@@ -305,3 +311,15 @@ sudo gdebi crossover.deb
 ```
 
 reference: [https://www.codeweavers.com/support/wiki/linux/linuxtutorial/install](https://www.codeweavers.com/support/wiki/linux/linuxtutorial/install)
+
+## thefuck
+Installation:
+```bash
+pip3 install thefuck --user
+```
+
+`eval` config:
+```
+# thefuck configuration
+eval $(thefuck --alias)
+```
