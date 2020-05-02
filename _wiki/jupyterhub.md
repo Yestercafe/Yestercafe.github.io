@@ -182,7 +182,7 @@ c.JupyterHub.bind_url = 'http://:8000/jupyter'
 Now configure Nginx. Firstly, back up the original file:  
 
 ```bash
-mv /etc//etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+mv /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
 ```
 
  New a `/etc/nginx/sites-available/default`, Add this snippet:  
