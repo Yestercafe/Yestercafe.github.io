@@ -111,13 +111,116 @@ Check it's running status:
 systemctl status jupyterhub.service
 ```
 
-
-
 ## Part II. Conda Environments
 
+### Install conda for the whole system
 
+Install Anconda using this command:  
 
+```bash
+wget https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
+```
 
+or use Tsinghua mirrors for Chinese users:  
+
+```bash
+wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda3-2020.02-Linux-x86_64.sh
+```
+
+You can find the latest version on [the official website](https://www.anaconda.com/products/individual).
+
+Install conda in `/opt` directory. 
+
+Then make a symlink to the profile folder so that it gets run on login.  
+
+```bash
+ln -s /opt/anaconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh
+```
+
+### Install a default conda environment for all users
+
+First create a folder for conda envs:  
+
+```bash
+mkdir /opt/conda/envs
+```
+
+Then create a new conda environment with `ipykernel`.  You can call it whatever you like.  
+
+```bash
+/opt/conda/bin/conda create --prefix /opt/conda/envs/python python=3.7 ipykernel
+```
+
+Wait for a minute. 
+
+### Setting up users' own conda environments
+
+Users can use the following command enable their own kernel by `ipykernel`:  
+
+```bash
+python -m ipykernel install --name 'python-my-env' --display-name "Python My Env"
+```
+
+This will place the kernel spec into their home folder, where Jupyter will look for it on startup.  
+
+## Setting Up a Reverse Proxy (Optional)
+
+### Using Nginx
+
+Install Nginx:  
+
+```bash
+sudo apt install nginx
+```
+
+Edit the JupyterHub configuration file, add the line:  
+
+```python
+c.JupyterHub.bind_url = 'http://:8000/jupyter'
+```
+
+Now configure Nginx. Firstly, back up the original file:  
+
+```bash
+mv /etc//etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+```
+
+ New a `/etc/nginx/sites-available/default`, Add this snippet:  
+
+```
+map $http_upgrade $connection_upgrade {
+	default upgrade;
+	'' close;
+}
+server {
+	listen 80;
+	listen [::]:80;
+
+	server_name _;
+
+	location /jupyter/ {
+	proxy_pass http://127.0.0.1:8000;
+
+		proxy_redirect off;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
+
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection $connection_upgrade;
+	}
+}
+```
+
+Restart `nginx.service` and `jupyterhub.service`:  
+
+```bash
+systemctl restart jupyterhub.service
+systemctl restart nginx.service
+```
+
+Browse to `123.456.789.1/jupyter` to test Nginx runnable.  
 
 
 ## Reference
