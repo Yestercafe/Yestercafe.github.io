@@ -323,3 +323,17 @@ pip3 install thefuck --user
 # thefuck configuration
 eval $(thefuck --alias)
 ```
+
+## Vim
+
+自动配置 Vim 的一套方案，作者 ma6174。
+
+1. 安装 ctags：`sudo apt-get install ctags`  
+2. 安装一些必备程序：`sudo apt-get install xclip vim-gnome astyle python-setuptools`
+3. `sudo ln -s /usr/bin/ctags /usr/local/bin/ctags`  
+4. clone配置文件：`cd ~/ && git clone git://github.com/ma6174/vim.git`  
+5. `mv ~/vim ~/.vim; mv ~/.vim/.vimrc ~/`  
+6. clone bundle 程序：`git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle`  
+7. 打开 vim 并执行 bundle 程序 `:BundleInstall`  
+
+reference: [https://github.com/ma6174/vim](https://github.com/ma6174/vim)
