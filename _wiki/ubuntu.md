@@ -74,36 +74,61 @@ git config --global user.email qyc027@gmail.com
 ### git 代理
 #### HTTP 协议
 ```bash
-git config --global http.proxy 127.0.0.1:2340
-git config --global https.proxy 127.0.0.1:2340
+git config --global http.proxy 127.0.0.1:HTTP_PORT
+git config --global https.proxy 127.0.0.1:HTTP_PORT
 ```
 #### git 协议
-git 协议是走 ssh 的，直接修改 ssh 的配置： 
+git 协议是走 SSH 的，直接修改 SSH 的配置： 
 `~/.ssh/config`:
 ```
 Host github.com
-User git
-ProxyCommand nc -x 127.0.0.1:2341 %h %p
+    User git
+    # ProxyCommand socat - PROXY:127.0.0.1:%h:%p,proxyport=1080
+    # ProxyCommand nc -v -x 192.168.0.254:1080 %h %p
 ```
+使用 HTTP 代理解注释 L3，需安装 socat；使用 SOCKS5 代理解注释 L4，需安装 netcat。
+
 ### SSH 密钥
 ```bash
 ssh-keygen -t rsa -C qyc027@gmail.com
 ```
 添加到 GitHub 上。  
 
-## 代理工具方案
-### 方案一. Electron-SSR
-直接找到存盘的 deb 包进行安装。  
+## 代理
+### Shell 代理
+#### proxychains
+安装：   
 ```bash
-sudo dpkg -i `ls | grep ssr`
+sudo apt install proxychains
 ```
-然后使用 Terminal 启动 `electron-ssr`，Terminal 中会输出 debugging log，便于锁定缺失的依赖。   
-根据 source repo(backup) 提供的 readme，需要补充一些依赖：  
-```bash
-sudo apt install -y python libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1 libssl-dev libsodium-dev
+配置 `proxychains`：  
+```
+# /etc/proxychains.conf
+# 注释最后一行
+# 添加
+http 127.0.0.1 HTTP_PORT
+```
+使用：  
+```
+proxychains git fetch
 ```
 
-### 方案二. ClashY
+#### 变量
+```
+export http_proxy=127.0.0.1:HTTP_PORT
+export https_proxy=127.0.0.1:HTTP_PORT
+```
+使用局部值修饰指令，举例：
+```
+http_proxy=127.0.0.1:HTTP_PORT https_proxy=127.0.0.1:HTTP_PORT git fetch
+```
+
+### 代理工具
+#### Qv2ray
+[https://github.com/Qv2ray/Qv2ray/releases](https://github.com/Qv2ray/Qv2ray/releases)
+[https://github.com/v2ray/v2ray-core/releases](https://github.com/v2ray/v2ray-core/releases)
+
+#### ClashY (deprecated)
 直接到 ClashY repo releases 中下载 AppImage 包，或者应该会有存盘，加 executable 权限运行。 
 *更新：ClashY 已经有 deb 包了。*  
 desktop 文件参考配置：  
@@ -121,20 +146,20 @@ StartupWMClass=ClashY
 *图标可以去 source repo 下载: [icon.ico](https://github.com/SpongeNobody/Clashy/raw/master/build-resources/icon.ico)*
 
 ClashY 目前不支持 Linux/GNOME 自动设置系统代理，所以系统代理需要手动配置。  
+ClashY repo: [https://github.com/SpongeNobody/Clashy](https://github.com/SpongeNobody/Clashy)  
 
-Terminal 中的配置，注意端口号的不同。 
-Electron-SSR:  
+#### Electron-SSR (deprecated)
+直接找到存盘的 deb 包进行安装。  
 ```bash
-export http_proxy=127.0.0.1:12333;export https_proxy=127.0.0.1:12333
+sudo dpkg -i `ls | grep ssr`
 ```
-ClashY:  
+然后使用 Terminal 启动 `electron-ssr`，Terminal 中会输出 debugging log，便于锁定缺失的依赖。   
+根据 source repo(backup) 提供的 readme，需要补充一些依赖：  
 ```bash
-export https_proxy=http://127.0.0.1:2340;export http_proxy=http://127.0.0.1:2340;export all_proxy=socks5h://127.0.0.1:2341
+sudo apt install -y python libcanberra-gtk-module libcanberra-gtk3-module gconf2 gconf-service libappindicator1 libssl-dev libsodium-dev
 ```
-可以直接从 ClashY 后台小猫咪图标的右键菜单中直接复制这段指令。  
 
 electron-ssr-backup repo: [https://github.com/qingshuisiyuan/electron-ssr-backup](https://github.com/qingshuisiyuan/electron-ssr-backup)  
-ClashY repo: [https://github.com/SpongeNobody/Clashy](https://github.com/SpongeNobody/Clashy)  
 
 ## zsh
 zsh 在第二步已经一并装好了，直接安装 `oh-my-zsh`  
@@ -166,8 +191,8 @@ sudo systemctl edit snapd
 
 ### nano: append
 [Service]
-Environment="http_proxy=http://127.0.0.1:port"
-Environment="https_proxy=http://127.0.0.1:port"
+Environment="http_proxy=http://127.0.0.1:HTTP_PORT"
+Environment="https_proxy=http://127.0.0.1:HTTP_PORT"
 ### nano: save&exit
 
 sudo systemctl daemon-reload
@@ -282,7 +307,7 @@ VSCode 64-bit .deb download: [https://code.visualstudio.com/docs/?dv=linux64_deb
 这里备份以下 GFWList 的 URL：  
 [https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt](https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt)
 
-## deb 包
+## `deb` 包
 使用 `gdebi` 工具可以快速安装 `deb` 包和补全依赖。  
 安装：  
 ```bash
