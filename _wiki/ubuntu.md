@@ -83,8 +83,8 @@ git 协议是走 SSH 的，直接修改 SSH 的配置：
 ```
 Host github.com
     User git
-    # ProxyCommand socat - PROXY:127.0.0.1:%h:%p,proxyport=1080
-    # ProxyCommand nc -v -x 192.168.0.254:1080 %h %p
+    # ProxyCommand socat - PROXY:127.0.0.1:%h:%p,proxyport=HTTP_PORT
+    # ProxyCommand nc -v -x 127.0.0.1:SOCKS_PORT %h %p
 ```
 使用 HTTP 代理解注释 L3，需安装 socat；使用 SOCKS5 代理解注释 L4，需安装 netcat。
 
