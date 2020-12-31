@@ -12,6 +12,13 @@ timezone: Asia/Shanghai
 encoding: "utf-8"
 side_bar_repo_limit: 5
 
+
+components:
+    # 不蒜子访问统计
+    busuanzi:
+        enabled: true
+        start_date: 2019-03-12
+
 # ---------------- #
 #      Author      #
 # ---------------- #
