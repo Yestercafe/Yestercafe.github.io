@@ -17,7 +17,7 @@ components:
     # 不蒜子访问统计
     busuanzi:
         enabled: true
-        start_date: 2019-03-12
+        start_date: 2021-01-01
 
 # ---------------- #
 #      Author      #
