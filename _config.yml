@@ -1,132 +1,31 @@
-# ---------------- #
-#   Main Configs   #
-# ---------------- #
-baseurl:
-url: https://yescafe.github.io
-date_format: "ordinal"
-title: Yescafe 的自助餐厅
-subtitle: "連続する日常と断続する非日常が触れ合って 絡まってhalation"
-description: "Yescafe 的博客"
-keywords: yescafe, Yestercafe
-timezone: Asia/Shanghai
-encoding: "utf-8"
-side_bar_repo_limit: 5
+title: Ivan 的自助餐厅 # name of the site
+author: Ivan # name of site's author
+email: qyc027@gmail.com # email of site's author
+url: "" # root address of the site
+baseurl: "" # subpath of the site, e.g. "/blog"
+description: > # description of the site (multiple lines allowed)
+  連続する日常と断続する非日常が触れ合って 絡まってhalation
 
+permalink: /:year:month:day/:slug.html
 
-components:
-    # 不蒜子访问统计
-    busuanzi:
-        enabled: true
-        start_date: 2021-01-01
+favicon: "kagami.png" # name+extension of favicon (which must be put on the root folder)
+# goat_counter: "yoursitename" # put your GoatCounter name if you want to use GoatCounter analytics
 
-# ---------------- #
-#      Author      #
-# ---------------- #
-author: Ivan Chien
-organization: 
-organization_url: 
-github_username: Yescafe
-location: 中国安徽省合肥市
-email: qyc027@outlook.com
+# theme: no-style-please # if you are using GitHub Pages, change it to remote_theme: riggraz/no-style-please
 
-# ---------------- #
-#    Navigation    #
-# ---------------- #
-navs:
-  -
-    href: /
-    label: 首页
+theme_config:
+  appearance: "auto" # can be "light", "dark" or "auto"
+  back_home_text: ".." # customize text for homepage link in post layout
+  date_format: "%Y-%m-%d" # customize how date is formatted
+  show_description: true # show blog description in home page
 
-  -
-    href: /categories/
-    label: 分类
+sass:
+  style: :compressed
 
-  -
-    href: /wiki/
-    label: 维基
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
 
-  -
-    href: /open-source/
-    label: 开源
-
-  - 
-    href: /links/
-    label: 链接
-
-  -
-    href: /about/
-    label: 关于
-
-# ---------------- #
-#       RSS        #
-# ---------------- #
-subscribe_rss: /feed.xml
-
-# ---------------- #
-#      Jekyll      #
-# ---------------- #
 markdown: kramdown
 kramdown:
-    input: GFM
-highlighter: rouge
-paginate: 10
-lsi: false
-quiet: false
-excerpt_separator: "\n\n"
-permalink: /blog/:title
-gems:
-    - jekyll-github-metadata
-    - rouge
-#     - jekyll-html-pipeline
-    - jekyll-paginate
-    - jekyll-sitemap
-    - jekyll-feed
-    - jemoji
-#     - jekyll-mentions
-collections:
-    wiki:
-        output: true
-        permalink: /wiki/:path/
-
-repository: yescafe/yescafe.github.io
-
-# ---------------- #
-#      Comments    #
-# ---------------- #
-# support provider: disqus, gitment, gitalk
-comments_provider: gitalk
-# !!!重要!!! 请修改下面这些信息为你自己申请的
-# !!!Important!!! Please modify infos below to yours
-# https://disqus.com
-disqus:
-    username: 
-# https://imsun.net/posts/gitment-introduction/
-gitment:
-    owner: mzlogin
-    repo: blog-comments
-    oauth:
-        client_id: d2e1cbbd298958076462
-        client_secret: b42a4178e5fd4a7cf63189ef4b1453b05c375709
-# https://github.com/gitalk/gitalk#install
-gitalk:
-    owner: yescafe
-    repo: yescafe.github.io
-    clientID: 057f47cb67e94e89d523
-    clientSecret: 2526dcfab77db21807553a8c1b5367901cc16e20
-# 在使用其它评论组件时可点击显示 Disqus
-lazy_load_disqus : false
-
-# ---------------- #
-#      Search      #
-# ---------------- #
-simple_jekyll_search:
-    # 是否支持全文搜索
-    fulltext: true
-    # 最多显示多少条搜索结果
-    limit: 10
-
-# ---------------- #
-#    Analytics     #
-# ---------------- #
-# google:
-#    analytics_id: UA-80669434-1
+  syntax_highlighter: rouge
