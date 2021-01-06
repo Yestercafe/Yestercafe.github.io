@@ -3,7 +3,7 @@ layout: post
 title: 计算机科学中的数学第三章笔记和习题
 categories: Maths
 description: 
-keywords: Maths
+tags: [Maths]
 ---
 
 ## 真值表

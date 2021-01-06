@@ -3,7 +3,7 @@ layout: post
 title: PC Assembly Language - 6.828 Assembly Guide Book
 categories: Assembly
 description: MIT 6.828 指定的汇编参考书
-keywords: Assembly, 6.828
+tags: [Assembly, OS]
 ---
 
 CSAPP, 还有以后可能还会读一些汇编的书, 所以专门开了一个汇编 category. 而且还放在 6.828 的分类下面.    

@@ -3,7 +3,7 @@ layout: post
 title: C++ Templates 阅读记录 Part I. The Basics 
 categories: cpp
 description: C++ Templates. The Complete Guide Note - Part I. The Basics
-keywords: cpp
+tags: [C++]
 ---
 
 在写这篇之前, 需要强调一下书里也强调了的东西. 因为使用的书是17年出版的C++ Templates第二版, 书中大量地使用了C++14, C++17甚至是C++2a(目前是2a, 不保证我能在20年C++20出来之前看完)标准中的features. 在此列举一些将可能会使用到的特性, 但也不局限于此:  

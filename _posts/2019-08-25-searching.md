@@ -3,7 +3,7 @@ layout: post
 title: 差劲的算法学习 - 优先搜索
 categories: Algorithms
 description: 差劲的算法学习系列, DFS和BFS
-keywords: Algorithms, ACM
+tags: [Algorithms]
 ---
 今天来总结一下关于DFS和BFS的问题.  
 
