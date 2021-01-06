@@ -8,7 +8,7 @@
     text-align: center;
 
     span {
-      font-style: italic;
+      // font-style: italic;
     }
   }
 
@@ -25,6 +25,14 @@
     display: block;
     margin: 0 auto 3rem;
     width: 4rem;
+  }
+
+  &-description {
+    color: $default-tint;
+    font-family: $sans-serif;
+    font-size: 1.2em;
+    margin: 1rem 0;
+    text-align: center;
   }
 
   p {
