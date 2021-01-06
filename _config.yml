@@ -1,31 +1,40 @@
-title: Ivan 的自助餐厅 # name of the site
-author: Ivan # name of site's author
-email: qyc027@gmail.com # email of site's author
-url: "" # root address of the site
-baseurl: "" # subpath of the site, e.g. "/blog"
-description: > # description of the site (multiple lines allowed)
-  連続する日常と断続する非日常が触れ合って 絡まってhalation
+# Site settings
+title:          Yescafe 的自助餐厅
+description:    "連続する日常と断続する非日常が触れ合って 絡まってhalation"
+url:            "https://Yescafe.github.io"
 
-permalink: /:year:month:day/:slug.html
+# Google Analytics
+google_analytics: UA—XXXXXXXX-X
 
-favicon: "kagami.png" # name+extension of favicon (which must be put on the root folder)
-# goat_counter: "yoursitename" # put your GoatCounter name if you want to use GoatCounter analytics
+# Author
+author:
+  name:         Ivan Chien
+  url:          https://github.com/Yescafe
+  email:        qyc027@gmail.com
 
-# theme: no-style-please # if you are using GitHub Pages, change it to remote_theme: riggraz/no-style-please
+# Build settings
+markdown:       kramdown
+include:
+  - _pages
 
-theme_config:
-  appearance: "dark" # can be "light", "dark" or "auto"
-  back_home_text: ".." # customize text for homepage link in post layout
-  date_format: "%Y-%m-%d" # customize how date is formatted
-  show_description: true # show blog description in home page
-
+# Assets
 sass:
-  style: :compressed
+  sass_dir:     _sass
+  style:        compressed
 
+# Gems
 plugins:
   - jekyll-feed
+  - jekyll-paginate
   - jekyll-seo-tag
+  # - jemoji #Uncomment this to allow emoji in your post
 
-markdown: kramdown
-kramdown:
-  syntax_highlighter: rouge
+# Permalinks
+permalink:      /:year-:month-:day/:title
+paginate:       5
+
+# Excludes
+exclude: [ Gemfile, Gemfile.lock, tale.gemspec ]
+
+# Disqus (Set to your disqus id)
+disqus:         jekyll-tale

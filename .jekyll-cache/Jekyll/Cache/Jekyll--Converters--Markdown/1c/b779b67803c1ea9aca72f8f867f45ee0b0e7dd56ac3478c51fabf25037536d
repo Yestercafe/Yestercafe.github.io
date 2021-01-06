@@ -1,0 +1,75 @@
+I"�!<h2 id="5-longest-palindromic-substring">5. Longest Palindromic Substring</h2>
+<p><strong>Difficulty: medium</strong></p>
+
+<p>这题叔之前发过, 记得是二维dp.</p>
+
+<p>Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<blockquote>
+  <p>Input: “babad”
+Output: “bab”
+Note: “aba” is also a valid answer.</p>
+</blockquote>
+
+<p><strong>Example 2:</strong></p>
+
+<blockquote>
+  <p>Input: “cbbd”
+Output: “bb”</p>
+</blockquote>
+
+<p>但是那个二维dp的方法不记得了, 花了挺长时间写了一个记忆化的暴力: <br />
+<strong>1st Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">string</span> <span class="n">longestPalindrome</span><span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">dp</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="mi">0</span><span class="p">));</span>
+        <span class="c1">// dp[a][b]: ```true``` expresses s[a..b] is a palindromic substring;</span>
+        <span class="c1">//           otherwise is not. assert a &lt;= b.</span>
+        <span class="kt">int</span> <span class="n">mx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="n">string</span> <span class="n">substr</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">delta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="n">delta</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+                <span class="n">b</span> <span class="o">+=</span> <span class="n">delta</span><span class="p">;</span>
+                <span class="k">while</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">b</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">b</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">==</span> <span class="n">s</span><span class="p">[</span><span class="n">b</span><span class="p">])</span> <span class="p">{</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                                <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="p">][</span><span class="n">b</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+                            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                                <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+                            <span class="p">}</span>
+                        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                            <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+                        <span class="p">}</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">mx</span><span class="p">)</span> <span class="p">{</span>
+                            <span class="n">mx</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">];</span>
+                            <span class="n">substr</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                    <span class="o">--</span><span class="n">a</span><span class="p">;</span>
+                    <span class="o">++</span><span class="n">b</span><span class="p">;</span> 
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">substr</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong><br />
+Runtime: 212 ms, faster than 18.62% of C++ online submissions for Longest Palindromic Substring.<br />
+Memory Usage: 194.1 MB, less than 5.23% of C++ online submissions for Longest Palindromic Substring.</p>
+
+<p>194MB, 确实够暴力的了.</p>
+
+<p>暂时没有心情去读讨论区的代码了, 之后再补.</p>
+
+<hr />
+:ET

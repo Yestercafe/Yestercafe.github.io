@@ -1,0 +1,232 @@
+I"`q<h2 id="4-median-of-two-sorted-arrays">4. Median of Two Sorted Arrays</h2>
+<p><strong>Difficulty: <font color="red">hard</font></strong></p>
+
+<p>There are two sorted arrays nums1 and nums2 of size m and n respectively.</p>
+
+<p>Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).</p>
+
+<p>You may assume nums1 and nums2 cannot be both empty.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<blockquote>
+  <p>nums1 = [1, 3]<br />
+nums2 = [2]</p>
+</blockquote>
+
+<p>The median is 2.0</p>
+
+<p><strong>Example 2:</strong></p>
+
+<blockquote>
+  <p>nums1 = [1, 2]<br />
+nums2 = [3, 4]</p>
+</blockquote>
+
+<p>The median is (2 + 3)/2 = 2.5</p>
+
+<p>这题给我的第一反应就是, 两个序列, 从后往前, 一个一个来, 排到中间为止, 把中位数算出来就好了. 代码如下:</p>
+
+<p><strong>1st Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">double</span> <span class="n">findMedianSortedArrays</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">+</span> <span class="n">nums2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">sz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nums2</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+                <span class="n">nums1</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nums1</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">nums2</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+                <span class="n">nums2</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+                <span class="k">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">n1</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+            <span class="k">auto</span><span class="o">&amp;</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">nums2</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">n1</span> <span class="o">&lt;</span> <span class="n">n2</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">n2</span><span class="p">;</span>
+                <span class="n">nums2</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">n1</span><span class="p">;</span>
+                <span class="n">nums1</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">sz</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">m</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nums1</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">nums2</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">nums2</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">m</span>  <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">nums1</span><span class="p">.</span><span class="n">back</span><span class="p">(),</span> <span class="n">nums2</span><span class="p">.</span><span class="n">back</span><span class="p">());</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="kt">double</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">pre</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kt">double</span><span class="p">(</span><span class="n">pre</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>写的好累赘, 但是我也不想优化逻辑了, 大致道理刚才也说了, 两个序列, 从后往前, 比较两序列的尾部, 把较大的先pop出来, 然后到位中的时候停就行了.</p>
+
+<p><strong>Rate:</strong><br />
+Runtime: 24 ms<br />
+Memory Usage: 9.5 MB</p>
+
+<p>不过闲来无事, 还是把上面的逻辑优化了一下, 结果…<br />
+<strong>2nd Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">double</span> <span class="n">findMedianSortedArrays</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">auto</span> <span class="n">int_min</span> <span class="o">=</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">();</span>
+        <span class="k">auto</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">+</span> <span class="n">nums2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="kt">int</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">sz</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span><span class="o">&amp;</span> <span class="n">n1</span> <span class="o">=</span> <span class="o">!</span><span class="n">nums1</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">?</span> <span class="n">nums1</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">:</span> <span class="n">int_min</span><span class="p">;</span>
+            <span class="kt">int</span><span class="o">&amp;</span> <span class="n">n2</span> <span class="o">=</span> <span class="o">!</span><span class="n">nums2</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">?</span> <span class="n">nums2</span><span class="p">.</span><span class="n">back</span><span class="p">()</span> <span class="o">:</span> <span class="n">int_min</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">n1</span> <span class="o">&lt;</span> <span class="n">n2</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">n2</span><span class="p">;</span>
+                <span class="n">nums2</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">pre</span> <span class="o">=</span> <span class="n">n1</span><span class="p">;</span>
+                <span class="n">nums1</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">sz</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">m</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">nums1</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">nums2</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">nums2</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">m</span>  <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">nums1</span><span class="p">.</span><span class="n">back</span><span class="p">(),</span> <span class="n">nums2</span><span class="p">.</span><span class="n">back</span><span class="p">());</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="kt">double</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">pre</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kt">double</span><span class="p">(</span><span class="n">pre</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong>  <br />
+Runtime: 32 ms, faster than 11.09% of C++ online submissions for Median of Two Sorted Arrays.<br />
+Memory Usage: 9.4 MB, less than 100.00% of C++ online submissions for Median of Two Sorted Arrays.</p>
+
+<p>甚至还没有刚才理想…</p>
+
+<p>嘛, 不过这题AC确实是AC了, 但是, 完全没有按照题意哦.</p>
+<blockquote>
+  <p>The overall run time complexity should be O(log (m+n)).</p>
+</blockquote>
+
+<p>原题中要求总时间复杂度得是指数级的, 意思就是这题, 得用二分.</p>
+
+<p>没想出来, 参考了讨论区的一个解法, 非常详细, 解释的也非常容易懂. <br />
+https://leetcode.com/problems/median-of-two-sorted-arrays/discuss/345042/C%2B%2B-8ms-99-short-binary-search-solution-w-detailed-explanation</p>
+
+<p>简单说一下他的解法, 因为两个序列都是排序好的, 那么加入把中位数左部分和右部分表示出来的话, 必然是下面这样的: (这里设nums1为a, nums2为b, nums1的size为m, nums2的size为n, m &lt; n, 否则swap): <br />
+<strong>left:</strong>  nums1[0..i], nums2[0..j]<br />
+<strong>right:</strong> nums2[i..m], nums2[j..n]<br />
+(注: 两个点表示的range是左闭右开的区间)</p>
+
+<p>很容易想明白确实就是这样的.</p>
+
+<p>接着开始推公式:</p>
+<ol>
+  <li>当$(m+n)\%2=0$时<br />
+让它们满足, $i+j=m+n-i-j$<br />
+也就是使两个两边的元素数量相等. <br />
+移项, 化简可以得到$j=(m+n)/2-i$<br />
+考虑到C++整数整除的性质, 上式还可以继续写成:<br />
+$j=(m+n+1)/2-i$<br />
+因为$m+n$为偶数嘛, 比方说$4/2=2$, 那么$(4+1)/2=5/2=2$</li>
+  <li>当$(m+n)\%2=1$时<br />
+根据答主的建议, 为了方便之后的编码, 采用左部分比右部分多一个元素的割法, 也就是$i+j=m+n-i-j+1$<br />
+移项, 化简可以得到$j=(m+n+1)/2-i$</li>
+</ol>
+
+<p>所以写到最后, 发现两个的最终的式子其实是一样的, 这就是刚才选择左部分多一个的分割法的原因.</p>
+
+<p>根据原题的序列有序, 理应存在<code class="language-plaintext highlighter-rouge">a[i-1] &lt;= a[i]</code>和<code class="language-plaintext highlighter-rouge">b[j-1] &lt;= b[j]</code>. 当在i处分割时, 不能取得中位数的话, 那么<code class="language-plaintext highlighter-rouge">b[j-1] &gt; a[i]</code>和<code class="language-plaintext highlighter-rouge">a[i-1] &gt; b[j]</code>至少会满足一个. 注意这里是从<code class="language-plaintext highlighter-rouge">a[i-1]</code>和<code class="language-plaintext highlighter-rouge">b[i-1]</code>中取中位数.  <br />
+简单思考一下, <code class="language-plaintext highlighter-rouge">b[j-1] &gt; a[i]</code>的情况, 一定是分割i太靠左了; <code class="language-plaintext highlighter-rouge">a[i-1] &gt; b[j]</code>的情况, 一定是分割i太靠右了. 于是我们需要针对这两种情况进行微调.</p>
+
+<p>有了这些前戏的思考之后, 就可以考虑二分查找算法了, 下面摘抄了原答主的总结:</p>
+<blockquote>
+  <p>Summary of algorithm:</p>
+  <ol>
+    <li>Pick a cut <code class="language-plaintext highlighter-rouge">i</code>, in the middle of <code class="language-plaintext highlighter-rouge">lo</code> and <code class="language-plaintext highlighter-rouge">hi</code>, where lo and hi are the lowest and maximum candidate cut positions.</li>
+    <li>If we have <code class="language-plaintext highlighter-rouge">j &gt; 0 and i &lt; m and b[j-1] &gt; a[i]</code>, then we moved the cut too far left, and so the cut is somewhere in the right half. Thus, we pick new <code class="language-plaintext highlighter-rouge">lo = i + 1</code>.</li>
+    <li>If we have <code class="language-plaintext highlighter-rouge">i &gt; 0 and j &lt; n and a[i-1] &gt; b[j]</code>, then we moved the cut too far right, so the cut is somewhere in the left half. Thus, we pick <code class="language-plaintext highlighter-rouge">hi = i - 1</code>.</li>
+    <li>If both conditions are passed, then there is no violation, so we have the median position (yay!). Based on our definition of cut <code class="language-plaintext highlighter-rouge">i</code> relative to the median, we know that if size of array is even, median is (max of left + max of right)/2. If size of array is odd, then max of left is the median. We can proceed to calculate that, and return. Because there is at least one element in either left side or right side, we know that the median is always valid, (for example, if <code class="language-plaintext highlighter-rouge">i == 0</code>, so no <code class="language-plaintext highlighter-rouge">a</code> elements in the left, there must be at least 1 <code class="language-plaintext highlighter-rouge">b</code> element in the left, so <code class="language-plaintext highlighter-rouge">b[j-1]</code> must be defined, so <code class="language-plaintext highlighter-rouge">j &gt; 0</code>).</li>
+  </ol>
+</blockquote>
+
+<p>大致解释一下, 出现了刚才没出现的东西, <code class="language-plaintext highlighter-rouge">lo</code>和<code class="language-plaintext highlighter-rouge">hi</code>, 这俩是二分搜索的老常客了, 按照Leetcode3的说法, 这两就是夹逼的用俩”筷子”, 最后相等时, 也就能获得我们要的结果了.<br />
+接着就是想办法构造一个cut <code class="language-plaintext highlighter-rouge">i</code>出来的问题了. 这部分留给下面的代码吧:<br />
+<strong>3rd Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">double</span> <span class="n">findMedianSortedArrays</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums1</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">nums1</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">nums2</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+            <span class="n">swap</span><span class="p">(</span><span class="n">nums1</span><span class="p">,</span> <span class="n">nums2</span><span class="p">);</span>
+        
+        <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">n</span> <span class="o">=</span> <span class="n">nums2</span><span class="p">.</span><span class="n">size</span><span class="p">(),</span>
+            <span class="n">mid</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">m</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">?</span> <span class="n">nums2</span><span class="p">[</span><span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">:</span> <span class="p">(</span><span class="n">nums2</span><span class="p">[</span><span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums2</span><span class="p">[</span><span class="n">mid</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">;</span>
+        
+        <span class="kt">int</span> <span class="n">lo</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">m</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">lo</span> <span class="o">&lt;=</span> <span class="n">hi</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">lo</span> <span class="o">+</span> <span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span>  <span class="c1">// (m + n + 1) / 2 - i</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="n">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">m</span> <span class="n">and</span> <span class="n">nums2</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>
+                <span class="c1">// nums1[i] is too small =&gt; i is too small</span>
+                <span class="n">lo</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="n">and</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="n">and</span> <span class="n">nums1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">nums2</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+                <span class="c1">// nums2[j] is too small =&gt; j is too small =&gt; i is too large</span>
+                <span class="n">hi</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="c1">// left part max (`even' cond's median or `odd' cond's one half of median)</span>
+                <span class="kt">int</span> <span class="n">lmax</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">lmax</span> <span class="o">=</span> <span class="n">nums2</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">lmax</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">];</span>
+                <span class="k">else</span>
+                    <span class="n">lmax</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">nums1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">nums2</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]);</span>
+                
+                <span class="c1">// right part min (`odd' cond's one half of median)</span>
+                <span class="kt">int</span> <span class="n">rmin</span><span class="p">;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">m</span><span class="p">)</span>
+                    <span class="n">rmin</span> <span class="o">=</span> <span class="n">nums2</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
+                <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">n</span><span class="p">)</span>
+                    <span class="n">rmin</span> <span class="o">=</span> <span class="n">nums1</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+                <span class="k">else</span>
+                    <span class="n">rmin</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">nums1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">nums2</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+                
+                <span class="k">if</span> <span class="p">((</span><span class="n">m</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="n">lmax</span><span class="p">;</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="n">lmax</span> <span class="o">+</span> <span class="n">rmin</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong><br />
+Runtime: 16 ms, faster than 90.91% of C++ online submissions for Median of Two Sorted Arrays.<br />
+Memory Usage: 9.6 MB, less than 92.81% of C++ online submissions for Median of Two Sorted Arrays.</p>
+
+<p>Postscript: 效率有点低哦, 这题搞了俩小时.</p>
+:ET

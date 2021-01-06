@@ -1,0 +1,10 @@
+I"�<h1 id="正文">正文</h1>
+<h2 id="前言">前言</h2>
+<h3 id="工具链">工具链</h3>
+<p>用 Ubuntu 比较方便:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> gcc objdump
+<span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> build-essential gdb
+<span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> gcc-multilib
+<span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> qemu
+</code></pre></div></div>
+:ET

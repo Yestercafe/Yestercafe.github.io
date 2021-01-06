@@ -1,0 +1,73 @@
+I"� <h2 id="11-container-with-most-water">11. Container With Most Water</h2>
+<p><strong>Difficulty: medium</strong></p>
+
+<p>Given n non-negative integers a1, a2, …, an , where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of line i is at (i, ai) and (i, 0). Find two lines, which together with x-axis forms a container, such that the container contains the most water.</p>
+
+<p>Note: You may not slant the container and n is at least 2.</p>
+
+<p><img src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/07/17/question_11.jpg" alt="" /><br />
+The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.</p>
+
+<p><strong>Example:</strong></p>
+<blockquote>
+  <p>Input: [1,8,6,2,5,4,8,3,7]
+Output: 49</p>
+</blockquote>
+
+<p>这题看了第一眼, dp, 绝对是dp, 但是因为菜是原罪所以不会写.</p>
+
+<p>先写个暴力:<br />
+<strong>1st Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">maxArea</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">height</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">maxArea</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">const</span> <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">height</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kt">int</span> <span class="n">area</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">height</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">height</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span><span class="p">);</span>
+                <span class="n">maxArea</span> <span class="o">=</span> <span class="n">maxArea</span> <span class="o">&gt;</span> <span class="n">area</span> <span class="o">?</span> <span class="n">maxArea</span> <span class="o">:</span> <span class="n">area</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">maxArea</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong><br />
+Runtime: 1264 ms, faster than 8.21% of C++ online submissions for Container With Most Water.<br />
+Memory Usage: 9.7 MB, less than 97.94% of C++ online submissions for Container With Most Water.</p>
+
+<p>很显然, 写算法优先不能想着去暴力模拟, 人们更希望拿空间去换时间.</p>
+
+<p><strong>2nd Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="kt">int</span> <span class="n">maxArea</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">height</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kt">int</span> <span class="n">maxArea</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">height</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">a</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">height</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">height</span><span class="p">[</span><span class="n">j</span><span class="p">]);</span>
+            <span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span><span class="p">;</span>
+            <span class="kt">int</span> <span class="n">area</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">;</span>
+            
+            <span class="n">maxArea</span> <span class="o">=</span> <span class="n">maxArea</span> <span class="o">&gt;</span> <span class="n">area</span> <span class="o">?</span> <span class="n">maxArea</span> <span class="o">:</span> <span class="n">area</span><span class="p">;</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">height</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="p">{</span>
+                <span class="o">++</span><span class="n">i</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="o">--</span><span class="n">j</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">maxArea</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong> <br />
+Runtime: 20 ms, faster than 68.17% of C++ online submissions for Container With Most Water.<br />
+Memory Usage: 9.7 MB, less than 94.85% of C++ online submissions for Container With Most Water.</p>
+
+<p>讨论区剽的方法.<br />
+思路大致说一下, 其实很简单, 从两头开始算, <code class="language-plaintext highlighter-rouge">i</code>和<code class="language-plaintext highlighter-rouge">j</code>是”筷子”索引. 主要就是关于这俩怎么更新的问题. 其实这个问题也很简单, <code class="language-plaintext highlighter-rouge">height[i]</code>和<code class="language-plaintext highlighter-rouge">height[j]</code>谁小谁更新, 为啥呢, 因为<code class="language-plaintext highlighter-rouge">area = min(height[i], height[j]) * (j - i)</code>, 既然<code class="language-plaintext highlighter-rouge">(j - i)</code>要不断缩小, 如果想要在更新之后还能找到更大的, 只能让<code class="language-plaintext highlighter-rouge">min(height[i]), height[j]</code>更大, 具体怎么更大, 就不用多赘述了吧.</p>
+:ET

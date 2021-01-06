@@ -1,0 +1,93 @@
+I"�*<h2 id="1-two-sum">1. Two Sum</h2>
+<p><strong>Difficulty: easy</strong>
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.</p>
+
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+
+<p><strong>Example:</strong></p>
+
+<blockquote>
+  <p>Given nums = [2, 7, 11, 15], target = 9,</p>
+
+  <p>Because nums[0] + nums[1] = 2 + 7 = 9,<br />
+return [0, 1].</p>
+</blockquote>
+
+<p><strong>1st Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">twoSum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">return</span> <span class="p">{</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">};</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="p">{};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong><br />
+Runtime: 132 ms, faster than 36.06% of C++ online submissions for Two Sum.<br />
+Memory Usage: 9.1 MB, less than 98.86% of C++ online submissions for Two Sum.</p>
+
+<p>作为Leetcode上一个标记为easy的题目, 如期所愿, 按照老实人方法进行暴力并没有超时, 但是实际上并没有在时间上击败太多的人. <br />
+参考讨论区和叔的gitpage页, 接下来尝试使用哈希表来解. <br />
+但是老实人表示, hashtable只有pb_ds库里有呀. 别担心, 不可重复的map和set内部是由红黑树实现的, 而可重set和map内部是由哈希表实现的, 别忘了.</p>
+
+<p><strong>2nd Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">twoSum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// key: num, value: pos</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">ump</span><span class="p">;</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">ump</span><span class="p">[</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">another</span> <span class="o">=</span> <span class="n">target</span> <span class="o">-</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ump</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">another</span><span class="p">)</span> <span class="o">!=</span> <span class="n">end</span><span class="p">(</span><span class="n">ump</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">ump</span><span class="p">[</span><span class="n">another</span><span class="p">]</span> <span class="o">!=</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="p">{</span><span class="n">i</span><span class="p">,</span> <span class="n">ump</span><span class="p">[</span><span class="n">another</span><span class="p">]};</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="p">{};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong>  <br />
+Runtime: 8 ms, faster than 93.74% of C++ online submissions for Two Sum.<br />
+Memory Usage: 10.4 MB, less than 15.24% of C++ online submissions for Two Sum.</p>
+
+<p>速度提升了不少, 但是理所当然的, 这是一种拿空间换时间的手段. 但是在多数情况下, 时间是比空间更宝贵的东西, 无论是竞赛, 还是现实中.</p>
+
+<p>再看讨论区, 发现了一种利用hashtable边添加边搜索的方法, 这种其实类似我的第一个版本解法 – 不搜当前元素之前的元素; 而这种做法, 是不搜当前元素之后的元素:</p>
+
+<p><strong>3rd Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">twoSum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">unordered_map</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">ump</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">auto</span> <span class="n">another</span> <span class="o">=</span> <span class="n">target</span> <span class="o">-</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+            <span class="k">auto</span> <span class="n">itr</span> <span class="o">=</span> <span class="n">ump</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">another</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">end</span><span class="p">(</span><span class="n">ump</span><span class="p">)</span> <span class="o">!=</span> <span class="n">itr</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="p">{</span><span class="n">i</span><span class="p">,</span> <span class="n">itr</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">};</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">ump</span><span class="p">.</span><span class="n">emplace</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">);</span> <span class="c1">// since C++11</span>
+                <span class="c1">// or ump.insert(make_pair(nums[i], i));</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="p">{};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong><br />
+Runtime: 4 ms, faster than 99.76% of C++ online submissions for Two Sum.<br />
+Memory Usage: 10.1 MB, less than 43.32% of C++ online submissions for Two Sum.</p>
+:ET

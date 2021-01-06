@@ -1,0 +1,222 @@
+I"{p<p>今天来总结一下关于DFS和BFS的问题.</p>
+
+<h2 id="dfs-depth-first-search-深度优先搜索-深搜">DFS, Depth-First-Search, 深度优先搜索, 深搜</h2>
+
+<p>DFS其实是非常简单的. 与其说DFS是比较常用的搜索方式, 不如说它是对递归的一个很好的应用. <br />
+还是那句话, 用到DFS的场合非常多, 不只是在寻路算法中. 比如我印象比较深的是第一次参加的省赛校选拔时候的一道压轴题–不相邻质数环, 或者叫<a href="https://baike.baidu.com/item/%E7%BA%A6%E7%91%9F%E5%A4%AB%E7%8E%AF">约瑟夫环</a>, 就是一道非常经典的DFS的题目.   <br />
+这边的代码还是拿比较常见的走迷宫举例.</p>
+
+<p>方便起见, 这里就选择固定的迷宫区域大小, 和固定的起点和终点(分别为左上和右下).</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;
+#include &lt;utility&gt;
+#define W 5
+</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="n">WALL</span> <span class="o">=</span> <span class="sc">'0'</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="n">AVB</span>  <span class="o">=</span> <span class="sc">'0'</span> <span class="o">+</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">Node</span> <span class="o">=</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="n">map</span><span class="p">[</span><span class="n">W</span><span class="p">][</span><span class="n">W</span><span class="p">];</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">DIRTS</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="p">{</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="p">};</span>  <span class="c1">// direction updater steps</span>
+<span class="kt">bool</span> <span class="n">walked</span><span class="p">[</span><span class="n">W</span><span class="p">][</span><span class="n">W</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">false</span><span class="p">};</span>  <span class="c1">// the `pos`s that has already been walked</span>
+
+<span class="kt">bool</span> <span class="nf">solve</span><span class="p">(</span><span class="k">const</span> <span class="n">Node</span><span class="o">&amp;</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">map</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>   <span class="c1">// import the whole map</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">AVB</span> <span class="o">||</span> <span class="n">map</span><span class="p">[</span><span class="n">W</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">W</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">AVB</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"This is not a correct maze."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">walked</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">// set the starting point is `walked`</span>
+    <span class="k">auto</span> <span class="n">isReachable</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>  <span class="c1">// call searching function</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isReachable</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"You can get out this maze!"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Maybe, you</span><span class="se">\'</span><span class="s">ll be lost in this infinite way."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">bool</span> <span class="nf">solve</span><span class="p">(</span><span class="k">const</span> <span class="n">Node</span><span class="o">&amp;</span> <span class="n">pos</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// use this output to do recursive visualization</span>
+    <span class="c1">// cout &lt;&lt; "solve((" &lt;&lt; pos.first &lt;&lt; ", " &lt;&lt; pos.second &lt;&lt; "))" &lt;&lt; endl;</span>
+    <span class="k">auto</span> <span class="p">[</span><span class="n">posx</span><span class="p">,</span> <span class="n">posy</span><span class="p">]</span> <span class="p">{</span><span class="n">pos</span><span class="p">};</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">posx</span> <span class="o">==</span> <span class="n">W</span><span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">posy</span> <span class="o">==</span> <span class="n">W</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// if reach the deguchi</span>
+        <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// `r` means the moving direction flag</span>
+        <span class="c1">// update next pos</span>
+        <span class="k">auto</span> <span class="n">nextx</span> <span class="o">=</span> <span class="n">posx</span> <span class="o">+</span> <span class="n">DIRTS</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">auto</span> <span class="n">nexty</span> <span class="o">=</span> <span class="n">posy</span> <span class="o">+</span> <span class="n">DIRTS</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">nextx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">nexty</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="c1">// not exceed the bound at left and top</span>
+            <span class="o">&amp;&amp;</span> <span class="n">nextx</span> <span class="o">&lt;</span> <span class="n">W</span> <span class="o">&amp;&amp;</span> <span class="n">nexty</span> <span class="o">&lt;</span> <span class="n">W</span>  <span class="c1">// not exceed the bound at right and bottom</span>
+            <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">walked</span><span class="p">[</span><span class="n">nextx</span><span class="p">][</span><span class="n">nexty</span><span class="p">]</span>  <span class="c1">// the next pos is not walked</span>
+            <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="p">[</span><span class="n">nextx</span><span class="p">][</span><span class="n">nexty</span><span class="p">]</span> <span class="o">!=</span> <span class="n">WALL</span><span class="p">)</span> <span class="c1">// the next pos is not `WALL`</span>
+        <span class="p">{</span>
+            <span class="c1">// when the next pos is available</span>
+            <span class="n">walked</span><span class="p">[</span><span class="n">nextx</span><span class="p">][</span><span class="n">nexty</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">// set next pos is `walked`</span>
+            <span class="k">auto</span> <span class="n">hasSolution</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="n">nextx</span><span class="p">,</span> <span class="n">nexty</span><span class="p">));</span>  <span class="c1">// solve problem by recursive</span>
+            <span class="n">walked</span><span class="p">[</span><span class="n">nextx</span><span class="p">][</span><span class="n">nexty</span><span class="p">]</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>  <span class="c1">// `stack-pop` operation, this operation is binded with recursive stack pop.</span>
+            <span class="c1">// `solve`'s return-value means `has solution`</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">hasSolution</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// a SIGNIFICENT part of this recursive</span>
+                <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// test case data (for W is 5):</span>
+<span class="cm">/*
+01000
+01010
+01010
+01010
+00010
+*/</span>
+</code></pre></div></div>
+
+<p>花了点时间写了一份比较详细的注释, 全部的解释都在注释里. 就不在此再次赘述了. <br />
+不过值得一提的是, DFS算法在迷宫寻路中的优势是能<strong>更快找到出口</strong>, 而<strong>不用于统计走到出口的在最少步数</strong>.</p>
+
+<h2 id="bfs-breadth-first-search-宽度优先搜索-广度优先搜索-宽搜-广搜">BFS, Breadth-First Search, 宽度优先搜索, 广度优先搜索, 宽搜, 广搜</h2>
+<p>宽搜相比深搜麻烦在, 我们在深搜的时候, 其实是通过递归栈来记录我们的路径的, 而宽搜不能依赖于的递归栈了, 因为宽搜的路径不能用栈来描述. 栈作为一个FILO(First In Last Out)的数据结构, 其实在隔壁是有个”亲戚”的, 一个FIFO(First In First Out)的结构–队列.</p>
+
+<p>其实我个人最早接触深搜和宽搜是在树结构中, 在树中解释这两个名词也更容易.</p>
+
+<p>宽搜对于树来说, 无非就是换一种说法的”按层遍历”. 我们考虑的事情只有两个: 第一, 如何判断当前层有没有搜完; 第二, 如果没搜完就继续搜, 如果搜完了如何开始下一层的搜索. <br />
+将这样的观念放到迷宫中, 无非就变成了, 从某一个位置能有多少个”下一步”, 等所有的”下一步”都走过了, 再考虑”下下一步”.</p>
+
+<p>为了解决这个问题, 我们把搜过的”下一步”, 都push到队列中; 待完成后, 从队首的元素开始继续搜”下下一步”, 并让队首的元素弹出, 反复操作.</p>
+
+<p>我们需要借助STL中提供的Container Adapter来完成我们的思路:</p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;iostream&gt;
+#include &lt;tuple&gt;
+#include &lt;queue&gt;
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="cp">#define W 5
+</span><span class="k">const</span> <span class="kt">char</span> <span class="n">WALL</span> <span class="o">=</span> <span class="sc">'0'</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="n">AVB</span>  <span class="o">=</span> <span class="sc">'0'</span> <span class="o">+</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="n">Node</span> <span class="o">=</span> <span class="n">tuple</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="kt">char</span> <span class="n">map</span><span class="p">[</span><span class="n">W</span><span class="p">][</span><span class="n">W</span><span class="p">];</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">DIRTS</span><span class="p">[</span><span class="mi">4</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="p">{</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span> <span class="p">};</span>
+<span class="kt">bool</span> <span class="n">walked</span><span class="p">[</span><span class="n">W</span><span class="p">][</span><span class="n">W</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="nb">false</span><span class="p">};</span>
+
+<span class="n">queue</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">records</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">solve</span><span class="p">(</span><span class="k">const</span> <span class="n">Node</span><span class="o">&amp;</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">W</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">map</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>   <span class="c1">// import the whole map</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">AVB</span> <span class="o">||</span> <span class="n">map</span><span class="p">[</span><span class="n">W</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="n">W</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">AVB</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s">"This is not a correct maze."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// make sure the queue is empty</span>
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">records</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">records</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">walked</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="c1">// set the starting point is `walked`</span>
+    <span class="k">auto</span> <span class="n">steps</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">));</span>  <span class="c1">// call searching function</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">steps</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"You can get out this maze by at least %d step!</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">steps</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Maybe, you</span><span class="se">\'</span><span class="s">ll be lost in this infinite way."</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">solve</span><span class="p">(</span><span class="k">const</span> <span class="n">Node</span><span class="o">&amp;</span> <span class="n">pos</span><span class="p">)</span>  <span class="c1">// the initial depth is 0</span>
+<span class="p">{</span>
+    <span class="c1">// use this output to do recursive visualization</span>
+    <span class="c1">// cout &lt;&lt; "solve((" &lt;&lt; pos.first &lt;&lt; ", " &lt;&lt; pos.second &lt;&lt; "), " </span>
+    <span class="c1">//      &lt;&lt; depth &lt;&lt; ")" &lt;&lt; endl;</span>
+    <span class="k">auto</span> <span class="p">[</span><span class="n">posx</span><span class="p">,</span> <span class="n">posy</span><span class="p">,</span> <span class="n">depth</span><span class="p">]</span> <span class="p">{</span><span class="n">pos</span><span class="p">};</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">posx</span> <span class="o">==</span> <span class="n">W</span><span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">posy</span> <span class="o">==</span> <span class="n">W</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// if reach the deguchi</span>
+        <span class="k">return</span> <span class="n">depth</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">r</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">r</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// update next pos</span>
+        <span class="k">auto</span> <span class="n">nextx</span> <span class="o">=</span> <span class="n">posx</span> <span class="o">+</span> <span class="n">DIRTS</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+        <span class="k">auto</span> <span class="n">nexty</span> <span class="o">=</span> <span class="n">posy</span> <span class="o">+</span> <span class="n">DIRTS</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="mi">1</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">nextx</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">nexty</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="c1">// not exceed the bound at left and top</span>
+            <span class="o">&amp;&amp;</span> <span class="n">nextx</span> <span class="o">&lt;</span> <span class="n">W</span> <span class="o">&amp;&amp;</span> <span class="n">nexty</span> <span class="o">&lt;</span> <span class="n">W</span>  <span class="c1">// not exceed the bound at right and bottom</span>
+            <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">walked</span><span class="p">[</span><span class="n">nextx</span><span class="p">][</span><span class="n">nexty</span><span class="p">]</span>  <span class="c1">// the next pos is not walked</span>
+            <span class="o">&amp;&amp;</span> <span class="n">map</span><span class="p">[</span><span class="n">nextx</span><span class="p">][</span><span class="n">nexty</span><span class="p">]</span> <span class="o">!=</span> <span class="n">WALL</span><span class="p">)</span> <span class="c1">// the next pos is not `WALL`</span>
+        <span class="p">{</span>
+            <span class="c1">// when the next pos is available</span>
+            <span class="c1">// set next pos is `walked`</span>
+            <span class="c1">// Why in BFS, whe walked[nextx][nexty] shouldn't to set back to false?</span>
+            <span class="c1">// Because the first time get (nextx, nexty) mush be the fastest way.</span>
+            <span class="c1">// It shouldn't to consider the condition that slower than the fastest way.</span>
+            <span class="n">walked</span><span class="p">[</span><span class="n">nextx</span><span class="p">][</span><span class="n">nexty</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+            <span class="c1">// add next pos into the queue</span>
+            <span class="c1">// (be like searching a tree layer-by-layer)</span>
+            <span class="n">records</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="n">nextx</span><span class="p">,</span> <span class="n">nexty</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">records</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="c1">// travel the queue</span>
+        <span class="c1">// make all successors of all nodes in the queue be pushed in the queue</span>
+
+        <span class="c1">// save the properties of the front elem of the queue</span>
+        <span class="k">auto</span> <span class="p">[</span><span class="n">nextx</span><span class="p">,</span> <span class="n">nexty</span><span class="p">,</span> <span class="n">depther</span><span class="p">]</span> <span class="p">{</span><span class="n">records</span><span class="p">.</span><span class="n">front</span><span class="p">()};</span>
+        <span class="n">records</span><span class="p">.</span><span class="n">pop</span><span class="p">();</span>  <span class="c1">// pop the front elem of the queue</span>
+        <span class="c1">// push the successors of the saved front node</span>
+        <span class="k">auto</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="n">nextx</span><span class="p">,</span> <span class="n">nexty</span><span class="p">,</span> <span class="n">depther</span><span class="p">));</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>  <span class="c1">// if found a way, the way mush be the fastest way</span>
+            <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">continue</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>  <span class="c1">// no found</span>
+<span class="p">}</span>
+
+<span class="c1">// test case data (for W is 5):</span>
+<span class="cm">/*
+00000
+01101
+01000
+01010
+00010
+*/</span>
+</code></pre></div></div>
+
+<p>刚才在DFS的最后已经提到过了, BFS的优势其实是能够更方便地统计<strong>走到出口的最少步数</strong>.</p>
+
+<p>当然, 寻路算法只是DFS和BFS的一种运用, 树的遍历, 以及之后可能会写的图的遍历, 可能都会用到这两种思维.</p>
+:ET

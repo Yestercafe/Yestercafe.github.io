@@ -1,0 +1,108 @@
+I"<h2 id="22-generate-parentheses">22. Generate Parentheses</h2>
+<p><strong>Difficulty: medium</strong></p>
+
+<p>Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.</p>
+
+<p>For example, given n = 3, a solution set is:</p>
+
+<blockquote>
+  <p>[<br />
+  “((()))”,<br />
+  “(()())”,<br />
+  “(())()”,<br />
+  “()(())”,<br />
+  “()()()”<br />
+]</p>
+</blockquote>
+
+<p><strong>Only Version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">s</span><span class="p">;</span>
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">ret</span><span class="p">;</span>
+    
+    <span class="kt">void</span> <span class="n">search</span><span class="p">(</span><span class="kt">int</span> <span class="n">leftc</span><span class="p">,</span> <span class="kt">int</span> <span class="n">unpairc</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">leftc</span> <span class="o">&gt;</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">auto</span> <span class="n">len</span> <span class="o">=</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">str</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">len</span> <span class="o">==</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">s</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="o">-&gt;</span><span class="n">ret</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+            <span class="k">return</span> <span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// push left</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="o">-&gt;</span><span class="n">s</span> <span class="o">-</span> <span class="n">leftc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="o">-&gt;</span><span class="n">str</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="sc">'('</span><span class="p">);</span>
+            <span class="n">search</span><span class="p">(</span><span class="n">leftc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">unpairc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">this</span><span class="o">-&gt;</span><span class="n">str</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+        <span class="p">}</span>
+        
+        <span class="c1">// push right</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">unpairc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="o">-&gt;</span><span class="n">str</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="sc">')'</span><span class="p">);</span>
+            <span class="n">search</span><span class="p">(</span><span class="n">leftc</span><span class="p">,</span> <span class="n">unpairc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="k">this</span><span class="o">-&gt;</span><span class="n">str</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    
+    <span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">generateParenthesis</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="o">-&gt;</span><span class="n">s</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+        <span class="k">this</span><span class="o">-&gt;</span><span class="n">search</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">-&gt;</span><span class="n">ret</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong><br />
+Runtime: 4 ms, faster than 88.15% of C++ online submissions for Generate Parentheses.<br />
+Memory Usage: 14.3 MB, less than 80.99% of C++ online submissions for Generate Parentheses.</p>
+
+<p>真是感慨了. 感动了自己.<br />
+19年安徽省赛原题, 当时放弃的一题, 如今没有查任何资料写出来了. <br />
+那些往年小事, 不值得一提了吧.</p>
+
+<p><strong>原题引用:</strong><br />
+<strong>G. 括号序列</strong><br />
+时间限制：2s<br />
+描述：<br />
+括号序列是指由 ‘(’ 和 ‘)’ 组成的序列，假如一个括号序列中，包含相同数量的左括号和右括号，并且对于每一个右括号，在他的左侧都有左括号和他匹配，则这个 括号序列就是一个合法括号序列，如（（ ））（ ）就是一个合法括号序列，但（（ ））（（ ）不是合法括号序列.</p>
+
+<p>给出两个长度相同的合法括号序列 A 和 B , 那么 A &lt; B 当且仅当:<br />
+● A 和 B 至少有一位不相同。<br />
+● 在 A 和 B 从左往右数第一个不相同的位置 i ， A[ i ] = ( , B[ i ] = )<br />
+比如A = （（ ））（）, B = （ ）（ ） （ ）， 则 A &lt; B 。因为从左边数第一个不相同的是第二个字符，A[2] = ( , B[2] = )。对于长度 N，由于定义了小于关系，则可以通过这个关系推出所有长度为N的合法括号序列的大小关系，对于长度为6的合法括号序列，从小到大排列顺序如下:</p>
+<blockquote>
+  <p>1.（（（ ）））<br />
+2.（（）（））</p>
+  <ol>
+    <li>（（ ））（ ）</li>
+    <li>（ ）（（ ））</li>
+    <li>（ ）（ ）（ ）<br />
+给出 N 和 M， 求长度为 N	的合法括号序列中， 第 M 小的合法括号序列是？</li>
+  </ol>
+</blockquote>
+
+<p><strong>输入</strong><br />
+输入的第一行是 N 和 M(2 &lt;= N &lt;= 2000, 1 &lt;= M &lt;= 10^18)</p>
+
+<p><strong>输出</strong><br />
+输出一个字符串，表示长度为 N 的平衡括号序列从小到大排列， 序号为 M 的字符串</p>
+
+<p><strong>样例输入</strong></p>
+<blockquote>
+  <p>6 2<br />
+1</p>
+</blockquote>
+
+<p><strong>样例输出</strong></p>
+<blockquote>
+  <p>（（）（））</p>
+</blockquote>
+
+<p>————————————————<br />
+版权声明：本文为CSDN博主「zlzhucsdn」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。<br />
+原文链接：https://blog.csdn.net/weixin_43581819/article/details/90405178</p>
+:ET

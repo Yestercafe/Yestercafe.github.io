@@ -1,0 +1,7 @@
+I"g<h1 id="正文">正文</h1>
+<h2 id="前言">前言</h2>
+<p>在这个 lab 里, 我们将要为我们的操作系统加上内存管理(memory management)的代码.<br />
+内存管理有两个组件:<br />
+第一个是内核的物理内存分配器(physical memory allocator for kernel), 这个分配器以 4096 bytes 为字节操作, 也就是页(pages)宽. 我们的任务维护记录释放的物理页和分配的物理页, 以及进程之间的页共享数目的数据结构. 然后我们还需要编写分配释放内存的流程.<br />
+第二个是虚拟内存(virtual memory), 将 kernel 和用户程序使用的物理内存地址映射到虚拟地址. The x86 hardware’s memory management unit(MMU) 指令使用内存时时进行映射, 此时会用到一些页表(a set of page tables). 我们的任务是按照要求修改 JOS 去完成 MMU 页表的部署.</p>
+:ET

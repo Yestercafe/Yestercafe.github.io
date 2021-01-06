@@ -1,0 +1,69 @@
+I"�<h2 id="2-add-two-numbers">2. Add Two Numbers</h2>
+<p><strong>Difficulty: medium</strong>
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p>
+
+<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
+
+<p><strong>Example:</strong></p>
+
+<blockquote>
+  <p>Input: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)<br />
+Output: 7 -&gt; 0 -&gt; 8<br />
+Explanation: 342 + 465 = 807.</p>
+</blockquote>
+
+<p>乍一眼一看, woq, 这不是喜闻乐见的大数吗…</p>
+
+<p><strong>only version:</strong></p>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="n">ListNode</span><span class="o">*</span> <span class="n">addTwoNumbers</span><span class="p">(</span><span class="n">ListNode</span><span class="o">*</span> <span class="n">l1</span><span class="p">,</span> <span class="n">ListNode</span><span class="o">*</span> <span class="n">l2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">l1</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">l2</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span>
+            <span class="n">l1</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">l2</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">new</span> <span class="n">ListNode</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="kt">bool</span> <span class="n">l1s</span><span class="p">,</span> <span class="n">l2s</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">addOne</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        
+        <span class="n">ListNode</span> <span class="o">*</span><span class="n">res</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span> <span class="o">*</span><span class="n">itr</span><span class="p">;</span>
+        
+        <span class="k">while</span> <span class="p">(</span><span class="n">l1</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">||</span> <span class="n">l2</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kt">int</span> <span class="n">bit</span> <span class="o">=</span> <span class="p">(</span><span class="n">l1</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">?</span> <span class="n">l1</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">:</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">l2</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">?</span> <span class="n">l2</span><span class="o">-&gt;</span><span class="n">val</span> <span class="o">:</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">addOne</span><span class="p">;</span>
+            <span class="n">addOne</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">bit</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">bit</span> <span class="o">-=</span> <span class="mi">10</span><span class="p">;</span>
+                <span class="n">addOne</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+            <span class="p">}</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ListNode</span><span class="p">(</span><span class="n">bit</span><span class="p">);</span>
+                <span class="n">itr</span> <span class="o">=</span> <span class="n">res</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">itr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ListNode</span><span class="p">(</span><span class="n">bit</span><span class="p">);</span>
+                <span class="n">itr</span> <span class="o">=</span> <span class="n">itr</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+            <span class="p">}</span>
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">l1</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+                <span class="n">l1</span> <span class="o">=</span> <span class="n">l1</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">l2</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+                <span class="n">l2</span> <span class="o">=</span> <span class="n">l2</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+        <span class="p">}</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">addOne</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">itr</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ListNode</span><span class="p">(</span><span class="n">addOne</span><span class="p">);</span>
+        <span class="p">}</span>
+        
+        <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p><strong>Rate:</strong><br />
+Runtime: 24 ms, faster than 69.24% of C++ online submissions for Add Two Numbers.<br />
+Memory Usage: 10.3 MB, less than 70.28% of C++ online submissions for Add Two Numbers.</p>
+
+<p>这套冗长的大数加法逻辑, 最初就是由我自己经过很多次测试固定下来的, 个人认为这个算法的好处, 第一, 我自己一直都在用, 所以比较熟悉, 并且也没有想过要优化的; 第二, 适用于所有进制的加法.<br />
+时间和内存使用算是比较理想的, 但是肯定是比不过讨论区的大佬.</p>
+
+<p>不过这次的体验比较糟糕, 讨论区并没有看到什么好的代码, 除了比我的简洁的, 但是我觉得没有必要.</p>
+:ET

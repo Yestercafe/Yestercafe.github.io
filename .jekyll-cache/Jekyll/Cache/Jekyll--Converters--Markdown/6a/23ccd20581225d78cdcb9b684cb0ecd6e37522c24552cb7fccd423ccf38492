@@ -1,0 +1,62 @@
+I"
+<h2 id="22-加法">2.2 加法</h2>
+<h3 id="p21---证明两个自然数的和仍旧是自然数">P21 - 证明两个自然数的和仍旧是自然数.</h3>
+<p><strong>题设:</strong> 两个自然数$n,m$.<br />
+<strong>求证:</strong> $n+m$仍为自然数.<br />
+<strong>证明:</strong> <br />
+固定$m$.<br />
+<strong>1) 当$n=0$时</strong><br />
+由公理$2.1$可知, $0$是自然数<br />
+$n+m=0+m=m$为自然数    (加法定义)<br />
+<strong>2) 假设$n+m$是自然数</strong><br />
+下证$(n++)+m$是自然数<br />
+$(n++)+m=(n+m)++$    (加法定义)<br />
+$\because n+m$为自然数    (假设)<br />
+$\therefore (n+m)++也为自然数$    (公理$2.2$)<br />
+综上归纳递归, 原题得证.  $\square$</p>
+
+<h3 id="习题221---证明命题225">习题2.2.1 - 证明命题2.2.5.</h3>
+<blockquote>
+  <p>命题2.2.5(加法是可结合的) 对任意三个自然数$a,b,c$, 有$(a+b)+c=a+(b+c)$成立.</p>
+</blockquote>
+
+<p><strong>题设:</strong> 三个自然数$a,b,c$.<br />
+<strong>求证:</strong> $(a+b)+c=a+(b+c)$. <br />
+<strong>证明:</strong> <br />
+固定$b,c$.<br />
+<strong>1) 当$a=0$时</strong> <br />
+$(a+b)+c=(0+b)+c=b+c$    (加法定义)<br />
+$a+(b+c)=0+(b+c)=b+c$    (加法定义)<br />
+$\therefore$ 此时$(a+b)+c=a+(b+c)$成立.<br />
+<strong>2) 假设$(a+b)+c=a+(b+c)$成立</strong><br />
+<strong>下证$((a++)+b)+c=(a++)+(b+c)$成立</strong><br />
+$((a++)+b)+c=((a+b)++)+c=((a+b)+c)++$    (加法定义)<br />
+$(a++)+(b+c)=(a+(b+c))++$    (加法定义)<br />
+$\because (a+b)+c=a+(b+c)$    (假设)<br />
+$\therefore ((a+b)+c)++=(a+(b+c))++$<br />
+综上归纳递归，原题得证.  $\square$</p>
+
+<h3 id="习题222---证明引理2210">习题2.2.2 - 证明引理2.2.10.</h3>
+<blockquote>
+  <p>引理2.2.10 令$a$表示一个正自然数, 那么恰存在一个自然数$b$使得$b++=a$</p>
+</blockquote>
+
+<p><strong>题设:</strong> 自然数$a$.   <br />
+<strong>求证:</strong> 仅存在一个自然数$b$, 使得$b++=a$.  <br />
+<strong>证明:</strong>   <br />
+假设不存在或存在多个自然数b使得$b++=a$ (反证法)<br />
+<strong>1) 不存在$b$使$b++=a$</strong>  <br />
+根据公理2.2 <br />
+若$b$是自然数, 则$b++$也是自然数.<br />
+$\therefore$ 该$b$必存在.<br />
+<strong>2) 存在多个$b$使$b++=a$</strong>  <br />
+设$b,c$为两个不相等的自然数 <br />
+使$b++=a,c++=a$成立. <br />
+由公理2.4  <br />
+若$b++=a=c++$ <br />
+则$b=c$与设矛盾. <br />
+综上1) 2) 均不成立. <br />
+$\therefore$ 仅存在一个自然数$b$使得$b++=a$成立.   <br />
+原题得证.  $\square$</p>
+
+:ET
