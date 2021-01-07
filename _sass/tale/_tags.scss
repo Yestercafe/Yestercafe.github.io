@@ -6,6 +6,10 @@
       font-size: 3rem;
       margin: 1rem 0;
       text-align: center;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-shade;
+      }
     }
 
     &-line {
@@ -13,6 +17,10 @@
       display: block;
       margin: 0 auto 3rem;
       width: 4rem;
+
+      @media (prefers-color-scheme: dark) {
+        border-top: 0.4rem solid $dark-default-shade;
+      }
     }
   }
 
@@ -29,9 +37,18 @@
       color: $default-color;
       text-decoration: none;
 
+      @media (prefers-color-scheme: dark) {
+        background: rgba(255, 255, 255, 0.1);
+        color: $dark-default-color;
+      }
+      
       &:hover,
       &:active {
         background: rgba(0, 0, 0, 0.1);
+
+        @media (prefers-color-scheme: dark) {
+          background: rgba(255, 255, 255, 0.2);
+        }
       }
     }
   }
@@ -46,6 +63,10 @@
       margin: 2rem 0 0.5rem;
       font-family: $sans-serif;
       color: $default-color;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-color;
+      }
     }
   }
 
@@ -60,11 +81,15 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-color;
+      }
     }
 
     &-line {
       @include transition(all 0.3s ease-out);
-      border-top: 0.1rem solid $default-shade;
+      border-top: 0.1rem solid $usubeni;
       display: block;
       width: 0;
     }
@@ -73,6 +98,10 @@
       color: $default-tint;
       text-align: right;
       white-space: nowrap;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-tint;
+      }
     }
 
     &:hover,
@@ -83,6 +112,10 @@
 
       .tags-post-meta {
         color: $default-shade;
+
+        @media (prefers-color-scheme: dark) {
+          color: $dark-default-shade;
+        }
       }
     }
   }

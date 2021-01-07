@@ -7,6 +7,10 @@
     letter-spacing: 0.5px;
     text-align: center;
 
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-tint;
+    }
+
     span {
       // font-style: italic;
     }
@@ -18,6 +22,10 @@
     font-size: 3rem;
     margin: 1rem 0;
     text-align: center;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-shade;
+    }
   }
 
   &-line {
@@ -25,6 +33,10 @@
     display: block;
     margin: 0 auto 3rem;
     width: 4rem;
+
+    @media (prefers-color-scheme: dark) {
+      border-top: 0.4rem solid $dark-default-shade;
+    }
   }
 
   &-description {
@@ -55,6 +67,10 @@
     font-size: 0.9rem;
     font-style: normal;
     text-align: center;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-tint;
+    }
   }
 
   // CSS for making emoji inline

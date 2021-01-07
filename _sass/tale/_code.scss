@@ -9,6 +9,11 @@ code {
   color: $code-color;
   font-size: 85%;
   padding: .25em .5em;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $dark-white;
+    color: $dark-code-color;
+  }
 }
 
 pre {
@@ -42,5 +47,13 @@ pre code {
     -webkit-user-select: none;
        -moz-user-select: none;
             user-select: none;
+    
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-tint;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $dark-grey-3;
   }
 }

@@ -17,6 +17,10 @@ footer,
   box-shadow: 0 2px 2px -2px $shadow-color;
   overflow: auto;
 
+  @media (prefers-color-scheme: dark) {
+    box-shadow: 0 2px 2px -2px $dark-shadow-color;
+  }
+
   &-container {
     margin: 1rem auto;
     position: relative;
@@ -29,6 +33,10 @@ footer,
     display: inline-block;
     margin: 0;
     padding-right: .2rem;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
 
     &:hover,
     &:focus {
@@ -50,6 +58,10 @@ footer,
     opacity: .6;
     padding: 0 2rem 0 0;
 
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
+
     &:last-child {
       padding-right: 0;
     }
@@ -63,6 +75,10 @@ footer,
   a {
     color: $default-color;
     font-family: $sans-serif;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
   }
 }
 
@@ -88,5 +104,9 @@ footer {
   span {
     color: $default-color;
     font-size: .8rem;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
   }
 }

@@ -13,12 +13,20 @@
     &:last-child {
       border: 0;
     }
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
   }
 
   &-time {
     color: $default-tint;
     font-family: $serif-secondary;
     letter-spacing: .5px;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-tint;
+    }
   }
 
   &-title {
@@ -28,11 +36,19 @@
     font-size: 1.5rem;
     font-weight: 700;
     margin: .5rem 0;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-shade;
+    }
   }
 
   &-description {
     font-size: .95em;
     color: $default-tint;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-tint;
+    }
   }
 
   &-line {

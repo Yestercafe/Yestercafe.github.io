@@ -8,6 +8,11 @@ body {
   color: $default-color;
   margin: 0;
   padding: 0;
+
+  @media (prefers-color-scheme: dark) {
+    color: $dark-default-color;
+    background-color: $dark-white;
+  }
 }
 
 html {
@@ -33,10 +38,13 @@ h6 {
   color: $default-shade;
   font-family: $sans-serif;
   line-height: normal;
+  @media (prefers-color-scheme: dark) {
+    color: $dark-default-shade;
+  }
 }
 
 a {
-  color: $blue;
+  color: $usubeni;
   text-decoration: none;
 }
 
@@ -53,6 +61,11 @@ blockquote {
   @media (min-width: 600px) {
     padding: 0 5rem 0 1.25rem;
   }
+
+  @media (prefers-color-scheme: dark) {
+    border-left: .25rem solid $dark-grey-2;
+    color: $dark-grey-1;
+  }
 }
 
 img {
@@ -63,8 +76,4 @@ img {
 
 td {
   vertical-align: top;
-}
-
-a {
-  color: $usubeni;
 }

@@ -1,4 +1,10 @@
 // Colors
+// Nippon colors
+$usubeni: #E87A90 !default;
+$kawazome: #64363C !default;
+$sakura: #FEDFE1 !default;
+$kogecha: #563F2E !default;
+
 $default-color: #555 !default;
 $default-shade: #353535 !default;
 $default-tint: #aaa !default;
@@ -8,14 +14,24 @@ $grey-3: #f9f9f9 !default;
 $white: #fff !default;
 $blue: #4a9ae1 !default;
 $shadow-color: rgba(0, 0, 0, .2) !default;
-$code-color: #64363c !default;
-$usubeni: #e87a90 !default;
+$code-color: $kawazome !default;
+
+$dark-default-color: #ccc !default;
+$dark-default-shade: #cacaca !default;
+$dark-default-tint: #555 !default;
+$dark-grey-1: #686868 !default;
+$dark-grey-2: #1a1a1a !default;
+$dark-grey-3: #060606 !default;
+$dark-white: #000 !default;
+$dark-shadow-color: rgba(255, 255, 255, .8) default;
+$dark-code-color: $sakura !default;
+$dark-text: #fff !default;
 
 // Fonts
 $serif-primary: 'Libre Baskerville', 'Times New Roman', Times, serif !default;
 $serif-secondary: Palatino, 'Palatino LT STD', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif !default;
 $sans-serif: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif !default;
-$monospaced: Menlo, Monaco, monospace !default;
+$monospaced: Fira Code, Menlo, Monaco, monospace !default;
 
 @mixin box-sizing($type: border-box) {
   -webkit-box-sizing: $type;
