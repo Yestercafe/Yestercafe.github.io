@@ -79,7 +79,8 @@ td {
 }
 
 .gototop {
-  background: $dark-default-shade;
+  background: $default-tint;
+  color: $white;
   width: 40px;
   height: 40px;
   position: fixed;
@@ -93,8 +94,16 @@ td {
   justify-content: center;
   align-items: center;
   outline: none;
+
+  @media (prefers-color-scheme: dark) {
+    background: $dark-default-tint;
+    color: $dark-white;
+  }
 }
 
 .gototop:active {
-  background-color: $dark-grey-1;
+  background-color: $grey-1;
+  @media (prefers-color-scheme: dark) {
+    background-color: $dark-grey-1;
+  }
 }
