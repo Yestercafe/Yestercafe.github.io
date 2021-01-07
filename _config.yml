@@ -13,6 +13,12 @@ author:
 markdown:       kramdown
 include:
   - _pages
+  - _wiki
+
+collections:
+  wiki:
+    output: true
+    permalink: /wiki/:title/
 
 # Assets
 sass:

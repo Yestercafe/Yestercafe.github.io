@@ -1,0 +1,31 @@
+---
+layout: default
+title: "Wiki"
+permalink: /wiki/
+---
+
+<style type="text/css">
+h2 {
+  font-family: 'Libre Baskerville', 'Times New Roman', Times, serif;
+}
+</style>
+
+<div class="wiki">
+  <div class="wiki-header">
+    <h2 class="wiki-header-title">{{ page.title }}</h2>
+    <div class="wiki-header-line"></div>
+  </div>
+
+  {% for wiki in site.wiki %}
+    {% if wiki.title != "Wiki Template" %}
+      <div>
+        <a class="wiki-post" href="{{ wiki.url | prepend: site.baseurl }}">
+          <div style="overflow: hidden; text-overflow: ellipsis;">
+            <span class="wiki-post-title">{{ wiki.title }}</span>
+            <div class="wiki-post-line"></div>
+          </div>
+        </a>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
