@@ -71,9 +71,14 @@
   }
 
   &-post {
+    color: $default-color;
     display: flex;
     justify-content: space-between;
     padding: 5px 0;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
 
     &-title {
       color: $default-color;
