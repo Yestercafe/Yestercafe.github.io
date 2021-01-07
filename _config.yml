@@ -38,3 +38,8 @@ exclude: [ Gemfile, Gemfile.lock, tale.gemspec ]
 
 # Disqus (Set to your disqus id)
 disqus:         jekyll-tale
+
+components:
+  busuanzi:
+    enabled: true
+    start_date: 2021-01-01
