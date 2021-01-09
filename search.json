@@ -1,0 +1,23 @@
+---
+layout: none
+---
+[
+  {% for post in site.posts %}
+    {
+      "title"    : "{{ post.title | escape }}",
+      "category" : "{{ post.category }}",
+      "tags"     : "{{ post.tags | join: ', ' }}",
+      "url"      : "{{ site.baseurl }}{{ post.url }}",
+      "date"     : "{{ post.date }}"
+    } {% unless forloop.last %},{% endunless %}
+  {% endfor %} , 
+  {% for wiki in site.wiki %}
+    {
+      "title"    : "{{ wiki.title | escape }}",
+      "category" : "{{ wiki.category }}",
+      "tags"     : "{{ wiki.tags | join: ', ' }}",
+      "url"      : "{{ site.baseurl }}{{ wiki.url }}",
+      "date"     : "{{ wiki.date }}"
+    } {% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]

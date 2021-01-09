@@ -78,7 +78,7 @@ td {
   vertical-align: top;
 }
 
-.gototop {
+.bottom-right-floating {
   background: $default-tint;
   color: $white;
   width: 40px;
@@ -101,9 +101,20 @@ td {
   }
 }
 
-.gototop:active {
+.bottom-right-floating:active {
   background-color: $grey-1;
   @media (prefers-color-scheme: dark) {
     background-color: $dark-grey-1;
   }
+}
+
+.bottom-right-floating-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+}
+
+table {
+  margin: 0 auto;
 }

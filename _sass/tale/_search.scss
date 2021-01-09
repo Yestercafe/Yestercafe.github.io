@@ -1,0 +1,82 @@
+.search {
+  &-header {
+    &-title {
+      color: $default-shade;
+      font-family: $sans-serif;
+      font-size: 3rem;
+      margin: 1rem 0;
+      text-align: center;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-shade;
+      }
+    }
+
+    &-line {
+      border-top: 0.4rem solid $default-shade;
+      display: block;
+      margin: 0 auto 3rem;
+      width: 4rem;
+
+      @media (prefers-color-scheme: dark) {
+        border-top: 0.4rem solid $dark-default-shade;
+      }
+    }
+  }
+
+  &-input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    padding: 0 10px;
+    font-size: 1.6rem;
+    height: 2.6em;
+    line-height: 2.6em;
+    text-align: center;
+
+    color: $matsuba;
+    @media (prefers-color-scheme: dark) {
+      color: $byakuroku;
+    }
+  }
+
+  &-item {
+    color: $default-color;
+    display: flex;
+    justify-content: center;
+    padding: .6em 0;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
+
+    &-title {
+      color: $default-color;
+      font-family: $sans-serif;
+      font-size: 1.2em;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-color;
+      }
+    }
+
+    &-line {
+      @include transition(all 0.3s ease-out);
+      border-top: 0.15rem solid $wakatake;
+      width: 0;
+      margin: 0 auto;
+    }
+
+    &:hover,
+    &:active {
+      .search-item-line {
+        width: 50%;
+      }
+    }
+  }
+}

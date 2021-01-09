@@ -1,0 +1,47 @@
+---
+layout: default
+title: "搜索"
+permalink: /search/
+---
+
+<style type="text/css">
+a {
+  color: #5DAC81;
+}
+
+code {
+  font-size: 2em;
+  color: #A8D8B9;
+  @media (prefers-color-scheme: dark) {
+    color: #42602D;
+  }
+}
+</style>
+
+<div class="search">
+  <div class="search-header">
+    <h1 class="search-header-title">内容搜索</h1>
+    <div class="search-header-line"></div>
+  </div>
+</div>
+
+<div>
+  <input type="text" id="search-input" class="search-input" placeholder="输入搜索内容…">
+  <div id="results-container" style="text-align:center"></div>
+</div>
+
+<script src="{{ assets_base_url }}/assets/js/simple-jekyll-search.min.js"></script>
+
+<script>
+  window.simpleJekyllSearch = new SimpleJekyllSearch({
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('results-container'),
+    json: '{{ site.baseurl }}/search.json',
+    searchResultTemplate: '<div><a class="search-item" href="{url}?query={query}"><div style="overflow:hidden;text-overflow:ellipsis"><span class="search-item-title">{title}</span><div class="search-item-line"></div></div></a></div>',
+    noResultsText: '<h2>无结果</h3><br><br><br><br><code>No code no life.</code>',
+    limit: 12,
+    fuzzy: true,
+  })
+</script>
+
+
