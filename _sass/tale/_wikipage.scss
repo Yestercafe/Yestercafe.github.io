@@ -51,6 +51,10 @@
     text-align: center;
   }
 
+  &-warn {
+    color: $kurenai;
+  }
+
   p {
     margin: 0 0 1rem;
     text-align: justify;
