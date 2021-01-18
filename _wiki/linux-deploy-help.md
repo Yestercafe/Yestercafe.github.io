@@ -11,7 +11,7 @@ title: Linux/UNIX Deployment Help
     - [使用 proxychians-ng](#使用-proxychians-ng)
     - [关于虚拟机的代理](#关于虚拟机的代理)
   - [Zsh](#zsh)
-  - [oh-my-zsh](#oh-my-zsh)
+  - [Oh-my-zsh](#oh-my-zsh)
     - [powerlevel10k](#powerlevel10k)
     - [git](#git)
     - [z](#z)
@@ -51,6 +51,8 @@ title: Linux/UNIX Deployment Help
 
 ## 终端 HTTP 代理
 
+<span class="wikipage-warn">注意，所有代理的配置需要根据自身情况进行配置，尤其不要照搬 IP 和 端口号。Git 代理部分将不再重复这段话。</span>
+
 ### 使用全局变量
 
 ```bash
@@ -59,7 +61,7 @@ export http_proxy=http://127.0.0.1:7890
 export all_proxy=socks5://127.0.0.1:7890
 ```
 
-以上配置参考 ClashX，其他代理工具在对应的 preferences/config 里查看版本号。
+以上配置参考 ClashX，其他代理工具在对应的 preferences/config 里查看端口号。
 
 当然可以为上面的指令创建别名，添加进终端程序的 RC 文件中：
 
@@ -83,9 +85,9 @@ proxy_prefix gh repo clone Yescafe/.whichrc
 
 ### 使用 proxychians-ng
 
-*这个工具白苹果使用非常麻烦，不建议 mac 使用。*
+*这个工具白苹果使用非常麻烦，不建议白果子使用。黑果子请自行调教。*
 
-大部分系统可以使用包管理工具安装，测试一下发行版可行：
+大部分系统可以使用包管理工具安装，测试以下发行版可行：
 
 ```bash
 # Ubuntu
@@ -129,7 +131,7 @@ sudo yum install zsh
 sudo dnf install zsh
 ```
 
-## oh-my-zsh
+## Oh-my-zsh
 
  [https://ohmyz.sh/](https://ohmyz.sh/)
 
@@ -224,7 +226,7 @@ Host github.com
     # ProxyCommand nc -v -x 127.0.0.1:SOCKS_PORT %h %p
 ```
 
-两个 `ProxyCommand` 二选一，第一个为走 HTTP 协议代理，第二个为走 socks 协议代理。
+两个 `ProxyCommand` 二选一，第一个为走 HTTP 协议代理，第二个为走 socks 协议代理。取消注释即使用。
 
 ## SSH
 
