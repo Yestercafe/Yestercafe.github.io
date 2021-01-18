@@ -56,8 +56,14 @@ title: Linux/UNIX Deployment Help
 ### 使用全局变量
 
 ```bash
+# 注意 IP 和端口号
+# HTTPS 代理
 export https_proxy=http://127.0.0.1:7890
+
+# HTTP 代理
 export http_proxy=http://127.0.0.1:7890
+
+# socks 代理
 export all_proxy=socks5://127.0.0.1:7890
 ```
 
