@@ -151,7 +151,7 @@ export ZSH_DISABLE_COMPFIX=true
 
 **主题建议：**
 
- ### powerlevel10k
+### powerlevel10k
 
 [https://github.com/romkatv/powerlevel10k](https://github.com/romkatv/powerlevel10k)
 
