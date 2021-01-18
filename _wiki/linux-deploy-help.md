@@ -103,7 +103,7 @@ sudo apt install proxychains
 sudo dnf install proxychains
 ```
 
-接着配置 proxychains。用编辑器打开 `/etc/proxychains.conf`，注释最后一行，在尾部添加：
+接着配置 proxychains。用编辑器打开 `/etc/proxychains.conf`，注释最后一行，在尾部添加内容。下面是尾部的参考内容：
 
 ```
 [ProxyList]
@@ -272,7 +272,7 @@ ssh ivan@192.168.123.2
 
 ## Vim
 
-Emacs 的配置不贴在这里，因为确实比较多。相较于类似于 IDE 的 Emacs，Vim 作为一个轻量级文本编辑器是非常便捷的。这里参考了[知乎的一篇专栏](https://zhuanlan.zhihu.com/p/69725463)，且本配置文件的上游在[此](https://github.com/Yescafe/.whichrc/blob/main/.vimrc)。无严重 bug 此 wiki  中的该配置将不再更新。
+Emacs 的配置不贴在这里，因为确实比较多。相较于类似于 IDE 的 Emacs，Vim 作为一个轻量级文本编辑器是非常便捷的。这里参考了[知乎的一篇专栏](https://zhuanlan.zhihu.com/p/69725463)，且本配置文件的上游在[此](https://github.com/Yescafe/.whichrc/blob/main/.vimrc)。无严重 bug 此 wiki 中的该配置将不再更新。
 
 ```bash
 set nu
