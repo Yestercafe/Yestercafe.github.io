@@ -21,8 +21,9 @@ title: Linux/UNIX Deployment Help
     - [zsh-autosuggestions](#zsh-autosuggestions)
   - [Git](#git-1)
     - [全局用户配置](#全局用户配置)
-    - [全局 HTTP 协议代理](#全局-http-协议代理)
-    - [全局 Git 协议](#全局-git-协议)
+    - [全局 HTTP 协议代理 (http:// 或 https://)](#全局-http-协议代理-http-或-https)
+    - [全局 SSH 协议代理 (git@github.com 等)](#全局-ssh-协议代理-gitgithubcom-等)
+    - [全局 Git 协议代理 (git://)](#全局-git-协议代理-git)
   - [SSH](#ssh)
     - [SSH Key 生成](#ssh-key-生成)
     - [使用 SSH Key 进行 SSH 免密连接](#使用-ssh-key-进行-ssh-免密连接)
@@ -43,6 +44,7 @@ title: Linux/UNIX Deployment Help
 
 # To-do List
 
+- [ ] 丰富 whats this
 - [ ] GitHub CLI
 - [ ] 代理工具
 - [ ] 某些 GUI 工具
@@ -214,16 +216,18 @@ git config --global user.name "Foo Bar"
 git config --global user.email "foobar@example.com"
 ```
 
-### 全局 HTTP 协议代理
+### 全局 HTTP 协议代理 (http:// 或 https://)
 
 ```bash
 git config --global http.proxy 127.0.0.1:HTTP_PORT
 git config --global https.proxy 127.0.0.1:HTTP_PORT
 ```
 
-### 全局 Git 协议
+### 全局 SSH 协议代理 (git@github.com 等)
 
-修改 ssh 配置 `~/.ssh/config`：
+修改 SSH 配置 `~/.ssh/config`：
+
+以 GitHub 为例子：
 
 ```
 Host github.com
@@ -233,6 +237,17 @@ Host github.com
 ```
 
 两个 `ProxyCommand` 二选一，第一个为走 HTTP 协议代理，第二个为走 socks 协议代理。取消注释即使用。
+
+### 全局 Git 协议代理 (git://)
+
+克隆仓库 [https://github.com/cms-sw/cms-git-tools](https://github.com/cms-sw/cms-git-tools)，参考 `init.sh` 配置 PATH 变量。
+
+执行：
+
+```bash
+git config --global core.gitproxy "git-proxy"
+git config --global socks.proxy "HOSTNAME:PORT"
+```
 
 ## SSH
 
