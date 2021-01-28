@@ -24,6 +24,7 @@ title: Linux/UNIX Deployment Help
     - [全局 HTTP 协议代理 (http:// 或 https://)](#全局-http-协议代理-http-或-https)
     - [全局 SSH 协议代理 (git@github.com 等)](#全局-ssh-协议代理-gitgithubcom-等)
     - [全局 Git 协议代理 (git://)](#全局-git-协议代理-git)
+    - [GitHub CLI](#github-cli)
   - [SSH](#ssh)
     - [SSH Key 生成](#ssh-key-生成)
     - [使用 SSH Key 进行 SSH 免密连接](#使用-ssh-key-进行-ssh-免密连接)
@@ -45,7 +46,6 @@ title: Linux/UNIX Deployment Help
 # To-do List
 
 - [ ] 丰富 whats this
-- [ ] GitHub CLI
 - [ ] 代理工具
 - [ ] 某些 GUI 工具
 
@@ -248,6 +248,12 @@ Host github.com
 git config --global core.gitproxy "git-proxy"
 git config --global socks.proxy "HOSTNAME:PORT"
 ```
+
+### GitHub CLI
+
+[https://cli.github.com/](https://cli.github.com/)
+
+与 GitHub Desktop 对立，有一定用处。
 
 ## SSH
 
