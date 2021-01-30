@@ -118,3 +118,17 @@ td {
 table {
   margin: 0 auto;
 }
+
+em {
+  text-shadow: 0 0 1px $default-shade;
+  @media (prefers-color-scheme: dark) {
+    text-shadow: 0 0 1px $dark-default-shade;
+  }
+}
+
+strong {
+  text-shadow: 0 0 2px $dark-grey-3;
+  @media (prefers-color-scheme: dark) {
+    text-shadow: 0 0 2px $grey-3;
+  }
+}
