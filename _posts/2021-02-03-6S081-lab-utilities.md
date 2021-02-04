@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 6.S081 Lab Util 实验报告
+title: 6.S081 Lab Xv6 and Unix Utilities 实验报告
 categories: OS
 tags: [OS]
 ---
