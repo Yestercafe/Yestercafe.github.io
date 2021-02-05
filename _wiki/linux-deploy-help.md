@@ -139,9 +139,13 @@ sudo yum install zsh
 sudo dnf install zsh
 ```
 
+同 ohmyzsh 一样的主题、插件，推荐使用/参考我的仓库 [Yescafe/.whichrc](https://github.com/Yescafe/.whichrc)。具体见其 [readme.md](https://github.com/Yescafe/.whichrc/blob/main/readme.md)。
+
 ## Oh-my-zsh
 
- [https://ohmyz.sh/](https://ohmyz.sh/)
+[https://ohmyz.sh/](https://ohmyz.sh/)
+
+<span class="wikipage-warn"><em>ohmyzsh 会拖慢终端速度，现已不推荐使用。</em></span>
 
 <span class="wikipage-warn">注：依赖于 curl、git。</span>
 
