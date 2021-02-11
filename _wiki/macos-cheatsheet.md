@@ -3,6 +3,7 @@ layout: wiki
 title: MacOS Cheatsheet
 ---
 
+- [外挂链接](#外挂链接)
 - [破解版软件下载（学习所用，请勿传播）](#破解版软件下载学习所用请勿传播)
 - [解决 Homebrew update 过慢的问题](#解决-homebrew-update-过慢的问题)
 - [修复 App 损坏](#修复-app-损坏)
@@ -13,6 +14,12 @@ title: MacOS Cheatsheet
 - [修复 TNT 破解版 Parallels Desktop 16 在 macOS Big Sur 中的网络初始化问题](#修复-tnt-破解版-parallels-desktop-16-在-macos-big-sur-中的网络初始化问题)
 - [修改 VMware Fusion 中的虚机网络 IP 地址段](#修改-vmware-fusion-中的虚机网络-ip-地址段)
 - [关闭切换应用时自动切换 desktop/workspace](#关闭切换应用时自动切换-desktopworkspace)
+- [启动长按按键连续输入](#启动长按按键连续输入)
+- [修改截图保存路径](#修改截图保存路径)
+
+## 外挂链接
+
+[https://sourabhbajaj.com/mac-setup/](https://sourabhbajaj.com/mac-setup/)
 
 ## 破解版软件下载（学习所用，请勿传播）
 
@@ -114,7 +121,6 @@ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start
 
 如果没有提前关闭 VMware，就重启。如果虚拟机网络的 DHCP 模式没有自动调整 IP 地址，使用 `dhclient` 手动重新调整。手动模式就手动调整。
 
-
 ## 关闭切换应用时自动切换 desktop/workspace
 
 [http://www.michael1e.com/disable-desktop-switching-mac-osx/](http://www.michael1e.com/disable-desktop-switching-mac-osx/)
@@ -127,4 +133,26 @@ defaults write com.apple.dock workspaces-auto-swoosh -bool NO && killall Dock
 
 ```bash
 defaults write com.apple.dock workspaces-auto-swoosh -bool YES && killall Dock
+```
+
+## 启动长按按键连续输入
+
+即“关闭 Apple 按下长按功能”。
+
+```bash
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+```
+
+重启。
+
+恢复
+
+```bash
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
+```
+
+## 修改截图保存路径
+
+```bash
+defaults write com.apple.screencapture location /path/to/screenshots/ && killall SystemUIServer
 ```
