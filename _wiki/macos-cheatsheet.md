@@ -12,6 +12,7 @@ title: MacOS Cheatsheet
 - [修改 dock 栏显示或自动隐藏的动画时间](#修改-dock-栏显示或自动隐藏的动画时间)
 - [修复 TNT 破解版 Parallels Desktop 16 在 macOS Big Sur 中的网络初始化问题](#修复-tnt-破解版-parallels-desktop-16-在-macos-big-sur-中的网络初始化问题)
 - [修改 VMware Fusion 中的虚机网络 IP 地址段](#修改-vmware-fusion-中的虚机网络-ip-地址段)
+- [关闭切换应用时自动切换 desktop/workspace](#关闭切换应用时自动切换-desktopworkspace)
 
 ## 破解版软件下载（学习所用，请勿传播）
 
@@ -112,3 +113,18 @@ sudo /Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start
 ```
 
 如果没有提前关闭 VMware，就重启。如果虚拟机网络的 DHCP 模式没有自动调整 IP 地址，使用 `dhclient` 手动重新调整。手动模式就手动调整。
+
+
+## 关闭切换应用时自动切换 desktop/workspace
+
+[http://www.michael1e.com/disable-desktop-switching-mac-osx/](http://www.michael1e.com/disable-desktop-switching-mac-osx/)
+
+```bash
+defaults write com.apple.dock workspaces-auto-swoosh -bool NO && killall Dock
+```
+
+恢复
+
+```bash
+defaults write com.apple.dock workspaces-auto-swoosh -bool YES && killall Dock
+```
