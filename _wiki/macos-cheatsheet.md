@@ -16,10 +16,14 @@ title: MacOS Cheatsheet
 - [关闭切换应用时自动切换 desktop/workspace](#关闭切换应用时自动切换-desktopworkspace)
 - [启动长按按键连续输入](#启动长按按键连续输入)
 - [修改截图保存路径](#修改截图保存路径)
+- [修正 Finder 中的一些图标位置错位的异常](#修正-finder-中的一些图标位置错位的异常)
+- [关于 `._` 开头的文件](#关于-_-开头的文件)
 
 ## 外挂链接
 
 [https://sourabhbajaj.com/mac-setup/](https://sourabhbajaj.com/mac-setup/)
+
+[https://macos-defaults.com/](https://macos-defaults.com/)
 
 ## 破解版软件下载（学习所用，请勿传播）
 
@@ -132,7 +136,7 @@ defaults write com.apple.dock workspaces-auto-swoosh -bool NO && killall Dock
 恢复
 
 ```bash
-defaults write com.apple.dock workspaces-auto-swoosh -bool YES && killall Dock
+defaults delete com.apple.dock workspaces-auto-swoosh && killall Dock
 ```
 
 ## 启动长按按键连续输入
@@ -156,3 +160,32 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool true
 ```bash
 defaults write com.apple.screencapture location /path/to/screenshots/ && killall SystemUIServer
 ```
+
+## 修正 Finder 中的一些图标位置错位的异常
+
+[https://zh.wikipedia.org/wiki/.DS_Store](https://zh.wikipedia.org/wiki/.DS_Store)
+
+不太好描述，举个例子。我有个移动硬盘，这个移动硬盘在我每次重新挂载上再打开里面的文件夹时，在图标视图下里面文件的排列方式很是奇怪，并不对齐，需要手动整理才行。
+
+此时才去了解到，Finder 窗口的大小、位置、显示选项等等都是与 `.DS_Store` 相关的。所以压缩文件的时候也无需特地回避的，不会泄露什么隐私信息。
+
+使用 `find` 指令可以递归删除所有 `.DS_Store`：
+
+```bash
+find . -name .DS_Store -delete
+```
+
+参考 Wikipedia，禁止生成 `.DS_Store` 可以执行：
+
+```bash
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
+
+# 恢复
+defaults delete com.apple.desktopservices DSDontWriteNetworkStores
+```
+
+## 关于 `._` 开头的文件
+
+为 macOS 保存文件属性的元数据，不会在苹果的分区里出现（应该）。我第一次见到是在 exfat 分区中 `ls -a`。
+
+无需留意，也无需删除。因为删除了还是会生成。
