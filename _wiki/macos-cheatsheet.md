@@ -3,8 +3,8 @@ layout: wiki
 title: MacOS Cheatsheet
 ---
 
-- [外挂链接](#外挂链接)
-- [破解版软件下载（学习所用，请勿传播）](#破解版软件下载学习所用请勿传播)
+- [搭载 T2 芯片的 MacBook 重置 SMC](#搭载-t2-芯片的-macbook-重置-smc)
+- [重置 NVRAM 和 PRAM](#重置-nvram-和-pram)
 - [解决 Homebrew update 过慢的问题](#解决-homebrew-update-过慢的问题)
 - [修复 App 损坏](#修复-app-损坏)
 - [允许所有来源下载的 App](#允许所有来源下载的-app)
@@ -18,18 +18,30 @@ title: MacOS Cheatsheet
 - [修改截图保存路径](#修改截图保存路径)
 - [修正 Finder 中的一些图标位置错位的异常](#修正-finder-中的一些图标位置错位的异常)
 - [关于 `._` 开头的文件](#关于-_-开头的文件)
+- [外链](#外链)
 
-## 外挂链接
+## 搭载 T2 芯片的 MacBook 重置 SMC
 
-[https://sourabhbajaj.com/mac-setup/](https://sourabhbajaj.com/mac-setup/)
+电源、电池、风扇相关的问题可以通过重制 SMC 尝试解决。
 
-[https://macos-defaults.com/](https://macos-defaults.com/)
+<div style="text-align:center"><em>都市传说：针对于非全新安装的 Big Sur 卡顿也有奇效。</em></div>
 
-## 破解版软件下载（学习所用，请勿传播）
+1. 关机
+2. 按住 Command + Option + **右** Shift 7秒
+3. 在不松开的上三个键情况下，再加按电源键（一共四个键）7 秒
+4. 电脑全程应该会经历出现 Logo，然后强制关机。等待几秒后按电源键开机。
 
-[https://www.macbl.com/](https://www.macbl.com/)
+无 T2 参考官方：[https://support.apple.com/zh-cn/HT201295](https://support.apple.com/zh-cn/HT201295)
 
-[https://www.inpandora.com/](https://www.inpandora.com/)
+## 重置 NVRAM 和 PRAM
+
+[https://support.apple.com/zh-cn/HT204063](https://support.apple.com/zh-cn/HT204063)
+
+这俩类似 BIOS 存储的信息，这个操作可能跟取下 BIOS 电池晾一天效果类似。
+
+> 将 Mac 关机，然后开机并立即同时按住以下四个按键：Option、Command、P 和 R。您可以在大约 20 秒后松开这些按键，在此期间您的 Mac 可能看似在重新启动。  
+> - 如果 Mac 电脑发出启动声，您可以在第二次启动声过后松开这些按键。
+> - 在搭载 Apple T2 安全芯片的 Mac 电脑上，您可以在 Apple 标志第二次出现并消失后松开这些按键。 
 
 ## 解决 Homebrew update 过慢的问题
 
@@ -189,3 +201,17 @@ defaults delete com.apple.desktopservices DSDontWriteNetworkStores
 为 macOS 保存文件属性的元数据，不会在苹果的分区里出现（应该）。我第一次见到是在 exfat 分区中 `ls -a`。
 
 无需留意，也无需删除。因为删除了还是会生成。
+
+## 外链
+
+Cheatsheets:
+
+[https://sourabhbajaj.com/mac-setup/](https://sourabhbajaj.com/mac-setup/)
+
+[https://macos-defaults.com/](https://macos-defaults.com/)
+
+破解版软件下载（学习所用，请勿传播）:
+
+[https://www.macbl.com/](https://www.macbl.com/)
+
+[https://www.inpandora.com/](https://www.inpandora.com/)
