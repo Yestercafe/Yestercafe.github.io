@@ -132,3 +132,32 @@ strong {
     text-shadow: 0 0 2px $grey-3;
   }
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  border-radius: 3px;
+  
+  background-color: $white;
+  @media (prefers-color-scheme: dark) {
+    background: $dark-white;
+  }
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  // TODO hover 的过渡动画
+  // @include transition(all 1s ease-out);
+
+  background-color: $default-tint;
+  @media (prefers-color-scheme: dark) {
+    background-color: $dark-default-tint;
+  }
+
+  &:hover {
+    background-color: $grey-1;
+    @media (prefers-color-scheme: dark) {
+      background-color: $dark-grey-1;
+    }
+  }
+}
