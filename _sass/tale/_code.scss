@@ -8,7 +8,7 @@ code {
   border-radius: 3px;
   color: $code-color;
   font-size: 85%;
-  padding: .25em .5em;
+  // padding: .25em 0;
 
   @media (prefers-color-scheme: dark) {
     background-color: $dark-white;
