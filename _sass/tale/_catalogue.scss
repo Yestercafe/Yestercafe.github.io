@@ -21,7 +21,7 @@
 
   &-time {
     color: $default-tint;
-    font-family: $serif-secondary;
+    font-family: $clock;
     letter-spacing: .5px;
 
     @media (prefers-color-scheme: dark) {
