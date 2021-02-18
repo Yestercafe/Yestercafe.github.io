@@ -83,7 +83,6 @@ defaults delete com.apple.Dock autohide-delay && killall Dock
 [https://blog.csdn.net/weixin_30408739/article/details/99605755](https://blog.csdn.net/weixin_30408739/article/details/99605755)
 
 ```bash
-
 # 修改为自定义值
 defaults write com.apple.dock autohide-time-modifier -float 0.5 && killall Dock
 
