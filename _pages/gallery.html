@@ -1,0 +1,66 @@
+---
+layout: default
+title: "Starry<br>Gallery"
+permalink: /gallery/
+---
+
+<!-- <style type="text/css">
+h2 {
+  font-family: 'Libre Baskerville', 'Times New Roman', Times, serif;
+}
+</style> -->
+  
+<div class="gallery">
+  <div class="gallery-header">
+    <div>
+      <div class="gallery-header-aboveline"></div>
+      <!-- <div class="gallery-header-leftline"></div> -->
+      <!-- <div class="gallery-header-rightline"></div> -->
+      <div><span class="gallery-header-title">{{ page.title }}</span></div>
+      <div class="gallery-header-underline"></div>
+    </div>
+  </div>
+
+  <details class="gallery-details" open="open">
+    <summary class="gallery-details-summary">帖子</summary>
+    <div>
+      {% for post in site.posts %}
+        {% if post.archived == true %}
+        <a class="gallery-item" href="{{ post.url | prepend: site.baseurl }}">
+          <div style="overflow: hidden; text-overflow: ellipsis;">
+            <span class="gallery-item-title">{{ post.title }}</span>
+            <div class="gallery-item-line"></div>
+          </div>
+          <span class="gallery-item-time">
+            <time datetime="{{ post.date }}">
+              {{ post.date | date:"%Y-%m" }}
+            </time>
+          </span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </details>
+
+  <details class="gallery-details" open="open">
+    <summary class="gallery-details-summary">Wiki</summary>
+    <div>
+      {% for post in site.wiki %}
+        {% if post.archived == true %}
+        <a class="gallery-item" href="{{ post.url | prepend: site.baseurl }}">
+          <div style="overflow: hidden; text-overflow: ellipsis;">
+            <span class="gallery-item-title">{{ post.title }}</span>
+            <div class="gallery-item-line"></div>
+          </div>
+          <span class="gallery-item-time">
+            <time datetime="{{ post.date }}">
+              {{ post.date | date:"long time ago" }}
+            </time>
+          </span>
+        </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </details>
+
+</div>

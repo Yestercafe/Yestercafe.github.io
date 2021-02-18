@@ -17,11 +17,26 @@ h2 {
   </div>
 
   {% for wiki in site.wiki %}
-    {% if wiki.title != "Wiki Template" %}
+    {% if wiki.title != "Wiki Template" and wiki.archived != true %}
       <div>
         <a class="wiki-post" href="{{ wiki.url | prepend: site.baseurl }}">
           <div style="overflow: hidden; text-overflow: ellipsis;">
             <span class="wiki-post-title">{{ wiki.title }}</span>
+            <div class="wiki-post-line"></div>
+          </div>
+        </a>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  <br>
+
+  {% for wiki in site.wiki %}
+    {% if wiki.archived == true %}
+      <div>
+        <a class="wiki-post" href="{{ wiki.url | prepend: site.baseurl }}">
+          <div style="overflow: hidden; text-overflow: ellipsis;">
+            <span class="wiki-post-title-archived">{{ wiki.title }}</span>
             <div class="wiki-post-line"></div>
           </div>
         </a>

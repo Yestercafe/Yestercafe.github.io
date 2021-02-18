@@ -48,6 +48,20 @@
       }
     }
 
+    &-title-archived {
+      color: $grey-1;
+      font-family: $serif-primary;
+      font-size: 1.2em;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-grey-1;
+      }
+    }
+
     &-line {
       @include transition(all 0.3s ease-out);
       border-top: 0.15rem solid $usubeni;
