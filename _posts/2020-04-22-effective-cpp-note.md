@@ -4,6 +4,7 @@ title: Effective C++ 中文第三版阅读笔记
 categories: cpp
 description: effcpp笔记, 2020年的敲门砖
 tags: [C++]
+archived: true
 ---
 
 开一个新坑, 这个坑比较短(???), 应该寒假之前就能解决, 算作是2020年的开年作了.  

@@ -4,6 +4,7 @@ title: Trojan-qt 编译手册
 categories: Software
 description: Trojan-qt 编译指南
 keywords: Software, VPN, guidebook
+archived: true
 ---
 
 ## 仓库

@@ -4,6 +4,7 @@ title: JupyterHub Deployment
 categories: Jupyter
 description: How to set up a JupyterHub env on the server
 keywords: Jupyter, JupyterHub
+archived: true
 ---
 
 ## Prerequisites

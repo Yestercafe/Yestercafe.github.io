@@ -4,6 +4,7 @@ title: Ubuntu
 categories: Linux
 description: 个人的 Ubuntu 配置方法
 keywords: Linux, Ubuntu
+archived: true
 ---
 重装系统后反复去找一些东西的配置非常麻烦，于是整合一下。注意两点：  
 1. 长期更新；  
