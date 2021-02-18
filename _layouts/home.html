@@ -6,7 +6,7 @@ layout: default
   {% for post in paginator.posts %}
     <a href="{{ post.url | prepend: site.baseurl }}" class="catalogue-item">
       <div>
-        <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%Y/%m/%d" }}</time>
+        <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%Y-%m-%d %a" }}</time>
         <h2 class="catalogue-title">{{ post.title }}</h2>
         <div class="catalogue-line"></div>
       </div>
