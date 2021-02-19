@@ -25,21 +25,41 @@ h2 {
   <details class="gallery-details" open="open">
     <summary class="gallery-details-summary">帖子</summary>
     <div>
-      {% for post in site.posts %}
+      {% assign prev_year = "0" %}
+      {% assign count = 0 %}
+
+      {% for post in site.posts reversed %}
         {% if post.archived == true %}
-        <a class="gallery-item" href="{{ post.url | prepend: site.baseurl }}">
-          <div style="overflow: hidden; text-overflow: ellipsis;">
-            <span class="gallery-item-title">{{ post.title }}</span>
-            <div class="gallery-item-line"></div>
-          </div>
-          <span class="gallery-item-time">
-            <time datetime="{{ post.date }}">
-              {{ post.date | date:"%Y-%m" }}
-            </time>
-          </span>
-        </a>
+          {% assign this_year = post.date | date: "%Y" %}
+          {% if count == 0 %}
+            <details open="open">
+              <summary class="gallery-details-sub-summary">{{ this_year }}</summary><div>
+            {% assign prev_year = this_year %}
+          {% endif %}  
+          {% if this_year != prev_year %}
+            </div></details>
+            <details open="open">
+              <summary class="gallery-details-sub-summary">{{ this_year }}</summary><div>
+            {% assign prev_year = this_year %}
+          {% endif %}
+          <a class="gallery-item" href="{{ post.url | prepend: site.baseurl }}">
+            <div style="overflow: hidden; text-overflow: ellipsis;">
+              <span class="gallery-item-title">{{ post.title }}</span>
+              <div class="gallery-item-line"></div>
+            </div>
+            <span class="gallery-item-time">
+              <time datetime="{{ post.date }}">
+                {{ post.date | date: "%h %d" }}
+              </time>
+            </span>
+          </a>
+          
+          {% assign count = count | plus: 1 %}
         {% endif %}
       {% endfor %}
+      {% if count != 0 %}
+        </div></details>
+      {% endif %}
     </div>
   </details>
 
@@ -54,9 +74,7 @@ h2 {
             <div class="gallery-item-line"></div>
           </div>
           <span class="gallery-item-time">
-            <time datetime="{{ post.date }}">
-              {{ post.date | date:"long time ago" }}
-            </time>
+            <!--  -->
           </span>
         </a>
         {% endif %}

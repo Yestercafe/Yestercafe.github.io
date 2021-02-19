@@ -95,8 +95,16 @@
     cursor: pointer;
 
     &-summary {
-      margin-top: 2rem;
-      margin-bottom: .5rem;
+      margin-top: 30px;
+      margin-bottom: 5px;
+      font-size: 27px;
+      outline: none;
+      box-shadow: none;
+    }
+
+    &-sub-summary {
+      margin-top: 10px;
+      margin-bottom: 5px;
       font-size: 20px;
       outline: none;
       box-shadow: none;
@@ -111,6 +119,10 @@
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
+    }
+
+    &-title, &-time {
+      font-size: 1rem;
     }
 
     &-title {
