@@ -30,7 +30,6 @@ title: Linux/UNIX Deployment Help
     - [使用 SSH Key 进行 SSH 免密连接](#使用-ssh-key-进行-ssh-免密连接)
     - [SSH Config](#ssh-config)
   - [Vim](#vim)
-  - [Homebrew (macOS)](#homebrew-macos)
   - [RVM](#rvm)
   - [GCC/Clang (macOS)](#gccclang-macos)
   - [Makefile、CMake](#makefilecmake)
@@ -369,35 +368,6 @@ nnoremap <silent> <c-u> :Mru<cr>
 " 文件搜索
 " git clone https://github.com/mileszs/ack.vim ~/.vim/pack/vendor/start/ack
 ```
-
-## Homebrew (macOS)
-
-[https://brew.sh/](https://brew.sh/)
-
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-```
-
-Homebrew 换源参考的是 [https://www.cnblogs.com/tp0829/p/Homebrew.html](https://www.cnblogs.com/tp0829/p/Homebrew.html)。网上大部分的文章都是在扯淡，根本没有完全换源，update 速度还是很慢。
-
-替换 Homebrew、homebrew-core、homebrew-cask 的 Git remote 源：
-
-```bash
-cd "$(brew --repo)"
-git remote set-url origin https://mirrors.ustc.edu.cn/brew.git
-cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
-git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git
-cd "$(brew --repo)/Library/Taps/homebrew/homebrew-cask"
-git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git
-```
-
-修改 Homebrew-bottles 源。将下面的全局变量加入终端程序的 RC 文件中：
-
-```bash
-export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-```
-
-详情参考 [USTC Mirror Help](http://mirrors.ustc.edu.cn/help/)。
 
 ## RVM
 

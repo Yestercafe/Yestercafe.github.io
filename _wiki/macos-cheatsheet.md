@@ -21,6 +21,9 @@ title: MacOS Cheatsheet
 - [macOS Big Sur 相关](#macos-big-sur-相关)
   - [修复 TNT 破解版 Parallels Desktop 16 在 macOS Big Sur 中的网络初始化问题](#修复-tnt-破解版-parallels-desktop-16-在-macos-big-sur-中的网络初始化问题)
   - [VSCode 内建终端卡顿](#vscode-内建终端卡顿)
+- [Homebrew](#homebrew)
+  - [Nerd Font](#nerd-font)
+  - [Emacs plus](#emacs-plus)
 - [杂类整合](#杂类整合)
   - [允许所有来源下载的 App](#允许所有来源下载的-app)
   - [修复刚开机的锁屏界面壁纸始终为默认的问题（重建锁屏壁纸缓存）](#修复刚开机的锁屏界面壁纸始终为默认的问题重建锁屏壁纸缓存)
@@ -153,11 +156,7 @@ defaults delete com.apple.desktopservices DSDontWriteNetworkStores
 
 ### 解决 Homebrew update 过慢的问题
 
-[https://yescafe.github.io/wiki/linux-deploy-help/#homebrew-macos](https://yescafe.github.io/wiki/linux-deploy-help/#homebrew-macos)
-
-或
-
-[https://www.cnblogs.com/tp0829/p/Homebrew.html](https://www.cnblogs.com/tp0829/p/Homebrew.html)
+见 [#homebrew](#homebrew)。
 
 ### 修复 App 损坏
 
@@ -191,6 +190,52 @@ sudo xattr -rd com.apple.quarantine /Applications/sample.app
 
 ```bash
 codesign --remove-signature /Applications/Visual\ Studio\ Code.app/Contents/Frameworks/Code\ Helper\ \(Renderer\).app
+```
+
+## Homebrew
+
+[https://brew.sh/](https://brew.sh/)
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+Homebrew 换源参考的是 [https://www.cnblogs.com/tp0829/p/Homebrew.html](https://www.cnblogs.com/tp0829/p/Homebrew.html)。网上大部分的文章都是在扯淡，根本没有完全换源，update 速度还是很慢。
+
+替换 Homebrew、homebrew-core、homebrew-cask 的 Git remote 源：
+
+```bash
+cd "$(brew --repo)"
+git remote set-url origin https://mirrors.ustc.edu.cn/brew.git
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git
+# 确保 homebrew-cask 目录已经存在，没有可以使用 brew install --cask xxx 指令自动 clone
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-cask"
+git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git
+```
+
+修改 Homebrew-bottles 源。将下面的全局变量加入终端程序的 RC 文件中：
+
+```bash
+export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
+```
+
+详情参考 [USTC Mirror Help](http://mirrors.ustc.edu.cn/help/)。
+
+### Nerd Font
+```bash
+brew tap homebrew/cask-fonts
+brew install --cask font-fira-code-nerd-font
+brew install --cask font-caskaydia-cove-nerd-font
+brew install --cask font-victor-mono-nerd-font
+brew install --cask font-source-code-pro
+```
+
+### Emacs plus
+
+```bash
+brew tap d12frosted/emacs-plus
+brew install emacs-plus
 ```
 
 ## 杂类整合
