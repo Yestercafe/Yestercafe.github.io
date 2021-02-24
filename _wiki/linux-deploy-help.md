@@ -38,6 +38,7 @@ title: Linux/UNIX Deployment Help
   - [Thefuck](#thefuck)
 - [GUI 工具](#gui-工具)
   - [浏览器代理](#浏览器代理)
+  - [关于 VMware 分辨率问题](#关于-vmware-分辨率问题)
 
 # What's This?
 原 [Ubuntu Wiki](https://yescafe.github.io/wiki/ubuntu/) 的再版，适用于多数 Linux/UNIX 系统，包括 macOS。
@@ -511,11 +512,22 @@ pip install thefuck --user
 eval $(thefuck --alias)
 ```
 
-
-
 # GUI 工具
 
 ## 浏览器代理
 
 特别列出，非常建议使用 Proxy SwitchyOmega。<span class="wikipage-warn">Microsoft Edge 请于 Chrome Web Store 下载，被曝光 Edge 商店里的该插件有后门，现在情况未知。</span>
 
+## 关于 VMware 分辨率问题
+
+部分发行版在安装了 open-vm-tools 之后依旧无法自动更正分辨率，个人怀疑桌面环境版本过高，某些组件无法兼容。经测试的 GNOME 环境，Ubuntu 20.04 原装的应该没有问题，Fedora 33、Arch Linux 的存在问题。
+
+修复方法只在 Fedora 33、Arch Linux 的 GNOME 桌面上测试过，其他发行版或桌面环境未知。
+
+[https://lvii.github.io/desktop/2020-10-29-set-fedora-33-workstation-gnome-resolution-1920x1080-in-vmware/](https://lvii.github.io/desktop/2020-10-29-set-fedora-33-workstation-gnome-resolution-1920x1080-in-vmware/)
+
+```bash
+sudo cp -v /etc/vmware-tools/tools.conf.example /etc/vmware-tools/tools.conf
+sudo sed -i '/^\[resolutionKMS/a enable=true' /etc/vmware-tools/tools.conf
+sudo systemctl restart vmtoolsd
+```
