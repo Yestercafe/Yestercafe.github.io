@@ -15,6 +15,7 @@ title: MacOS Cheatsheet
   - [启动长按按键连续输入](#启动长按按键连续输入)
   - [修改截图保存路径](#修改截图保存路径)
   - [修正 Finder 中的一些图标位置错位的异常](#修正-finder-中的一些图标位置错位的异常)
+  - [强制开启 HiDPI](#强制开启-hidpi)
 - [软件问题](#软件问题)
   - [解决 Homebrew update 过慢的问题](#解决-homebrew-update-过慢的问题)
   - [修复 App 损坏](#修复-app-损坏)
@@ -143,7 +144,14 @@ defaults write com.apple.screencapture location /path/to/screenshots/ && killall
 find . -name .DS_Store -delete
 ```
 
-参考 Wikipedia，禁止生成 `.DS_Store` 可以执行：
+关闭在网络设备、服务器和可移动设备中生成 `.DS_Store`：
+
+```bash
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+```
+
+参考 Wikipedia，禁止生成所有 `.DS_Store` 可以执行：
 
 ```bash
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
@@ -151,6 +159,25 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 # 恢复
 defaults delete com.apple.desktopservices DSDontWriteNetworkStores
 ```
+
+### 强制开启 HiDPI
+
+注意，[xzhih/one-key-hidpi](https://github.com/xzhih/one-key-hidpi) 对于无法解开 SIP 的 Big Sur 已经失效。这里采用的是另一个分支，支持 Big Sur 支持老版本系统。
+
+```bash
+git clone https://github.com/mlch911/one-key-hidpi.git
+cd one-key-hidpi && ./hidpi.command
+```
+
+接着选择需要开启 HiDPI 的显示器，开启 HiDPI 无需注入 EDID。再之后是关键。经过我的测试，我的 VGA 接口的 1080P（1920x1080）的显示器，无法通过缺省的任何一个选项开启 HiDPI。HDMI 显示器没有测试。
+
+我自己试出来的一种可行的方法是，手动输入分辨率：
+
+```
+3840x2160 1920x1080
+```
+
+最后重启电脑。将显示器设置中的分辨率调成显示器默认。
 
 ## 软件问题
 
