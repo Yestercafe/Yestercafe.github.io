@@ -9,6 +9,9 @@ title: MacOS Cheatsheet
   - [搭载 T2 芯片的 MacBook 重置 SMC](#搭载-t2-芯片的-macbook-重置-smc)
   - [重置 NVRAM 和 PRAM](#重置-nvram-和-pram)
 - [Dock 栏、Finder、Desktop 等](#dock-栏finderdesktop-等)
+  - [重置 Dock 栏（包括图标摆设和 Dock 栏设置）](#重置-dock-栏包括图标摆设和-dock-栏设置)
+  - [重置 Launchpad 布局](#重置-launchpad-布局)
+  - [修改 Launchpad 显示图标行列数量](#修改-launchpad-显示图标行列数量)
   - [修改 Dock 栏自动隐藏时指针悬浮后显示的响应时间](#修改-dock-栏自动隐藏时指针悬浮后显示的响应时间)
   - [修改 Dock 栏显示或自动隐藏的动画时间](#修改-dock-栏显示或自动隐藏的动画时间)
   - [关闭切换应用时自动切换 Desktop/workspace](#关闭切换应用时自动切换-desktopworkspace)
@@ -69,6 +72,27 @@ Reserve.
 > - 在搭载 Apple T2 安全芯片的 Mac 电脑上，您可以在 Apple 标志第二次出现并消失后松开这些按键。 
 
 ## Dock 栏、Finder、Desktop 等
+
+### 重置 Dock 栏（包括图标摆设和 Dock 栏设置）
+
+```bash
+defaults delete com.apple.dock; killall Dock
+```
+
+### 重置 Launchpad 布局
+
+```bash
+defaults write com.apple.dock ResetLaunchPad -bool true; killall Dock
+```
+
+### 修改 Launchpad 显示图标行列数量
+
+```bash
+defaults write com.apple.dock springboard-columns -int 8 && killall Dock
+defaults write com.apple.dock springboard-rows -int 6 && killall Dock
+```
+
+复原直接删除即可重启即可。
 
 ### 修改 Dock 栏自动隐藏时指针悬浮后显示的响应时间
 
