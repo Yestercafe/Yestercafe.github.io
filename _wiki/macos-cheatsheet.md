@@ -11,6 +11,7 @@ title: MacOS Cheatsheet
 - [Dock 栏、Finder、Desktop 等](#dock-栏finderdesktop-等)
   - [重置 Dock 栏（包括图标摆设和 Dock 栏设置）](#重置-dock-栏包括图标摆设和-dock-栏设置)
   - [重置 Launchpad 布局](#重置-launchpad-布局)
+  - [修改 Dock 栏图标大小](#修改-dock-栏图标大小)
   - [修改 Launchpad 显示图标行列数量](#修改-launchpad-显示图标行列数量)
   - [修改 Dock 栏自动隐藏时指针悬浮后显示的响应时间](#修改-dock-栏自动隐藏时指针悬浮后显示的响应时间)
   - [修改 Dock 栏显示或自动隐藏的动画时间](#修改-dock-栏显示或自动隐藏的动画时间)
@@ -83,6 +84,12 @@ defaults delete com.apple.dock; killall Dock
 
 ```bash
 defaults write com.apple.dock ResetLaunchPad -bool true; killall Dock
+```
+
+### 修改 Dock 栏图标大小
+
+```bash
+defaults write com.apple.dock "tilesize" -int "36" && killall Dock
 ```
 
 ### 修改 Launchpad 显示图标行列数量
