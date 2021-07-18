@@ -19,6 +19,7 @@ title: MacOS Cheatsheet
   - [启动长按按键连续输入](#启动长按按键连续输入)
   - [修改截图保存路径](#修改截图保存路径)
   - [修正 Finder 中的一些图标位置错位的异常](#修正-finder-中的一些图标位置错位的异常)
+  - [修复桌面图标消失、无法右击](#修复桌面图标消失无法右击)
   - [强制开启 HiDPI](#强制开启-hidpi)
 - [软件问题](#软件问题)
   - [解决 Homebrew update 过慢的问题](#解决-homebrew-update-过慢的问题)
@@ -189,6 +190,12 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
 
 # 恢复
 defaults delete com.apple.desktopservices DSDontWriteNetworkStores
+```
+
+### 修复桌面图标消失、无法右击
+
+```bash
+defaults write com.apple.finder CreateDesktop true; killall Finder
 ```
 
 ### 强制开启 HiDPI
