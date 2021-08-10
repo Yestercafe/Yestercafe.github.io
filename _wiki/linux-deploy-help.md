@@ -12,7 +12,9 @@ title: Linux/UNIX Deployment Help
     - [关于虚拟机的代理](#关于虚拟机的代理)
   - [Zsh](#zsh)
   - [Oh-my-zsh](#oh-my-zsh)
+    - [spaceship](#spaceship)
     - [powerlevel10k](#powerlevel10k)
+    - [onekey setup](#onekey-setup)
     - [git](#git)
     - [z](#z)
     - [rails](#rails)
@@ -163,6 +165,21 @@ export ZSH_DISABLE_COMPFIX=true
 
 **主题建议：**
 
+### spaceship
+
+[https://github.com/spaceship-prompt/spaceship-prompt](https://github.com/spaceship-prompt/spaceship-prompt)
+
+```bash
+git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+```
+
+修改 `~/.zshrc`：
+
+```
+ZSH_THEME="spaceship"
+```
+
 ### powerlevel10k
 
 [https://github.com/romkatv/powerlevel10k](https://github.com/romkatv/powerlevel10k)
@@ -178,6 +195,26 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 ```
 
 **自用插件列表：**
+
+### onekey setup
+```
+plugins=(
+  git                      # git command aliases
+  rails                    # rails command aliases
+  brew                     # brew command aliases
+  vscode                   # VSCode command aliases
+  iterm2                   # iterm2 commands
+  osx                      # macOS commands
+  z                        # record recent directories
+  colored-man-pages        # adds colors to man pages
+  zsh-syntax-highlighting  # command syntax highlighting
+  zsh-autosuggestions      # record used commands
+  # sudo                     # tap double ESC to complete `sudo` prefix
+  thefuck                  # instead of 'sudo'
+  dash                     # Dash plugin
+  themes                   # change zsh themes on the go
+)
+```
 
 ### git
 
