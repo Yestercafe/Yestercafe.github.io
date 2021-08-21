@@ -200,7 +200,7 @@ defaults write com.apple.finder CreateDesktop true; killall Finder
 
 ### 强制开启 HiDPI
 
-注意，[xzhih/one-key-hidpi](https://github.com/xzhih/one-key-hidpi) 对于无法解开 SIP 的 Big Sur 已经失效。这里采用的是另一个分支，支持 Big Sur 支持老版本系统。
+注意，[xzhih/one-key-hidpi](https://github.com/xzhih/one-key-hidpi) 对于无法解开 SIP 的 Big Sur 已经失效。这里采用的是另一个分支 [mlch911/one-key-hidpi](https://github.com/mlch911/one-key-hidpi)，支持 Big Sur 支持老版本系统。
 
 ```bash
 git clone https://github.com/mlch911/one-key-hidpi.git
