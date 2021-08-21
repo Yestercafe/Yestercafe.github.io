@@ -1,7 +1,9 @@
+.home-pagination-top,
+.home-pagination-bottom,
 .pagination {
   border-top: .5px solid $grey-2;
   font-family: $serif-secondary;
-  padding-top: 2rem;
+  padding-top: 1rem;
   position: relative;
   text-align: center;
 
@@ -37,7 +39,7 @@
   .arrow {
     @include transition(all .3s ease-out);
     color: $default-color;
-    position: absolute;
+    position: relative;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
@@ -50,11 +52,26 @@
     }
   }
 
+  .arrow-invalid {
+    color: $white;
+    position: relative;
+  }
+
   .left {
-    left: 0;
+    left: 25%;
   }
 
   .right {
-    right: 0;
+    right: 25%;
   }
+}
+
+.home-pagination-top {
+  border-top: 0;
+  padding: 1rem 0;
+  text-align: right;
+}
+
+.home-pagination-bottom {
+  text-align: initial;
 }
