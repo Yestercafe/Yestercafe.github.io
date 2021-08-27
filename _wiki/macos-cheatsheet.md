@@ -57,7 +57,7 @@ Reserve.
 </em></div>
 
 1. 关机
-2. 按住 Command + Option + **右** Shift 7秒
+2. 按住 Control + Option + **右** Shift 7秒
 3. 在不松开的上三个键情况下，再加按电源键（一共四个键）7 秒
 4. 电脑全程应该会经历出现 Logo，然后强制关机。等待几秒后按电源键开机。
 
