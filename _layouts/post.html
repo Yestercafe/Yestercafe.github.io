@@ -21,6 +21,8 @@ layout: default
   <h2 class="post-description">{{ page.description }}</h2>
   <div class="post-line"></div>
 
+	<div id="toc"></div>
+
   {{ content }}
 </div>
 
@@ -38,5 +40,14 @@ layout: default
 
   <a href="#" class="top">回到顶部</a>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="/assets/js/toc.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#toc').toc();
+	});
+</script>
 
 {% include goto-top.html %}
