@@ -39,11 +39,7 @@
   .arrow {
     @include transition(all .3s ease-out);
     color: $default-color;
-    position: relative;
-
-    @media (prefers-color-scheme: dark) {
-      color: $dark-default-color;
-    }
+    position: absolute;
 
     &:hover,
     &:focus {
@@ -52,26 +48,11 @@
     }
   }
 
-  .arrow-invalid {
-    color: $white;
-    position: relative;
-  }
-
   .left {
-    left: 25%;
+    left: 0;
   }
 
   .right {
-    right: 25%;
+    right: 0;
   }
-}
-
-.home-pagination-top {
-  border-top: 0;
-  padding: 1rem 0;
-  text-align: right;
-}
-
-.home-pagination-bottom {
-  text-align: initial;
 }

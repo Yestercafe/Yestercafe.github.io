@@ -3,22 +3,6 @@ layout: default
 title: "首页"
 ---
 
-<div class="home-pagination-top">
-  {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="arrow">&#8592;</a>
-  {% else %}
-    <a class="arrow-invalid">&#8592;</a>
-  {% endif %}
-
-  <span>Page. {{ paginator.page }}</span>
-
-  {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="arrow">&#8594;</a>
-  {% else %}
-    <a class="arrow-invalid">&#8594;</a>
-  {% endif %}
-</div>
-
 <div class="catalogue">
   {% for post in paginator.posts %}
     <a href="{{ post.url | prepend: site.baseurl }}" class="catalogue-item">
@@ -36,20 +20,15 @@ title: "首页"
   {% endfor %}
 </div>
 
-<div class="home-pagination-bottom">
+<div class="pagination">
   {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="arrow">&#8592;</a>
-  {% else %}
-    <a class="arrow-invalid">&#8592;</a>
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="left arrow">&#8592;</a>
   {% endif %}
-
-  <span>Page. {{ paginator.page }}</span>
-
   {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="arrow">&#8594;</a>
-  {% else %}
-    <a class="arrow-invalid">&#8594;</a>
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="right arrow">&#8594;</a>
   {% endif %}
+
+  <span>{{ paginator.page }}</span>
 </div>
 
 {% include search.html %}
