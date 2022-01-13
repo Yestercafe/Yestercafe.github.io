@@ -350,3 +350,113 @@ II 是 92 题，I 是 206 题，II 在 I 前面。
 
 再就是递归实现 `reverseBetween`。基础情况为 `left == 1`，也就是直接做 `reverseN(head, right)`。left 大于 1 的情况，通过递归将 head 后移，可以完成 [left, right] 区间的逆转，然后一路上把 next 接起来，顺路的 next 还是保持原来的值，位于 left 的 next 接到新的头上。
 
+## 25. Reverse Nodes in k-Group
+
+[25. Reverse Nodes in k-Group](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+
+```c++
+class Solution {
+public:
+  	// 要点 1
+    ListNode* reverseRange(ListNode* head, ListNode* tail) {
+        ListNode *pre, *cur, *nxt;
+        pre = nullptr, cur = head;
+        ListNode* oldHead = head;
+        while (cur != tail) {
+            nxt = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = nxt;
+        }
+        return pre;
+    }
+
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if (!head) return nullptr;
+        auto p = head;
+      	// 要点 2
+        for (int i = 0; i < k; ++i) {
+            if (!p) return head;
+            p = p->next;
+        }
+      	// 要点 3
+        auto newHead = reverseRange(head, p);
+        head->next = reverseKGroup(p, k);
+        return newHead;
+    }
+}
+```
+
+要点：
+
+1. 这里的函数 `reverseRange`，采用了迭代的方式对 [head, tail) 区间进行翻转，不接尾部，因为没用。
+2. 这个循环有两个作用，其一是判断剩余部分是否还有 k 个，另一是获得 `reverseRange` 的参数 `tail` 的值。
+3. 递归衔尾。
+
+注意一下这个算法的时间复杂度仅为 $O(N)$，空间复杂度为 $O(1)$。
+
+## 234. Palindrome Linked List
+
+[234. Palindrome Linked List](https://leetcode-cn.com/problems/palindrome-linked-list/)
+
+```c++
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        auto fast = head, slow = head;
+        
+        while (fast) {
+            slow = slow->next;
+            if (!fast->next) break;
+            fast = fast->next->next;
+        }
+        
+        auto left = head, right = reverse(slow);
+        while (right) {
+            if (left->val != right->val)
+                return false;
+            left = left->next, right = right->next;
+        }
+        return true;
+    }
+
+    ListNode* reverse(ListNode* head) {
+        ListNode *pre, *cur, *nxt;
+        pre = nullptr, cur = head;
+        while (cur) {
+            nxt = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = nxt;
+        }
+        return pre;
+    }
+}
+```
+
+虽然很简单，但是 Easy 就有点说不过去了吧 (— —||)。比较好的解法是将中点之后的部分翻转即可，找中点用龟兔。如果不能破坏原链表结构可以用递归回溯：
+
+```c++
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        left = head;
+        return backtrace(head);
+    }
+
+    bool backtrace(ListNode* right) {
+        if (!right)
+            return true;
+        
+        bool ret = backtrace(right->next);
+        ret &= (left->val == right->val);
+        left = left->next;
+        return ret;
+    }
+    
+private:
+    ListNode* left;
+};
+```
+
+递归回溯的方法虽然直观，但是效率不是特别高。
