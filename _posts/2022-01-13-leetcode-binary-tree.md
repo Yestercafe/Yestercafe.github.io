@@ -564,3 +564,53 @@ private:
 
 很巧妙，更换递归顺序让 BST 降序遍历。
 
+## 450. Delete Node in a BST
+
+[450. Delete Node in a BST](https://leetcode-cn.com/problems/delete-node-in-a-bst/)
+
+```c++
+class Solution {
+public:
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if (!root) return nullptr;
+        if (key == root->val) {
+            if (!root->right) {
+                auto left = root->left;
+                delete root;
+                return left;
+            }
+            if (!root->left) {
+                auto right = root->right;
+                delete root;
+                return right;
+            }
+            
+            auto child = root->right;
+            TreeNode* parent = nullptr;
+            while (child->left) {
+                parent = child;
+                child = child->left;
+            }
+            if (!parent) {
+                root->right = child->right;
+            } else {
+                parent->left = child->right;
+            }
+            child->left = root->left;
+            child->right = root->right;
+            delete root;
+            return child;
+        } else if (key < root->val) {
+            root->left = deleteNode(root->left, key);
+        } else if (key > root->val) {
+            root->right = deleteNode(root->right, key);
+        }
+        return root;
+    }
+}
+```
+
+方法：
+
+为了把节点的内存释放掉我写的挺复杂的。被删除的节点分为三种，叶子节点、只有单孩子的节点、有双孩子的节点，对三种类型分别判断删除。注意有双孩子的节点，需要把右子树的最左孩子补充到根部，确保其仍为 BST。
+
