@@ -453,3 +453,114 @@ public:
 
 *吐槽一下，我变量取名都跟大佬一样，有点开心。*
 
+## 652. Find Duplicate Subtrees
+
+[652. Find Duplicate Subtrees](https://leetcode-cn.com/problems/find-duplicate-subtrees/)
+
+```c++
+class Solution {
+public:
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        traverse(root);
+        return res;
+    }
+
+    string traverse(TreeNode* root) {
+        if (!root) return "#";
+        
+        auto s = traverse(root->left) + "," + traverse(root->right) + "," + to_string(root->val);
+        auto fnd = memo.find(s);
+        if (fnd == memo.end()) {
+            ++memo[s];
+        } else {
+            if (fnd->second == 1) {
+                res.push_back(root);
+            }
+            ++fnd->second;
+        }
+
+        return s;
+    }
+
+private:
+    map<string, int> memo;
+    vector<TreeNode*> res;
+}
+```
+
+方法：
+
+这题用 C++ 写有点臭，上面的算法在 C++ 中并不能表现出比较高的效率。
+
+最开始想着涉及大量字符串拼接用的 `std::stringstream`，没想到更慢呢。
+
+## 230. Kth Smallest Element in a BST
+
+[230. Kth Smallest Element in a BST](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+
+```c++
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        this->k = k;
+        traverse(root);
+        return res;
+    }
+
+    void traverse(TreeNode* root) {
+        if (!root) return ;
+        
+        traverse(root->left);
+        ++rank;
+        if (k == rank) {
+            res = root->val;
+            return ;
+        }
+        traverse(root->right);
+    }
+    
+private:
+    int res;
+    int rank;
+    int k;
+}
+```
+
+方法：
+
+BST 的 inorder traverse 的结果是*有序的*（ordered）。
+
+还有一些其他方法，比如官方题解 2 的构造一个包含树大小信息的新树（其实也不是，它的数据结构里面用到了 hash table，不太方便细说），然后进行二分搜索；还有题解 3 的手搓构造 AVL，怕了怕了，溜了。
+
+## 538. Convert BST to Greater Tree & 1038. Binary Search Tree to Greater Sum Tree
+
+[538. Convert BST to Greater Tree](https://leetcode-cn.com/problems/convert-bst-to-greater-tree/)
+
+重题：[1038. Binary Search Tree to Greater Sum Tree](https://leetcode-cn.com/problems/binary-search-tree-to-greater-sum-tree/)
+
+```c++
+class Solution {
+public:
+    TreeNode* convertBST(TreeNode* root) {
+        traverse(root);
+        return root;
+    }
+
+    void traverse(TreeNode* root) {
+        if (!root) return ;
+
+        traverse(root->right);
+        sum += root->val;
+        root->val = sum;
+        traverse(root->left);
+    }
+    
+private:
+    int sum;
+};
+```
+
+方法：
+
+很巧妙，更换递归顺序让 BST 降序遍历。
+
