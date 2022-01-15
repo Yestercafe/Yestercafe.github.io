@@ -217,6 +217,8 @@ public:
 
 ## 116. Populating Next Right Pointers in Each Node
 
+[116. Populating Next Right Pointers in Each Node](https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/)
+
 ```c++
 class Solution {
 public:
