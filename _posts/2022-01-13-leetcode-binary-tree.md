@@ -276,3 +276,180 @@ public:
 
 在后序位置做操作。
 
+## 654. Maximum Binary Tree
+
+[654. Maximum Binary Tree](https://leetcode-cn.com/problems/Maximum-Binary-Tree/)
+
+```c++
+class Solution {
+public:
+    TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+        return constructMBTAux(nums, 0, nums.size() - 1);
+    }
+
+    TreeNode* constructMBTAux(vector<int>& n, int lo, int hi) {
+        if (hi < lo) return nullptr;
+        
+        int idx = -1;
+        int maxVal = INT_MIN;
+        
+        for (int i = lo; i <= hi; ++i) {
+            if (maxVal < n[i]) {
+                maxVal = n[i];
+                idx = i;
+            }
+        }
+
+        auto root = new TreeNode(n[idx]);
+        root->left = constructMBTAux(n, lo, idx - 1);
+        root->right = constructMBTAux(n, idx + 1, hi);
+        return root;
+    }
+}
+```
+
+方法：
+
+劈开递归，这也是 divide & conquer？
+
+## 105. Construct Binary Tree from Preorder and Inorder Tradersal
+
+[105. Construct Binary Tree from Preorder and Inorder Traversal](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+```c++
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        auto n = preorder.size();
+        return buildTreeAux(preorder, 0, n - 1, inorder, 0, n - 1);
+    }
+
+    TreeNode* buildTreeAux(vector<int>& preorder, int pLo, int pHi,
+                           vector<int>& inorder, int iLo, int iHi) {
+        if (pLo > pHi || iLo > iHi)
+            return nullptr;
+        
+        int idx = -1;
+        int rootVal = preorder[pLo];
+        
+        for (int i = iLo; i <= iHi; ++i) {
+            if (inorder[i] == rootVal) {
+                idx = i;
+                break;
+            }
+        }
+      	
+				// 要点 1
+        int leftSize = idx - iLo;
+				
+        auto root = new TreeNode(rootVal);
+      	// 要点 2
+        root->left = buildTreeAux(preorder, pLo + 1, pLo + leftSize, inorder, iLo, idx - 1);
+        root->right = buildTreeAux(preorder, pLo + leftSize + 1, pHi, inorder, idx + 1, iHi);
+        return root;
+    }
+}
+```
+
+方法：
+
+跟上面一题一样，线性搜索、切割、递归生成树。
+
+要点：
+
+1. 注意一下 `leftSize` 的值是多少。我最开始写的是 `idx - iLo + 1`，后来才知道这个其实是 [idx, iLo] 中有多少个元素，是带上 root 节点的，而不是左子树展开的长度。
+2. 递归这里的 preorder 的索引容易混，要写好中间值，最后确定了再化简。比如 left 的新 `pHi` 应该是 `pLo + 1 + (leftSize - 1)`，因为是闭区间所以要减 1，最后化简才是 `pLo + leftSize`。
+
+## 106. Construct Binary Tree from Inorder and Postorder Traversal
+
+[106. Construct Binary Tree from Inorder and Postorder Traversal](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+```c++
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        auto n = inorder.size();
+        return buildTreeAux(inorder, 0, n - 1, postorder, 0, n - 1);
+    }
+
+    TreeNode* buildTreeAux(vector<int>& inorder, int iLo, int iHi,
+                           vector<int>& postorder, int pLo, int pHi) {
+        
+        if (iLo > iHi || pLo > pHi)
+            return nullptr;
+
+        int idx = -1;
+        int rootVal = postorder[pHi];
+
+        for (int i = iLo; i <= iHi; ++i) {
+            if (inorder[i] == rootVal) {
+                idx = i;
+                break;
+            }
+        }
+
+        int leftSize = idx - iLo;
+
+        auto root = new TreeNode(inorder[idx]);
+        root->left = buildTreeAux(inorder, iLo, idx - 1, postorder, pLo, pLo + leftSize - 1);
+        root->right = buildTreeAux(inorder, idx + 1, iHi, postorder, pLo + leftSize, pHi - 1);
+        return root;
+    }
+}
+```
+
+## 889. Construct Binary Tree from Preorder and Postorder Traversal
+
+[889. Construct Binary Tree from Preorder and Postorder Traversal](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal/)
+
+```c++
+class Solution {
+public:
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+        auto n = preorder.size();
+        return constructFromPrePostAux(preorder, 0, n - 1, postorder, 0, n - 1);
+    }
+
+    TreeNode* constructFromPrePostAux(vector<int>& preorder, int prLo, int prHi,
+                                      vector<int>& postorder, int poLo, int poHi) {
+        
+        if (prLo > prHi || poLo > poHi)
+            return nullptr;
+        // 要点 2
+        if (prLo == prHi)
+            return new TreeNode(preorder[prLo]);
+        
+        int rootVal = preorder[prLo];
+      	// 要点 1
+        int leftRootVal = preorder[prLo + 1];
+        int idx = -1;
+        for (int i = poLo; i <= poHi; ++i) {
+            if (postorder[i] == leftRootVal) {
+                idx = i;
+                break;
+            }
+        }
+
+        int leftSize = idx - poLo + 1;
+        
+        auto root = new TreeNode(rootVal);
+        root->left = constructFromPrePostAux(preorder, prLo + 1, prLo + leftSize, 
+                                             postorder, poLo, poLo + leftSize - 1);
+        root->right = constructFromPrePostAux(preorder, prLo + leftSize + 1, prHi, 
+                                              postorder, poLo + leftSize, poHi - 1);
+        return root;
+    }
+}
+```
+
+方法：
+
+没啥需要多说的。提一嘴为什么 preorder + postorder 生成的二叉树不唯一，因为我们这里假设的是左子树根节点总是存在，通过这个节点确定左子树。
+
+要点：
+
+1. 在 preorder 序列中将其假设为左子树的根节点，然后到 postorder 序列中获取左子树展开后的长度。
+2. 这里必须将相等作为 base case，否则下面的代码会出问题。想想其实也很简单，我们在后面的代码中假设左子树根节点时用到了 `prLo + 1`，换句话说我们每次函数调用要操作的都是两个节点，当然不允许 [prLo, prHi] 的长度小于 2 了。
+
+*吐槽一下，我变量取名都跟大佬一样，有点开心。*
+
