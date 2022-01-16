@@ -616,3 +616,265 @@ public:
 
 为了把节点的内存释放掉我写的挺复杂的。被删除的节点分为三种，叶子节点、只有单孩子的节点、有双孩子的节点，对三种类型分别判断删除。注意有双孩子的节点，需要把右子树的最左孩子补充到根部，确保其仍为 BST。
 
+## 701. Insert into a Binary Search Tree
+
+[701. Insert into a Binary Search Tree](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
+
+```c++
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        if (!root) return new TreeNode(val);
+        if (val < root->val) {
+            root->left = insertIntoBST(root->left, val);
+        } else if (val > root->val) {
+            root->right = insertIntoBST(root->right, val);
+        }
+        return root;
+    }
+};
+```
+
+## 700.Search in a Binary Search Tree
+
+[700. Search in a Binary Search Tree](https://leetcode-cn.com/problems/search-in-a-binary-search-tree/)
+
+```c++
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if (!root) return nullptr;
+        if (val == root->val) return root;
+        else if (val < root->val) return searchBST(root->left, val);
+        else if (val > root->val) return searchBST(root->right, val);
+        return nullptr;
+    }
+};
+```
+
+## 98. Validate Binary Search Tree
+
+[98. Validate Binary Search Tree](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
+```c++
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        return isValidBSTAux(root, nullptr, nullptr);
+    }
+
+    bool isValidBSTAux(TreeNode* root, TreeNode* minn, TreeNode* maxx) {
+        if (!root) return true;
+      	// 要点
+        if (minn && root->val <= minn->val) return false;
+        if (maxx && root->val >= maxx->val) return false;
+        return isValidBSTAux(root->left, minn, root) &&
+               isValidBSTAux(root->right, root, maxx);
+    }
+};
+```
+
+要点：
+
+注意，BST 中是不应该有重复元素的，所以这里等于也要包含在内。
+
+## 96. Unique Binary Search Tree
+
+[96. Unique Binary Search Trees](https://leetcode-cn.com/problems/unique-binary-search-trees/)
+
+```c++
+class Solution {
+public:
+    int numTrees(int n) {
+        memo.assign(n + 1, -1);
+        return count(1, n);
+    }
+
+    int count(int lo, int hi) {
+        if (lo > hi) return 1;
+        if (memo[hi - lo] > 0)
+            return memo[hi - lo];
+        
+        int res = 0;
+        for (int i = lo; i <= hi; ++i) {
+            int left = count(lo, i - 1);
+            int right = count(i + 1, hi);
+            res += left * right;
+        }
+
+        memo[hi - lo] = res;
+
+        return res;
+    }
+
+private:
+    vector<int> memo;
+}
+```
+
+方法：
+
+在连续有序序列中选择一个节点作为根节点，在左边子序列中的所有元素都属于其左子树，右边所有属于其右子树。由此递归构建，为了避免重复计算需要使用记忆化递归。base case 是无节点的情况。这题并不复杂，关键是下一题。
+
+## 95. Unique Binary Search Tree II
+
+[95. Unique Binary Search Trees II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+
+```c++
+class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        return generate(1, n);
+    }
+    
+    vector<TreeNode*> generate(int lo, int hi) {
+        vector<TreeNode*> res;
+        if (lo > hi) {
+            res.push_back(nullptr);
+            return move(res);
+        }
+        
+        for (int i = lo; i <= hi; ++i) {
+            auto left = generate(lo, i - 1);
+            auto right = generate(i + 1, hi);
+            for (auto l : left) {
+                for (auto r : right) {
+                    auto root = new TreeNode(i);
+                    root->left = l;
+                    root->right = r;
+                    res.push_back(root);
+                }
+            }
+        }
+
+        return move(res);
+    }
+
+private:
+    vector<TreeNode*> res;
+}
+```
+
+方法：
+
+递归分别生成左右两个子树序列，然后 $\{left\} \times \{right\}$。这些子树中有很多共享空间哦，很有意思。
+
+## 1373. Maximum Sum BST in Binary Tree
+
+[1373. Maximum Sum BST in Binary Tree](https://leetcode-cn.com/problems/maximum-sum-bst-in-binary-tree/)
+
+```c++
+class Solution {
+    struct NodeInfo {
+        bool isBST;
+        int minn;
+        int maxx;
+        int sum;
+    };
+public:
+    int maxSumBST(TreeNode* root) {
+        traverse(root);
+        return maxSum;
+    }
+
+    NodeInfo traverse(TreeNode* root) {
+        if (!root) {
+            return {true, INT_MAX, INT_MIN, 0};
+        }
+
+        auto left = traverse(root->left);
+        auto right = traverse(root->right);
+        NodeInfo rootInfo;
+      	// 要点
+        if (left.isBST && right.isBST && 
+            left.maxx < root->val && root->val < right.minn) {
+            rootInfo.isBST = true;
+            rootInfo.minn = min(left.minn, root->val);
+            rootInfo.maxx = max(right.maxx, root->val);
+            rootInfo.sum = left.sum + root->val + right.sum;
+            maxSum = max(maxSum, rootInfo.sum);
+        } else {
+            rootInfo.isBST = false;
+        }
+
+        return rootInfo;
+    }
+
+private:
+    int maxSum;
+};
+```
+
+方法：
+
+本题提供给我们的思路是，后序遍历甚至能为每一个子树的根节点“附加”额外信息，比如这题我们需要获取子树是否为 BST、BST 的最左节点值、BST 的最右节点值、BST 的节点和。
+
+要点：
+
+关于 BST 的判定：首先需要左右子树都为 BST，加入根节点后，需要判断左子树的最右节点、右子树的最左节点与根节点的大小关系。
+
+## 297. Serialize and Deserialize Binary Tree
+
+[297. Serialize and Deserialize Binary Tree](https://leetcode-cn.com/problems/serialize-and-deserialize-binary-tree/)
+
+```c++
+class Codec {
+    static constexpr char SEP = ',';
+    static constexpr char NUL = '#';
+public:
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        traverse(root);
+        return ss.str();
+    }
+
+    void traverse(TreeNode* root) {
+        if (!root) {
+            ss << NUL << SEP;
+            return ;
+        }
+
+        ss << root->val << SEP;
+        traverse(root->left);
+        traverse(root->right);
+    }
+    
+private:
+    stringstream ss;
+
+public:
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        deque<string> nodes;
+        string slice;
+        for (auto c : data) {
+            if (c == ',') {
+                nodes.push_back(slice);
+                slice.clear();
+                continue;
+            }
+            slice.push_back(c);
+        }
+        nodes.push_back(slice);
+        return traverse(nodes);
+    }
+
+    TreeNode* traverse(deque<string>& nodes) {
+        if (nodes.empty()) return nullptr;
+
+        auto front = nodes.front();
+        nodes.pop_front();
+        if (front == "#") return nullptr;
+        auto node = new TreeNode(stoi(front));
+
+        node->left = traverse(nodes);
+        node->right = traverse(nodes);
+        
+        return node;
+    }
+};
+```
+
+方法：
+
+上面的代码用的前序，还可以用中序、后序、层序。C++ 分隔字符串比较麻烦，其他的还好。
