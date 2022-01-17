@@ -878,3 +878,129 @@ public:
 方法：
 
 上面的代码用的前序，还可以用中序、后序、层序。C++ 分隔字符串比较麻烦，其他的还好。
+
+## 341. Flatten Nested List Iterator
+
+[341. Flatten Nested List Iterator](https://leetcode-cn.com/problems/flatten-nested-list-iterator/)
+
+```c++
+class NestedIterator {
+public:
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        for (NestedInteger& n : nestedList) {
+            traverse(n);
+        }
+        itr = flat.begin();
+    }
+    
+    int next() {
+        return *itr++;
+    }
+    
+    bool hasNext() {
+        return itr != flat.end(); 
+    }
+
+    void traverse(NestedInteger& n) {
+        if (n.isInteger()) {
+            flat.push_back(n.getInteger());
+            return ;
+        } else {
+            auto& vec = n.getList();
+            for (NestedInteger nn : vec) {
+                traverse(nn);
+            }
+        }
+    }
+
+private:
+    vector<int> flat;
+    vector<int>::iterator itr;
+}
+```
+
+方法：
+
+广义表遍历。把广义表按 N 叉树先序遍历即可。
+
+还有一种惰性求值的方法，在需要时才调用栈，更符合迭代器的逻辑：
+
+```c++
+class NestedIterator {
+public:
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        for (int i = nestedList.size() - 1; i >= 0; --i) {
+            stk.push(nestedList[i]);
+        }
+    }
+    
+    int next() {
+        auto& n = stk.top();
+        stk.pop();
+        return n.getInteger();
+    }
+    
+    bool hasNext() {
+        while (!stk.empty() && !stk.top().isInteger()) {
+            auto top = stk.top();
+            stk.pop();
+            auto& vec = top.getList();
+            for (int i = vec.size() - 1; i >= 0; --i) {
+                stk.push(vec[i]);
+            }
+        }
+        return !stk.empty();
+    }
+
+private:
+    stack<NestedInteger> stk;
+}
+```
+
+## 236. Lowest Common Ancestor of a Binary Tree
+
+[236. Lowest Common Ancestor of a Binary Tree](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+```c++
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+      	// base case
+        if (root == nullptr) return nullptr;
+        if (root == p || root == q) return root;
+
+        auto left = lowestCommonAncestor(root->left, p, q);
+        auto right = lowestCommonAncestor(root->right, p, q);
+
+      	// case 1
+        if (left != nullptr && right != nullptr)
+            return root;
+        
+      	// case 2
+        if (left == nullptr && right == nullptr)
+            return nullptr;
+        
+      	// case 3
+        return left ? left : right;
+    }
+}
+```
+
+首先，明确 `lowestCommonAncestor` 这个函数是干什么的：
+
+1. 当 `p` 和 `q` 都在以 `root` 为根的树中时，理所当然返回他们的公共祖先。
+2. 当 `p` 和 `q` 都不在在以 `root` 为根的树中时，返回 null。
+3. 当 `p` 和 `q` 只有一个在以 `root` 为根的树中时，返回那个在的节点即可。
+
+接着确定 base case，`root` 为 null 肯定要返回 null，如果 `p` 或者 `q` 本身就是 `root`，如果另外一个节点在子树中的话，那么显然这个 `root` 就是最近公共祖先；如果不在的话，也是跟行为 3 定义的的返回值一样返回 `root`。所以就有了 base case：
+
+1. `root` 为 null 返回 null。
+2. `root` 与 `p` 或 `q` 相等则返回 `root`。
+
+到后序位置的三种情况：
+
+1. 如果 `p` 和 `q` 都在以 `root` 为根的树中，那么根据 base case 2，`left` 和 `right` 一定等于 `p` 和 `q`。
+2. 如果 `p` 和 `q` 都不在以 `root` 为根的树中，直接返回 null。
+3. 如果 `p` 和 `q` 只有一个存在于这棵树中，则返回存在的那个。
+
+最后，后序遍历是从下往上，所以第一个搜到的一定是最近的公共祖先。
