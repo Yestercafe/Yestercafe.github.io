@@ -325,5 +325,165 @@ private:
 
 方法：
 
-套用 #785 的模板，将图改为双向图即可。
+套用 #785 的模板，将图改为无向图即可。
+
+## 323. Number of Connected Components in an Undirected Graph
+
+本题要 plus 会员，买不起。这里给出一个 UF 的模板。
+
+```c++
+class UF {
+public:
+    UF(int n) : cnt(n) {
+        parent = new int[n];
+        size   = new int[n];
+        for (int i = 0; i < n; ++i) {
+            parent[i] = i;
+            size[i]   = 1;
+        }
+    }
+
+    void connect(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) {
+            return ;
+        }
+
+        if (size[rootP] > size[rootQ]) {
+            parent[rootQ] = rootP;
+            size[rootP] += size[rootQ];
+        } else {
+            parent[rootP] = rootQ;
+        }
+
+        parent[rootP] = rootQ;
+        --cnt;
+    }
+
+    bool isConnected(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        return rootP == rootQ;
+    }
+
+    int count() {
+        return cnt;
+    }
+    ~UF() {
+        delete[] parent;
+    }
+
+private:
+    int find(int x) {
+        while (parent[x] != x) {
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        return x;
+    }
+
+private:
+    int cnt;
+    int* parent;
+    int* size;
+};
+```
+
+## 130. Surrounded Regions
+
+[130. Surrounded Regions](https://leetcode-cn.com/problems/surrounded-regions/)
+
+```c++
+// definition of class UF
+
+class Solution {
+public:
+    void solve(vector<vector<char>>& board) {
+        // elem: board[i][j] < board[m][n]
+        const int m = board.size(), n = board[0].size();
+        UF uf(m * n + 1);
+        const int dummy = m * n;
+        auto getIndex = [&](int i, int j) {
+            return i * n + j;
+        };
+        
+        for (int i = 0; i < m; ++i) {
+            if (board[i][0] == 'O')
+                uf.connect(getIndex(i, 0), dummy);
+            if (board[i][n - 1] == 'O')
+                uf.connect(getIndex(i, n - 1), dummy);
+        }
+        for (int j = 0; j < n; ++j) {
+            if (board[0][j] == 'O')
+                uf.connect(getIndex(0, j), dummy);
+            if (board[m - 1][j] == 'O')
+                uf.connect(getIndex(m - 1, j), dummy);
+        }
+
+        constexpr int dir[4][2] = {0, 1, 1, 0, 0, -1, -1, 0};
+        for (int i = 1; i < m - 1; ++i) {
+            for (int j = 1; j < n - 1; ++j) {
+                if (board[i][j] == 'O') {
+                    for (int d = 0; d < 4; ++d) {
+                        int ni = i + dir[d][0], nj = j + dir[d][1];
+                        if (board[ni][nj] == 'O')
+                            uf.connect(getIndex(i, j), getIndex(ni, nj));
+                    }
+                }
+            }
+        }
+        
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == 'O') {
+                    if (!uf.isConnected(getIndex(i, j), dummy)) {
+                        board[i][j] = 'X';
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+方法：
+
+本题应该使用 DFS，这里作为图论的题目出现，为使用 UF 解题提供一种思路。
+
+解题关键是只要 `O` 不是贴墙的就可以。所以可用 DFS 扫一下四个边的所有连通 `O`，只要这些 `O` 不修改为 `X` 即可。
+
+上面的代码的目标是将所有连通的 `O` 都在 UF 中连接起来。并且将外围的所有 `O` 都与 `dummy` 连通。这样所有与 `dummy` 连通的都不需要修改即可。
+
+## 990. Satisfiability of Equality Equations
+
+[990. Satisfiability of Equality Equations](https://leetcode-cn.com/problems/satisfiability-of-equality-equations/)
+
+```c++
+// definition of class UF
+
+class Solution {
+public:
+    bool equationsPossible(vector<string>& equations) {
+        UF uf(26);
+        for (auto& eq : equations) {
+            int a = eq[0] - 'a', b = eq[3] - 'a';
+            if (eq[1] == '=') uf.connect(a, b);
+        }
+        for (auto& eq : equations) {
+            int a = eq[0] - 'a', b = eq[3] - 'a';
+            if (eq[1] == '!')
+                if (uf.isConnected(a, b))
+                    return false;
+        }
+        return true;
+    }
+};
+```
+
+方法：
+
+遍历两次，第一次连通所有等式两端的变量，第二次判断所有不等式两端的变量是否连通。
+
+
 
