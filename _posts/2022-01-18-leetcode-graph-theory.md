@@ -373,7 +373,7 @@ public:
 
     ~UF() {
         delete[] parent;
-      	delete[] size;
+        delete[] size;
     }
 
 private:
