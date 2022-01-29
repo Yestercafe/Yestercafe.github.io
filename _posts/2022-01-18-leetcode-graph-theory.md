@@ -370,8 +370,10 @@ public:
     int count() {
         return cnt;
     }
+
     ~UF() {
         delete[] parent;
+      	delete[] size;
     }
 
 private:
