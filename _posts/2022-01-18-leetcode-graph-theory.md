@@ -327,7 +327,7 @@ private:
 
 套用 #785 的模板，将图改为无向图即可。
 
-## 323. Number of Connected Components in an Undirected Graph
+## 323. Number of Connected Components in an Undirected Graph*
 
 本题要 plus 会员，买不起。这里给出一个 UF 的模板。
 
@@ -486,6 +486,171 @@ public:
 方法：
 
 遍历两次，第一次连通所有等式两端的变量，第二次判断所有不等式两端的变量是否连通。
+
+## 261. Graph Valid Tree
+
+本题需要 plus 会员。给出判断图是否为树的模板代码。
+
+```c++
+// definition of class UF
+
+class Solution {
+public:
+    bool validTree(int n, vector<vector<int>> edges) {
+        UF uf(n);
+        for (auto& edge : edges) {
+            int p = edge[0], q = edge[1];
+            if (uf.isConnected(p, q)) {
+                return false;
+            }
+            uf.connect(p, q);
+        }
+
+        return uf.count() == 1;
+    }
+};
+```
+
+UF 可以判断图是否为树，其实是转而去判定是否有环。
+
+UF 中的每一个集合都自成为树，所以一旦有两个节点已经连接过了，即它们已经存于一棵树中了，再连接就会成环。最终判断图是不是只有一个连通分量即可，即为只有一棵树。
+
+## 1584. Min Cost to Connect All Points
+
+[1584. Min Cost to Connect All Points](https://leetcode-cn.com/problems/min-cost-to-connect-all-points/)
+
+```c++
+// definition of class UF
+
+class Solution {
+private:
+    struct E {
+        int i, j;
+        int dist;
+    };
+    
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        auto n = points.size();
+        vector<E> edges;
+        edges.reserve(n * (n + 1) / 2);
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                edges.push_back({i, j, mht_dist(points[i], points[j])});
+            }
+        }
+        
+        sort(edges.begin(), edges.end(), [](E& a, E& b) {
+            return a.dist < b.dist;
+        });
+        
+        int cost = 0;
+        UF uf(n);
+        for (auto& e : edges) {
+            if (uf.isConnected(e.i, e.j)) {
+                continue;
+            }
+            uf.connect(e.i, e.j);
+            cost += e.dist;
+        }
+
+        return cost;
+    }
+
+private:
+    static int mht_dist(vector<int> a, vector<int> b) {
+        return ab(a[0] - b[0]) + ab(a[1] - b[1]);
+    }
+
+    static int ab(int x) {
+        return x < 0 ? -x : x;
+    }
+}
+```
+
+方法 1：
+
+基于 UF 的 Kruskal 算法。Kruskal 就是避圈法，UF 正好能实现这个目的。
+
+```c++
+class Solution {
+private:
+    struct E {
+        int to;
+        int weight;
+    };
+    struct Greater {
+        bool operator()(const E& a, const E& b) {
+            return a.weight > b.weight;
+        }
+    };
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        auto n = points.size();
+        graph.assign(n, {});
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                int d = mht_dist(points[i], points[j]);
+                graph[i].push_back({j, d});
+                graph[j].push_back({i, d});
+            }
+        }
+
+        return prim();
+    }
+
+    int prim() {
+        auto n = graph.size();
+        isMST = new bool[n]{false};
+        int sum = 0;
+
+        isMST[0] = true;
+        cut(0);
+        while (!pq.empty()) {
+            auto edge = pq.top();
+            pq.pop();
+            if (isMST[edge.to]) {
+                continue;
+            }
+            sum += edge.weight;
+            isMST[edge.to] = true;
+            cut(edge.to);
+        }
+
+        return sum;
+    }
+
+    void cut(int s) {
+        for (auto& e : graph[s]) {
+            int to = e.to;
+            int weight = e.weight;
+            if (isMST[to]) {
+                continue;
+            }
+            pq.push(e);
+        }
+    }
+
+    ~Solution() {
+        if (isMST) delete[] isMST;
+    }
+
+private:
+    static int mht_dist(vector<int>& a, vector<int>& b) {
+        return ab(a[0] - b[0]) + ab(a[1] - b[1]);
+    }
+    static int ab(int x) {
+        return x < 0 ? -x : x;
+    }
+    priority_queue<E, vector<E>, Greater> pq;
+    bool* isMST;
+    vector<vector<E>> graph;
+};
+```
+
+方法 2：
+
+Prim 算法。Prim 算法的关键在于切分图。形容起来比较复杂，直接参考大佬的文章：[https://labuladong.github.io/algo/2/19/41/](https://labuladong.github.io/algo/2/19/41/)
 
 
 
