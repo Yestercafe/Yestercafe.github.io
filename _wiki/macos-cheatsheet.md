@@ -355,6 +355,8 @@ Cheatsheets:
 
 [https://macos-defaults.com/](https://macos-defaults.com/)
 
+[https://github.com/mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles)
+
 破解版软件下载（学习所用，请勿传播）:
 
 [https://www.macbl.com/](https://www.macbl.com/)
