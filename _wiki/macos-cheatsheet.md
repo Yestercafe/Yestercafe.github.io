@@ -137,7 +137,7 @@ defaults write com.apple.dock workspaces-auto-swoosh -bool NO && killall Dock
 恢复
 
 ```bash
-defaults delete com.apple.dock workspaces-auto-swoosh && killall Dock
+defaults write com.apple.dock workspaces-auto-swoosh -bool YES && killall Dock
 ```
 
 ### 启动长按按键连续输入
