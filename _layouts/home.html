@@ -4,23 +4,32 @@ title: "首页"
 ---
 
 <div class="catalogue">
-  {% for post in paginator.posts %}
+  {% for post in site.posts %} <!-- paginator -->
     <a href="{{ post.url | prepend: site.baseurl }}" class="catalogue-item">
       <div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
         {% if post.archived != true %}
-          <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%Y-%m-%d %a" }}</time>
           <h2 class="catalogue-title">{{ post.title }}</h2>
+          <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%d/%m/%Y" }}</time>
         {% else %}
-          <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "Archived, long time ago" }}</time>
           <h2 class="catalogue-title-archived">{{ post.title }}</h2>
+          <time datetime="{{ post.date }}" class="catalogue-time-archived">{{ post.date | date: "%d/%m/%Y" }}</time>
         {% endif %}
-        <div class="catalogue-line"></div>
+        </div>
+        {% if post.description %}
+          <p class="catalogue-description">desc: {{ post.description }}</p>
+        {% else %}
+          <p class="catalogue-description">content: {{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+        {% endif %}
+        <div style="justify-content: center; display: flex; text-align: center">
+          <div class="catalogue-line"></div>
+        </div>
       </div>
     </a>
   {% endfor %}
 </div>
 
-<div class="pagination">
+<!-- <div class="pagination">
   {% if paginator.previous_page %}
     <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="left arrow">&#8592;</a>
   {% endif %}
@@ -29,6 +38,6 @@ title: "首页"
   {% endif %}
 
   <span>{{ paginator.page }}</span>
-</div>
+</div> -->
 
 {% include search.html %}

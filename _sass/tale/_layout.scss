@@ -30,9 +30,10 @@ footer,
   &-title {
     @include transition(all .2s ease-out);
     color: $default-color;
+    font-family: $serif-secondary;
     display: inline-block;
-    margin: 0;
-    padding-right: .2rem;
+    margin-top: .5em;
+    margin-left: .4em;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
@@ -40,7 +41,11 @@ footer,
 
     &:hover,
     &:focus {
-      opacity: .6;
+      color: $kawazome;
+
+      @media (prefers-color-scheme: dark) {
+        color: $sakura;
+      }
     }
   }
 
