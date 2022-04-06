@@ -4,17 +4,10 @@ title: "Wiki"
 permalink: /wiki/
 ---
 
-<style type="text/css">
-h2 {
-  font-family: 'Libre Baskerville', 'Times New Roman', Times, serif;
-}
-</style>
-
 <div class="wiki">
   <div class="wiki-header">
     <h1 class="wiki-header-title">{{ page.title }}</h1>
-    <div class="wiki-header-line"></div>
-  </div>
+    <div class="wiki-header-line"></div>  </div>
 
   {% for wiki in site.wiki %}
     {% if wiki.title != "Wiki Template" and wiki.archived != true %}
