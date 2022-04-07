@@ -44,8 +44,12 @@ h6 {
 }
 
 a {
-  color: $usubeni;
+  color: $ichigo;
   text-decoration: none;
+
+  @media (prefers-color-scheme: dark) {
+    color: $ikkonzome;
+  }
 }
 
 blockquote {
@@ -119,24 +123,10 @@ table {
   margin: 0 auto;
 }
 
-em {
-  text-shadow: 0 0 1px $default-shade;
-  @media (prefers-color-scheme: dark) {
-    text-shadow: 0 0 1px $dark-default-shade;
-  }
-}
-
-strong {
-  text-shadow: 0 0 2px $dark-grey-3;
-  @media (prefers-color-scheme: dark) {
-    text-shadow: 0 0 2px $grey-3;
-  }
-}
-
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
-  border-radius: 3px;
+  width: 5px;
+  height: 3px;
+  border-radius: 1.5px;
   
   background-color: $white;
   @media (prefers-color-scheme: dark) {
