@@ -5,13 +5,22 @@
 
 html,
 body {
+  background: url('/assets/bg.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-color: rgba(255, 255, 255, .8);
+  background-blend-mode: lighten;
+  height: 100%;
+
   color: $default-color;
   margin: 0;
   padding: 0;
 
   @media (prefers-color-scheme: dark) {
     color: $dark-default-color;
-    background-color: $dark-white;
+    background-color: rgba($color: $dark-white, $alpha: .8);
+    background-blend-mode: darken;
   }
 }
 
@@ -115,8 +124,16 @@ td {
 .bottom-right-floating-icon {
   display: block;
   width: 30px;
+  justify-content: center;
   height: 30px;
   pointer-events: none;
+}
+
+.sakana {
+  position: fixed;
+  display: flex;
+  left: 0px;
+  bottom: 40px;
 }
 
 table {

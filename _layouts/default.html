@@ -25,4 +25,15 @@
     }
   };
   </script>
+  <div id="sakana-widget"></div>
+  <script>
+    function initSakanaWidget() {
+      SakanaWidget({ character: 'takina' });
+    }
+  </script>
+  <script
+    async
+    onload="initSakanaWidget()"
+    src="https://cdn.jsdelivr.net/npm/sakana-widget@1.2.0/lib/sakana.min.js"
+  ></script>
 </html>
