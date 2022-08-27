@@ -21,14 +21,14 @@ pre {
   line-height: 1.2;
   padding: 1em;
 
-  background-color: $grey-3;
+  // background-color: $grey-3;
   @media (prefers-color-scheme: dark) {
-    background-color: $dark-grey-3;
+    // background-color: $dark-grey-3;
   }
 }
 
 pre code {
-  background-color: transparent;
+  // background-color: transparent;
   color: inherit;
   font-size: 90%;
   padding: 0;
