@@ -1,21 +1,20 @@
 <footer>
   <span>
-    &copy; <time datetime="{{ site.time }}">{{ site.time | date: '%Y' }}</time> {{ site.author.name }}. 基于 Jekyll 主题 <a href="https://github.com/chesterhow/tale/">Tale</a> 修改.
+    &copy; 2019-<time datetime="{{ site.time }}">{{ site.time | date: '%Y' }}</time> <a href="https://github.com/Yescafe">{{ site.author.name }}</a>. Based on Jekyll & <a href="https://github.com/chesterhow/tale/">Tale</a> theme. Welcome to start & fork <a href="https://github.com/Yescafe/Yescafe.github.io">this modified theme</a>.
   </span>
 
   {% if site.components.busuanzi.enabled == true %}
   <script async src="{{ assets_base_url }}/assets/js/busuanzi.pure.mini.js"></script>
   <div class="mobile-hidden" style="margin-top:8px">
     <span id="busuanzi_container_site_pv" style="display:none">
-      本站访问量<span id="busuanzi_value_site_pv"></span>次
+      visiting counts <span id="busuanzi_value_site_pv"></span>
     </span>
     <span id="busuanzi_container_site_uv" style="display:none">
-      / 本站访客数<span id="busuanzi_value_site_uv"></span>人
+      / visitor counts <span id="busuanzi_value_site_uv"></span>
     </span>
     <span id="busuanzi_container_page_pv" style="display:none">
-      / 本页访问量<span id="busuanzi_value_page_pv"></span>次
       {% if site.components.busuanzi.start_date %}
-      / 统计始于{{ site.components.busuanzi.start_date }}
+      / stats from {{ site.components.busuanzi.start_date }}
       {% endif %}
     </span>
   </div>
