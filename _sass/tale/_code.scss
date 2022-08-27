@@ -4,14 +4,14 @@ code {
 }
 
 code {
-  background-color: $white;
+  // background-color: $white;
   border-radius: 3px;
   color: $code-color;
   font-size: 85%;
   // padding: .25em 0;
 
   @media (prefers-color-scheme: dark) {
-    background-color: $dark-white;
+    // background-color: $dark-white;
     color: $dark-code-color;
   }
 }
@@ -28,7 +28,7 @@ pre code {
 }
 
 .highlight {
-  background-color: $grey-3;
+  // background-color: $grey-3;
   border-radius: 3px;
   line-height: 1.2;
   margin: 0 0 1rem;
@@ -54,6 +54,6 @@ pre code {
   }
 
   @media (prefers-color-scheme: dark) {
-    background-color: $dark-grey-3;
+    // background-color: $dark-grey-3;
   }
 }
