@@ -111,8 +111,16 @@ td {
 .bottom-right-floating-icon {
   display: block;
   width: 30px;
+  justify-content: center;
   height: 30px;
   pointer-events: none;
+}
+
+.sakana {
+  position: fixed;
+  display: flex;
+  left: 0px;
+  bottom: 40px;
 }
 
 table {
