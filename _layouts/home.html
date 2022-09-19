@@ -16,14 +16,16 @@ title: "首页"
           <time datetime="{{ post.date }}" class="catalogue-time-archived">{{ post.date | date: "%d/%m/%Y" }}</time>
         {% endif %}
         </div>
-        {% if post.description %}
-          <p class="catalogue-description">Description: {{ post.description }}</p>
-        {% else %}
-          <p class="catalogue-description">Preview: {{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+        {% if site.global_flags.enable_homepage_desc %}
+          {% if post.description %}
+            <p class="catalogue-description">Description: {{ post.description }}</p>
+          {% else %}
+            <p class="catalogue-description">Preview: {{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+          {% endif %}
         {% endif %}
-        <div style="justify-content: center; display: flex; text-align: center">
+        <!-- <div style="justify-content: center; display: flex; text-align: center">
           <div class="catalogue-line"></div>
-        </div>
+        </div> -->
       </div>
     </a>
   {% endfor %}
