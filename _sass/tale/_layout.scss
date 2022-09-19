@@ -32,8 +32,8 @@ footer,
     color: $default-color;
     font-family: $serif-secondary;
     display: inline-block;
-    margin-top: .5em;
-    margin-left: .4em;
+    margin: 0;
+    margin-left: .2rem;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
