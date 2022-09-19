@@ -13,7 +13,7 @@ title: "首页"
           <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%d/%m/%Y" }}</time>
         {% else %}
           <h2 class="catalogue-title-archived">{{ post.title }}</h2>
-          <time datetime="{{ post.date }}" class="catalogue-time-archived">{{ post.date | date: "%d/%m/%Y" }}</time>
+          <time datetime="{{ post.date }}" class="catalogue-time-archived">{{ post.date | date: "%Y/%m/%d" }}</time>
         {% endif %}
         </div>
         {% if site.global_flags.enable_homepage_desc %}
