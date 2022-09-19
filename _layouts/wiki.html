@@ -7,13 +7,22 @@ layout: default
     <span>作者</span>
     {% if page.author %}
         {{ page.author }}
+        {% if page.source %}
+          <br><span>来源</span>
+          <a href="{{ page.source }}">{{ page.source }}</a>
+        {% endif %}
     {% else %}
         {{ site.author.name }}
+    {% endif %}
+
+    {% if page.description %}
+      <br>
+      {{ page.description }}
     {% endif %}
   </div>
 
   <h1 class="wikipage-title">{{ page.title }}</h1>
-  <h2 class="wikipage-description">{{ page.description }}</h2>
+  <!-- <h2 class="wikipage-description">{{ page.description }}</h2> -->
   <div class="wikipage-line"></div>
 
   {{ content }}
