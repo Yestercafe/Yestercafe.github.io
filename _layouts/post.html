@@ -7,6 +7,10 @@ layout: default
     <span>作者</span>
     {% if page.author %}
         {{ page.author }}
+        {% if page.source %}
+          <br><span>来源</span>
+          <a href="{{ page.source }}">{{ page.source }}</a>
+        {% endif %}
     {% else %}
         {{ site.author.name }}
     {% endif %}
@@ -15,10 +19,15 @@ layout: default
       <br>
       <span>于&nbsp;</span><time datetime="{{ page.date }}">{{ page.date | date: "%Y/%m/%d" }}</time>
     {% endif %}
+
+    {% if page.description %}
+      <br>
+      {{ page.description }}
+    {% endif %}
   </div>
 
   <h1 class="post-title">{{ page.title }}</h1>
-  <h2 class="post-description">{{ page.description }}</h2>
+  <!-- <h2 class="post-description">{{ page.description }}</h2> -->
   <div class="post-line"></div>
 
 	<div id="toc"></div>
