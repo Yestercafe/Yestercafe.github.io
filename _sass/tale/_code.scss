@@ -21,6 +21,11 @@ pre {
   line-height: 1.2;
   padding: 1em;
 
+  overflow-x: hidden;
+  &:hover {
+    overflow-x: auto;
+  }
+
   // background-color: $grey-3;
   @media (prefers-color-scheme: dark) {
     // background-color: $dark-grey-3;
@@ -38,12 +43,7 @@ pre code {
   // background-color: $grey-3;
   border-radius: 3px;
   line-height: 1.2;
-  margin: 0 0 1rem;
-
-  pre {
-    margin-bottom: 0;
-    overflow-x: auto;
-  }
+  margin: 0;
 
   .lineno {
     color: $default-tint;

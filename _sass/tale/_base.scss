@@ -146,29 +146,34 @@ table {
 
 ::-webkit-scrollbar {
   width: 5px;
-  height: 3px;
-  border-radius: 1.5px;
-  
-  background-color: $white;
-  @media (prefers-color-scheme: dark) {
-    background: $dark-white;
-  }
+  height: 5px;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 3px;
-  // TODO hover 的过渡动画
-  // @include transition(all 1s ease-out);
-
+  width: 5px;
+  height: 5px;
+  border-radius: 2px;
   background-color: $default-tint;
   @media (prefers-color-scheme: dark) {
     background-color: $dark-default-tint;
   }
 
   &:hover {
-    background-color: $grey-1;
+    background-color: $kawazome;
     @media (prefers-color-scheme: dark) {
-      background-color: $dark-grey-1;
+      background-color: $sakura;
     }
   }
+
+  &:active {
+    background-color: $ichigo;
+    @media (prefers-color-scheme: dark) {
+      background-color: $usubeni;
+    }
+  }
+}
+
+ul, ol {
+  padding-left: 1rem;
 }
