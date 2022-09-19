@@ -5,15 +5,16 @@
 
 html,
 body {
-  background: url('/assets/bg.jpg') center center no-repeat fixed;
-  background-size: auto 100vh;
-  @supports (-webkit-touch-callout: none) {
-    background: url('image.jpg') center center no-repeat scroll;
-    background-size: auto 100vh;
-  }
+  // background: url('/assets/bg.jpg') center center no-repeat fixed;
+  // background-size: auto 100vh;
+  // @supports (-webkit-touch-callout: none) {
+  //   background: url('/assets/bg.jpg') center center no-repeat scroll;
+  //   background-size: auto 100vh;
+  // }
 
-  background-color: rgba(255, 255, 255, .85);
-  background-blend-mode: lighten;
+  // background-color: rgba(255, 255, 255, .85);
+  // background-blend-mode: lighten;
+  background-color: $white;
 
   color: $default-color;
   margin: 0;
@@ -21,8 +22,9 @@ body {
 
   @media (prefers-color-scheme: dark) {
     color: $dark-default-color;
-    background-color: rgba($color: $dark-white, $alpha: .85);
-    background-blend-mode: darken;
+    // background-color: rgba($color: $dark-white, $alpha: .85);
+    // background-blend-mode: darken;
+    background-color: $dark-white;
   }
 }
 
