@@ -43,13 +43,14 @@
         background: rgba(255, 255, 255, 0.1);
         color: $dark-default-color;
       }
-      
+
       &:hover,
       &:active {
-        background: rgba(0, 0, 0, 0.1);
+        @include transition(all 0.3s ease-out);
+        background-color: $sakura;
 
         @media (prefers-color-scheme: dark) {
-          background: rgba(255, 255, 255, 0.2);
+          background-color: $kawazome;
         }
       }
     }
