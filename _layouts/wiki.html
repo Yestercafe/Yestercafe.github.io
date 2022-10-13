@@ -15,6 +15,11 @@ layout: default
         {{ site.author.name }}
     {% endif %}
 
+    {% if page.archived %}
+      <br>
+      <span>现已归档</span>
+    {% endif %}
+
     {% if page.description %}
       <br>
       {{ page.description }}

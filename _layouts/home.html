@@ -12,8 +12,8 @@ title: "首页"
           <h2 class="catalogue-title">{{ post.title }}</h2>
           <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%Y/%m/%d" }}</time>
         {% else %}
-          <h2 class="catalogue-title-archived">{{ post.title }}</h2>
-          <time datetime="{{ post.date }}" class="catalogue-time-archived">{{ post.date | date: "%Y/%m/%d" }}</time>
+          <h2 class="catalogue-title-archived">[已归档] {{ post.title }}</h2>
+          <time datetime="{{ post.date }}" class="catalogue-time-archived"></time>
         {% endif %}
         </div>
         {% if site.global_flags.enable_homepage_desc %}
