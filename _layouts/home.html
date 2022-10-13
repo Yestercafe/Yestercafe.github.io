@@ -33,10 +33,10 @@ title: "首页"
 
 <div class="pagination">
   {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="left arrow">&#8592;</a>
+    <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="left arrow">&#8678;</a>
   {% endif %}
   {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="right arrow">&#8594;</a>
+    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="right arrow">&#8680;</a>
   {% endif %}
 
   <span>{{ paginator.page }}</span>

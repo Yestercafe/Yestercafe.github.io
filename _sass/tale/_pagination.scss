@@ -41,6 +41,10 @@
     color: $default-color;
     position: absolute;
 
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
+
     &:hover,
     &:focus {
       opacity: .6;
