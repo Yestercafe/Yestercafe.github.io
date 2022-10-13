@@ -30,7 +30,7 @@ footer,
   &-title {
     @include transition(all .2s ease-out);
     color: $default-color;
-    font-family: $serif-secondary;
+    font-family: $sans-serif;
     display: inline-block;
     margin: 0;
     margin-left: .2rem;
