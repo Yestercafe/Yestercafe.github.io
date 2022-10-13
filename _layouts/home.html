@@ -22,10 +22,10 @@ title: "首页"
           {% else %}
             <p class="catalogue-description">Preview: {{ post.excerpt | strip_html | truncatewords: 30 }}</p>
           {% endif %}
+          <div style="justify-content: center; display: flex; text-align: center">
+            <div class="catalogue-line"></div>
+          </div>
         {% endif %}
-        <!-- <div style="justify-content: center; display: flex; text-align: center">
-          <div class="catalogue-line"></div>
-        </div> -->
       </div>
     </a>
   {% endfor %}
