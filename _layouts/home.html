@@ -10,7 +10,7 @@ title: "首页"
         <div style="display: flex; justify-content: space-between; align-items: center;">
         {% if post.archived != true %}
           <h2 class="catalogue-title">{{ post.title }}</h2>
-          <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%d/%m/%Y" }}</time>
+          <time datetime="{{ post.date }}" class="catalogue-time">{{ post.date | date: "%Y/%m/%d" }}</time>
         {% else %}
           <h2 class="catalogue-title-archived">{{ post.title }}</h2>
           <time datetime="{{ post.date }}" class="catalogue-time-archived">{{ post.date | date: "%Y/%m/%d" }}</time>
