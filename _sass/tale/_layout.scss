@@ -85,6 +85,14 @@ footer,
       color: $dark-default-color;
     }
   }
+
+  &-search {
+    filter:invert(32%) sepia(0%) saturate(1246%) hue-rotate(155deg) brightness(88%) contrast(77%);
+
+    @media (prefers-color-scheme: dark) {
+      filter: invert(81%) sepia(0%) saturate(0%) hue-rotate(344deg) brightness(100%) contrast(96%);
+    }
+  }
 }
 
 @media (min-width: 600px) {
