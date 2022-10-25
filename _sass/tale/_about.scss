@@ -1,0 +1,104 @@
+.about {
+
+  &-avatar {
+    display: block;
+    width: 250px;
+    margin: 100px auto;
+    margin-bottom: 70px;
+    background-color: $sakura;
+
+    border-radius: 100%;
+    border: 3px dashed $usubeni;
+    box-shadow: 5px 5px 20px $usubeni;
+
+    @media (prefers-color-scheme: dark) {
+      background-color: $usubeni;
+      border: 3px dashed $sakura;
+      box-shadow: 5px 5px 20px $sakura;
+    }
+  }
+
+  &-icons-seq {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  &-icon {
+    margin: 0 8px;
+    color: $default-color;
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
+  }
+
+  &-info {
+    width: 100%;
+    margin-bottom: 50px;
+
+    // tr > td {
+    //   border-bottom: 1px solid $sakura;
+    // }
+
+    // tr:last-child > td {
+    //   border-bottom: 0px;
+    // }
+  }
+
+  &-td {
+    // font-family: $serif-primary;
+    font-family: $kawaii-font;
+    padding: 0 25px;
+    width: 50%;
+    height: 50px;
+
+    &-up {
+      font-size: 10px;
+      text-transform: uppercase;
+      line-height: 12px;
+      padding-bottom: 0px;
+      vertical-align: bottom;
+    }
+
+    &-down {
+      font-size: 24px;
+      line-height: 24px;
+      padding-top: 0px;
+      vertical-align: top;
+    }
+
+    &-left {
+      text-align: right;
+      border-right: 3px dashed $usubeni;
+
+      @media (prefers-color-scheme: dark) {
+        border-right: 3px dashed $sakura;
+      }
+    }
+
+    &-right {
+      text-transform: none;
+      text-align: left;
+      border-left: 3px dashed $usubeni;
+      @media (prefers-color-scheme: dark) {
+        border-left: 3px dashed $sakura;
+      }
+    }
+
+    &-hidden {
+      font-size: 16px;
+      line-height: 10px;
+      color: $white;
+      @media (prefers-color-scheme: dark) {
+        color: $dark-white;
+      }
+
+      &:hover {
+        color: $usubeni;
+        @media (prefers-color-scheme: dark) {
+          color: $sakura;
+        }
+      }
+    }
+  }
+
+}
