@@ -211,9 +211,9 @@ let rec eval = (instrs: instrs, stk: stack) => {
 
 Code and stack:
 
-<table style="">
+<table>
     <tr>
-        <td style="text-align:left">code:</td   >
+        <td style="text-align:left">code:</td>
         <td style="text-align:left">$c ::= \epsilon \mid i; c$</td>
     </tr>
     <tr>
@@ -223,7 +223,7 @@ Code and stack:
 </table>
 
 Transition of the machine:
-<table style="width:100%">
+<table>
     <tr>
         <th>$(\operatorname{Cst}(i); c, s) \rightarrow (c, i :: s)$</th>
         <th>(I-Cst)</th>
@@ -270,3 +270,26 @@ $$
 
 前者被叫作 big step operational semantics（大步语义），后者被叫作 small step operational semantics（小步语义）。
 
+### Homework
+
+将编译使用非形式化语言实现，即将大步语义转换为小步语义：
+
+```rescript
+type rec expr =
+    | Cst (int)
+    | Add (expr, expr)
+    | Mul (expr, expr)
+
+type instr = Cst (int) | Add | Mul
+type instrs = list<instr>
+type operand = int
+type stack = list<operand>
+
+let rec compile = (expr: expr): list<instr> => {
+    switch expr {
+    | Cst(i) => list{ Cst(i) }
+    | Add(e1, e2) => List.append(List.append(compile(e1), compile(e2)), list{Add})
+    | Mul(e1, e2) => List.append(List.append(compile(e1), compile(e2)), list{Mul})
+    }
+}
+```
