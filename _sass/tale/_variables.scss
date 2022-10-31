@@ -1,15 +1,23 @@
 // Colors
 // Nippon colors
-$usubeni: #E87A90 !default;
 $sakura: #FEDFE1 !default;
-$kawazome: #64363C !default;
+$ikkonzome: #F4A7B9 !default;
+$usubeni: #E87A90 !default;
 $kurenai: #CB1B45 !default;
 $ichigo: #B5495B !default;
-$ikkonzome: #F4A7B9 !default;
+$kawazome: #64363C !default;
 
-$wakatake: #5DAC81 !default;
 $byakuroku: #A8D8B9 !default;
+$wakatake: #5DAC81 !default;
 $matsuba: #42602D !default;
+
+// presets
+$preset1: $sakura;
+$preset2: $ikkonzome;
+$preset3: $usubeni;
+$preset4: $kurenai;
+$preset5: $ichigo;
+$preset6: $kawazome;
 
 $default-color: #555 !default;
 $default-shade: #353535 !default;
