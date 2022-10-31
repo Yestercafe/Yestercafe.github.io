@@ -9,12 +9,12 @@
     &:focus .catalogue-title,
     &:hover .catalogue-time,
     &:focus .catalogue-time {
-      color: $usubeni;
+      color: $preset3;
     }
 
     &:hover .catalogue-line,
     &:focus .catalogue-line {
-      border-top: .1rem solid $usubeni;
+      border-top: .1rem solid $preset3;
       box-shadow: 0 0 2px $grey-1;
 
       @media (prefers-color-scheme: dark) {
@@ -37,7 +37,7 @@
     }
     &:last-child:focus .catalogue-line,
     &:last-child:hover .catalogue-line {
-      border-top: .1rem solid $usubeni;
+      border-top: .1rem solid $preset3;
       box-shadow: 0 0 2px $grey-1;
       width: 100%;
 

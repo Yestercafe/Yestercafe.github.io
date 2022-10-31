@@ -5,16 +5,16 @@
     width: 250px;
     margin: 100px auto;
     margin-bottom: 70px;
-    background-color: $sakura;
+    background-color: $preset1;
 
     border-radius: 100%;
-    border: 3px dashed $usubeni;
-    box-shadow: 5px 5px 20px $usubeni;
+    border: 3px dashed $preset3;
+    box-shadow: 5px 5px 20px $preset3;
 
     @media (prefers-color-scheme: dark) {
-      background-color: $usubeni;
-      border: 3px dashed $sakura;
-      box-shadow: 5px 5px 20px $sakura;
+      background-color: $preset3;
+      border: 3px dashed $preset1;
+      box-shadow: 5px 5px 20px $preset1;
     }
   }
 
@@ -36,7 +36,7 @@
     margin-bottom: 50px;
 
     // tr > td {
-    //   border-bottom: 1px solid $sakura;
+    //   border-bottom: 1px solid $preset1;
     // }
 
     // tr:last-child > td {
@@ -68,19 +68,19 @@
 
     &-left {
       text-align: right;
-      border-right: 3px dashed $usubeni;
+      border-right: 3px dashed $preset3;
 
       @media (prefers-color-scheme: dark) {
-        border-right: 3px dashed $sakura;
+        border-right: 3px dashed $preset1;
       }
     }
 
     &-right {
       text-transform: none;
       text-align: left;
-      border-left: 3px dashed $usubeni;
+      border-left: 3px dashed $preset3;
       @media (prefers-color-scheme: dark) {
-        border-left: 3px dashed $sakura;
+        border-left: 3px dashed $preset1;
       }
     }
 
@@ -93,9 +93,9 @@
       }
 
       &:hover {
-        color: $usubeni;
+        color: $preset3;
         @media (prefers-color-scheme: dark) {
-          color: $sakura;
+          color: $preset1;
         }
       }
     }

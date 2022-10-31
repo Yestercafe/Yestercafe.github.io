@@ -70,14 +70,14 @@
 
     &:hover {
       .gallery-header-title {
-        color: $usubeni;
+        color: $preset3;
       }
       
       .gallery-header-aboveline, 
       .gallery-header-underline,
       .gallery-header-leftline, 
       .gallery-header-rightline {
-        border-color: $usubeni;
+        border-color: $preset3;
       }
       .gallery-header-aboveline, 
       .gallery-header-underline {
@@ -139,7 +139,7 @@
 
     &-line {
       @include transition(all 10s cubic-bezier(.13,.41,.43,.92));
-      border-top: 0.2rem solid $usubeni;
+      border-top: 0.2rem solid $preset3;
       display: block;
       width: 0;
     }

@@ -57,11 +57,11 @@ h6 {
 }
 
 a {
-  color: $ichigo;
+  color: $preset5;
   text-decoration: none;
 
   @media (prefers-color-scheme: dark) {
-    color: $ikkonzome;
+    color: $preset2;
   }
 }
 
@@ -160,16 +160,16 @@ table {
   }
 
   &:hover {
-    background-color: $kawazome;
+    background-color: $preset6;
     @media (prefers-color-scheme: dark) {
-      background-color: $sakura;
+      background-color: $preset1;
     }
   }
 
   &:active {
-    background-color: $ichigo;
+    background-color: $preset5;
     @media (prefers-color-scheme: dark) {
-      background-color: $usubeni;
+      background-color: $preset3;
     }
   }
 }

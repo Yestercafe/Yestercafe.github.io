@@ -47,10 +47,10 @@
       &:hover,
       &:active {
         @include transition(all 0.3s ease-out);
-        background-color: $sakura;
+        background-color: $preset1;
 
         @media (prefers-color-scheme: dark) {
-          background-color: $kawazome;
+          background-color: $preset6;
         }
       }
     }
@@ -97,7 +97,7 @@
 
     &-line {
       @include transition(all 0.3s ease-out);
-      border-top: 0.1rem solid $usubeni;
+      border-top: 0.1rem solid $preset3;
       display: block;
       width: 0;
     }
