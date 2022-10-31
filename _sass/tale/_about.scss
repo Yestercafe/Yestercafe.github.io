@@ -34,6 +34,8 @@
   &-info {
     width: 100%;
     margin-bottom: 50px;
+    border: 0px;
+    border-collapse: separate;
 
     // tr > td {
     //   border-bottom: 1px solid $preset1;
@@ -50,6 +52,8 @@
     padding: 0 25px;
     width: 50%;
     height: 50px;
+    border-collapse: separate;
+
 
     &-up {
       font-size: 10px;
@@ -68,6 +72,7 @@
 
     &-left {
       text-align: right;
+      border: 0px;
       border-right: 3px dashed $preset3;
 
       @media (prefers-color-scheme: dark) {
@@ -78,6 +83,7 @@
     &-right {
       text-transform: none;
       text-align: left;
+      border: 0px;
       border-left: 3px dashed $preset3;
       @media (prefers-color-scheme: dark) {
         border-left: 3px dashed $preset1;

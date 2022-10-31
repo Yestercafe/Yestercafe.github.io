@@ -141,7 +141,17 @@ td {
 }
 
 table {
-  margin: 0 auto;
+  margin: 1.5rem auto;
+}
+
+table, th, td {
+  border: 2px dotted $preset6;
+  border-collapse: collapse;
+  padding: 12px;
+
+  @media (prefers-color-scheme: dark) {
+    border: 2px dotted $preset1;
+  }
 }
 
 ::-webkit-scrollbar {
