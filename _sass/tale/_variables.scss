@@ -11,6 +11,13 @@ $byakuroku: #A8D8B9 !default;
 $wakatake: #5DAC81 !default;
 $matsuba: #42602D !default;
 
+$halloween1: rgb(255, 231, 201);
+$halloween2: rgb(255, 178, 84);
+$halloween3: rgb(255, 151, 24);
+$halloween4: rgb(255, 150, 22);
+$halloween5: rgb(190, 105, 0);
+$halloween6: rgb(96, 54, 0);
+
 // presets
 // $preset1: $sakura;
 // $preset2: $ikkonzome;
@@ -18,12 +25,12 @@ $matsuba: #42602D !default;
 // $preset4: $kurenai;
 // $preset5: $ichigo;
 // $preset6: $kuwazome;
-$preset1: rgb(255, 231, 201);
-$preset2: rgb(255, 178, 84);
-$preset3: rgb(255, 151, 24);
-$preset4: rgb(255, 150, 22);
-$preset5: rgb(190, 105, 0);
-$preset6: rgb(68, 38, 0);
+$preset1: $halloween1;
+$preset2: $halloween2;
+$preset3: $halloween3;
+$preset4: $halloween4;
+$preset5: $halloween5;
+$preset6: $halloween6;
 
 $default-color: #555 !default;
 $default-shade: #353535 !default;
