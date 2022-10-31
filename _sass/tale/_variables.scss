@@ -48,11 +48,16 @@ $dark-code-color: $preset1 !default;
 $dark-text: #fff !default;
 
 // Fonts
+@font-face{
+  font-family: "Seto";
+  src: url("/assets/fonts/seto.ttf") format("truetype");
+}
+
 $serif-primary: 'Libre Baskerville', 'Times New Roman', Times, serif !default;
 $serif-secondary: Palatino, 'Palatino LT STD', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif !default;
 $sans-serif: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif !default;
 $monospaced: Monaco, Menlo, Fira Code, Source Code Pro, Ubuntu Mono, Cascadia Code, consolas, monospace !default;
-$kawaii-font: 'HannotateSC-W5', 'YouYuan', $serif-primary;
+$kawaii-font: 'Seto';
 $clock: monospace, Monaco, Menlo, $serif-secondary;
 
 @mixin box-sizing($type: border-box) {
