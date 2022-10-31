@@ -1,0 +1,13 @@
+.widget {
+
+  &-pumpkin {
+    position: fixed;
+    opacity: 0%;
+    @include transition(all .3s ease-out); 
+  }
+
+  &-pumpkin:hover {
+    opacity: 100%;
+  }
+
+}
