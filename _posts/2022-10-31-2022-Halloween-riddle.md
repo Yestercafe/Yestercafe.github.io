@@ -209,7 +209,7 @@ im2.save('output.png')
 
 ### Page 解谜（假结局）
 
-点见页右下角的 `lab530`，进入隐藏的 index2，点 hint 看到一个 416。
+点页面右下角的 `lab530`，进入隐藏的 index2，点 hint 看到一个 416。
 
 访问 <https://lab530.github.io/sekinya.html>，这是同 A 题的加密，解出来就是「Hi, I am Sekinya!」，没什么特别的。Sekinya 是个超链接，点开发现网址是 <https://lab530.github.io/gold-room-PASSWORD>，PASSWORD 对应的就是 416 了。
 
