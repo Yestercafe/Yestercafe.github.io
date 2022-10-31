@@ -27,13 +27,8 @@
     }
 
     &:last-child .catalogue-line {
-      border-top: .1rem solid $white;
       width: 0;
-
-      @media (prefers-color-scheme: dark) {
-        box-shadow: 0 0 2px $dark-white;
-      }
-      @include transition(all .3s ease-out);
+      @include transition(all .15s ease-out);
     }
     &:last-child:focus .catalogue-line,
     &:last-child:hover .catalogue-line {
