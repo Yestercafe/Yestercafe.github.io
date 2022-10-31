@@ -199,7 +199,7 @@ im2.save('output.png')
 
 ![dog](/images/posts/2022-Halloween-riddle/output.png)
 
-这个图里面隐藏了 <https://lab530.github.io> 的页面（左上和左下是侧边栏和搜索的图标，左上偏中间是 LAB530 的 LOGO，你要是熟悉那就很容易知道这是我们的 GitHub Page，只不过我故意做了万圣节装修），另外就是上假文中的右下角藏了一个 SOMETHING HERE —— 这些线索代表这个东西藏在 GitHub Page 的右下角。
+这个图里面隐藏了 <https://lab530.github.io> 的页面（左上和左下是侧边栏和搜索的图标，左上偏中间是 LAB530 的 LOGO，你要是熟悉那就很容易知道这是我们的 GitHub Page，只不过我故意做了万圣节装修），另外就是在假文中的右下角藏了一个 SOMETHING HERE —— 这些线索代表这个东西藏在 GitHub Page 的右下角。
 
 ### C 题解谜
 
