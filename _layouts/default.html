@@ -37,4 +37,11 @@
     onload="initSakanaWidget()"
     src="https://cdn.jsdelivr.net/npm/sakana-widget@1.2.0/lib/sakana.min.js"></script>
 
+  <script>
+    $('img').on('click', function () {
+      var src = $(this).attr('src');
+      window.open(src);
+    })
+  </script>
+
 </html>
