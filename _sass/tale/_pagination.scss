@@ -46,8 +46,12 @@
 
     &:hover,
     &:focus {
-      opacity: .6;
       text-decoration: none;
+      color: $preset4;
+
+      @media (prefers-color-scheme: dark) {
+        color: $preset3;
+      }
     }
   }
 
