@@ -18,19 +18,38 @@ $halloween4: rgb(255, 150, 22);
 $halloween5: rgb(190, 105, 0);
 $halloween6: rgb(96, 54, 0);
 
-// presets
+$kamenozoki: #A5DEE4 !default;
+$mizu: #81C7D4 !default;
+$sora: #58B2DC !default;
+$shinbashi: #0089A7 !default;
+$ruri: #005CAF !default;
+$kon: #0F2540 !default;
+
+// Presets:
+
+// default:
 // $preset1: $sakura;
 // $preset2: $ikkonzome;
 // $preset3: $usubeni;
 // $preset4: $kurenai;
 // $preset5: $ichigo;
 // $preset6: $kuwazome;
-$preset1: $halloween1;
-$preset2: $halloween2;
-$preset3: $halloween3;
-$preset4: $halloween4;
-$preset5: $halloween5;
-$preset6: $halloween6;
+
+// Halloween theme:
+// $preset1: $halloween1;
+// $preset2: $halloween2;
+// $preset3: $halloween3;
+// $preset4: $halloween4;
+// $preset5: $halloween5;
+// $preset6: $halloween6;
+
+// winter season:
+$preset1: $kamenozoki;
+$preset2: $mizu;
+$preset3: $sora;
+$preset4: $shinbashi;
+$preset5: $ruri;
+$preset6: $kon;
 
 $default-color: #555 !default;
 $default-shade: #353535 !default;
