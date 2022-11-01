@@ -120,7 +120,7 @@ lazarus.html
 
 编写代码解决问题：
 
-```c
+```c++
 #include <iostream>
 #include <string>
 #include <cctype>
