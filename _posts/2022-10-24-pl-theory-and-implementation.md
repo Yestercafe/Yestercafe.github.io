@@ -133,7 +133,7 @@ The evaluation rules（形式化语义）:
 <div class="row">
     <div class="column-3">
         $$
-        \frac{}{\operatorname{Cst}(i) \Downarrow} \operatorname{E-const}
+        \frac{}{\operatorname{Cst}(i) \Downarrow i} \operatorname{E-const}
         $$
     </div>
     <div class="column-3">
