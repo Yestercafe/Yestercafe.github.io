@@ -183,15 +183,6 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 ```
 
-参考 Wikipedia，禁止生成所有 `.DS_Store` 可以执行：
-
-```bash
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool TRUE
-
-# 恢复
-defaults delete com.apple.desktopservices DSDontWriteNetworkStores
-```
-
 ### 修复桌面图标消失、无法右击
 
 ```bash
