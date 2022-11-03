@@ -51,6 +51,7 @@ h6 {
   color: $default-shade;
   font-family: $sans-serif;
   line-height: normal;
+  margin-top: 0;
   @media (prefers-color-scheme: dark) {
     color: $dark-default-shade;
   }
