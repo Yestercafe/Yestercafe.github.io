@@ -33,6 +33,7 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-seo-tag
+  - jekyll-github-metadata
   # - jemoji #Uncomment this to allow emoji in your post
 
 # Permalinks
@@ -49,3 +50,7 @@ components:
   busuanzi:
     enabled: true
     start_date: 2021-01-01
+
+# GitHub metadata (about page)
+repos:
+  limit: 5

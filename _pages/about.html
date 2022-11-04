@@ -72,7 +72,32 @@ permalink: /about/
   </tr>
 </table>
 
-<h2>Reserved</h2>
+
+<h1 style="text-align:center">Freshest Repos</h1>
+{% assign repos = site.github.public_repositories | where: 'fork', false | sort: 'pushed_at' | reverse %}
+{% for repo in repos limit: site.repos.limit %}
+<a href="{{ repo.html_url }}" class="catalogue-item">
+  <p class="catalogue-title">{{ repo.name }}</p>
+  {% if repo.description %}<p class="catalogue-description">{{ repo.description }}</p>{% endif %}
+  <p class="catalogue-description">pushed_at: {{ repo.pushed_at }}</p>
+  <div style="justify-content: center; display: flex; text-align: center">
+    <div class="catalogue-line"></div>
+  </div>
+</a>
+{% endfor %}
+
+<h1 style="text-align:center;margin-top:100px">Popular Repos</h1>
+{% assign repos = site.github.public_repositories | where: 'fork', false | sort: 'stargazers_count' | reverse %}
+{% for repo in repos limit: site.repos.limit %}
+<a href="{{ repo.html_url }}" class="catalogue-item">
+  <p class="catalogue-title">{{ repo.name }}</p>
+  {% if repo.description %}<p class="catalogue-description">{{ repo.description }}</p>{% endif %}
+  <p class="catalogue-description">stars: {{ repo.stargazers_count }}</p>
+  <div style="justify-content: center; display: flex; text-align: center">
+    <div class="catalogue-line"></div>
+  </div>
+</a>
+{% endfor %}
 
 <!-- sakana widget instance -->
 <div class="sakana">
