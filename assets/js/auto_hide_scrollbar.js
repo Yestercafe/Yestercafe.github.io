@@ -5,14 +5,15 @@ function isOverflownX(element) {
 var hls = document.getElementsByTagName('pre');
 for (var i = 0; i < hls.length; i++) {
   var hl = hls[i];
-  hl.style.marginBottom = '15px';
+  var initial_padding_px = 14.0;
+  hl.style.paddingBottom = `${initial_padding_px}px`;
+  console.log(hl.style.paddingBottom);
   if (isOverflownX(hl)) {
-    hl.style.marginBottom = '20px';
     hl.addEventListener("mouseenter", (event) => {
-      event.target.style.marginBottom = '15px';
+        event.target.style.paddingBottom = `${initial_padding_px - 5}px`;
     }, false);
     hl.addEventListener("mouseleave", (event) => {
-      event.target.style.marginBottom = '20px';
+      event.target.style.paddingBottom = `${initial_padding_px}px`;
     }, false);
   }
 }

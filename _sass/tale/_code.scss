@@ -14,20 +14,26 @@ code {
 }
 
 pre {
-  margin: 0 0 1rem;
   overflow-y: auto;
   line-height: 1.2;
-  padding: 1em;
+  padding: 14px 18px;
 
   overflow-x: hidden;
+  text-overflow: ellipsis;
   &:hover {
     overflow-x: auto;
+    text-overflow: clip;
+  }
+
+  border: 1px dashed $default-tint;
+  @media (prefers-color-scheme: dark) {
+    border: 1px dashed $dark-default-tint;
   }
 }
 
 pre code {
   color: inherit;
-  font-size: 90%;
+  font-size: 88%;
   padding: 0;
 }
 
@@ -44,7 +50,7 @@ p code {
 .highlight {
   border-radius: 3px;
   line-height: 1.2;
-  margin: 0;
+  margin: 1rem 0;
 
   .lineno {
     color: $default-tint;
