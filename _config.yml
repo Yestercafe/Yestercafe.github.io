@@ -53,4 +53,4 @@ components:
 
 # GitHub metadata (about page)
 repos:
-  limit: 5
+  limit: 6    # recommend even number

@@ -107,4 +107,51 @@
     }
   }
 
+  &-repo-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &-repo-box {
+    width: 49%;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid $preset5;
+    box-shadow: inset 0px 0px 4px $preset6;
+    padding: 15px 18px 18px;
+
+    @media (prefers-color-scheme: dark) {
+      border: 1px solid $preset2;
+      box-shadow: 0px 0px 6px $preset1;
+    }
+
+    &-title {
+      font-size: 28px;
+      text-align: center;
+      font-family: $monospaced;
+    }
+
+    &-link-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    &-link {
+      font-size: 18px;
+      font-family: $monospaced;
+    }
+
+    &-description {
+      margin: 0;
+      font-size: 14px;
+      color: $default-tint;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-tint;
+      }
+    }
+  }
 }

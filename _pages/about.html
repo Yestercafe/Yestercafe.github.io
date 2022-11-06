@@ -73,31 +73,22 @@ permalink: /about/
 </table>
 
 
-<h1 style="text-align:center">Freshest Repos</h1>
-{% assign repos = site.github.public_repositories | where: 'fork', false | sort: 'pushed_at' | reverse %}
-{% for repo in repos limit: site.repos.limit %}
-<a href="{{ repo.html_url }}" class="catalogue-item">
-  <p class="catalogue-title">{{ repo.name }}</p>
-  {% if repo.description %}<p class="catalogue-description">{{ repo.description }}</p>{% endif %}
-  <p class="catalogue-description">pushed_at: {{ repo.pushed_at }}</p>
-  <div style="justify-content: center; display: flex; text-align: center">
-    <div class="catalogue-line"></div>
-  </div>
-</a>
-{% endfor %}
-
-<h1 style="text-align:center;margin-top:100px">Popular Repos</h1>
+<h1 class="about-repo-box-title">My GitHub Repos</h1>
 {% assign repos = site.github.public_repositories | where: 'fork', false | sort: 'stargazers_count' | reverse %}
-{% for repo in repos limit: site.repos.limit %}
-<a href="{{ repo.html_url }}" class="catalogue-item">
-  <p class="catalogue-title">{{ repo.name }}</p>
-  {% if repo.description %}<p class="catalogue-description">{{ repo.description }}</p>{% endif %}
-  <p class="catalogue-description">stars: {{ repo.stargazers_count }}</p>
-  <div style="justify-content: center; display: flex; text-align: center">
-    <div class="catalogue-line"></div>
+<div class="about-repo-wrapper">
+  {% for repo in repos limit: site.repos.limit %}
+  <div class="about-repo-box">
+    <div class="about-repo-box-link-wrapper">
+      <a href="{{ repo.html_url }}" class="about-repo-box-link">{{ repo.name }}</a>
+      <div style="display:flex;align-items:center">
+        <i class="fa-solid fa-star"></i>
+        <attr style="font-size:20px">{{ repo.stargazers_count }}</attr>
+      </div>
+    </div>
+    <p class="about-repo-box-description">{{ repo.description }}</p>
   </div>
-</a>
-{% endfor %}
+  {% endfor %}
+</div>
 
 <!-- sakana widget instance -->
 <div class="sakana">
