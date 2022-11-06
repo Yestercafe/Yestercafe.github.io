@@ -37,6 +37,12 @@
     }), output = $(this);
     if (!headers.length || headers.length < settings.minimumHeaders || !output.length) {
       $(this).hide();
+      if (!settings.noBackToTopLinks) {
+        $(document).on('click', '.back-to-top', function() {
+          $(window).scrollTop(0);
+          window.location.hash = '';
+        });
+      }
       return;
     }
 
@@ -86,7 +92,7 @@
       }
       level = this_level; // update for the next one
     });
-    html += "</"+settings.listType+">";
+    html += "<li><a href=\"#__bottom\">Bottom</a></li></"+settings.listType+">";
     if (!settings.noBackToTopLinks) {
       $(document).on('click', '.back-to-top', function() {
         $(window).scrollTop(0);

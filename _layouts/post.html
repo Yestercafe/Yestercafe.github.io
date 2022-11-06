@@ -44,14 +44,15 @@ layout: default
 
 <div class="pagination">
   {% if page.next.url %}
-    <a href="{{ page.next.url | prepend: site.baseurl }}" class="left arrow">&#8678;</a>
+  <a href="{{ page.next.url | prepend: site.baseurl }}" class="left arrow">&#8678;</a>
   {% endif %}
+  <button id="__bottom" class="top back-to-top">回到顶部</button>
   {% if page.previous.url %}
-    <a href="{{ page.previous.url | prepend: site.baseurl }}" class="right arrow">&#8680;</a>
+  <a href="{{ page.previous.url | prepend: site.baseurl }}" class="right arrow">&#8680;</a>
   {% endif %}
-
-  <a href="#" class="top">回到顶部</a>
 </div>
+
+{% include goto-top.html %}
 
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
 <script src="/assets/js/toc.js"></script>
@@ -61,5 +62,3 @@ layout: default
     $('#toc').toc();
 	});
 </script>
-
-{% include goto-top.html %}
