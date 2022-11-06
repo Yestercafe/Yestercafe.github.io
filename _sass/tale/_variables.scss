@@ -60,7 +60,7 @@ $grey-3: #f9f9f9 !default;
 $white: #fff !default;
 $blue: #4a9ae1 !default;
 $shadow-color: rgba(0, 0, 0, .2) !default;
-$code-color: $preset6 !default;
+$code-color: $default-color !default;
 
 $dark-default-color: #ccc !default;
 $dark-default-shade: #cacaca !default;
@@ -70,7 +70,7 @@ $dark-grey-2: #2a2a2a !default;
 $dark-grey-3: #161616 !default;
 $dark-white: #111 !default;
 $dark-shadow-color: rgba(255, 255, 255, .8) default;
-$dark-code-color: $preset1 !default;
+$dark-code-color: $dark-default-color !default;
 $dark-text: #fff !default;
 
 // Fonts

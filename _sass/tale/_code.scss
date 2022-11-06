@@ -4,13 +4,11 @@ code {
 }
 
 code {
-  // background-color: $grey-3;
   border-radius: 3px;
   color: $code-color;
   font-size: 90%;
 
   @media (prefers-color-scheme: dark) {
-    // background-color: $dark-grey-3;
     color: $dark-code-color;
   }
 }
@@ -25,22 +23,25 @@ pre {
   &:hover {
     overflow-x: auto;
   }
-
-  // background-color: $grey-3;
-  @media (prefers-color-scheme: dark) {
-    // background-color: $dark-grey-3;
-  }
 }
 
 pre code {
-  // background-color: transparent;
   color: inherit;
   font-size: 90%;
   padding: 0;
 }
 
+p code {
+  padding: 2px 4px;
+  background-color: $grey-3;
+  border-radius: 4px;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $dark-grey-3;
+  }
+}
+
 .highlight {
-  // background-color: $grey-3;
   border-radius: 3px;
   line-height: 1.2;
   margin: 0;
@@ -57,9 +58,5 @@ pre code {
     @media (prefers-color-scheme: dark) {
       color: $dark-default-tint;
     }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    // background-color: $dark-grey-3;
   }
 }
