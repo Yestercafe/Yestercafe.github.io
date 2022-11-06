@@ -212,3 +212,11 @@ table, th, td {
 ul, ol {
   padding-left: 1rem;
 }
+
+.disabled {
+  color: $grey-2;
+
+  @media (prefers-color-scheme: dark) {
+    color: $dark-grey-2;
+  }
+}
