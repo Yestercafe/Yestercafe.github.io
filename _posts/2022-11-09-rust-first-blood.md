@@ -153,13 +153,13 @@ fn next(&mut self) -> Option<Self::Item>
 
 看到一个比较好的视频，讲 `Result` 和 `Option` 使用、转换很清楚：
 
-<https://www.youtube.com/watch?v=f82wn-1DPas>(<https://www.bilibili.com/video/BV1gd4y1y7Qa>)
+<https://www.youtube.com/watch?v=f82wn-1DPas>（<https://www.bilibili.com/video/BV1gd4y1y7Qa>）
 
 有时间我再整理，不过最好还是直接全记住。
 
 ## 额外的 Rust 视频
 
-`Box`、`Rc`、`Arc`：<https://www.bilibili.com/video/BV1gd4y1y7Qa>（这老哥的视频是真不错）
+`Box`、`Rc`、`Arc`：<https://www.youtube.com/watch?v=CTTiaOo4cbY>（这老哥的视频是真不错）
 
 Macros: <https://www.youtube.com/watch?v=YdfbB5UyJTI>
 
