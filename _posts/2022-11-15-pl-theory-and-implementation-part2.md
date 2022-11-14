@@ -79,7 +79,7 @@ $$
 
 $\vdash$ 叫 turnstile，$\LaTeX$ 记作 `\vdash`。
 
-运行时考变量名查环境表耗时，引入 partial evaluation，让编译器完成更多静态工作。
+运行时靠变量名查环境表比较耗时，引入 partial evaluation，让编译器完成更多静态工作。
 
 ## Tiny Language 2
 
