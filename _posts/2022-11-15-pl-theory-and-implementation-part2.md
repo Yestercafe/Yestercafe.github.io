@@ -154,7 +154,7 @@ let rec comp = (expr: expr, cenv: cenv): Nameless.expr => {
     | Add (a, b) => Add(comp(a, cenv) + comp(b, cenv))
     | Mul (a, b) => Mul(comp(a, cenv), comp(b, cenv))
     | Var(x) => Var(index(cenv, x))
-    | Let(x, e1, e2) => Let(comp(e1, cenv), comp(e2, list{x, ...env}))
+    | Let(x, e1, e2) => Let(comp(e1, cenv), comp(e2, list{x, ...cenv}))
     }
 }
 ```
@@ -184,13 +184,15 @@ Similar to `expr`'s eval.
 
 ![example1](/images/posts/2022-11-15-pl-theory-and-implementation-part2.assets/example1.png)
 
-Swap 和 Pop 的组合可以去除栈里留下的 $x$ 保留下 $v$。
+Swap 和 Pop 的组合可以去除栈里留下的 $x$ 保留下 $v$。Swap 和 Pop 是为了保持栈平衡才引入的，因为 stack machine 的 eval 的最后结果一定会保证栈里的元素只有 1 个。所以需要 Swap & Pop 将「临时」存入栈的不需要的 local variable 的「值（value）」移除。
+
+比如对应的上图中的 `Cst(17)` 临时入栈，是为了在后面的过程中，能把这个栈中的 17 当成「x」来使用。而后面的 `Swap; Pop` 针对的也就是这个 17。
+
+关于红色的部分 `Var(0)` 为什么变成了 `Var(1)`，是因为 `Var(0)` 会伴随着 `s[0]` 入栈，但是这个下标就比较反传统的用线性表建栈的形式，因为传统我们用线性表作为栈的 push 是 `s[len++] = x`，栈底是不变的；而这里从头到尾都是 `list {x, ...cenv}`，栈顶永远是 0。类似 Lisp 的 `(x . s)`，然后取栈顶就是很简单的 `(car s)`。（所以说到底他用的就不是线性表而是单链表，用 C 写单链表做栈也得这样，主要的反直觉是在 C 的数组才用下标访问而不是链表）
 
 Another example:
 
 ![example2](/images/posts/2022-11-15-pl-theory-and-implementation-part2.assets/example2.png)
-
-Swap 和 Pop 是为了保持栈平衡才引入的。
 
 ## Summary
 
