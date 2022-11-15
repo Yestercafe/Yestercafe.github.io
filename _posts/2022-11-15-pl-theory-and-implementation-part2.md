@@ -462,3 +462,4 @@ separate("Compile Nameless -> Instr1: let _0 = 2 in _0 * (_0 + 3) == 10")
 Js.log(Nameless_Instr1.compile(nameless))  // problem here
 ```
 
+弄了好长时间，调不好。考研结束前我要是再弄这个我就是 **。
