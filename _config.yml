@@ -2,6 +2,7 @@
 title:          Yescafe 的自助餐厅
 description:    "連続する日常と断続する非日常が触れ合って 絡まってhalation"
 url:            "https://Yescafe.github.io"
+timezone:       Asia/Shanghai
 global_flags:
   enable_homepage_desc: true
 
