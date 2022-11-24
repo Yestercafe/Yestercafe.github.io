@@ -167,7 +167,7 @@ Macros: <https://www.youtube.com/watch?v=YdfbB5UyJTI>
 
 ## 一些 Rust 项目
 
-一个 3D 字符甜甜圈，图形学的（我用 C++ 复刻了，失败了，暂时搁置*）：<https://github.com/tong2prosperity/ascii_donut_3d>
+一个 3D 字符甜甜圈，图形学的（我用 C++ 复刻了*，失败了，暂时搁置*）：<https://github.com/tong2prosperity/ascii_donut_3d>
 
 Rustlings: <https://github.com/rust-lang/rustlings>
 
