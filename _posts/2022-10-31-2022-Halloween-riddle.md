@@ -150,7 +150,7 @@ HI THERE, ME AM THA HALLOWEEN KING, ME DO NOT USE LANGUAGE FROM THA EARTH, BECAU
 
 读一下背景故事知道我们是间谍，codename 为 `U2FSDGVKX19EP5SKS94GKW3VAGTHYZX9DUFL7LYOCLW=`。这里进行二次解密。
 
-由公告中提供的网址 <http://encode.chahuo.com/>，猜测与这个网站中的对称加密算法相关。但是无论是哪种加密算法，都区分大小写，于后面提示的 special pozition 4 5 8 12 13 20 25 27 28 29 31 36 38 39 42 43 有关。进行尝试，如正确解法的代码：
+由公告中提供的网址 <http://encode.chahuo.com/>，猜测与这个网站中的对称加密算法相关。但是无论是哪种加密算法，都区分大小写，与后面提示的 special pozition 4 5 8 12 13 20 25 27 28 29 31 36 38 39 42 43 有关。进行尝试，如正确解法的代码：
 
 ```c++
 #include <iostream>
@@ -219,7 +219,7 @@ im2.save('output.png')
 
 ### Page 解谜（真结局）
 
-第一处是真密码，藏在 hint 中。通过查看源码，发现是真密码的透明度设置成了 0:
+第一处是真密码，藏在 hint 中。通过查看源码，发现是真密码的不透明度（opacity）被设置成了 0:
 
 ![ss1](/images/posts/2022-Halloween-riddle/ss1.png)
 
