@@ -23,6 +23,21 @@ layout: default
       {% endif %}
     {% endif %}
 
+    {% if page.categories %}
+      <br>
+      <span>分类：{{ page.categories }}</span>
+    {% endif %}
+
+    {% if page.tags %}
+      <br>
+      <span>Tags: [
+        {% for t in page.tags %}
+          {{ t }}
+        {% endfor %}
+        ]
+      </span>
+    {% endif %}
+
     {% if page.description %}
       <br>
       {{ page.description }}
