@@ -175,7 +175,7 @@ TypeMeta TypeMeta::newMetaFromName(std::string type_name)
 }
 ```
 
-由 `TypeMeta` 非引用类型返回一个没有强制构造为右值的作为广义左值（glvalue, generic left value）的将亡值（xvalue, eXpired value），在返回时不会调用其任意（拷贝/移动）构造/赋值函数进行转移，即这是一个 zero-cost 的行为。参考如下的测试代码：
+由 `TypeMeta` 非引用类型返回一个没有强制构造为右值引用的作为广义左值（glvalue, generic left value）的将亡值（xvalue, eXpired value），在返回时不会调用其任意（拷贝/移动）构造/赋值函数进行转移，即这是一个 zero-cost 的行为。参考如下的测试代码：
 
 ```cpp
 #include <iostream>
@@ -254,7 +254,7 @@ name3
 
 #### `FieldAccessor`
 
-作用为 `FieldFunctionTuple` 封装接口。
+作用是为 `FieldFunctionTuple` 封装接口。
 
 ##### Constructors
 
