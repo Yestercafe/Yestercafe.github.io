@@ -1,4 +1,5 @@
 ---
+update_time: 2022-01-12
 layout: post
 title: LeetCode 分类刷题 - 链表
 categories: LeetCode

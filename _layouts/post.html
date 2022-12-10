@@ -17,9 +17,13 @@ layout: default
 
     {% if page.date %}
       <br>
-      <span>于&nbsp;</span><time datetime="{{ page.date }}">{{ page.date | date: "%Y/%m/%d" }}</time>
+      <span>created at</span>
+      <time datetime="{{ page.date }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+      {% if page.update_time %}
+         <span>and last updated at {{ page.update_time }}</span>
+      {% endif %}
       {% if page.archived %}
-        <span>，现已归档</span>
+        <span>but now is archived</span>
       {% endif %}
     {% endif %}
 

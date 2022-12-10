@@ -1,4 +1,5 @@
 ---
+update_time: 2019-08-25
 layout: post
 title: 差劲的算法学习 - 优先搜索
 categories: Algorithms

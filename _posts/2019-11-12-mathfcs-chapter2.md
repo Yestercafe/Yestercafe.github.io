@@ -1,4 +1,5 @@
 ---
+update_time: 2019-11-12
 layout: post
 title: 计算机科学中的数学第二章笔记和习题
 categories: Maths

@@ -1,4 +1,5 @@
 ---
+update_time: 2021-11-07
 layout: post
 title: 为什么我讨厌 LOL
 categories: Chat

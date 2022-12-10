@@ -1,4 +1,5 @@
 ---
+update_time: 2019-11-14
 layout: post
 title: 计算机科学中的数学第三章笔记和习题
 categories: Maths

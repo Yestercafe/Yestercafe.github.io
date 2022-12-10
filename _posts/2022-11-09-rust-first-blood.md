@@ -1,4 +1,5 @@
 ---
+update_time: 2022-11-09
 layout: post
 title: 现阶段遇到的跟 Rust 有关的小事情记录
 categories: Chat

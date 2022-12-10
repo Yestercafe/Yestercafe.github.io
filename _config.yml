@@ -32,14 +32,20 @@ sass:
 # Gems
 plugins:
   - jekyll-feed
-  - jekyll-paginate
+  - jekyll-paginate-v2
   - jekyll-seo-tag
   - jekyll-github-metadata
   # - jemoji #Uncomment this to allow emoji in your post
 
 # Permalinks
-permalink:      /:year-:month-:day/:title
-paginate:       10
+permalink:      /:year/:month/:day/:title
+pagination:
+  enabled: true
+  per_page: 10
+  permalink: '/page:num/'
+  limit: 0
+  sort_field: 'update_time'
+  sort_reverse: true
 
 # Excludes
 exclude: [ Gemfile, Gemfile.lock, tale.gemspec ]

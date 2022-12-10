@@ -1,4 +1,5 @@
 ---
+update_time: 2019-06-21
 layout: post
 title: 差劲的算法学习 - 母函数
 categories: Algorithms

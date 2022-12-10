@@ -1,4 +1,5 @@
 ---
+update_time: 2022-10-31
 layout: post
 title: 2022 AHUCM OJ 万圣节闹鬼活动记录
 categories: Chat
