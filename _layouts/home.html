@@ -31,7 +31,7 @@ title: "首页"
   {% endfor %}
 </div>
 
-<div class="pagination">
+<div class="home-pagination">
   {% if paginator.previous_page %}
     <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="arrow">&#8678;</a>
   {% else %}

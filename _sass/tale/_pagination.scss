@@ -1,6 +1,5 @@
-.home-pagination-top,
-.home-pagination-bottom,
-.pagination {
+.pagination,
+.home-pagination {
   font-family: $serif-secondary;
   padding-top: 1rem;
   position: relative;
@@ -65,3 +64,8 @@
     }
   }
 }
+
+.home-pagination {
+  border: 0;
+}
+
