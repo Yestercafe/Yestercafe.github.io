@@ -17,7 +17,7 @@ layout: default
 
     {% if page.date %}
       <br>
-      <span>于&nbsp;</span><time datetime="{{ page.date }}">{{ page.date | date: "%Y/%m/%d" }}</time>
+      <span>始于&nbsp;</span><time datetime="{{ page.date }}">{{ page.date | date: "%Y/%m/%d" }}</time>
       {% if page.archived %}
         <span>，现已归档</span>
       {% endif %}
