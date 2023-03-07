@@ -353,9 +353,11 @@ instance Functor (Reader r) where
 For every category $\mathbf{C}$ there is a dual category $\mathbf{C}^{op}$. It's a category with the same objects as $\mathbf{C}$, but with all the arrows reversed.
 
 Consider a functor that goes between $\mathbf{C}^{op}$ and some other category $\mathbf{D}$:
+
 $$
 F :: \mathbf{C}^{op} \rightarrow \mathbf{D}
 $$
+
 Such a functor maps a morphism $f^{op} :: a \rightarrow b$ in $\mathbf{C}^{op}$ to the morphism $Ff^{op} :: Fa \rightarrow Fb$ in $\mathbf{D}$. But the morphism $f^{op}$ secretly corresponds to some morphism $f :: b \rightarrow a$ in the original category $\mathbf{C}$.
 
 Consider a $G$ which is not a functor:
@@ -364,9 +366,11 @@ Consider a $G$ which is not a functor:
 - when it comes to mapping morphisms, it reverses them
 
 then:
+
 $$
 Gf :: (b \rightarrow a) \rightarrow (Ga \rightarrow Gb)
 $$
+
 When it is a functor, it is called a **contravariant functor**.
 
 The *regular* functor is called a **covariant functor**.
@@ -380,4 +384,3 @@ class Contravariant f where
 instance Contravariant (Op r) where
     contramap f g = g . f
 ```
-
