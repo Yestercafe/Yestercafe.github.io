@@ -68,6 +68,8 @@ a {
 
 .post, .wikipage, footer {
   a {
+    padding-left: 1px;
+    padding-right: 1px;
     box-shadow: inset 0 -0.05em 0 $preset5;
     transition: all 0.2s ease-in-out;
     @media (prefers-color-scheme: dark) {
