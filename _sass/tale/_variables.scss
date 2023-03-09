@@ -8,8 +8,11 @@ $ichigo: #B5495B !default;
 $kuwazome: #64363C !default;
 
 $byakuroku: #A8D8B9 !default;
+$kikujin: #B1B479 !default;
+$nae: #86C166 !default;
 $wakatake: #5DAC81 !default;
 $matsuba: #42602D !default;
+$sensaicha: #4D5139 !default;
 
 $halloween1: rgb(255, 231, 201);
 $halloween2: rgb(255, 178, 84);
@@ -44,12 +47,20 @@ $kon: #0F2540 !default;
 // $preset6: $halloween6;
 
 // winter season:
-$preset1: $kamenozoki;
-$preset2: $mizu;
-$preset3: $sora;
-$preset4: $shinbashi;
-$preset5: $ruri;
-$preset6: $kon;
+// $preset1: $kamenozoki;
+// $preset2: $mizu;
+// $preset3: $sora;
+// $preset4: $shinbashi;
+// $preset5: $ruri;
+// $preset6: $kon;
+
+// spring preset
+$preset1: $byakuroku;
+$preset2: $kikujin;
+$preset3: $nae;
+$preset4: $wakatake;
+$preset5: $matsuba;
+$preset6: $sensaicha;
 
 $default-color: #555 !default;
 $default-shade: #353535 !default;
