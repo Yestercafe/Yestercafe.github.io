@@ -16,14 +16,10 @@ code {
 pre {
   overflow-y: auto;
   line-height: 1.2;
-  padding: 14px 18px;
+  padding: 20px 16px;
 
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  &:hover {
-    overflow-x: auto;
-    text-overflow: clip;
-  }
+  overflow-x: auto;
+  text-overflow: clip;
 
   border: 1px dashed $default-tint;
   @media (prefers-color-scheme: dark) {
