@@ -123,7 +123,7 @@ In the poset, the terminal object is the biggest element when the biggest elemen
 
 ### Isomorphisms
 
-An isomorphism is ans invertible morphism, or a pair of morphisms, one being the inverse of the other.
+An isomorphism is an invertible morphism, or a pair of morphisms, one being the inverse of the other.
 
 ### Products & Coproducts
 
@@ -191,6 +191,22 @@ $$
 F\mathbf{id_A} = \mathbf{id}_{Fa}
 $$
 
+### fmap
+
+```haskell
+class Functor f where
+    fmap :: (a -> b) -> f a -> f b
+```
+
+The functor laws:
+
+```
+fmap id = id
+fmap (g . f) = fmap g . fmap f
+```
+
+We have to prove that `fmap` preserves identity and composition.
+
 ### Reader Functors
 
 ```haskell
@@ -210,6 +226,7 @@ Equational reasoning:
 = g . (f . ra)
 = g . (fmap f ra)
 = fmap g (fmap f ra)
+= (fmap g . fmap f) ra
 ```
 
 ### Maybe
@@ -383,4 +400,130 @@ class Contravariant f where
 
 instance Contravariant (Op r) where
     contramap f g = g . f
+```
+
+### Is Pair a Bifunctor?
+
+```haskell
+data Pair a b = Pair a b
+instance Bifunctor Pair where
+    bimap f g (Pair a b) = Pair (f a) (g b)
+    first f (Pair a b) = Pair (f a) b
+    second g (Pair a b) = Pair a (g b)
+```
+
+Proof:
+
+```
+  bimap g h (Pair a b)
+= Pair (g a) (h b)
+= bimap g id (Pair a (h b))
+= first g (Pair a (h b))
+= first g (bimap id h (Pair a b))
+= first g (second h (Pair a b))
+= (first a . second h) (Pair a b)
+
+  first g id (Pair a b)
+= Pair (g a) b
+= bimap g id (Pair a b)
+
+  second id h (Pair a b)
+= Pair a (h b)
+= bimap id h (Pair a b)
+```
+
+### Proof Isomorphism of Maybe and Maybe'
+
+```haskell
+import Data.Functor.Identity
+
+newtype Const c a = Const c
+type Maybe' a = Either (Const () a) (Identity a)
+
+maybe'2Maybe :: Maybe' a -> Maybe a
+maybe'2Maybe (Left (Const _)) = Nothing
+maybe'2Maybe (Right (Identity a)) = Just a
+
+maybe2Maybe' :: Maybe a -> Maybe' a
+maybe2Maybe' (Just a) = Right $ Identity a
+maybe2Maybe' Nothing = Left $ Const ()
+```
+
+Proof:
+
+```
+   proof. maybe'2Maybe . maybe2Maybe' = id
+1. maybe'2Maybe . maybe2Maybe' (Just a)
+ = maybe'2Maybe (maybe2Maybe' (Just a))
+ = maybe'2Maybe (Right (Identity a))
+ = (Just a)
+2. maybe'2Maybe . maybe2Maybe' Nothing
+ = maybe'2Maybe (maybe2Maybe' Nothing)
+ = maybe'2Maybe (Left (Const ()))
+ = Nothing
+   
+   proof. maybe2Maybe' . maybe'2Maybe = id
+1. maybe2Maybe' . maybe'2Maybe (Left (Const ()))
+ = maybe2Maybe' (maybe'2Maybe (Left (Const ())))
+ = maybe2Maybe' Nothing
+ = Left $ Const ()
+2. maybe2Maybe' . maybe'2Maybe (Right (Identity a))
+ = maybe2Maybe' (maybe'2Maybe (Right (Identity a)))
+ = maybe2Maybe' (Just a)
+ = Right $ Identity a
+ 
+\qed
+```
+
+### Proof PreList is a Bifunctor
+
+```haskell
+data PreList a b = Nil | Cons a b
+
+instance MyBifunctor PreList where
+    bimap _ _ Nil = Nil
+    bimap f g (Cons a b) = Cons (f a) (g b)
+    first _ Nil = Nil
+    first f (Cons a b) =  Cons (f a) b
+    second _ Nil = Nil
+    second g (Cons a b) = Cons a (g b)
+```
+
+Then proof that `Nil` and `Cons a b` are functors to qed, because the composition of a bifunctor and functors is a bifunctor.
+
+Proof:
+
+```
+def. instance (Functor b) => Functor (PreList a) where
+         fmap f Nil = Nil
+         fmap f (Cons a b) = Cons a (fmap f b)
+
+proof. Nil is a functor
+  fmap id Nil
+= Nil
+= id Nil
+
+  fmap (g . f) Nil
+= Nil
+= fmap g Nil
+= fmap g (fmap f Nil)
+= (fmap g . fmap f) Nil
+
+proof. Cons a b is a functor when a is fixed:
+  fmap id (Cons a b)
+= Cons a (fmap id b)
+= Cons a (id b)
+= Cons a b
+= id (Cons a b)
+
+  fmap (g . f) (Cons a b)
+= Cons a (fmap (g . f) b))
+= Cons a (g . f b)
+= Cons a (fmap g (f b))
+= Cons a (fmap g (fmap f b))
+= fmap g (Cons a (fmap f b))
+= fmap g (fmap f (Cons a b))
+= (fmap g . fmap f) (Cons a b)
+
+\qed
 ```
