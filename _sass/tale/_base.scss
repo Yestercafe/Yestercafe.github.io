@@ -182,15 +182,15 @@ table, th, td {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  border-radius: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  width: 5px;
-  height: 5px;
-  border-radius: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
   background-color: $default-tint;
   @media (prefers-color-scheme: dark) {
     background-color: $dark-default-tint;
