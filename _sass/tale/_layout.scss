@@ -62,6 +62,7 @@ footer,
     display: inline-block;
     opacity: .6;
     padding: 0 1.5rem 0 0;
+    line-height: 2;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
