@@ -95,7 +95,7 @@
     for (var i = this_level; i > highest_level; i--) {
       html += "</li></" + settings.listType + ">";
     }
-    html += "<li><a href=\"#__bottom\">Bottom</a></li>";
+    html += "<li class='" + settings.classes.item + "'><a class='" + settings.classes.link + "' href=\"#__bottom\">Bottom</a></li>";
     if (!settings.noBackToTopLinks) {
       $(document).on('click', '.back-to-top', function() {
         $(window).scrollTop(0);
