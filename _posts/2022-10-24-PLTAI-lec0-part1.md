@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Introduction to language design and implementation
+title: Introduction to Language Design and Implementation
 description: 程序语言理论和实现 Week 0
 categories: PL
 tags: [PL]

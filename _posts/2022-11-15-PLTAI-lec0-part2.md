@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Introduction to language design and implementation - Part 2
+title: Introduction to Language Design and Implementation - Part 2
 description: 程序语言理论和实现 Week 0 - 局部变量的语义与编译过程
 categories: PL
 tags: [PL]
