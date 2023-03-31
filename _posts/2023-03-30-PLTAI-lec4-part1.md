@@ -97,3 +97,7 @@ Some(Opcode::Ret) => {
 其它的不太重要的部分见完整代码仓库。
 
 我的栈可能建反了，到 Part2 的时候再看要不要改。
+
+## 补充：为什么 `if then else` 不能用函数表示
+
+工业界的语言大多有 side effect（所以一些纯函数式肯定就排除在外了），而且它们在归约代码的时候大多使用 call-by-value 的序（所以这里 Haskell 也不满足了：Haskell 不仅是纯函数式，而且是 call-by-name 的），于是就不能用这样的函数 `if_then_else(cond, a, b)` 去表示 `if then else` 结构，因为这样 `cond`、`a`、`b` 都需要被分别求值，如果有 side effect 那必然会出现问题。所以需要专门为 `if then else` 提供一个原语。我记得 SICP 有个习题说的就是这个。
