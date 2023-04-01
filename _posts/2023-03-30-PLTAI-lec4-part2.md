@@ -102,4 +102,6 @@ $\mathbf{Exprs}[[a_1, \dots, a_n]]_s = \mathbf{Expr}[[a_1]]_s; \mathbf{Expr}[[a_
 
 ## HW
 
+实现从 AST 到指令集的编译，并在虚拟机上运行。
+
 <https://github.com/Yescafe/language_learning/tree/9c8b376669732ee0219cf4d1a63b7fab369555ec/Rust/pltai/lec4/src>
