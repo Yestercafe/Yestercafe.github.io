@@ -47,7 +47,7 @@ type instr =
 
 Implement the virtual machine in C/C++/Rust.
 
-实现一台能够运行这个新指令集的虚拟机，这个虚拟机是能够做到语言无关的。我这里使用了 Rust 实现，具体代码在：<https://github.com/Yescafe/language_learning/tree/master/Rust/pltai/lec4>。
+实现一台能够运行这个新指令集的虚拟机，这个虚拟机是能够做到语言无关的。我这里使用了 Rust 实现，具体代码在：<https://github.com/Yescafe/language_learning/tree/6515635262c1485a498068d202b472a96eb5a457/Rust/pltai/lec4/src>。
 
 下面说两个重要的部分：
 
