@@ -95,7 +95,7 @@ $serif-secondary: Palatino, 'Palatino LT STD', 'Palatino Linotype', 'Book Antiqu
 $sans-serif: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif !default;
 $monospaced: Monaco, Menlo, Fira Code, Source Code Pro, Ubuntu Mono, Cascadia Code, consolas, monospace !default;
 $kawaii-font: 'Seto';
-$clock: monospace, Monaco, Menlo, $serif-secondary;
+$clock: $monospaced;
 
 @mixin box-sizing($type: border-box) {
   -webkit-box-sizing: $type;
