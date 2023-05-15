@@ -30,7 +30,11 @@ layout: default
   <!-- <h2 class="wikipage-description">{{ page.description }}</h2> -->
   <div class="wikipage-line"></div>
 
+  <div id="toc"></div>
+
   {{ content }}
+
+  <attr id="__bottom"></attr>
 </div>
 
 {% if page.comments %}
@@ -52,3 +56,12 @@ layout: default
 </div>
 
 {% include goto-top.html %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="/assets/js/toc.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+    $('#toc').toc();
+	});
+</script>
