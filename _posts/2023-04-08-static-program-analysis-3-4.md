@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Static Program Analysis - Data Flow Analysis - Applications
-description: 南大《软件分析》课程 03
+description: 南大《软件分析》课程 03、04
 categories: PL
 tags: [PL]
 ---
@@ -44,4 +44,35 @@ A *definition d* at program point p reaches a point q if there is a path from p 
 
 This algorithm can reach a fixed point.
 
+## Live Variables Analysis
 
+如果有一条 path，从程序点 p 开始，在这条 path 上有使用 v 的地方，同时在期间没有被 redefined，那么我们说 v 在 p 处是 alive/live variable。
+
+这个过程看上去跟 reaching definitions analysis 的定义是反的？有什么用？比如现在寄存器占用满了，如果在静态分析时就对变量做 live analysis，那么就可以将 dead variables 从寄存器中替换掉。
+
+Live variables analysis 的 safe-approximation 是 may analysis/over-approximation。
+
+![live-variables-analysis-1](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230513-170744.png)
+
+## Available Expressions Analysis
+
+An expression $x op y$ is available at program point p if:
+
+1. *all* paths from the entry to p *must* pass through the evaluation of $x op y$
+2. after the last evaluation of $x op y$, there is no redefinition of x or y
+
+这个分析应该是为了判断在某一个点，某一个表达式的运算结果能不能复用的。是 must analysis/under-approximation。
+
+有一个特别的情况：
+
+![available-expr-analysis-1](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230513-172608.png)
+
+这在最下面的 BB 中，$e^{16} * x$ 依然是 available 的，原因图上有。
+
+safe-approximation 要保证的是一定不能误报，要根据场合选择用 under/over。即为了达到 soundness，比如对优化而言，宁可不优化也不能去做错优化。
+
+![available-expr-analysis-2](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230513-173244.png)
+
+## Analysis Comparison
+
+![comparison](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230513-183950.png)
