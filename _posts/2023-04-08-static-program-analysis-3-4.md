@@ -16,7 +16,7 @@ How application-specific data flows on through nodes (BBs/statements) and edges 
 
 在每一个 data-flow analysis 应用中，我们把每一个 program point 关联到一个 data-flow value，这样的 data-flow value 代表的是在那一点可能的 program state 的抽象。
 
-![prelim1](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230408-143120.png)
+![prelim1](/images/posts/2023-04-08-static-program-analysis-3-4.assets/QQ20230408-143120.png)
 
 Data-flow analysis is to find a solution to a set of safe-approximation-directed constraints on the IN[s]’s and OUT[s]’s, for all statements s.
 - constraints based on semantics of statements (transfer functions)
@@ -36,11 +36,11 @@ A *definition d* at program point p reaches a point q if there is a path from p 
 
 ### Algorithm of Reaching Definitions Analysis
 
-![algo1](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230408-153032.png)
+![algo1](/images/posts/2023-04-08-static-program-analysis-3-4.assets/QQ20230408-153032.png)
 
 ### Why this iterative algorithm can finally stop?
 
-![algo2](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230408-153521.png)
+![algo2](/images/posts/2023-04-08-static-program-analysis-3-4.assets/QQ20230408-153521.png)
 
 This algorithm can reach a fixed point.
 
@@ -52,7 +52,7 @@ This algorithm can reach a fixed point.
 
 Live variables analysis 的 safe-approximation 是 may analysis/over-approximation。
 
-![live-variables-analysis-1](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230513-170744.png)
+![live-variables-analysis-1](/images/posts/2023-04-08-static-program-analysis-3-4.assets/QQ20230513-170744.png)
 
 ## Available Expressions Analysis
 
@@ -65,14 +65,14 @@ An expression $x op y$ is available at program point p if:
 
 有一个特别的情况：
 
-![available-expr-analysis-1](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230513-172608.png)
+![available-expr-analysis-1](/images/posts/2023-04-08-static-program-analysis-3-4.assets/QQ20230513-172608.png)
 
 这在最下面的 BB 中，$e^{16} * x$ 依然是 available 的，原因图上有。
 
 safe-approximation 要保证的是一定不能误报，要根据场合选择用 under/over。即为了达到 soundness，比如对优化而言，宁可不优化也不能去做错优化。
 
-![available-expr-analysis-2](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230513-173244.png)
+![available-expr-analysis-2](/images/posts/2023-04-08-static-program-analysis-3-4.assets/QQ20230513-173244.png)
 
 ## Analysis Comparison
 
-![comparison](/images/posts/2023-04-08-static-program-analysis-3.assets/QQ20230513-183950.png)
+![comparison](/images/posts/2023-04-08-static-program-analysis-3-4.assets/QQ20230513-183950.png)
