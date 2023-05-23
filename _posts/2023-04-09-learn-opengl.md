@@ -119,5 +119,5 @@ OpenGL is a right-handed system:
 
 ## Reference
 1. <https://learnopengl.com/>
-2. <https://github.com/Yescafe/LearnOpenGL> (private currently)
+2. <https://github.com/Yescafe/LearnOpenGL>
 3. <https://learnopengl-cn.github.io/>
