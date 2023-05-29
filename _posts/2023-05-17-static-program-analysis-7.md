@@ -10,7 +10,7 @@ tags: [PL]
 
 ## Method Calls in Java
 
-![jvm-ir-invoke](/images/posts/2023-05-17-static-program-analysis-7-8.md.assets/QQ20230517-204603.png)
+![jvm-ir-invoke](/images/posts/2023-05-17-static-program-analysis-7.md.assets/QQ20230517-204603.png)
 
 ## Method Dispatch of Virtual Calls
 
@@ -31,7 +31,7 @@ tags: [PL]
 
 ## Class Resolution of CHA
 
-![class-resolution-of-CHA](/images/posts/2023-05-17-static-program-analysis-7-8.md.assets/QQ20230517-211857.png)
+![class-resolution-of-CHA](/images/posts/2023-05-17-static-program-analysis-7.md.assets/QQ20230517-211857.png)
 
 ## Features of CHA
 
