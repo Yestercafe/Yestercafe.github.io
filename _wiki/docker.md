@@ -3,22 +3,6 @@ layout: wiki
 title: Docker
 ---
 
-- [Docker CLI](#docker-cli)
-- [Docker Desktop](#docker-desktop)
-- [换源](#换源)
-- [Cheatsheet](#cheatsheet)
-  - [查看正在运行的容器](#查看正在运行的容器)
-  - [运行镜像](#运行镜像)
-  - [启动/停止容器](#启动停止容器)
-  - [连接已启动容器（attach）](#连接已启动容器attach)
-  - [断开当前连接容器连接（detach）](#断开当前连接容器连接detach)
-  - [删除容器](#删除容器)
-  - [查看本地镜像](#查看本地镜像)
-  - [删除本地镜像](#删除本地镜像)
-  - [Diff & Commit（自打包镜像）](#diff--commit自打包镜像)
-- [Dockefile](#dockefile)
-  - [打包为镜像](#打包为镜像)
-
 ## Docker CLI
 
 ```bash

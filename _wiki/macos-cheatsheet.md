@@ -3,40 +3,6 @@ layout: wiki
 title: MacOS Cheatsheet
 ---
 
-- [系统管理](#系统管理)
-  - [Recovery 模式](#recovery-模式)
-  - [Time Machine](#time-machine)
-  - [搭载 T2 芯片的 MacBook 重置 SMC](#搭载-t2-芯片的-macbook-重置-smc)
-  - [重置 NVRAM 和 PRAM](#重置-nvram-和-pram)
-- [Dock 栏、Finder、Desktop 等](#dock-栏finderdesktop-等)
-  - [重置 Dock 栏（包括图标摆设和 Dock 栏设置）](#重置-dock-栏包括图标摆设和-dock-栏设置)
-  - [重置 Launchpad 布局](#重置-launchpad-布局)
-  - [修改 Dock 栏图标大小](#修改-dock-栏图标大小)
-  - [修改 Launchpad 显示图标行列数量](#修改-launchpad-显示图标行列数量)
-  - [修改 Dock 栏自动隐藏时指针悬浮后显示的响应时间](#修改-dock-栏自动隐藏时指针悬浮后显示的响应时间)
-  - [修改 Dock 栏显示或自动隐藏的动画时间](#修改-dock-栏显示或自动隐藏的动画时间)
-  - [关闭切换应用时自动切换 Desktop/workspace](#关闭切换应用时自动切换-desktopworkspace)
-  - [启动长按按键连续输入](#启动长按按键连续输入)
-  - [修改截图保存路径](#修改截图保存路径)
-  - [修正 Finder 中的一些图标位置错位的异常](#修正-finder-中的一些图标位置错位的异常)
-  - [修复桌面图标消失、无法右击](#修复桌面图标消失无法右击)
-  - [强制开启 HiDPI](#强制开启-hidpi)
-- [软件问题](#软件问题)
-  - [解决 Homebrew update 过慢的问题](#解决-homebrew-update-过慢的问题)
-  - [修复 App 损坏](#修复-app-损坏)
-- [macOS Big Sur 相关](#macos-big-sur-相关)
-  - [修复 TNT 破解版 Parallels Desktop 16 在 macOS Big Sur 中的网络初始化问题](#修复-tnt-破解版-parallels-desktop-16-在-macos-big-sur-中的网络初始化问题)
-  - [VSCode 内建终端卡顿](#vscode-内建终端卡顿)
-- [Homebrew](#homebrew)
-  - [Nerd Font](#nerd-font)
-  - [Emacs plus](#emacs-plus)
-- [杂类整合](#杂类整合)
-  - [允许所有来源下载的 App](#允许所有来源下载的-app)
-  - [修复刚开机的锁屏界面壁纸始终为默认的问题（重建锁屏壁纸缓存）](#修复刚开机的锁屏界面壁纸始终为默认的问题重建锁屏壁纸缓存)
-  - [修改 VMware Fusion 中的虚机网络 IP 地址段](#修改-vmware-fusion-中的虚机网络-ip-地址段)
-  - [关于 `._` 开头的文件](#关于-_-开头的文件)
-- [外链](#外链)
-
 ## 系统管理
 
 ### Recovery 模式
