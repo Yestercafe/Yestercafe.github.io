@@ -1,6 +1,6 @@
 ---
 layout: wiki
-title: Agda Cheatsheet
+title: Agda
 ---
 
 ## 安装

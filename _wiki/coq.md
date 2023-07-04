@@ -1,6 +1,6 @@
 ---
 layout: wiki
-title: Coq Cheatsheet
+title: Coq
 ---
 
 ## Emacs
