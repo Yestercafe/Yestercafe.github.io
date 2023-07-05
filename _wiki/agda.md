@@ -58,3 +58,13 @@ Agda 的 Emacs 配置不在 ELPA 中。使用 cabal 或 stack 安装完 Agda 后
 
 而后可以在 Agda 代码中使用 `M-x agda2-mode` 激活 Agda mode。
 
+键绑定表：
+
+| 功能 | agda2-mode 默认 | zero.emacs 默认 |
+| --- | --- | --- |
+| 加载文件 | C-c C-l |  |
+| 分项 | C-c C-c |  |
+| 填洞 | C-c C-SPC | C-c SPC |
+| 用构造子精化 | C-c C-r |  |
+| 自动填洞 | C-c C-a |  |
+
