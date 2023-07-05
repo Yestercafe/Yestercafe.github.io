@@ -68,3 +68,4 @@ Agda 的 Emacs 配置不在 ELPA 中。使用 cabal 或 stack 安装完 Agda 后
 | 用构造子精化 | C-c C-r |  |
 | 自动填洞 | C-c C-a |  |
 
+使用 `M-x quail-show-key` 可以在 mini buffer 中查看当前 Unicode 字符的输入方式。
