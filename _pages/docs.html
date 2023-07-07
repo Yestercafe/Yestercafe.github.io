@@ -4,23 +4,28 @@ title: "Docs"
 permalink: /docs/
 ---
 
-<div style="margin-top: 20px" />
-<h1>Docs</h1>
+<div class="docs">
+  <div class="docs-header">
+    <h1 class="docs-header-title">{{ page.title }}</h1>
+    <div class="docs-header-line"></div>
+  </div>
+  <ul>
+  {% assign pdfs = site.static_files | where: "extname", ".pdf" | sort: "basename" %}
+  {% assign typs = site.static_files | where: "extname", ".typ" | map: "path" %}
+  {% assign texs = site.static_files | where: "extname", ".tex" | map: "path" %}
 
-{% assign pdfs = site.static_files | where: "extname", ".pdf" %}
-{% assign typs = site.static_files | where: "extname", ".typ" | map: "path" %}
-{% assign texs = site.static_files | where: "extname", ".tex" | map: "path" %}
-
-{% for pdf in pdfs %}
-    <li>
-      <a href="{{ pdf.path | prepend: site.baseurl }}">{{ pdf.basename }}</a>
-      {% assign typst_source_path = pdf.path | replace: pdf.extname, ".typ" %}
-      {% if typs contains typst_source_path %}
-        <a style="font-size:11px" href="{{ typst_source_path | prepend: site.baseurl }}">(src)</a>
-      {% endif %}
-      {% assign tex_source_path = pdf.path | replace: pdf.extname, ".tex" %}
-      {% if texs contains tex_source_path %}
-        <a style="font-size:11px" href="{{ tex_source_path | prepend: site.baseurl }}">(src)</a>
-      {% endif %}
-    </li>
-{% endfor %}
+  {% for pdf in pdfs %}
+      <li class="docs-item">
+        <a class="docs-item-pdf" href="{{ pdf.path | prepend: site.baseurl }}">{{ pdf.basename | replace: "_", " " }}</a>
+        {% assign typst_source_path = pdf.path | replace: pdf.extname, ".typ" %}
+        {% if typs contains typst_source_path %}
+          <a class="docs-item-src" href="{{ typst_source_path | prepend: site.baseurl }}">src</a>
+        {% endif %}
+        {% assign tex_source_path = pdf.path | replace: pdf.extname, ".tex" %}
+        {% if texs contains tex_source_path %}
+          <a class="docs-item-src" href="{{ tex_source_path | prepend: site.baseurl }}">src</a>
+        {% endif %}
+      </li>
+  {% endfor %}
+  </ul>
+</div>

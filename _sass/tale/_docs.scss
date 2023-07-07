@@ -1,0 +1,49 @@
+.docs {
+  &-header {
+    &-title {
+      color: $default-shade;
+      font-family: $serif-primary;
+      font-size: 3rem;
+      margin: 1rem 0;
+      margin-top: 2rem;
+      text-align: center;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-shade;
+      }
+    }
+
+    &-line {
+      border-top: 0.4rem solid $default-shade;
+      display: block;
+      margin: 0 auto 3rem;
+      width: 4rem;
+
+      @media (prefers-color-scheme: dark) {
+        border-top: 0.4rem solid $dark-default-shade;
+      }
+    }
+  }
+
+  &-item {
+    list-style: decimal-leading-zero;
+    line-height: 1rem;
+
+    &-pdf {
+      font-size: 24px;
+    }
+
+    &-src {
+      margin-left: 2px;
+      font-size: 12px;
+    }
+
+    a:hover {
+      color: $preset4;
+
+      @media (prefers-color-scheme: dark) {
+        color: $preset3;
+      }
+    }
+  }
+}
