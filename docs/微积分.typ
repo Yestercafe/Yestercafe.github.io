@@ -14,7 +14,7 @@
 #let example(text) = {
   tweet(bgcolor: blue, text)
 }
-#let attach(text) = {
+#let addition(text) = {
   tweet(bgcolor: maroon, text)
 }
 #let important(text) = {
@@ -22,6 +22,10 @@
 }
 #let todo(text) = {
   tweet(bgcolor: black, text)
+}
+#let col2(a, b, gutter: 50pt) = {
+  set align(center)
+  grid(columns: 2, column-gutter: gutter, a, b)
 }
 
 
@@ -211,7 +215,7 @@ $ lim_(x->0) (1 + x) ^ (1/x) = e "(a)" $
 $ lim_(x->infinity) (1 - 1/x)^x = 1/e $
 $ lim_(x->infinity) (1 + a / x)^(b x+c) = e^(a b) $
 
-#attach[第一重要极限是 $0/0$ 型，第二重要极限是 $1^infinity$ 型。]
+#addition[第一重要极限是 $0/0$ 型，第二重要极限是 $1^infinity$ 型。]
 
 #tweet[
 求幂指函数 $f(x)^(g(x))$ 的极限，常用以下方法：
@@ -246,7 +250,7 @@ $ lim_(x->infinity) (1 + a / x)^(b x+c) = e^(a b) $
 + $ln(1 + x) ~ x, e^x - 1 ~ x, a^x - 1 ~ x ln a$
 + $(1 + x)^alpha - 1 ~ alpha x (alpha != 0) "（"alpha" 为 "1/n" 做开方时一样有效）"$
 + $sqrt(1 + x) - sqrt(1 - x) ~ x$
-#attach[这里的 $x$ 都换成无穷小量 $alpha(x)$ 一样成立。]
+#addition[这里的 $x$ 都换成无穷小量 $alpha(x)$ 一样成立。]
 ]
 
 ==== 洛必达法则
@@ -309,7 +313,7 @@ $ (1+x)^alpha = 1 + alpha x + (alpha (alpha + 1)) / (2!) x^2 + dots + (alpha (al
 
 这三条与连续#strong[互为充要]。
 
-#attach[
+#addition[
 另外，连续是可以推极限存在的。\
 连续也分左连续和右连续，充要也跟左右极限相仿。]
 
@@ -378,7 +382,7 @@ $ lim_(x->x_0) f[phi(x)] = f[lim_(x->x_0) phi(x)] = f(u_0) $\
   $ lim_(Delta x -> 0) (Delta y)/(Delta x) = lim_(Delta x -> 0) (f(x_0 + Delta x) - f(x_0))/(Delta x) $
   存在，则称 $f(x)$ #strong[在点 $x_0$ 处可导]，并称此极限值为 $f(x)$ #strong[在 $x_0$ 处的导数]，记为 $f'(x_0)$，或 $y'\|_(x-x_0)$，或 $(d y)/(d x)\|_(x=x_0)$；如果上述极限不存在，则称 $f(x)$ 在点 $x_0$ 处不可导。
 
-#attach[
+#addition[
 $ f'(x_0) = lim_(x->x_0) (f(x) - f(x_0))/(x - x_0) = lim_(h->0) (f(x_0 + h) - f(x_0)) / h $
 ]
 
@@ -502,7 +506,7 @@ $ d y = f'(x) d x $
 
 / 拉格朗日中值定理: 设 $f(x)$ 在闭区间上连续在开区间上可导，则至少存在一点 $xi in (a, b)$ 使 $f(b) - f(a) = f'(xi) (b - a)$。
 
-/ 柯西中值定理: 有良定义 $f(x), g(x)$，$g'(x) != 0, x in (a, b)$，则至少存在一点 $xi in (a, b)$ 使
+/ 柯西中值定理: 设有闭连开导的 $f(x), g(x)$，$g'(x) != 0, x in (a, b)$，则至少存在一点 $xi in (a, b)$ 使
   $ (f(b) - f(a)) / (g(b) - g(a)) = (f'(xi)) / (g'(xi)) $
 
 #todo[证明方法相关暂且不看。]
@@ -594,6 +598,179 @@ $ d y = f'(x) d x $
 / 定义: 若曲线 $y = f(x)$ 在点 $M(x, y)$ 处的曲率为 $K, K != 0$。在点 $M$ 处曲线的法线上，在曲线凹的一侧取一点 $D$，使 $|D M| = rho$，以 $D$ 为圆心，$rho$ 为半径的圆称为曲线在点 $M$ 处的#strong[曲率圆]，圆心 $D$ 称为曲线在点 $M$ 处的#strong[曲率中心]。
 
 = 一元函数积分学
+
+/ 定义: 设 $F'(x) = f(x), x in (a, b)$，则称 $F(x)$ 为 $f(x)$ 在 $(a, b)$ 上的一个原函数。后方中省略“在 $(a, b)$ 上”。
+
+$f(x)$ 的原函数族表示 $f(x)$ 的#strong[不定积分]，记成
+
+$
+integral f(x) d x = F(x) + C
+$
+
+不定积分和导数在某种意义上互为逆运算。
+
+/ 定积分: 按定积分的老传统做分割，当下面的右式极限存在时，则称 $f(x)$ 在 $[a, b]$ 上可积，并称之为 $[a, b]$ 上的定积分
+  $ integral_a^b f(x) d x = lim_(lambda -> 0) sum_(i = 1)^n f(xi_i) Delta x_i $
+  其中 $lambda = limits(max)_(1 <= i <= n){Delta x_i}$。
+
+== 基本性质
+
+定积分的几何意义就是围成曲面梯形的面积。
+
+- 常规的求反、加减、系数、拼接等
+- 若 $f(x) <= g(x), a <= b$，则 $integral_a^b f(x) d x <= integral_a^b g(x) d x$
+- 若有在闭区间 $[a, b]$ 上连续的 $f(x), g(x)$，$f(x) <= g(x)$，且至少存在点 $x_1, a <= x_1 <= b$，使 $f(x_1) < g(x_1)$，则 $integral_a^b f(x) d x < integral_a^b g(x) d x$
+
+#tweet[简单说就是这个区间内只要有一处是 $f(x) < g(x)$，就会破坏 $integral f(x) = integral g(x)$ 的可能，使之缩窄为 $integral f(x) < integral g(x)$]
+
+- 加强的#strong[积分中值定理]：设 $f(x)$ 在 $[a, b]$ 上连续，则至少存在一点 $xi in (a, b)$ 使
+  $ integral_a^b f(x) d x = f(xi) (b - a) $ 
+
+/ 定积分存在定理:
+  (1) 设 $f(x)$ 在 $[a, b]$ 上连续，则 $integral_a^b f(x) d x$ 存在\
+  (2) 设 $f(x)$ 在 $[a, b]$ 上有界，且只有有限个间断点，则 $integral_a^b f(x) d x$ 存在
+
+/ 原函数存在定理: 设 $f(x)$ 在 $[a, b]$ 上连续，则在 $[a, b]$ 上必存在原函数。
+
+#addition[
++ 如果不连续则不一点存在原函数。
++ 初等函数在定义区间上都连续，但是它们的原函数不一定能表示成初等函数。
+]
+
+=== 变限积分
+
+/ 定义: 设 $f(x)$ 在 $[a, b]$ 上可积，对 $x in [a, b]$，$f(x)$ 在 $[a, x]$ 上可积，于是\
+  $ Phi(x) = integral_a^x f(t) d t, x in [a, b] $\
+  定义了一个以 $x$ 为自变量的函数，称为#strong[变上限的定积分]；\
+  类似地，定义#strong[变下限的定积分]为\
+  $ Phi(x) = integral_x^b f(t) d t, x in [a, b] $\
+  统称为#strong[变限积分]。
+
+设一在闭区间 $[a, b]$ 上连续的 $f(x)$，则 $(integral_a^x f(t) d t)'_x = f(x), x in [a, b]$。由此，$integral_a^x f(t) d t$ 是 $f(x)$ 的一个原函数，所以有
+$
+integral f(x) d x = integral_a^x f(x) d t + C
+$
+
+
+/ 牛顿-莱布尼茨定理: 设 $f(x)$ 在 $[a, b]$ 上连续，$F(x)$ 是 $f(x)$ 的一个原函数，则\
+  $ integral_a^b f(x) d x = F(x) \|_a^b = F(b) - F(a) $
+
+#tweet[前有莱布尼兹公式，现有牛顿-莱布尼茨定理，我寻思这两不是一个人？]
+
+== 不定积分与定积分的计算
+
+=== 基本积分公式
+
+提供一部分作为 cheatsheet：
+
+#col2(
+$ integral tan x d x = -ln abs(cos x) + C $,
+$ integral cot x d x = -ln abs(sin x) + C $
+)
+#col2(
+$ integral sec x d x = ln abs(sec x + tan x) + C $,
+$ integral csc x d x = ln abs(csc x - cot x) + C $
+)
+#col2(
+$ integral 1 / (a^2 + x^2) d x = 1/a arctan x/a + C $,
+$ integral 1 / (a^2 - x^2) d x = 1 / (2a) ln abs((a + x) / (a - x)) + C $
+)
+#col2(
+$ integral 1 / sqrt(a^2 - x^2) d x = arcsin x/a + C $,
+$ integral 1 / sqrt(x^2 plus.minus a^2) d x = ln abs(x + sqrt(x^2 plus.minus a^2)) + C $
+)
+
+=== 基本积分方法
+
+==== 凑微分法（第一换元法）
+
+设 $f(u)$ 连续，$phi(x)$ 具有连续的一队导数，则有公式：
+$
+integral f(phi(x)) phi'(x) d x = integral f(phi(x)) d phi(x) attach(limits(=), t: 令 phi(x) = u) integral f(u) d u
+$
+
+==== 换元积分法（第二换元法）
+
+设 $f(x)$ 连续，$x = phi(t)$ 具有连续导数 $phi'(t)$，且 $phi'(t) != 0$，则
+$
+integral f(x) d x attach(limits(=), t: x = phi(t)) lr((integral f(phi(t)) phi'(t) d t) |)_(t = psi(x))
+$
+
+其中 $t = psi(x)$ 是 $x = phi(t)$ 的反函数。
+
+==== 常见典型换元
+
+- $integral R(x, sqrt(a^2 - x^2)) d x, integral R(x, sqrt(x^2 plus.minus a^2))$ 型，$a > 0$：\
+  + 含 $sqrt(a^2 - x^2)$，令 $x = a sin t, d x = a cos t d t$\
+  + 含 $sqrt(x^2 + a^2)$，令 $x = a tan t, d x = a sec^2 t d t$\
+  + 含 $sqrt(x^2 - a^2)$，令 $x = a sec t, d x = a sec t tan t d t$\
+- $integral R(x, root(n, a x + b), root(m, a x + b)) d x$ 型，$a != 0$：\
+  令 $root(m n, a x + b) = t, x = (t^(m n) - b) / a, d x = (m n) / a t^(m n - 1) d t$
+- $integral R(x, sqrt((a x + b)/(c x + d)))$ 型\
+  令 $sqrt((a x + b)/(c x + d)) = t, x = (d t^2 - b)/(a - c t^2), d x = (2(a d - b c) t) / (a - c t^2)^2 d t$，其中设 $a d - b c != 0$
+- $integral R(sin x, cos x) d x$ 型（万能代换#text(red)[但变复杂警告]）\
+  令 $tan x/2 = t$，则 $sin x = (2t) / (1 + t^2), cos x = (1 - t^2) / (1 + t^2), d x = 2 / (1 + t^2) d t$
+
+#tweet[分段函数分段积分，但在分段点处，原函数可导，一定连续，因为面积只可能连续变换。]
+
+==== 定积分的换元积分
+
+设 $f(x)$ 在 $[a, b]$ 上连续，$x = phi(t)$ 满足条件：$a = phi(alpha), b = phi(beta)$，并且当 $t$ 在以 $alpha, beta$ 为端点的闭区间 $I$ 上变动时，$a <= phi(t) <= b$，$phi'(t)$ 连续，则有定积分的换元积分公式
+$
+integral_a^b f(x) d x = integral_alpha^beta f(phi(t)) phi'(t) d t
+$
+
+#tweet[
+注意这里求 alpha 和 beta 类似 pattern matching：\
+#col2(
+$ phi(alpha) = a $,
+$ phi(beta) = b $,
+gutter: 75pt
+)
+是要求 $phi(square) = a$ 这里应该填什么，而不是 $phi(a) = square$ 这里的结果是什么。
+]
+
+==== 分部积分
+
+/ 分部积分法: 设 $u(x), v(x)$ 均有连续导数，则\
+  $ integral u(x) d v(x) = u(x) v(x) - integral v(x) d u(x) $\
+  对于定积分：
+  $ integral_a^b u(x) d v(x) = u(x) v(x) \|_a^b - integral_a^b v(x) d u(x) $
+
+#tweet[
+常见用分部积分的型：
+- $e^x, sin x, cos x$ 与 $x^n$ 的积考虑把前者拿到后面
+- $ln x, arctan x, arcsin x$ 与 $x^n$ 的积考虑把后者拿到后面
+- $e^x$ 与 $sin x, cos x$ 的积可以做两次
+]
+
+==== 非常好用的定积分公式
+
+1. \
+$ integral_0^a sqrt(a^2 - x^2) d x = 1/4 pi a^2, integral_(-a)^a sqrt(a^2 - x^2) d x = 1/2 pi a^2"（半圆面积）" $
+2. 设 $f(x)$ 在 $[-a, a] (a > 0)$ 上是连续的偶函数，则\
+$ integral_(-a)^a f(x) d x = 2 integral_0^(a) f(x) d x $
+3. 设 $f(x)$ 在 $[-a, a] (a > 0)$ 上是连续的奇函数，则\
+$ integral_(-a)^a f(x) d x = 0 $
+4. 设 $f(x)$ 在 $(-infinity, infinity)$ 内是以 $T$ 为周期的连续函数，则对于任意的常数 $a$，恒有
+#col2(
+$ integral_a^(a + T) f(x) d x = integral_0^T f(x) d x $,
+$ integral_a^(a + n T) f(x) d x = n integral_0^T f(x) d x, n in NN $
+)
+5. 华里士公式（#text(orange)[点火公式]）：
+$
+integral_0^(pi/2) sin^n x d x &= integral_0^(pi/2) cos^n x d xi\
+&= cases(
+(n - 1)/n dot (n - 3)/(n - 2) dot dots dot 1/2 dot pi / 2","space n ident 0 (mod 2),
+(n - 1)/n dot (n - 3)/(n - 2) dot dots dot 2/3 dot 1","space n ident 1 (mod 2),
+)
+$\
+特别的：$
+I_0 = pi/2\
+I_1 = 1\
+$
+6. $f(x)$ 连续，有\
+$ integral_0^pi x f(sin x) d x = pi/2 integral_0^pi f(sin x) d x $
 
 
 
