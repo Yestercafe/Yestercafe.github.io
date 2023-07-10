@@ -759,7 +759,7 @@ $ integral_a^(a + n T) f(x) d x = n integral_0^T f(x) d x, n in NN $
 )
 5. 华里士公式（#text(orange)[点火公式]）：
 $
-integral_0^(pi/2) sin^n x d x &= integral_0^(pi/2) cos^n x d xi\
+integral_0^(pi/2) sin^n x d x &= integral_0^(pi/2) cos^n x d x\
 &= cases(
 (n - 1)/n dot (n - 3)/(n - 2) dot dots dot 1/2 dot pi / 2","space n ident 0 (mod 2),
 (n - 1)/n dot (n - 3)/(n - 2) dot dots dot 2/3 dot 1","space n ident 1 (mod 2),
@@ -772,5 +772,162 @@ $
 6. $f(x)$ 连续，有\
 $ integral_0^pi x f(sin x) d x = pi/2 integral_0^pi f(sin x) d x $
 
+== 反常积分
+
+/ 无穷区间上的反常积分: 设 $f(x)$ 在 $[a, +infinity)$ 上连续，称\
+  $ integral_a^(+infinity) f(x) d x = lim_(b->+infinity) integral_a^b f(x) d x $\
+  为 $f(x)$ 在 $[a, +infinity)$ 上的反常积分，若右边极限存在，称此反常积分收敛；若该极限不在上称此反常积分发散。\
+  类似地可以定义 $ integral_(-infinity)^b f(x) d x = lim_(a->-infinity) integral_a^b f(x) d x $\
+  及 $ integral_(-infinity)^(+infinity) f(x) d x = integral_(-infinity)^c f(x) d x + integral_c^(+infinity) f(x) d x $\
+  其中 $c in (-infinity, +infinity)$。
+
+/ 无界函数的反常积分: 设 $f(x)$ 在区间 $[a, b)$ 上连续，且 $lim_(x->b^-) f(x) = infinity$ ，称\
+  $ integral_a^b f(x) d x = lim_(beta->b^-) integral_a^beta f(x) d x $\
+  为 $f(x)$ 在区间 $[a, b)$ 上的反常积分（也称瑕积分），若右边极限存在，则称反常积分收敛；若该极限不存在，称此反常积分发散。使 $f(x)->infinity$ 的点 $b$ 称为 $f(x)$ 的奇点（也称瑕点）。\
+  类似的，若 $a$ 是奇点，有\
+  $ integral_a^b f(x) d x = lim_(alpha->a+) integral_alpha^b f(x) d x $\
+  若 $a, b$ 都是奇点，有\
+  $ integral_a^b f(x) d x = integral_a^(x_0) f(x) d x + integral_(x_0)^b f(x) d x, a < x_0 < b $\
+  若在开区间 $(a, b)$ 内部点 $c$ 为奇点，则反常积分定义为\
+  $ integral_a^b f(x) d x = integral_a^c f(x) d x + integral_c^b f(x) d x $
+  
+=== 对称区间上奇、偶函数的反常积分
+
+- 设 $f(x)$ 在 $(-infinity, +infinity)$ 上连续，#text(red)[$integral_0^(+infinity) f(x) d x$ 收敛]，则
+  $
+  integral_(-infinity)^(+infinity) f(x) d x = cases(0"（奇函数）", 2 integral_0^(+infinity) f(x) d x"（偶函数）")
+  $
+- 设 $f(x)$ 在 $[-a, a]$ 上除了 $x = plus.minus c$ 外均连续，$x = plus.minus c$ 为 $f(x)$ 的奇点，$0 <= c <= a$，#text(red)[$integral_0^a f(x) d x$ 收敛]，则
+  $
+  integral_(-a)^a f(x) d x = cases(0"（奇函数）", 2 integral_0^a f(x) d x"（偶函数）")
+  $
+
+*一个重要的反常积分：*\
+$
+integral_(-infinity)^(+infinity) e^(-x^2) d x = 2 integral_0^(+infinity) e^(-x^2) d x = sqrt(pi)
+$
+
+== 定积分的应用
+
+=== 平面图形面积
+
+- 极坐标曲线 $r = r(theta)$ 介于两射线 $theta = alpha$ 与 $theta = beta (0 < beta - alpha <= 2pi)$ 之间的曲边扇形的面积\
+  $ S = 1/2 integral_alpha^beta r^2(theta) d theta $
+- 由参数方程 $cases(x = x(t), y = y(t)), alpha <= t <= beta$ 所围成平面图形的面积为\
+  $ S = integral_alpha^beta |y(t) x'(t)| d t $\
+  或\
+  $ S = integral_alpha^beta |x(t) y'(t)| d t $
+
+=== 旋转体体积
+
+- 曲线 $y = y(x)$ 与 $x = a, x = b, x$ 轴围成的曲边梯形绕 $x$ 轴旋转一周所成的旋转体体积\
+  $ V = pi integral_a^b y^2(x) d x, a < b $\
+  绕 $y$ 轴旋转一周所得旋转体体积为\
+  $ V = 2 pi integral_a^b x y(x) d x, (y(x) >= 0, b >= a >= 0) $
+#tweet[
+第一个积分是一个曲边梯台，每个 $Delta x$ 的片的截面积是 $pi y^2(x)$，所以这个小切片的体积就是 $ pi y^2(x) dot Delta x$，然后要对 $[a, b]$ 范围内的所有 $pi y^2(x) dot Delta x$ 求和，即可得到该积分式。
+
+第二个积分是一个甜甜圈，对每个 $Delta x$ 的图形都是个很薄的圆筒，圆筒的高是 $y(x) - 0$，然后把这个圆筒展开可知它的底面积是周长乘上一个圆筒厚度，即 $2 pi x dot Delta x$，所以这个圆筒的体积是 $2 pi x dot Delta x dot y(x)$。最后对 $[a, b]$ 的所有圆筒的体积求和即可得该积分式。
+]
+
+- 曲线 $y = y_2(x), y = y_1(x), x = a, x = b (y_2(x) >= y_1(x) >= 0)$ 围成的图形绕 $x$ 轴旋转一周所成的旋转体体积\
+  $ V = pi integral_a^b [y_2^2(x) - y_1^2(x)] d x, a < b $
+
+- 曲线 $y = y_2(x), y = y_1(x), x = a, x = b (b > a >= 0, y_2(x) >= y_1(x) >= 0)$ 围成的图形绕 $y$ 轴旋转一周所成的旋转体体积\
+  $ V = 2 pi integral_a^b x(y_2(x) - y_1(x)) d x $
+
+#tweet[结合二维面积做减法做类比，这两个式子都 make sense。]
+
+=== 函数平均值
+
+设 $x in [a, b]$，函数 $f(x)$ 在 $[a, b]$ 上的平均值为
+$
+overline(f) = 1/(b - a) integral_a^b f(x) d x
+$
+
+=== 平面曲线弧长
+
+- 参数方程曲线 $cases(x = x(t), y = y(t)), alpha <= t <= beta$ 的弧长（其中 $x'(t)$ 与 $y'(t)$ 均连续，且不同时为零）\
+  $ s = integral_alpha^beta sqrt(x'^2(t) + y'^2(t)) d t $
+- 直角坐标 $y = y(x), a <= x <= b$ 的弧长（其中 $y'(x)$ 连续）
+  $ s = integral_a^b sqrt(1 + y'^2(x)) d x $
+- 极坐标曲线 $r = r(theta), alpha <= theta <= beta$ 的弧长（其中 $r(theta), r'(theta)$ 连续, 且不同时为零）
+  $ s = integral_alpha^beta sqrt(r^2(theta) + r'^2(theta)) d theta $
+
+=== 旋转曲面面积
+
+在区间 $[a, b]$ 上的曲线 $y = f(x)$ 的弧段绕 $x$ 轴旋转一周所成的旋转曲面面积
+$ S = 2 pi integral_a^b |y| sqrt(1 + f'^2(x)) d x, a < b $
+
+= 向量代数与空间解析几何
+
+== 向量运算
+
+- 数量积：\
+  代数表示：$bold(a) dot bold(b) = a_1 b_1 + a_2 b_2 + a_3 b_3$\
+  几何表示：$bold(a) dot bold(b) = |bold(a)| |bold(b)| cos theta$
+  运算率：交换、分配\
+  几何应用：\
+  - 求模：$|bold(a)| = sqrt(bold(a) dot bold(a))$
+  - 求夹角：$cos theta = (bold(a) dot bold(b))/(|bold(a)||bold(b)|)$
+  - 判断两向量垂直：$bold(a) bot bold(b)$
+- 向量积：代数表示：\
+  $
+  bold(a) times bold(b) = 
+  mat(delim: "|",
+  bold(i), bold(j), bold(k);
+  a_1, a_2, a_3;
+  b_1, b_2, b_3;
+  )
+  $\
+  运算规律：\
+  $bold(a) times bold(b) = -(bold(b) times bold(a))$\
+  $bold(a) times (bold(b) + bold(c)) = bold(a) times bold(b) + bold(a) times bold(c)$\
+  几何应用：\
+  求同时垂直于 $bold(a), bold(b)$ 的向量：$bold(a) times bold(b)$\
+  求以 $bold(a)$ 与 $bold(b)$ 为邻边的平行四边形面积：$S = |bold(a) times bold(b)|$\
+  判定两向量平行：$bold(a) parallel bold(b) <=> bold(a) times bold(b) = bold(0)$\
+- 混合积：\
+  $
+  (bold(a b c)) &= (bold(a) times bold(b)) dot bold(c)
+              &= mat(delim: "|",
+              a_1, a_2, a_3;
+              b_1, b_2, b_3;
+              c_1, c_2, c_3;
+              )
+  $\
+  运算规律：\
+  - $(bold(a b c)) = (bold(b c a)) = (bold(c a b))$\
+  - $(bold(a b c)) = -(bold(a c b))$\
+  几何应用：求以 $bold(a), bold(b), bold(c)$ 为棱的平行六面体体积，$V_("平行六面体") = |(bold(a b c))|$\
+  判定三向量共面：$bold(a), bold(b), bold(c)$ 共面 $<=> (bold(a b c)) = 0$
+
+== 空间解析几何
+
+#tweet[公式太多了，直接查书吧。说几个重要的。]
+
+=== 平面与直线的位置关系
+
+看直线 $L$ 的方向向量 $bold(tau)$ 和平面 $Pi$ 的法向量 $bold(n)$ 的关系：
++ $bold(tau) bot bold(n) <=> L parallel Pi$
++ $bold(tau) parallel bold(n) <=> L bot Pi$
++ $L, Pi$ 的夹角 $theta$：
+  $ sin theta = (bold(tau) dot bold(n))/(|bold(tau)||bold(n)|) $
+
+=== 平面与平面、直线与直线的关系
+
+比法法（或对于直线的话就是比方向向量），法法平行则平面平行，法法垂直则平面垂直，夹角把平面与直线那个 $sin theta$ 换成 $cos theta$ 即可，make sense。
+
+=== 点到面的距离
+
+点 $(x_0, y_0, z_0)$ 到平面 $Pi(x, y, z) attach(limits(=), t: triangle.t) A x + B y + C z + D = 0$ （法向量 $bold(n)$）的距离
+$ d = (|P(x_0, y_0, z_0)|)/|bold(n)| = (|A x_0 + B y_0 + C z_0 + D|)/sqrt(A^2 + B^2 + C^2) $
+
+=== 点到直线的距离
+
+点 $(x_0, y_0, z_0)$ 到直线 $(x - x_1) / l = (y - y_1) / m = (z - z_1) / n$ 的距离为
+$ d = (|(x_1 - x_0, y_1 - y_0, z_1 - z_0) times (l, m, n)|)/sqrt(l^2 + m^2 + n^2) $
+
+= 多元函数微分学
 
 
