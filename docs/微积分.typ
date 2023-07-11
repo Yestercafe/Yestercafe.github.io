@@ -657,6 +657,13 @@ $
 
 #tweet[前有莱布尼兹公式，现有牛顿-莱布尼茨定理，我寻思这两不是一个人？]
 
+计算公式：
+
+$
+d / (d x) integral_(psi(x))^(phi(x)) f(t) d t = f(phi(x)) phi'(x) - f(psi(x)) psi'(x)
+$
+
+
 == 不定积分与定积分的计算
 
 === 基本积分公式
@@ -771,12 +778,6 @@ I_1 = 1\
 $
 6. $f(x)$ 连续，有\
 $ integral_0^pi x f(sin x) d x = pi/2 integral_0^pi f(sin x) d x $
-
-== 变限积分
-
-$
-d / (d x) integral_(psi(x))^(phi(x)) f(t) d t = f(phi(x)) phi'(x) - f(psi(x)) psi'(x)
-$
 
 == 反常积分
 
@@ -1156,8 +1157,123 @@ $
 
 = 多元函数积分学
 
+== 二重积分
 
+=== 定义
 
+/ 定义: 设 $z=f(x, y)$ 是平面上有界闭区域 $D$ 上的有界函数
+  $ limits(integral.double)_D f(x, y) d sigma attach(limits(=), t: triangle.t) lim_(d->0) sum_(k=1)^(n) f(xi_k, eta_k) Delta sigma_k $
+
+#tweet[这个 $D$ 放在 $integral.double$ 底下比较难写，后面就放在右下了。但是事实上这么写是不对的。]
+
+/ 几何意义: 由 $D$ 为底，侧面是以 $D$ 的边界为准线、母线平行于 $z$ 轴的柱面的曲顶柱体体积。当然要注意函数值正负的意义。
+
+=== 性质
+
+/ 比较定理: 如果在 $D$ 上，$f(x, y) <= g(x, y)$，则\
+$ integral.double_D f(x, y) d sigma <= integral.double_D g(x, y) d sigma $
+
+/ 估值定理: 设 $M, m$ 分别为连续函数 $f(x, y)$ 在闭区域 $D$ 上的最大值和最小值，$S$ 表示区域 $D$ 的面积，则
+  $ m S <= integral.double_D f(x, y) d sigma <= M S $
+
+/ 中值定理: 设函数 $f(x, y)$ 在闭区域 $D$ 上连续，$S$ 为 $D$ 的面积，则在 $D$ 上至少存在一点 $(xi, eta)$，使
+  $ integral.double_D f(x, y) d sigma = f(xi, eta) S $
+
+=== 计算
+
+==== 直角坐标
+
+若积分域 $D$ 由不等式 $cases(phi_1(x) <= y <= phi_2(x), a <= x <= b)$ 确定，则该区域 $D$ 上的二重积分适合化成先 $y$ 后 $x$ 的累次积分，且\
+$
+integral.double_D f(x, y) d sigma = integral_a^b d x integral_(phi_1(x))^(phi_2(x)) f(x, y) d y
+$
+
+若积分域 $D$ 由不等式 $cases(psi_1(y) <= x <= psi_2(y), a <= y <= b)$ 确定，则该区域 $D$ 上的二重积分适合化成先 $x$ 后 $y$ 的累次积分，且\
+$
+integral.double_D f(x, y) d sigma = integral_a^b d y integral_(psi_1(y))^(psi_2(y)) f(x, y) d x
+$
+
+#addition[
+累次积分\
+$
+integral_a^b [integral_c^d f(x, y) d y] d x
+$\
+为了书写简便写成\
+$
+integral_a^b d x integral_c^d f(x, y) d y
+$\
+的形式
+#tweet[所以这玩意其实是先算里面再算外面，就像是良定义下两泛函 $F, G$，有 $ G(F(f)) = G compose F(f) $]
+]
+
+==== 极坐标
+
+极坐标下的计算要分 4 种情况，但是统一起来也就一个主要公式：
+$
+integral.double_D f(x, y) d sigma = integral_alpha^beta d theta integral_(r_1(theta))^(r_2(theta)) f(r cos theta, r sin theta) r d theta
+$
+
+== 三重积分
+
+=== 定义
+
+$
+limits(integral.triple)_Omega f(x, y, z) d v = lim_(d->0) sum_(k=1)^n f(xi_k, eta_k, zeta_k) Delta v_k
+$
+
+=== 计算
+
+*先单后重*
+
+$
+limits(integral.triple)_Omega f(x, y, z) d v = limits(integral.double)_(D_(x y)) d x d y integral_(z_1(x, y))^(z_2(x, y)) f(x, y, z) d z
+$
+
+*先重后单*
+
+$
+limits(integral.triple)_Omega f(x, y, z) d v = integral_(c_1)^(c_2) d z limits(integral.double)_(D_z) f(x, y, z) d x d y
+$
+
+*柱坐标*
+
+柱坐标与直角坐标的关系为
+
+$
+cases(
+x = r cos theta\, 0 <= r < +infinity,
+y = r sin theta\, 0 <= theta <= 2 pi,
+z = z\, -infinity < z < +infinity
+)
+$
+
+体积微元：$d v = r d r d theta d z$
+
+$
+limits(integral.triple)_Omega f(x, y, z) d v = limits(integral.triple)_Omega f(r cos theta, r sin theta, z) r d r d theta d z
+$
+
+*球坐标*
+
+球坐标与直角坐标的关系为
+
+$
+cases(
+x = r sin phi cos theta\, 0 <= r < +infinity,
+y = r sin phi sin theta\, 0 <= phi <= pi,
+z = r cos phi\, 0 <= theta <= 2 pi
+)
+$
+
+体积微元：$d v = r^2 sin phi d r d phi d theta$ 
+
+$
+limits(integral.triple)_Omega f(x, y, z) d v = limits(integral.triple)_Omega f(r sin phi cos theta, r sin phi sin theta, r cos phi) r^2 sin phi d r d phi d theta
+$
+
+== 曲线积分
+
+= 无穷级数
 
 
 
