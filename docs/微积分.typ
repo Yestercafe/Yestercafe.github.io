@@ -1275,5 +1275,140 @@ $
 
 = 无穷级数
 
+== 常数项级数
+
+级数 $sum_(n=1)^infinity u_n$ 收敛的必要条件是 $lim_(n->infinity) u_n = 0$。
+
+=== 正项级数的判敛准则
+
+各项都为正数组成的级数称为#strong[正项级数]。
+
+/ 定理: 正项级数 $sum_(n=1)^infinity u_n$ 收敛 $<=>$ 部分和数列 ${S_n}$ 有界
+
+/ 定理: 比较判别法：\
+  若两正项级数 $sum_(n=1)^infinity u_n$ 和 $sum_(n=1)^infinity v_n$，存在某个正数 $N$，当 $n > N$ 时，$u_n <= v_n$，
+  则 $sum_(n=1)^infinity v_n$ 收敛 $=>$ $sum_(n=1)^infinity u_n$ 收敛；$sum_(n=1)^infinity u_n$ 发散 $=>$ $sum_(n=1)^infinity v_n$ 发散。
+
+#tweet[
+这个比较法很 make sense，比发散“更大的”肯定发散，比收敛“更小的”肯定收敛。
+]
+
+/ 推论: 比较判别法的极限形式：设 $lim_(n->infinity) u_n/v_n = l (0 <= l <= +infinity)$，\
+  (1) 若 $0 < l < +infinity$，则 $sum_(n=1)^infinity u_n$ 与 $sum_(n=1)^infinity v_n$ 同敛散\
+  (2) 若 $l = 0$，则 $sum_(n=1)^infinity v_n$ 收敛 $=>$ $sum_(n=1)^infinity$ 收敛\
+  (3) 若 $l = +infinity$，则 $sum_(n=1)^infinity v_n$ 发散 $sum_(n=1)^infinity v_n$ 发散\
+
+/ 比值判别法: 设 $lim_(n->infinity) u_(n+1)/u_n = rho$，则\
+  $
+  sum_(n=1)^infinity u_n = cases(
+  "收敛，"rho < 1,
+  "发散，"rho > 1,
+  "不确定，"rho = 1
+  )
+  $
+
+/ 根值判别法: 设 $lim_(n->infinity) root(n, u_n) = rho$，则\
+  $
+  sum_(n=1)^infinity u_n = cases(
+  "收敛，"rho < 1,
+  "发散，"rho > 1,
+  "不确定，"rho = 1
+  )
+  $
+
+/ 定理: 级数 $sum_(n=1)^infinity 1/n^p$ 当 $p > 1$ 时收敛；当 $p <= 1$ 时发散。
+
+=== 交错级数
+
+/ 定义: 若级数的各项符号正负相间，即 $sum_(n=1)^infinity (-1)^(n-1) u_n, u_n > 0$，则称此级数为#strong[交错级数]。
+
+/ 莱布尼茨判别准则: 若：\
+  (1) $u_n >= u_(n+1) (n = 1, 2, dots)$\
+  (2) $lim_(n->infinity) u_n = 0$\
+  则级数 $sum_(n=1)^infinity (-1)^(n-1) u_n$ 收敛。注意这是充分条件。
+
+重点在判别 $u_n >= u_(n+1)$。
+
+=== 绝对收敛
+
+若级数各项绝对值组成的级数 $sum_(n=1)^infinity abs(u_n)$ 收敛，则称级数 $sum_(n=1)^infinity$ #strong[绝对收敛]。\
+若级数各项绝对值组成的级数 $sum_(n=1)^infinity u_n$ 收敛，$sum_(n=1)^infinity abs(u_n)$ 发散，则称级数 $sum_(n=1)^infinity$ #strong[条件收敛]。
+
+/ 定理: 绝对收敛的级数一定收敛。\
+  条件收敛的级数所有正项或负项构成的级数一定发散。
+
+#addition[
+对于级数 $limits(sum)_(n=1)^infinity (u_n + v_n)$：
++ $limits(sum)_(n=1)^infinity u_n, limits(sum)_(n=1)^infinity v_n$ 均收敛 $=>$ $limits(sum)_(n=1)^infinity (u_n + v_n)$ 收敛
++ $limits(sum)_(n=1)^infinity u_n$ 收敛，但 $limits(sum)_(n=1)^infinity v_n$ 发散 $=>$ $limits(sum)_(n=1)^infinity (u_n + v_n)$ 发散
++ $limits(sum)_(n=1)^infinity u_n, limits(sum)_(n=1)^infinity v_n$ 均绝对收敛 $=>$ $limits(sum)_(n=1)^infinity (u_n + v_n)$ 绝对收敛
++ $limits(sum)_(n=1)^infinity u_n$ 绝对收敛，但 $limits(sum)_(n=1)^infinity v_n$ 仅条件收敛 $=>$ $limits(sum)_(n=1)^infinity (u_n + v_n)$ 条件收敛
+]
+
+== 幂级数
+
+/ 函数项级数: 设 $u_1(x), u_2(x), dots, u_n(x)$ 是定义在区间 $I$ 上的函数序列，则称\
+  $ u_1(x) + u_2(x) + dots + u_n(x) + dots = sum_(n_1)^infinity u_n(x) $\
+  为定义在区间 $I$ 上的函数项级数。
+
+若 $x_0 in I$ 能使函数项级数收敛，则称 $x_0$ 为收敛点，所有收敛点构成的集合称为收敛域。
+
+/ 幂级数: 形如 $sum_(n=0)^infinity a_n(x - x_0)^n = a_0 + a_1(x - x_0) + a_2(x - x_0)^2 + dots + a_n(x - x_0)^n + dots$ 的函数项级数称为#strong[幂级数]。
+
+/ 阿贝尔定理: 如果幂级数 $sum_(n=0)^infinity a_n x^n$ 当 $x = x_0 != 0$ 时收敛，则当 $|x| < |x_0|$ 时，$sum_(n=0)^infinity a_n x^n$ 绝对收敛；如果 $sum_(n=0)^infinity a_n x^n$ 当 $x = x_0$ 时发散，则当 $|x| > |x_0|$ 时 $sum_(n=0)^infinity a_n x^n$ 发散。
+
+/ 定义: 若存在 $R$，使 $sum_(n=0)^infinity a_n x^n$ 在 $(-R, R)$ 内收敛，而当 $|x| > R$ 时 $sum_(n=0)^infinity a_n x^n$ 发散，则称 $R$ 为幂级数 $sum_(n=0)^infinity a_n x^n$ 的#strong[收敛半径]，$(-R, R)$ 称为 $sum_(n=0)^infinity a_n x^n$ 的#strong[收敛区间]。
+
+#addition[幂级数的收敛区间是开区间，求收敛域还要判断端点。]
+
+/ 定理: 如果 $lim_(n->infinity) |a_(n+1) / a_n| = rho$，则 $R = 1/rho$
+/ 定理: 如果 $lim_(n->infinity) root(n, a_n) = rho$，则 $R = 1/rho$
+
+#addition[
+幂级数只可能在收敛域两端点处条件收敛。
+]
+
+=== 性质
+
+==== 四则运算
+
+若幂级数 $sum_(n=0)^infinity a_n x^n$ 的收敛半径为 $R_1$，和函数是 $S_1(x)$，$sum_(n=0)^infinity b_n x^n$ 的收敛半径为 $R_2$，和函数是 $S_2(x)$，令 $R = min(R_1, R_2)$，则
++ $sum_(n=0)^infinity a_n x^n plus.minus sum_(n=0)^infinity b_n x^n = sum_(n=0)^infinity (a_n plus.minus b_n) x^n = S_1(x) + S_2(x), x in (-R, R)$
++ $(sum_(n=0)^infinity a_n x^n)(sum_(n=0)^infinity b_n x^n) &= sum_(n=0)^infinity (a_0 b_n + a_1 b_(n-1) + dots + a_n b_0) x^n\
+&= S_1(x) S_2(x), x in (-R, R)$
++ 设 $b_0 != 0$\
+  $ (S_1(x))/(S_2(x)) = (limits(sum)_(n=0)^infinity a_n x^n)/(limits(sum)_(n=0)^infinity b_n x^n) = c_0 + c_1 x + c_2 x^2 + dots + c_n x^n + dots $\
+  其中 $c_n$ 由 $(limits(sum)_(n=0)^infinity b_n x^n) dot (limits(sum)_(n=0)^infinity c_n x^n) = limits(sum)_(n=0)^infinity a_n x^n $ 来确定。
+
+==== 分析性质
+
+设幂级数 $sum_(n=0)^infinity a_n x^n$ 的收敛半径为 $R$，和函数为 $S(x)$，则
++ $S(x)$ 在 $(-R, R)$ 上连续
++ $S(x)$ 在 $(-R, R)$ 上可导，且可逐项求导，即 $S'(x) = sum_(n=1)^infinity n a_n x^(n-1)$
++ $S(x)$ 在 $(-R, R)$ 内可积，且可逐项积分，即
+  $ integral_0^x S(t) d t = sum_(n=0)^infinity integral_0^x a_n t^n d t = sum_(n=0)^infinity (a_n)/(n + 1) x^(n + 1), x in (-R, R) $
+
+=== 幂级数展开
+
+/ 泰勒级数: 设 $f(x)$ 在 $x = x_0$ 处任意阶可导，则幂级数\
+  $ sum_(n=0)^infinity (f^((n))(x_0))/(n!) (x-x_0)^n = &f(x_0) + f'(x_0) (x - x_0) + (f''(x_0)) / (2!) (x - x_0)^2 + dots\
+  &+ (f^((n))(x_0)) / (n!) (x - x_0)^n + dots $\
+  称为 $f(x)$ #strong[在 $x = x_0$ 处的泰勒级数]。
+
+/ 麦克劳林级数: 当 $x_0 = 0$ 时，$ sum_(n=0)^infinity (f^((n))(0))/(n!) x^n = &f(0) + f'(0) x + (f''(0)) / (2!) x^2 + dots + (f^((n))(0)) / (n!) x^n + dots $\
+  称为 $f(x)$ 的#strong[麦克劳林级数]。
+
+/ 泰勒级数的收敛: 设 $f(x)$ 在 $x = x_0$ 处任意阶可导，则泰勒级数收敛于 $f(x)$ 的充要条件是 $lim_(n->infinity) R_n(x) = 0$，其中
+  $ R_n (x) = (f^((n + 1)) [x_0 + theta(x - x_0)])/((n + 1)!) (x - x_0)^(n+1) $
+
+#addition[
+常用麦克劳林展开式：
+- $1 / (1 - x) = 1 + x + x^2 + dots + x^n + dots, x in (-1, 1)$
+- $1 / (1 + x) = 1 - x + x^2 + dots + (-1)^n x^n + dots, x in (-1, 1)$
+]
+
+== 傅里叶级数
+
+= 微分方程
 
 
