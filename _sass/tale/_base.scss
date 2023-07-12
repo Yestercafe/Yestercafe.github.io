@@ -229,6 +229,22 @@ li {
   margin: 0.5em 0;
 }
 
-.toc-item {
-  margin: 0;
+#toc {
+  margin-bottom: 1rem;
+}
+
+.toc {
+  &-summary {
+    font-size: 20px;
+    font-weight: 800;
+    font-family: $sans-serif;
+  }
+
+  &-list {
+    margin-top: 5px;
+  }
+
+  &-item {
+    margin: 0;
+  }
 }
