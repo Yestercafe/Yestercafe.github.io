@@ -1,7 +1,7 @@
 # Site settings
-title:          Yescafe 的自助餐厅
+title:          Yester Vendor
 description:    "連続する日常と断続する非日常が触れ合って 絡まってhalation"
-url:            "https://Yescafe.github.io"
+url:            "https://Yestercafe.github.io"
 timezone:       Asia/Shanghai
 global_flags:
   enable_homepage_desc: true
@@ -9,7 +9,7 @@ global_flags:
 # Author
 author:
   name:         Ivan Chien
-  url:          https://github.com/Yescafe
+  url:          https://github.com/Yestercafe
   email:        qyc027@gmail.com
 
 # Build settings
@@ -50,7 +50,7 @@ disqus:         jekyll-tale
 components:
   busuanzi:
     enabled: true
-    start_date: 2021-01-01
+    start_date: 2023-07-16
 
 # GitHub metadata (about page)
 repos:
