@@ -596,6 +596,10 @@ $ d y = f'(x) d x $
 
 / 斜渐近线: 若 $lim_(x->infinity) f(x) / x = a$ 且 $lim_(x->infinity) (f(x) - a x) = b$（或 $x->infinity$，或 $x->+infinity$），那么 $y = a x + b$ 是曲线 $y = f(x)$ 的斜渐近线。
 
+#tweet[
+水平渐近线和斜渐近线不会同时存在。
+]
+
 === 弧微分与曲率
 
 / 弧微分: 设 $y = f(x)$ 在 $(a, b)$ 内有连续导数，则有#strong[弧微分]\
