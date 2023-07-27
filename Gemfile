@@ -7,4 +7,5 @@ gem "jekyll-paginate"
 gem "jekyll-feed"
 gem "jekyll-seo-tag"
 gem "jekyll-github-metadata"
+gem "dotenv-rails"
 
