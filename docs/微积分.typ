@@ -607,7 +607,8 @@ $ d y = f'(x) d x $
 === 弧微分与曲率
 
 / 弧微分: 设 $y = f(x)$ 在 $(a, b)$ 内有连续导数，则有#strong[弧微分]\
-  $ d s = sqrt(1 + y'^2) d x $
+  $ d s = sqrt(1 + y'^2) d x $\
+  对弧微分做定积分就是某段的#strong[弧长]。
 
 / 曲率: 设 $y = f(x)$ 在二阶导数，则有#strong[曲率]\
   $ K = (|y''|) / (1 + y'^2) ^ (3/2) $\
@@ -815,7 +816,7 @@ $ integral_0^pi x f(sin x) d x = pi/2 integral_0^pi f(sin x) d x $
   $ integral_a^b f(x) d x = integral_a^(x_0) f(x) d x + integral_(x_0)^b f(x) d x, a < x_0 < b $\
   若在开区间 $(a, b)$ 内部点 $c$ 为奇点，则反常积分定义为\
   $ integral_a^b f(x) d x = integral_a^c f(x) d x + integral_c^b f(x) d x $
-  
+
 === 对称区间上奇、偶函数的反常积分
 
 - 设 $f(x)$ 在 $(-infinity, +infinity)$ 上连续，#text(red)[$integral_0^(+infinity) f(x) d x$ 收敛]，则
@@ -830,6 +831,28 @@ $ integral_0^pi x f(sin x) d x = pi/2 integral_0^pi f(sin x) d x $
 *一个重要的反常积分：*\
 $
 integral_(-infinity)^(+infinity) e^(-x^2) d x = 2 integral_0^(+infinity) e^(-x^2) d x = sqrt(pi)
+$
+
+=== 反常积分敛散性判断
+
+1. 定义法，容易计算时可用
+2. 反常积分的审敛法：\
+  (a) 设 $I = integral_a^(+infinity) f(x) d x, f(x)$ 非负连续，则
+  $
+  lim_(x->+infinity) x^lambda f(x) = l, cases(0 <= l < +infinity "且" lambda > 1"，则收敛", 0 < l <= +infinity "且" lambda <= 1"，则发散")
+  $
+  (b) 设 $I = integral_a^b f(x) d x，x = a$ 是 $f(x)$ 的瑕点，$f(x)$ 非负连续，则
+  $
+  lim_(x->a^+) (x-a)^lambda f(x) = l，cases(0 <= l < +infinity "且" 0 < lambda < 1"，则收敛", 0 < l <= +infinity "且" lambda >= 1"，则发散")
+  $
+
+两个常用结果：
+$
+integral_1^infinity (d x) / x^p，cases(p > 1 "收敛", p <= 1 "发散")
+$
+
+$
+integral_b^a (d x) / (x - a)^p，cases(p < 1 "收敛", p >= 1 "发散")
 $
 
 == 定积分的应用
