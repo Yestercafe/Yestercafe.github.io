@@ -9,9 +9,18 @@ title: Archlinux
 
 `archinstall` 不太好用的话可以装 Archlinux GUI（ALG），全 GUI 安装。
 
-## AUR/YAY
+## AUR
 
-不要用源码装，Archlinux 现在的 libc 版本太高了编译不了的。直接装 binary：
+安装 paru：
+
+```shell
+sudo pacman -S --needed base-devel
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
+```
+
+或者安装 yay，不过 yay 现在也依赖于 paru：
 
 ```shell
 pacman -S --needed git base-devel
