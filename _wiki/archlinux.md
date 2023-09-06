@@ -97,3 +97,9 @@ sudo rm -rf /var/lib/pacman/db.lck
 # emacs: error while loading shared libraries: libicudata.so.73: cannot open shared object file: No such file or directory
 sudo ln -s /usr/lib/libicudata.so /usr/lib/libicudata.so.73
 ```
+
+### vim: version GLIBC_2.28 not found (required by vim)
+
+开启 32 位库源：打开 `/etc/pacman.conf`，取消注释 `[multilib]` 的两行的注释。
+
+安装 `glibc` 和 `lib32-glibc`。
