@@ -787,8 +787,8 @@ $ integral_a^(a + n T) f(x) d x = n integral_0^T f(x) d x, n in NN $
 $
 integral_0^(pi/2) sin^n x d x &= integral_0^(pi/2) cos^n x d x\
 &= cases(
-(n - 1)/n dot (n - 3)/(n - 2) dot dots dot 1/2 dot pi / 2","space n ident 0 (mod 2),
-(n - 1)/n dot (n - 3)/(n - 2) dot dots dot 2/3 dot 1","space n ident 1 (mod 2),
+(n - 1)/n dot (n - 3)/(n - 2) dot dots dot 1/2 dot pi / 2","space n eq.triple 0 (mod 2),
+(n - 1)/n dot (n - 3)/(n - 2) dot dots dot 2/3 dot 1","space n eq.triple k 1 (mod 2),
 )
 $\
 特别的：$
@@ -902,7 +902,7 @@ $
 - 极坐标曲线 $r = r(theta), alpha <= theta <= beta$ 的弧长（其中 $r(theta), r'(theta)$ 连续, 且不同时为零）
   $ s = integral_alpha^beta sqrt(r^2(theta) + r'^2(theta)) d theta $
 
-=== 旋转曲面面积
+=== 旋转曲面面积（表面积）
 
 在区间 $[a, b]$ 上的曲线 $y = f(x)$ 的弧段绕 $x$ 轴旋转一周所成的旋转曲面面积
 $ S = 2 pi integral_a^b |y| sqrt(1 + f'^2(x)) d x, a < b $
