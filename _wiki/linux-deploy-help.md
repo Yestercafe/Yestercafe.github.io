@@ -4,7 +4,7 @@ title: Linux/UNIX Deployment Help
 ---
 
 # What's This?
-原 [Ubuntu Wiki](https://yescafe.github.io/wiki/ubuntu/) 的再版，适用于多数 Linux/UNIX 系统，包括 macOS。
+原 [Ubuntu Wiki](https://Yestercafe.github.io/wiki/ubuntu/) 的再版，适用于多数 Linux/UNIX 系统，包括 macOS。
 
 # To-do List
 
@@ -51,7 +51,7 @@ alias proxy_prefix="https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.
 使用方式与 `env` 相同，如：
 
 ```bash
-proxy_prefix gh repo clone Yescafe/.whichrc
+proxy_prefix gh repo clone Yestercafe/.whichrc
 ```
 
 ### 使用 proxychians-ng
@@ -89,6 +89,50 @@ http 127.0.0.1 7890
 http 192.168.123.1 7890
 ```
 
+### WSL 的代理
+
+ref: <https://lazarus-glhf.github.io/linux/2023/07/19/Set-up-MC-server>
+
+```bash
+# add proxy
+export hostip=$(ip route | grep default | awk '{print $3}')
+export socks_hostport=7890
+export http_hostport=7890
+alias proxy='
+    export https_proxy="http://${hostip}:${http_hostport}"
+    export http_proxy="http://${hostip}:${http_hostport}"
+    export ALL_PROXY="socks5://${hostip}:${socks_hostport}"
+    export all_proxy="socks5://${hostip}:${socks_hostport}"
+'
+alias unproxy='
+    unset ALL_PROXY
+    unset https_proxy
+    unset http_proxy
+    unset all_proxy
+'
+alias echoproxy='
+    echo $ALL_PROXY
+    echo $all_proxy
+    echo $https_proxy
+    echo $http_proxy
+'
+#end proxy
+```
+
+`hostip` 还有一种获取方式：
+
+```bash
+grep nameserver /etc/resolv.conf | sed 's/nameserver //'
+```
+
+还需要在 Windows 防火墙中开启 WSL 的入站访问。
+
+ref: <https://zhuanlan.zhihu.com/p/144647249>
+
+```powershell
+New-NetFirewallRule -DisplayName "WSL" -Direction Inbound -InterfaceAlias "vEthernet (WSL)" -Action Allow
+```
+
 ## Zsh
 macOS 的 login shell 程序默认为 zsh。其他发行版基本可以使用对应的包管理工具安装。
 ```bash
@@ -102,7 +146,7 @@ sudo yum install zsh
 sudo dnf install zsh
 ```
 
-同 ohmyzsh 一样的主题、插件，推荐使用/参考我的仓库 [Yescafe/.whichrc](https://github.com/Yescafe/.whichrc)。具体见其 [readme.md](https://github.com/Yescafe/.whichrc/blob/main/readme.md)。
+同 ohmyzsh 一样的主题、插件，推荐使用/参考我的仓库 [Yestercafe/.whichrc](https://github.com/Yestercafe/.whichrc)。具体见其 [readme.md](https://github.com/Yestercafe/.whichrc/blob/main/readme.md)。
 
 ## Oh-my-zsh
 
@@ -146,7 +190,7 @@ ZSH_THEME="spaceship"
 [https://github.com/romkatv/powerlevel10k](https://github.com/romkatv/powerlevel10k)
 
 ```bash
-git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
 修改 `~/.zshrc`：
@@ -170,10 +214,10 @@ plugins=(
   colored-man-pages        # adds colors to man pages
   zsh-syntax-highlighting  # command syntax highlighting
   zsh-autosuggestions      # record used commands
-  # sudo                     # tap double ESC to complete `sudo` prefix
-  thefuck                  # instead of 'sudo'
+  sudo                     # tap double ESC to complete `sudo` prefix
   dash                     # Dash plugin
   themes                   # change zsh themes on the go
+  fancy-ctrl-z             # C-z = fg
 )
 ```
 
@@ -221,8 +265,9 @@ git config --global user.email "foobar@example.com"
 ### 全局 HTTP 协议代理 (http:// 或 https://)
 
 ```bash
-git config --global http.proxy 127.0.0.1:HTTP_PORT
-git config --global https.proxy 127.0.0.1:HTTP_PORT
+HTTP_PORT=7890
+git config --global http.proxy 127.0.0.1:$HTTP_PORT
+git config --global https.proxy 127.0.0.1:$HTTP_PORT
 ```
 
 ### 全局 SSH 协议代理 (git@github.com 等)
@@ -239,6 +284,17 @@ Host github.com
 ```
 
 两个 `ProxyCommand` 二选一，第一个为走 HTTP 协议代理，第二个为走 socks 协议代理。取消注释即使用。
+
+ref: <https://docs.github.com/en/authentication/troubleshooting-ssh/using-ssh-over-the-https-port>
+
+新方案：
+
+```
+Host github.com
+    Hostname ssh.github.com
+    Port 443
+    User git
+```
 
 ### 全局 Git 协议代理 (git://)
 
@@ -295,77 +351,45 @@ ssh ivan@192.168.123.2
 
 ## Vim
 
-Emacs 的配置不贴在这里，因为确实比较多。相较于类似于 IDE 的 Emacs，Vim 作为一个轻量级文本编辑器是非常便捷的。这里参考了[知乎的一篇专栏](https://zhuanlan.zhihu.com/p/69725463)，且本配置文件的上游在[此](https://github.com/Yescafe/.whichrc/blob/main/.vimrc)。无严重 bug 此 wiki 中的该配置将不再更新。
+Emacs 的配置不贴在这里，因为确实比较多。相较于类似于 IDE 的 Emacs，Vim 作为一个轻量级文本编辑器是非常便捷的。这里参考了[知乎的一篇专栏](https://zhuanlan.zhihu.com/p/69725463)，且本配置文件的上游在[此](https://github.com/Yestercafe/.whichrc/blob/main/.vimrc)。无严重 bug 此 wiki 中的该配置将不再更新。
+
+更新：已更新成现役的常用基本配置。
 
 ```bash
-set nu
-set relativenumber
-set expandtab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+"" Basic
+set noswf
+set nobk
+set title
+set vb
+set noeb
+set t_vb=
 
-" 基本配置
-" 禁用 swap 恢复文件
-set noswapfile
-" 编码
-set encoding=utf-8
-" 文件检测编码
-" 防止 Windows 下保存的中文文本文件乱码
-set fileencodings=utf-8,gb18030
-" 插入模式自动锁进
-set autoindent
-" 修正 vim 退格键行为
-set backspace=eol,start,indent
-" 双行显示状态
-set laststatus=2
-" 80 列高亮
-set colorcolumn=80
-" 高亮所在行
-set cursorline
-" 自动折行
-set linebreak
-" 语法高亮
+"" Editing
 syntax on
-" 自动识别文件类型
-filetype plugin indent on
+set nu
+set rnu
+set et
+set ts=4
+set sw=4
+set sts=4
+set mouse=a
 
-" 主题 tender
-" git clone https://github.com/jacoborus/tender.vim ~/.vim/pack/vendor/start/tendor
-" 开启 24 位真彩色支持
-" 24位真彩色信息请参考 https://gist.github.com/XVilka/8346728
-set termguicolors
-" 设置主题
-color tender
-" tender 默认背景色是一种亮灰色，晚上特别不舒服，改成纯黑
-highlight Normal guibg=#000001
-" 改背景后选中区域无法高亮，也得调一下
-highlight Visual guibg=#323232
-" 灰色的状态栏很扎眼，调一下
-highlight StatusLine guibg=#444444 guifg=#b3deef
-" vim 的 terminal 状态栏需要单独配置
-highlight StatusLineTerm guibg=#444444 guifg=#b3deef
-highlight StatusLineTermNC guibg=#444444 guifg=#999999
-
-" nerdtree
-" git clone https://github.com/scrooloose/nerdtree ~/.vim/pack/vendor/start/nerdtree
-nnoremap <silent> <leader>e :NERDTreeToggle<cr>
-nnoremap <silent> <leader>f :NERDTreeFind<cr>
-
-" fzf
-" brew install fzf
-" git clone https://github.com/lvht/fzf ~/.vim/pack/vendor/start/fzf
-" 模糊路径搜索
-nnoremap <silent> <c-p> :call fzf#Open()<cr>
-
-" Mru
-" git clone https://github.com/lvht/mru ~/.vim/pack/vendor/start/mru
-" 最近打开文件列表
-nnoremap <silent> <c-u> :Mru<cr>
-
-" ack
-" 文件搜索
-" git clone https://github.com/mileszs/ack.vim ~/.vim/pack/vendor/start/ack
+"" Keymaps
+let mapleader=' '
+imap kj <Esc>
+nnoremap <leader>fs :w<CR>
+nnoremap <leader>fr :source %<CR>
+nnoremap <leader>q :q<CR>
+nnoremap < <<
+nnoremap > >>
+vnoremap < <gv
+vnoremap > >gv
+nnoremap H ^
+nnoremap L $
+nnoremap U <C-u>
+nnoremap D <C-d>
+nmap J <nop>
+nmap s <nop>
 ```
 
 ## Cargo
@@ -402,6 +426,8 @@ rvm list known
 rvm install 2.6.5
 rvm use 2.6.5 --default
 ```
+
+<span class="wikipage-warn">OpenSSL 3 现已不支持 Ruby 2 的源码编译，如可能尽量升级 Ruby 3。</spank>
 
 ## GCC/Clang (macOS)
 
@@ -526,13 +552,14 @@ eval $(thefuck --alias)
 
 ## 浏览器代理
 
-特别列出，非常建议使用 Proxy SwitchyOmega。<span class="wikipage-warn">Microsoft Edge 请于 Chrome Web Store 下载，被曝光 Edge 商店里的该插件有后门，现在情况未知。</span>
+特别列出，非常建议使用 Proxy SwitchyOmega。
 
 ## 关于 VMware 分辨率问题
 
 部分发行版在安装了 open-vm-tools 之后依旧无法自动更正分辨率，个人怀疑桌面环境版本过高，某些组件无法兼容。经测试的 GNOME 环境，Ubuntu 20.04 原装的应该没有问题，Fedora 33、Arch Linux 的存在问题。
 
-修复方法只在 Fedora 33、Arch Linux 的 GNOME 桌面上测试过，其他发行版或桌面环境未知。
+修复方法只在 Fedora 33、Arch Linux 的 GNOME 桌面上测试过，其他发行版或桌面环境未知。\
+*过去几年了，现在已经是 Fedora 38 了，经过事实的验证，这个方法在绝大多数 GNOME 桌面环境都有效。不过，现在的 Fedora 已经再不需要安装 vm-tools 了。*
 
 [https://lvii.github.io/desktop/2020-10-29-set-fedora-33-workstation-gnome-resolution-1920x1080-in-vmware/](https://lvii.github.io/desktop/2020-10-29-set-fedora-33-workstation-gnome-resolution-1920x1080-in-vmware/)
 
@@ -541,3 +568,12 @@ sudo cp -v /etc/vmware-tools/tools.conf.example /etc/vmware-tools/tools.conf
 sudo sed -i '/^\[resolutionKMS/a enable=true' /etc/vmware-tools/tools.conf
 sudo systemctl restart vmtoolsd
 ```
+
+## 关于 Windows 下 VMware 的 NAT 网络无法正常用 DHCP 为虚拟机分配 IP 的问题
+
+ref: <https://blog.csdn.net/qq_34713361/article/details/129998480>
+
+尝试下面两种方法：
+
+1. 在 Windows 的服务中找到 VMware DHCP 服务查看状态
+2. 在 VMware 的「虚拟网络编辑器」中，选择「NAT 模式」的虚拟网络（正常来说默认会是 VMnet8），勾选下面的「使用本地 DHCP 服务器将 IP 地址分配给虚拟机」
