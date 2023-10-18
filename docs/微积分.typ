@@ -645,6 +645,9 @@ $
 - 加强的#strong[积分中值定理]：设 $f(x)$ 在 $[a, b]$ 上连续，则至少存在一点 $xi in (a, b)$ 使
   $ integral_a^b f(x) d x = f(xi) (b - a) $ 
 
+- 推广的积分中值定理：设 $f(x)$ 在 $[a, b]$ 上连续，$g(x)$ 在 $[a, b]$ 上#strong[可积且不变号]，则至少存在一点 $xi in (a, b)$ 使得：
+  $ integral_a^b f(x) g(x) d x = f(xi) integral_a^b g(x) d x $
+
 / 定积分存在定理:
   (1) 设 $f(x)$ 在 $[a, b]$ 上连续，则 $integral_a^b f(x) d x$ 存在\
   (2) 设 $f(x)$ 在 $[a, b]$ 上有界，且只有有限个间断点，则 $integral_a^b f(x) d x$ 存在
@@ -969,7 +972,7 @@ $ S = 2 pi integral_a^b |y| sqrt(1 + f'^2(x)) d x, a < b $
 === 点到面的距离
 
 点 $(x_0, y_0, z_0)$ 到平面 $Pi(x, y, z) attach(limits(=), t: triangle.t) A x + B y + C z + D = 0$ （法向量 $bold(n)$）的距离
-$ d = (|P(x_0, y_0, z_0)|)/|bold(n)| = (|A x_0 + B y_0 + C z_0 + D|)/sqrt(A^2 + B^2 + C^2) $
+$ d = (|P(x_0, y_0, z_0)|)/(|bold(n)|) = (|A x_0 + B y_0 + C z_0 + D|)/sqrt(A^2 + B^2 + C^2) $
 
 === 点到直线的距离
 
@@ -1007,7 +1010,10 @@ $ lim_(Delta x -> 0) (f(x_0 + Delta x, y_0) - f(x_0, y_0))/(Delta x) $\
   存在，则称此极限为函数 $z = f(x, y)$ 在点 $(x_0, y_0)$ 处#strong[对 $x$ 的偏导数]，记为 $f'_x (x_0, y_0)$ 或 $(diff f(x_0, y_0)) / (diff x)$。类似的还有对 $y$ 的偏导数。
 
 / 全增量: 如果函数 $z = f(x, y)$ 在点 $(x, y)$ 处的全增量 $Delta z = f(x + Delta x, y + Delta y) - f(x, y)$ 可以表示为\
-  $ Delta z = A Delta x + B Delta y + o(rho) $\
+  $ Delta z = A Delta x + B Delta y + o(rho) $
+
+#addition[$ lim_((x, y) -> (x_0, y_0)) (Delta z - d z) / (rho) = lim_((x, y) -> (x_0, y_0)) (Delta z - (A Delta x + B Delta y)) / sqrt((Delta x)^2 + (Delta y)^2) $]
+
   其中 $A, B$ 不依赖于 $Delta x, Delta y$，而仅与 $x, y$ 有关，$rho = sqrt((Delta x)^2 + (Delta y)^2)$，则称函数 $z = f(x, y)$ #strong[在点 $(x, y)$ 处可微]，而 $A Delta x + B Delta y$ 称为函数 $z = f(x, y)$ 在点 $(x, y)$ 的#strong[全微分]，记为\
   $ d z = A Delta x + B Delta y $
 
@@ -1119,7 +1125,7 @@ $ f'_x (x_0, y_0) = 0 $,
 $ f'_y (x_0, y_0) = 0 $
 )
 
-/ 充分条件: 设函数 $z = f(x, y)$ 在点 $M_0$ 的某领域内有连续的二阶偏导数，且 $f'_x(x_0, y_0) = 0, f'_y(x_0, y_0) = 0$，令 $f''_(x x) (x_0, y_0) = A, f''_(x y) (x_0, y_0) = B, f''_(y y) (x_0, y_0)$ 则：\
+/ 充分条件: 设函数 $z = f(x, y)$ 在点 $M_0$ 的某领域内有连续的二阶偏导数，且 $f'_x(x_0, y_0) = 0, f'_y(x_0, y_0) = 0$，令 $f''_(x x) (x_0, y_0) = A, f''_(x y) (x_0, y_0) = B, f''_(y y) (x_0, y_0) = C$ 则：\
   (1) $A C - B^2 > 0$ 时，$f(x, y)$ 在 $M_0$ 处取极值\
   $ cases("当 A > 0 时取极小值", "当 A < 0 时取极大值") $\
   (2) $A C - B^2 < 0$ 时，$f(x, y)$ 在 $M_0$ 处无极值\
