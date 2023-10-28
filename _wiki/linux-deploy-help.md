@@ -392,6 +392,18 @@ nmap J <nop>
 nmap s <nop>
 ```
 
+## Cargo
+
+Cargo USTC 镜像源。在 `$CARGO_HOME/config` 中添加：
+
+```toml
+[source.crates-io]
+replace-with = 'ustc'
+
+[source.ustc]
+registry = "git://mirrors.ustc.edu.cn/crates.io-index"
+```
+
 ## RVM
 
 [https://rvm.io/rvm/install/](https://rvm.io/rvm/install/)
