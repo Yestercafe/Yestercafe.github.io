@@ -39,6 +39,14 @@ Reserve.
 > - 如果 Mac 电脑发出启动声，您可以在第二次启动声过后松开这些按键。
 > - 在搭载 Apple T2 安全芯片的 Mac 电脑上，您可以在 Apple 标志第二次出现并消失后松开这些按键。 
 
+### Terminal 中显示主机名是 192 并无法在设置的共享中修改
+
+```
+sudo scutil --set HostName 'yourHostName'
+```
+
+ref: <https://stackoverflow.com/questions/67785772/mac-terminal-shows-myname192-instead-of-mynamemyname-mac-pro>
+
 ## Dock 栏、Finder、Desktop 等
 
 ### 重置 Dock 栏（包括图标摆设和 Dock 栏设置）
