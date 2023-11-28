@@ -791,7 +791,7 @@ $
 integral_0^(pi/2) sin^n x d x &= integral_0^(pi/2) cos^n x d x\
 &= cases(
 (n - 1)/n dot (n - 3)/(n - 2) dot dots dot 1/2 dot pi / 2","space n eq.triple 0 (mod 2),
-(n - 1)/n dot (n - 3)/(n - 2) dot dots dot 2/3 dot 1","space n eq.triple k 1 (mod 2),
+(n - 1)/n dot (n - 3)/(n - 2) dot dots dot 2/3 dot 1","space n eq.triple 1 (mod 2),
 )
 $\
 特别的：$
@@ -1333,7 +1333,7 @@ $
 / 定理: 正项级数 $sum_(n=1)^infinity u_n$ 收敛 $<=>$ 部分和数列 ${S_n}$ 有界
 
 / 定理: 比较判别法：\
-  若两正项级数 $sum_(n=1)^infinity u_n$ 和 $sum_(n=1)^infinity v_n$，存在某个正数 $N$，当 $n > N$ 时，$u_n <= v_n$，
+  若两正项级数 $sum_(n=1)^infinity u_n$ 和 $sum_(n=1)^infinity v_n$，#text(red)[存在某个正数 $N$]，当 $n > N$ 时，$u_n <= v_n$，
   则 $sum_(n=1)^infinity v_n$ 收敛 $=>$ $sum_(n=1)^infinity u_n$ 收敛；$sum_(n=1)^infinity u_n$ 发散 $=>$ $sum_(n=1)^infinity v_n$ 发散。
 
 #tweet[
@@ -1378,8 +1378,8 @@ $
 
 === 绝对收敛
 
-若级数各项绝对值组成的级数 $sum_(n=1)^infinity abs(u_n)$ 收敛，则称级数 $sum_(n=1)^infinity$ #strong[绝对收敛]。\
-若级数各项绝对值组成的级数 $sum_(n=1)^infinity u_n$ 收敛，$sum_(n=1)^infinity abs(u_n)$ 发散，则称级数 $sum_(n=1)^infinity$ #strong[条件收敛]。
+若级数各项绝对值组成的级数 $sum_(n=1)^infinity abs(u_n)$ 收敛，则称级数 $sum_(n=1)^infinity u_n$ #strong[绝对收敛]。\
+若级数各项绝对值组成的级数 $sum_(n=1)^infinity u_n$ 收敛，$sum_(n=1)^infinity abs(u_n)$ 发散，则称级数 $sum_(n=1)^infinity u_n$ #strong[条件收敛]。
 
 / 定理: 绝对收敛的级数一定收敛。\
   条件收敛的级数所有正项或负项构成的级数一定发散。
