@@ -392,6 +392,19 @@ nmap J <nop>
 nmap s <nop>
 ```
 
+### Ubuntu vim 无法跟系统剪切板交互
+
+```bash
+sudo apt install vim-gtk3
+```
+
+### coc.nvim: build/index.js not found
+
+```
+:exec coc#util#install()
+```
+
+
 ## Cargo
 
 Cargo USTC 镜像源。在 `$CARGO_HOME/config` 中添加：
