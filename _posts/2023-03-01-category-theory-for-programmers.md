@@ -3,7 +3,7 @@ layout: post
 title: Category Theory for Programmers
 description: Notes for 🐱 theory
 categories: Category_Theory
-tags: [PL, Maths, Category_Theory]
+tags: [PL, Maths, Category Theory]
 ---
 
 ## Kleisli Category

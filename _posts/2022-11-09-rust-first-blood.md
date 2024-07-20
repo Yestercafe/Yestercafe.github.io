@@ -2,7 +2,7 @@
 layout: post
 title: 现阶段遇到的跟 Rust 有关的小事情记录
 categories: Chat
-tags: [ OJ, Rust, Cpp, Chat ]
+tags: [ OJ, Rust, C++, Chat ]
 ---
 
 ## HUST OJ 添加新语言
