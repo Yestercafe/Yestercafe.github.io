@@ -54,3 +54,15 @@ ref: <https://zhuanlan.zhihu.com/p/629105280>
 
 进软件修改语言 Windows 10 和 Windows 11 的右键菜单里都会变。
 
+## 清除 Windows 图标缓存
+
+当快捷方式出现白图标、但是点进属性里有能正常显示的，可能需要清除图标缓存数据库让 Windows 重建。打开一个管理员 CMD 并执行：
+
+```powershell
+CD /d %userprofile%\AppData\Local
+DEL IconCache.db /a
+```
+
+然后重启 Windows 资源管理器即可解决问题。
+
+Ref: <https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/shell-experience/application-shortcuts-show-blank-icons>
