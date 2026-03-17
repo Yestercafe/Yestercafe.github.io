@@ -1,65 +1,100 @@
 .pagination,
 .home-pagination {
-  font-family: $serif-secondary;
-  padding-top: 1.5rem;
+  font-family: $sans-serif;
+  padding: 1.75rem 0 1rem;
   position: relative;
   text-align: center;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 1.25rem;
   width: 100%;
+  flex-wrap: wrap;
 
   @media (prefers-color-scheme: dark) {
-    border-top: .5px solid $dark-grey-2;
+    border-top: 1px solid rgba($preset2, 0.1);
+    padding-top: 2rem;
+    margin-top: 0.5rem;
   }
 
   span {
     color: $default-shade;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    min-width: 2.5rem;
+    padding: 0.4rem 0.65rem;
+    border-radius: 8px;
+    background: rgba($sakura, 0.45);
+    border: 1px solid rgba($preset3, 0.25);
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-shade;
+      background: rgba($preset6, 0.4);
+      border-color: rgba($preset2, 0.2);
     }
   }
 
   .top {
     border: none;
-    padding: 10px 16px;
+    padding: 10px 18px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 10px;
     color: $white;
-    background-color: $preset5;
+    background: linear-gradient(135deg, $preset5 0%, $preset4 100%);
+    box-shadow: 0 4px 16px rgba($preset4, 0.35);
+    @include transition(transform 0.2s ease, box-shadow 0.2s ease);
 
     @media (prefers-color-scheme: dark) {
       color: $dark-white;
-      background-color: $preset2;
+      background: linear-gradient(135deg, $preset3 0%, $preset2 100%);
+      box-shadow: 0 4px 20px rgba($preset2, 0.2);
     }
 
     &:hover {
-      background-color: $preset6;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba($preset4, 0.4);
+
       @media (prefers-color-scheme: dark) {
-        background-color: $preset1;
+        box-shadow: 0 6px 24px rgba($preset1, 0.15);
       }
     }
   }
 
   .arrow {
-    @include transition(all .3s ease-out);
-    color: $default-color;
+    @include transition(all 0.25s ease-out);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    color: $preset5;
+    background: rgba($sakura, 0.4);
+    border: 1px solid rgba($preset3, 0.3);
+    font-size: 1.1rem;
+    line-height: 1;
 
     @media (prefers-color-scheme: dark) {
-      color: $dark-default-color;
+      color: $preset2;
+      background: rgba($preset6, 0.35);
+      border-color: rgba($preset2, 0.2);
     }
 
     &:hover,
     &:focus {
-      color: $preset4;
+      color: $white;
+      background: $preset4;
+      border-color: $preset4;
+      transform: scale(1.06);
 
       @media (prefers-color-scheme: dark) {
-        color: $preset3;
+        color: $dark-white;
+        background: $preset3;
+        border-color: $preset3;
       }
     }
   }
@@ -67,6 +102,21 @@
 
 .home-pagination {
   border: 0;
-  padding-top: .5rem;
+  padding-top: 1.25rem;
+  margin-top: 0.25rem;
 }
 
+.pagination a.disabled,
+.home-pagination a.disabled {
+  pointer-events: none;
+  opacity: 0.38;
+  cursor: not-allowed;
+  background: transparent !important;
+  border: 1px dashed $grey-2 !important;
+  color: $default-tint !important;
+
+  @media (prefers-color-scheme: dark) {
+    border-color: $dark-grey-2 !important;
+    color: $dark-default-tint !important;
+  }
+}

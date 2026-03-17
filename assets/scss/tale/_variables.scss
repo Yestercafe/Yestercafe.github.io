@@ -80,7 +80,7 @@ $dark-grey-1: #585858 !default;
 $dark-grey-2: #2a2a2a !default;
 $dark-grey-3: #161616 !default;
 $dark-white: #111 !default;
-$dark-shadow-color: rgba(255, 255, 255, .8) default;
+$dark-shadow-color: rgba(255, 255, 255, .12) !default;
 $dark-code-color: $dark-default-color !default;
 $dark-text: #fff !default;
 
@@ -90,9 +90,10 @@ $dark-text: #fff !default;
   src: url("/assets/fonts/seto.ttf") format("truetype");
 }
 
-$serif-primary: 'Libre Baskerville', 'Times New Roman', Times, serif !default;
+$serif-primary: 'Libre Baskerville', 'Noto Serif SC', 'Times New Roman', Times, serif !default;
 $serif-secondary: Palatino, 'Palatino LT STD', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif !default;
-$sans-serif: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif !default;
+$sans-serif: 'Figtree', 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif !default;
+$display-serif: 'Fraunces', 'Libre Baskerville', 'Noto Serif SC', Georgia, serif !default;
 $monospaced: Monaco, Menlo, Fira Code, Source Code Pro, Ubuntu Mono, Cascadia Code, consolas, monospace !default;
 $kawaii-font: 'Seto';
 $clock: $monospaced;

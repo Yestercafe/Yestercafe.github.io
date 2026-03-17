@@ -1,12 +1,16 @@
 .docs {
+  padding-bottom: 3rem;
+
   &-header {
     &-title {
       color: $default-shade;
-      font-family: $serif-primary;
-      font-size: 3rem;
-      margin: 1rem 0;
+      font-family: $display-serif;
+      font-weight: 600;
+      font-size: clamp(1.85rem, 4vw, 2.75rem);
+      margin: 1.25rem 0 1rem;
       margin-top: 2rem;
       text-align: center;
+      letter-spacing: -0.03em;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-default-shade;
@@ -14,35 +18,51 @@
     }
 
     &-line {
-      border-top: 0.4rem solid $default-shade;
+      border-top: 0.35rem solid $preset4;
+      border-radius: 2px;
       display: block;
-      margin: 0 auto 3rem;
-      width: 4rem;
+      margin: 0 auto 2.5rem;
+      width: 3.25rem;
+      box-shadow: 0 3px 14px rgba($preset3, 0.28);
 
       @media (prefers-color-scheme: dark) {
-        border-top: 0.4rem solid $dark-default-shade;
+        border-top-color: $preset3;
+        box-shadow: 0 3px 18px rgba($preset1, 0.12);
       }
     }
   }
 
+  ul,
+  ol {
+    padding-left: 1.25rem;
+  }
+
   &-item {
     list-style: decimal-leading-zero;
-    line-height: 1rem;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+    padding: 0.35rem 0;
 
     &-pdf {
-      font-size: 24px;
+      font-size: 1.35rem;
     }
 
     &-src {
-      margin-left: 2px;
-      font-size: 12px;
+      margin-left: 4px;
+      font-size: 0.75rem;
+      opacity: 0.75;
+    }
+
+    a {
+      font-weight: 500;
+      @include transition(color 0.2s ease);
     }
 
     a:hover {
       color: $preset4;
 
       @media (prefers-color-scheme: dark) {
-        color: $preset3;
+        color: $preset2;
       }
     }
   }

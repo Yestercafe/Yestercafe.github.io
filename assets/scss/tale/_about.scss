@@ -1,42 +1,62 @@
 .about {
+  padding-bottom: 3rem;
 
   &-profile {
     text-align: center;
-    margin: 80px auto 50px;
+    margin: 3rem auto 2.5rem;
   }
 
   &-avatar {
     display: block;
-    width: 280px;
-    height: 280px;
-    margin: 0 auto 24px;
+    width: #{'min(280px, 72vw)'};
+    height: #{'min(280px, 72vw)'};
+    margin: 0 auto 1.5rem;
     object-fit: cover;
-    background-color: $preset1;
+    background: linear-gradient(145deg, $sakura 0%, $ikkonzome 100%);
     border-radius: 50%;
-    border: 3px dashed $preset3;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 3px solid rgba($preset3, 0.55);
+    box-shadow:
+      0 12px 40px rgba($preset4, 0.2),
+      0 0 0 6px rgba($sakura, 0.4);
+    @include transition(transform 0.35s ease, box-shadow 0.35s ease);
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow:
+        0 16px 48px rgba($preset4, 0.28),
+        0 0 0 8px rgba($sakura, 0.35);
+    }
 
     @media (prefers-color-scheme: dark) {
-      background-color: $preset3;
-      border-color: $preset1;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(145deg, $preset6 0%, $preset5 100%);
+      border-color: rgba($preset2, 0.45);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.45),
+        0 0 0 6px rgba($preset6, 0.35);
     }
   }
 
   &-username {
     margin: 0;
-    font-size: 2rem;
+    font-family: $display-serif;
+    font-size: clamp(1.5rem, 4vw, 2rem);
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
+
     a {
-      color: $preset4;
+      color: $preset5;
       text-decoration: none;
+      box-shadow: none !important;
+
       @media (prefers-color-scheme: dark) {
         color: $preset2;
       }
+
       &:hover {
-        color: $preset3;
+        color: $preset4;
         text-decoration: underline;
+        box-shadow: none !important;
+
         @media (prefers-color-scheme: dark) {
           color: $preset1;
         }
@@ -46,86 +66,129 @@
 
   &-icons-seq {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 2.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 1rem;
   }
 
   &-icon {
-    margin: 0 8px;
-    color: $default-color;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    color: $preset5;
+    background: rgba($sakura, 0.45);
+    border: 1px solid rgba($preset3, 0.3);
+    @include transition(transform 0.2s ease, background 0.2s ease, color 0.2s ease);
+
     @media (prefers-color-scheme: dark) {
-      color: $dark-default-color;
+      color: $preset2;
+      background: rgba($preset6, 0.4);
+      border-color: rgba($preset2, 0.2);
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      background: rgba($ikkonzome, 0.55);
+      color: $preset6;
+
+      @media (prefers-color-scheme: dark) {
+        background: rgba($preset5, 0.35);
+        color: $preset1;
+      }
     }
   }
 
   &-info {
     width: 100%;
-    margin-bottom: 100px;
-    border: 0px;
+    max-width: 560px;
+    margin: 0 auto 3.5rem;
+    border: 0;
     border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 28px rgba($preset6, 0.08);
+    border: 1px solid rgba($preset3, 0.2);
 
-    // tr > td {
-    //   border-bottom: 1px solid $preset1;
-    // }
-
-    // tr:last-child > td {
-    //   border-bottom: 0px;
-    // }
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.25);
+      border-color: rgba($preset2, 0.12);
+    }
   }
 
   &-td {
-    // font-family: $serif-primary;
     font-family: $kawaii-font;
-    padding: 0 25px;
+    padding: 0.65rem 1.15rem;
     width: 50%;
-    height: 50px;
-    border-collapse: separate;
-
+    min-height: 3rem;
+    border: 0;
+    vertical-align: middle;
 
     &-up {
-      font-size: 10px;
+      font-size: 0.65rem;
       text-transform: uppercase;
-      line-height: 12px;
-      padding-bottom: 0px;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      padding-bottom: 0.15rem;
       vertical-align: bottom;
+      color: $preset5;
+      background: rgba($sakura, 0.25);
+
+      @media (prefers-color-scheme: dark) {
+        color: $preset2;
+        background: rgba($preset6, 0.35);
+      }
     }
 
     &-down {
-      font-size: 24px;
-      line-height: 24px;
-      padding-top: 0px;
+      font-size: clamp(1rem, 2.8vw, 1.35rem);
+      line-height: 1.35;
+      padding-top: 0.15rem;
       vertical-align: top;
+      background: rgba($white, 0.6);
+
+      @media (prefers-color-scheme: dark) {
+        background: rgba($dark-grey-3, 0.5);
+      }
     }
 
     &-left {
       text-align: right;
-      border: 0px;
-      border-right: 3px dashed $preset3;
+      border-right: 2px dashed rgba($preset3, 0.45) !important;
 
       @media (prefers-color-scheme: dark) {
-        border-right: 3px dashed $preset1;
+        border-right-color: rgba($preset2, 0.35) !important;
       }
     }
 
     &-right {
       text-transform: none;
       text-align: left;
-      border: 0px;
-      border-left: 3px dashed $preset3;
+      border-left: 2px dashed rgba($preset3, 0.45) !important;
+
       @media (prefers-color-scheme: dark) {
-        border-left: 3px dashed $preset1;
+        border-left-color: rgba($preset2, 0.35) !important;
       }
     }
 
     &-hidden {
-      font-size: 16px;
-      line-height: 10px;
-      color: $white;
+      font-size: 0.75rem;
+      line-height: 1.2;
+      color: transparent;
+      user-select: none;
+
       @media (prefers-color-scheme: dark) {
-        color: $dark-white;
+        color: transparent;
       }
 
       &:hover {
         color: $preset3;
+
         @media (prefers-color-scheme: dark) {
           color: $preset1;
         }
@@ -133,51 +196,119 @@
     }
   }
 
+  &-repo-box-title {
+    font-family: $display-serif;
+    font-weight: 600;
+    font-size: clamp(1.35rem, 3vw, 1.65rem);
+    text-align: center;
+    margin: 2.5rem 0 1.25rem;
+    letter-spacing: -0.02em;
+    color: $default-shade;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-shade;
+    }
+  }
+
   &-repo-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 20px;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
   }
 
   &-repo-box {
-    width: 49%;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: 1px solid $preset5;
-    box-shadow: inset 0px 0px 4px $preset6;
-    padding: 15px 18px 18px;
+    width: calc(50% - 0.4rem);
+    min-width: #{'min(100%, 260px)'};
+    flex: 1 1 calc(50% - 0.4rem);
+    margin: 0;
+    border-radius: 12px;
+    border: 1px solid rgba($preset5, 0.35);
+    background: rgba($sakura, 0.2);
+    box-shadow: 0 4px 20px rgba($preset6, 0.06);
+    padding: 1rem 1.1rem 1.15rem;
+    @include transition(transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease);
 
     @media (prefers-color-scheme: dark) {
-      border: 1px solid $preset2;
-      box-shadow: 0px 0px 6px $preset1;
+      border-color: rgba($preset2, 0.25);
+      background: rgba($preset6, 0.22);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: $preset4;
+      box-shadow: 0 10px 32px rgba($preset3, 0.15);
+
+      @media (prefers-color-scheme: dark) {
+        border-color: $preset2;
+        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
+      }
     }
 
     &-title {
-      font-size: 28px;
+      font-size: 1.15rem;
       text-align: center;
       font-family: $monospaced;
+      margin-bottom: 0.35rem;
     }
 
     &-link-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      gap: 0.5rem;
     }
 
     &-link {
-      font-size: 18px;
+      font-size: 0.95rem;
       font-family: $monospaced;
     }
 
     &-description {
-      margin: 0;
-      font-size: 14px;
+      margin: 0.5rem 0 0;
+      font-size: 0.82rem;
+      line-height: 1.45;
       color: $default-tint;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-default-tint;
       }
     }
+  }
+}
+
+.about .about-info table,
+.about .about-info th,
+.about .about-info td {
+  border: 0;
+}
+
+.about-build-note {
+  margin-top: 2rem;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: $default-tint;
+
+  @media (prefers-color-scheme: dark) {
+    color: $dark-default-tint;
+  }
+}
+
+// 为 Takina 预留独立区域，贴在区块左下角，不再与卡片、页脚叠在一起
+.about-sakana-slot {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-height: #{'min(300px, 42vh)'};
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  overflow: visible;
+  pointer-events: none;
+
+  .sakana {
+    pointer-events: auto;
   }
 }

@@ -1,14 +1,31 @@
 .wikipage {
-  padding: 3rem 0;
+  padding: 2.5rem 0 3.5rem;
 
-  h1, h2, h3, h4, h5, h6, p, a, li {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  a,
+  li {
     font-family: $serif-primary;
+  }
+
+  h2,
+  h3 {
+    font-family: $display-serif;
+    margin-top: 1.75rem;
   }
 
   &-info {
     color: $default-tint;
-    font-family: $serif-primary;
-    letter-spacing: 0.5px;
+    font-family: $sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     text-align: center;
 
     @media (prefers-color-scheme: dark) {
@@ -16,16 +33,19 @@
     }
 
     span {
-      // font-style: italic;
+      //
     }
   }
 
   &-title {
     color: $default-shade;
-    font-family: $serif-primary;
-    font-size: 3rem;
-    margin: 1rem 0;
+    font-family: $display-serif;
+    font-weight: 600;
+    font-size: clamp(1.85rem, 5vw, 2.65rem);
+    margin: 0.85rem 0 1.25rem;
     text-align: center;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-shade;
@@ -33,46 +53,58 @@
   }
 
   &-line {
-    border-top: 0.4rem solid $default-shade;
+    border-top: 0.35rem solid $preset4;
+    border-radius: 2px;
     display: block;
-    margin: 0 auto 3rem;
-    width: 4rem;
+    margin: 0 auto 2.5rem;
+    width: 3.25rem;
+    box-shadow: 0 3px 14px rgba($preset3, 0.28);
 
     @media (prefers-color-scheme: dark) {
-      border-top: 0.4rem solid $dark-default-shade;
+      border-top-color: $preset3;
+      box-shadow: 0 3px 18px rgba($preset1, 0.12);
     }
   }
 
   &-description {
     color: $default-tint;
     font-family: $serif-primary;
-    font-size: 1.2em;
-    margin: 1rem 0;
+    font-size: 1.08rem;
+    font-style: italic;
+    margin: 0 0 1.5rem;
     text-align: center;
   }
 
   &-warn {
     color: $preset4;
+    font-weight: 600;
   }
 
   p {
-    margin: 0 0 1rem;
+    margin: 0 0 1.1rem;
     text-align: justify;
+    line-height: 1.75;
   }
-  
+
   a:hover {
     text-decoration: underline;
   }
 
   img {
     margin: 0 auto 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 28px rgba($preset6, 0.1);
+
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
   }
 
   img + em {
     color: $default-tint;
     display: block;
-    font-family: $serif-primary;
-    font-size: 0.9rem;
+    font-family: $sans-serif;
+    font-size: 0.88rem;
     font-style: normal;
     text-align: center;
 
@@ -81,7 +113,6 @@
     }
   }
 
-  // CSS for making emoji inline
   img.emoji {
     display: inline-block;
     left: 0;
@@ -91,5 +122,7 @@
     vertical-align: text-top;
     padding: 0;
     margin: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 }

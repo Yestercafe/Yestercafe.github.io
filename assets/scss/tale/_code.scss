@@ -15,15 +15,19 @@ code {
 
 pre {
   overflow-y: auto;
-  line-height: 1.2;
-  padding: 20px 16px;
-
+  line-height: 1.45;
+  padding: 1.1rem 1.15rem;
+  border-radius: 10px;
   overflow-x: auto;
   text-overflow: clip;
+  border: 1px solid rgba($preset3, 0.28);
+  background: rgba($sakura, 0.22);
+  box-shadow: 0 4px 20px rgba($preset6, 0.06);
 
-  border: 1px dashed $default-tint;
   @media (prefers-color-scheme: dark) {
-    border: 1px dashed $dark-default-tint;
+    border-color: rgba($preset2, 0.18);
+    background: rgba($preset6, 0.2);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -34,19 +38,28 @@ pre code {
 }
 
 p code {
-  padding: 2px 4px;
-  background-color: $grey-3;
-  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  background-color: rgba($sakura, 0.55);
+  border: 1px solid rgba($preset3, 0.2);
+  border-radius: 5px;
+  font-size: 0.88em;
 
   @media (prefers-color-scheme: dark) {
-    background-color: $dark-grey-3;
+    background-color: rgba($preset6, 0.45);
+    border-color: rgba($preset2, 0.15);
   }
 }
 
 .highlight {
-  border-radius: 3px;
+  border-radius: 10px;
   line-height: 1.2;
-  margin: 1rem 0;
+  margin: 1.15rem 0;
+  overflow: hidden;
+  border: 1px solid rgba($preset3, 0.15);
+
+  @media (prefers-color-scheme: dark) {
+    border-color: rgba($preset2, 0.12);
+  }
 
   .lineno {
     color: $default-tint;

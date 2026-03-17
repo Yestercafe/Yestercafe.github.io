@@ -1,12 +1,16 @@
 .tags {
+  padding-bottom: 2rem;
+
   &-header {
     &-title {
       color: $default-shade;
-      font-family: $sans-serif;
-      font-size: 3rem;
-      margin: 1rem 0;
+      font-family: $display-serif;
+      font-weight: 600;
+      font-size: clamp(1.85rem, 4vw, 2.65rem);
+      margin: 1.25rem 0 1rem;
       margin-top: 2rem;
       text-align: center;
+      letter-spacing: -0.03em;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-default-shade;
@@ -14,13 +18,16 @@
     }
 
     &-line {
-      border-top: 0.4rem solid $default-shade;
+      border-top: 0.35rem solid $preset4;
+      border-radius: 2px;
       display: block;
-      margin: 0 auto 3rem;
-      width: 4rem;
+      margin: 0 auto 2.5rem;
+      width: 3.25rem;
+      box-shadow: 0 3px 14px rgba($preset3, 0.28);
 
       @media (prefers-color-scheme: dark) {
-        border-top: 0.4rem solid $dark-default-shade;
+        border-top-color: $preset3;
+        box-shadow: 0 3px 18px rgba($preset1, 0.12);
       }
     }
   }
@@ -28,29 +35,38 @@
   &-clouds {
     text-align: center;
     font-family: $sans-serif;
+    padding: 0.5rem 0 1.5rem;
+    line-height: 2.1;
 
     a {
       font-family: $monospaced;
       display: inline-block;
-      margin: 0 0.1rem 0.2rem;
-      padding: 0.2rem 0.5rem;
-      background: rgba(0, 0, 0, 0.05);
-      border-radius: 5px;
-      color: $default-color;
+      margin: 0 0.2rem 0.45rem;
+      padding: 0.35rem 0.75rem;
+      background: rgba($sakura, 0.5);
+      border: 1px solid rgba($preset3, 0.25);
+      border-radius: 999px;
+      color: $default-shade;
       text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      @include transition(transform 0.2s ease, background 0.2s ease, border-color 0.2s ease);
 
       @media (prefers-color-scheme: dark) {
-        background: rgba(255, 255, 255, 0.1);
-        color: $dark-default-color;
+        background: rgba($preset6, 0.4);
+        border-color: rgba($preset2, 0.18);
+        color: $dark-default-shade;
       }
 
       &:hover,
       &:active {
-        @include transition(all 0.3s ease-out);
-        background-color: $preset1;
+        transform: translateY(-2px);
+        background: rgba($ikkonzome, 0.55);
+        border-color: $preset4;
 
         @media (prefers-color-scheme: dark) {
-          background-color: $preset6;
+          background: rgba($preset5, 0.35);
+          border-color: $preset2;
         }
       }
     }
@@ -59,16 +75,28 @@
   &-item {
     &-icon {
       height: 1rem;
+      color: $preset4;
+      vertical-align: -0.15em;
+      margin-right: 0.35rem;
+
+      @media (prefers-color-scheme: dark) {
+        color: $preset2;
+      }
     }
 
     &-label {
       display: inline-block;
-      margin: 2rem 0 0.5rem;
-      font-family: $sans-serif;
-      color: $default-color;
+      margin: 2.25rem 0 0.65rem;
+      font-family: $display-serif;
+      font-weight: 600;
+      font-size: 1.35rem;
+      color: $default-shade;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid rgba($preset3, 0.35);
 
       @media (prefers-color-scheme: dark) {
-        color: $dark-default-color;
+        color: $dark-default-shade;
+        border-bottom-color: rgba($preset2, 0.25);
       }
     }
   }
@@ -77,36 +105,54 @@
     color: $default-color;
     display: flex;
     justify-content: space-between;
-    padding: 5px 0;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.5rem 0.65rem;
+    margin: 0 -0.65rem;
+    border-radius: 8px;
+    @include transition(background 0.2s ease);
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
     }
 
+    &:hover {
+      background: rgba($sakura, 0.18);
+
+      @media (prefers-color-scheme: dark) {
+        background: rgba($preset6, 0.18);
+      }
+    }
+
     &-title {
-      color: $default-color;
+      color: $default-shade;
+      font-family: $sans-serif;
+      font-weight: 500;
       text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
 
       @media (prefers-color-scheme: dark) {
-        color: $dark-default-color;
+        color: $dark-default-shade;
       }
     }
 
     &-line {
       @include transition(all 0.3s ease-out);
-      border-top: 0.1rem solid $preset3;
+      border-top: 0.15rem solid $preset4;
       display: block;
       width: 0;
+      border-radius: 1px;
     }
 
     &-meta {
       color: $default-tint;
       font-family: $clock;
+      font-size: 0.88rem;
       text-align: right;
       white-space: nowrap;
+      font-variant-numeric: tabular-nums;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-default-tint;
@@ -116,14 +162,14 @@
     &:hover,
     &:active {
       .tags-post-line {
-        width: 3rem;
+        width: 3.5rem;
       }
 
       .tags-post-meta {
-        color: $default-shade;
+        color: $preset5;
 
         @media (prefers-color-scheme: dark) {
-          color: $dark-default-shade;
+          color: $preset2;
         }
       }
     }

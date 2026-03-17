@@ -1,11 +1,15 @@
 .search {
+  padding-bottom: 2rem;
+
   &-header {
     &-title {
       color: $default-shade;
-      font-family: $sans-serif;
-      font-size: 3rem;
-      margin: 1rem 0;
+      font-family: $display-serif;
+      font-weight: 600;
+      font-size: clamp(1.85rem, 4vw, 2.65rem);
+      margin: 1.25rem 0 1rem;
       text-align: center;
+      letter-spacing: -0.03em;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-default-shade;
@@ -13,13 +17,43 @@
     }
 
     &-line {
-      border-top: 0.4rem solid $default-shade;
+      border-top: 0.35rem solid $preset4;
+      border-radius: 2px;
       display: block;
-      margin: 0 auto 3rem;
-      width: 4rem;
+      margin: 0 auto 2rem;
+      width: 3.25rem;
+      box-shadow: 0 3px 14px rgba($preset3, 0.28);
 
       @media (prefers-color-scheme: dark) {
-        border-top: 0.4rem solid $dark-default-shade;
+        border-top-color: $preset3;
+        box-shadow: 0 3px 18px rgba($preset1, 0.12);
+      }
+    }
+  }
+
+  &-input-wrap {
+    max-width: 520px;
+    margin: 0 auto 2rem;
+    padding: 0.35rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba($preset3, 0.35);
+    background: rgba($sakura, 0.35);
+    box-shadow: inset 0 1px 0 rgba($white, 0.6), 0 4px 20px rgba($preset6, 0.06);
+    @include transition(border-color 0.2s ease, box-shadow 0.2s ease);
+
+    @media (prefers-color-scheme: dark) {
+      background: rgba($preset6, 0.25);
+      border-color: rgba($preset2, 0.2);
+      box-shadow: inset 0 1px 0 rgba($white, 0.04), 0 4px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    &:focus-within {
+      border-color: $preset4;
+      box-shadow: 0 0 0 3px rgba($preset3, 0.2), 0 8px 28px rgba($preset3, 0.12);
+
+      @media (prefers-color-scheme: dark) {
+        border-color: $preset2;
+        box-shadow: 0 0 0 3px rgba($preset2, 0.12), 0 8px 28px rgba(0, 0, 0, 0.3);
       }
     }
   }
@@ -29,15 +63,25 @@
     border: 0;
     outline: 0;
     background-color: transparent;
-    padding: 0 10px;
-    font-size: 1.6rem;
-    height: 2.6em;
-    line-height: 2.6em;
+    padding: 0 6px;
+    font-size: 1.35rem;
+    height: 2.4em;
+    line-height: 2.4em;
     text-align: center;
-
+    font-family: $sans-serif;
+    font-weight: 500;
     color: $preset5;
+
     @media (prefers-color-scheme: dark) {
       color: $preset2;
+    }
+
+    &::placeholder {
+      color: rgba($preset5, 0.45);
+
+      @media (prefers-color-scheme: dark) {
+        color: rgba($preset2, 0.4);
+      }
     }
   }
 
@@ -45,34 +89,47 @@
     color: $default-color;
     display: flex;
     justify-content: center;
-    padding: .6em 0;
+    padding: 0.55em 0.75em;
+    margin: 0 -0.75em;
+    border-radius: 10px;
+    @include transition(background 0.2s ease);
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
     }
 
+    &:hover {
+      background: rgba($sakura, 0.2);
+
+      @media (prefers-color-scheme: dark) {
+        background: rgba($preset6, 0.2);
+      }
+    }
+
     &-title {
-      color: $default-color;
+      color: $default-shade;
       font-family: $sans-serif;
-      font-size: 1.2em;
+      font-weight: 500;
+      font-size: 1.05em;
       text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
 
       @media (prefers-color-scheme: dark) {
-        color: $dark-default-color;
+        color: $dark-default-shade;
       }
     }
 
     &-line {
-      @include transition(all 0.3s ease-out);
-      border-top: 0.15rem solid $preset5;
+      @include transition(all 0.35s ease-out);
+      border-top: 0.18rem solid $preset5;
       width: 0;
-      margin: 0 auto;
+      margin: 0.3rem auto 0;
+      border-radius: 1px;
 
       @media (prefers-color-scheme: dark) {
-        border-top: 0.15rem solid $preset2;
+        border-top-color: $preset2;
       }
     }
 
@@ -83,4 +140,15 @@
       }
     }
   }
+}
+
+.search-panel {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.search-results {
+  text-align: center;
+  min-height: 4rem;
+  padding-bottom: 2rem;
 }

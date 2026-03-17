@@ -1,62 +1,90 @@
 .catalogue {
+  padding-top: 0.5rem;
+
   &-item {
-    // border-bottom: 1px solid $grey-2;
     color: $default-color;
     display: block;
-    padding: 1rem 0;
+    padding: 0;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba($preset3, 0.2);
+    background: rgba($white, 0.55);
+    box-shadow: 0 2px 16px rgba($preset6, 0.04);
+    overflow: hidden;
+    @include transition(
+      border-color 0.28s ease,
+      box-shadow 0.28s ease,
+      transform 0.28s ease,
+      background 0.28s ease
+    );
 
-    &:hover .catalogue-title,
-    &:focus .catalogue-title,
-    &:hover .catalogue-time,
-    &:focus .catalogue-time {
-      color: $preset3;
+    @media (prefers-color-scheme: dark) {
+      background: rgba($dark-grey-3, 0.45);
+      border-color: rgba($preset2, 0.12);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
     }
 
-    &:hover .catalogue-line,
-    &:focus .catalogue-line {
-      border-top: .1rem solid $preset3;
-      box-shadow: 0 0 2px $grey-1;
+    > div {
+      padding: 1.15rem 1.25rem 1rem;
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: rgba($preset4, 0.45);
+      box-shadow: 0 8px 32px rgba($preset3, 0.12);
+      transform: translateY(-2px);
+      background: rgba($sakura, 0.25);
 
       @media (prefers-color-scheme: dark) {
-        box-shadow: 0 0 2px $dark-grey-1;
+        background: rgba($preset6, 0.28);
+        border-color: rgba($preset2, 0.28);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      }
+
+      .catalogue-title,
+      .catalogue-time {
+        color: $preset5;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .catalogue-title,
+        .catalogue-time {
+          color: $preset2;
+        }
+      }
+
+      .catalogue-line {
+        border-top-color: $preset3;
+        box-shadow: 0 0 12px rgba($preset3, 0.2);
+        width: 100%;
+
+        @media (prefers-color-scheme: dark) {
+          box-shadow: 0 0 12px rgba($preset1, 0.15);
+        }
       }
     }
 
     &:first-child {
-      padding-top: 2rem;
+      margin-top: 0.5rem;
     }
 
     &:last-child .catalogue-line {
-      width: 0;
-      @include transition(all .15s ease-out);
-    }
-    &:last-child:focus .catalogue-line,
-    &:last-child:hover .catalogue-line {
-      border-top: .1rem solid $preset3;
-      box-shadow: 0 0 2px $grey-1;
       width: 100%;
-
-      @media (prefers-color-scheme: dark) {
-        box-shadow: 0 0 2px $dark-grey-1;
-      }
-    }
-
-    @media (prefers-color-scheme: dark) {
-      color: $dark-default-color;
     }
   }
 
   &-time,
   &-time-archived {
-    @include transition(all .3s ease-out);
+    @include transition(all 0.3s ease-out);
     color: $default-tint;
     font-family: $clock;
     text-align: right;
     white-space: nowrap;
-    letter-spacing: .5px;
-    font-size: 1em;
+    letter-spacing: 0.03em;
+    font-size: 0.88rem;
     margin: 0;
-    padding-top: .25rem;
+    padding-top: 0.35rem;
+    font-variant-numeric: tabular-nums;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-tint;
@@ -65,14 +93,14 @@
 
   &-title,
   &-title-archived {
-    @include transition(all .3s ease-out);
+    @include transition(all 0.3s ease-out);
     color: $default-shade;
     display: block;
     font-family: $sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.22rem;
+    font-weight: 600;
     margin: 0;
-
+    line-height: 1.35;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -83,14 +111,15 @@
   }
 
   &-title-archived {
-    opacity: .4;
+    opacity: 0.5;
   }
 
   &-description {
-    @include transition(all .3s ease-out);
-    font-size: 1em;
+    @include transition(all 0.3s ease-out);
+    font-size: 0.94rem;
     color: $default-tint;
-    margin: 1em 0;
+    margin: 0.75rem 0 0;
+    line-height: 1.55;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-tint;
@@ -98,13 +127,15 @@
   }
 
   &-line {
-    @include transition(all .3s ease-out);
-    border-top: .1rem solid $grey-2;
+    @include transition(all 0.35s ease-out);
+    border-top: 2px solid rgba($preset3, 0.25);
     display: block;
-    width: 100%;
+    width: 38%;
+    margin-top: 0.85rem;
+    border-radius: 1px;
 
     @media (prefers-color-scheme: dark) {
-      border-top: .1rem solid $dark-grey-2;
+      border-top-color: rgba($preset2, 0.2);
     }
   }
 }

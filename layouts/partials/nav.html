@@ -1,18 +1,45 @@
-<nav class="nav">
+<nav class="nav" aria-label="主导航">
   <div class="nav-container">
-    <a href="{{ "/" | relURL }}">
-      <h2 class="nav-title">{{ site.Title }}</h2>
-    </a>
-    <ul>
-      <li><a href="{{ "/" | relURL }}">帖子</a></li>
-      <li><a href="{{ "/wiki/" | relURL }}">Wiki</a></li>
-      <li><a href="{{ "/docs/" | relURL }}">Docs</a></li>
-      <li><a href="{{ "/tags/" | relURL }}">标签</a></li>
-      <li><a href="{{ "/gallery/" | relURL }}">归档</a></li>
-      <li><a href="{{ "/about/" | relURL }}">关于</a></li>
-      <li><a href="{{ "/search/" | relURL }}">
-        <img src="{{ "assets/icons/search.svg" | relURL }}" style="width:20px;height:20px;pointer-events:none;margin-bottom:-4px" class="nav-search" alt="">
-      </a></li>
+    {{- $current := . -}}
+    {{- $url := $current.RelPermalink -}}
+    {{- $homeURL := "/" | relURL -}}
+    {{- $wikiURL := "/wiki/" | relURL -}}
+    {{- $docsURL := "/docs/" | relURL -}}
+    {{- $tagsURL := "/tags/" | relURL -}}
+    {{- $galleryURL := "/gallery/" | relURL -}}
+    {{- $aboutURL := "/about/" | relURL -}}
+    {{- $searchURL := "/search/" | relURL -}}
+
+    <div class="nav-brand">
+      <a href="{{ "/" | relURL }}" class="nav-brand-link">
+        <span class="nav-brand-mark" aria-hidden="true"></span>
+        <h2 class="nav-title">{{ site.Title }}</h2>
+      </a>
+    </div>
+    <ul class="nav-menu">
+      <li class="nav-item{{ if or $current.IsHome (eq $url $homeURL) }} nav-item--active{{ end }}">
+        <a href="{{ "/" | relURL }}" {{ if or $current.IsHome (eq $url $homeURL) }}aria-current="page"{{ end }}>帖子</a>
+      </li>
+      <li class="nav-item{{ if hasPrefix $url $wikiURL }} nav-item--active{{ end }}">
+        <a href="{{ "/wiki/" | relURL }}" {{ if hasPrefix $url $wikiURL }}aria-current="page"{{ end }}>Wiki</a>
+      </li>
+      <li class="nav-item{{ if hasPrefix $url $docsURL }} nav-item--active{{ end }}">
+        <a href="{{ "/docs/" | relURL }}" {{ if hasPrefix $url $docsURL }}aria-current="page"{{ end }}>Docs</a>
+      </li>
+      <li class="nav-item{{ if hasPrefix $url $tagsURL }} nav-item--active{{ end }}">
+        <a href="{{ "/tags/" | relURL }}" {{ if hasPrefix $url $tagsURL }}aria-current="page"{{ end }}>标签</a>
+      </li>
+      <li class="nav-item{{ if hasPrefix $url $galleryURL }} nav-item--active{{ end }}">
+        <a href="{{ "/gallery/" | relURL }}" {{ if hasPrefix $url $galleryURL }}aria-current="page"{{ end }}>归档</a>
+      </li>
+      <li class="nav-item{{ if hasPrefix $url $aboutURL }} nav-item--active{{ end }}">
+        <a href="{{ "/about/" | relURL }}" {{ if hasPrefix $url $aboutURL }}aria-current="page"{{ end }}>关于</a>
+      </li>
+      <li class="nav-item-search nav-item{{ if hasPrefix $url $searchURL }} nav-item--active{{ end }}">
+        <a href="{{ "/search/" | relURL }}" class="nav-search-link" aria-label="搜索" {{ if hasPrefix $url $searchURL }}aria-current="page"{{ end }}>
+          <img src="{{ "assets/icons/search.svg" | relURL }}" width="20" height="20" class="nav-search" alt="">
+        </a>
+      </li>
     </ul>
   </div>
 </nav>

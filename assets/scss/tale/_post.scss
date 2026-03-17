@@ -1,10 +1,13 @@
 .post {
-  padding: 3rem 0;
+  padding: 2.5rem 0 3.5rem;
 
   &-info {
     color: $default-tint;
-    font-family: $serif-secondary;
-    letter-spacing: 0.5px;
+    font-family: $sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     text-align: center;
 
     @media (prefers-color-scheme: dark) {
@@ -12,16 +15,19 @@
     }
 
     span {
-      // font-style: italic;
+      //
     }
   }
 
   &-title {
     color: $default-shade;
-    font-family: $sans-serif;
-    font-size: 3rem;
-    margin: 1rem 0;
+    font-family: $display-serif;
+    font-weight: 600;
+    font-size: clamp(1.85rem, 5vw, 2.65rem);
+    margin: 0.85rem 0 1.25rem;
     text-align: center;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-shade;
@@ -29,27 +35,35 @@
   }
 
   &-line {
-    border-top: 0.4rem solid $default-shade;
+    border-top: 0.35rem solid $preset4;
+    border-radius: 2px;
     display: block;
-    margin: 0 auto 3rem;
-    width: 4rem;
+    margin: 0 auto 2.5rem;
+    width: 3.25rem;
+    box-shadow: 0 3px 14px rgba($preset3, 0.3);
 
     @media (prefers-color-scheme: dark) {
-      border-top: 0.4rem solid $dark-default-shade;
+      border-top-color: $preset3;
+      box-shadow: 0 3px 18px rgba($preset1, 0.15);
     }
   }
 
   &-description {
     color: $default-tint;
-    font-family: $sans-serif;
-    font-size: 1.2em;
-    margin: 1rem 0;
+    font-family: $serif-primary;
+    font-size: 1.08rem;
+    font-style: italic;
+    margin: 0 0 1.5rem;
     text-align: center;
+    max-width: 36em;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   p {
-    margin: 0 0 1rem;
+    margin: 0 0 1.1rem;
     text-align: justify;
+    line-height: 1.75;
   }
 
   a:hover {
@@ -58,22 +72,28 @@
 
   img {
     margin: 0 auto 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 28px rgba($preset6, 0.12);
+
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+    }
   }
 
   img + em {
     color: $default-tint;
     display: block;
     font-family: $sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-style: normal;
     text-align: center;
+    margin-top: -0.25rem;
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-tint;
     }
   }
 
-  // CSS for making emoji inline
   img.emoji {
     display: inline-block;
     left: 0;
@@ -83,5 +103,7 @@
     vertical-align: text-top;
     padding: 0;
     margin: 0;
+    border-radius: 0;
+    box-shadow: none;
   }
 }

@@ -49,9 +49,12 @@ h4,
 h5,
 h6 {
   color: $default-shade;
-  font-family: $sans-serif;
-  line-height: normal;
+  font-family: $display-serif;
+  font-weight: 600;
+  line-height: 1.25;
   margin-top: 0;
+  letter-spacing: -0.02em;
+
   @media (prefers-color-scheme: dark) {
     color: $dark-default-shade;
   }
@@ -94,22 +97,25 @@ a {
 }
 
 blockquote {
-  border-left: .25rem solid $grey-2;
-  color: $grey-1;
-  margin: .8rem 0;
-  padding: .5rem 1rem;
+  border-left: 0.28rem solid $preset3;
+  background: rgba($sakura, 0.35);
+  color: $default-shade;
+  margin: 1rem 0;
+  padding: 0.85rem 1.15rem;
+  border-radius: 0 8px 8px 0;
 
   p:last-child {
     margin-bottom: 0;
   }
 
   @media (min-width: 600px) {
-    padding: 0 5rem 0 1.25rem;
+    padding: 0.85rem 2.5rem 0.85rem 1.35rem;
   }
 
   @media (prefers-color-scheme: dark) {
-    border-left: .25rem solid $dark-grey-2;
-    color: $dark-grey-1;
+    border-left-color: $preset2;
+    background: rgba($preset6, 0.35);
+    color: $dark-default-color;
   }
 }
 
@@ -164,8 +170,17 @@ td {
 .sakana {
   position: fixed;
   display: flex;
-  left: 0px;
+  left: 0;
   bottom: 40px;
+  z-index: 60;
+}
+
+// 关于页：放在文档流底部专用区域，不压住仓库卡片与页脚
+.about .about-sakana-slot .sakana.sakana--about {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 5;
 }
 
 table {

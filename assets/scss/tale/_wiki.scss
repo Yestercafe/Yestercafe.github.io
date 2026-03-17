@@ -2,11 +2,13 @@
   &-header {
     &-title {
       color: $default-shade;
-      font-family: $serif-primary;
-      font-size: 3rem;
-      margin: 1rem 0;
+      font-family: $display-serif;
+      font-weight: 600;
+      font-size: clamp(1.85rem, 4vw, 2.75rem);
+      margin: 1.25rem 0 1rem;
       margin-top: 2rem;
       text-align: center;
+      letter-spacing: -0.03em;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-default-shade;
@@ -14,13 +16,16 @@
     }
 
     &-line {
-      border-top: 0.4rem solid $default-shade;
+      border-top: 0.35rem solid $preset4;
+      border-radius: 2px;
       display: block;
-      margin: 0 auto 3rem;
-      width: 4rem;
+      margin: 0 auto 2.5rem;
+      width: 3.25rem;
+      box-shadow: 0 3px 14px rgba($preset3, 0.28);
 
       @media (prefers-color-scheme: dark) {
-        border-top: 0.4rem solid $dark-default-shade;
+        border-top-color: $preset3;
+        box-shadow: 0 3px 18px rgba($preset1, 0.12);
       }
     }
   }
@@ -29,34 +34,47 @@
     color: $default-color;
     display: flex;
     justify-content: center;
-    padding: .6em 0;
+    padding: 0.65em 0.85em;
+    margin: 0 -0.85em;
+    border-radius: 10px;
+    @include transition(background 0.22s ease);
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
     }
 
+    &:hover {
+      background: rgba($sakura, 0.22);
+
+      @media (prefers-color-scheme: dark) {
+        background: rgba($preset6, 0.22);
+      }
+    }
+
     &-title {
-      color: $default-color;
+      color: $default-shade;
       font-family: $serif-primary;
-      font-size: 1.2em;
+      font-size: 1.08em;
+      font-weight: 500;
       text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
 
       @media (prefers-color-scheme: dark) {
-        color: $dark-default-color;
+        color: $dark-default-shade;
       }
     }
 
     &-title-archived {
       color: $grey-1;
       font-family: $serif-primary;
-      font-size: 1.2em;
+      font-size: 1.08em;
       text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      opacity: 0.65;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-grey-1;
@@ -64,10 +82,16 @@
     }
 
     &-line {
-      @include transition(all 0.3s ease-out);
-      border-top: 0.15rem solid $preset3;
+      @include transition(all 0.35s ease-out);
+      border-top: 0.18rem solid $preset4;
       width: 0;
-      margin: 0 auto;
+      margin: 0.35rem auto 0;
+      border-radius: 1px;
+      box-shadow: 0 1px 8px rgba($preset3, 0.2);
+
+      @media (prefers-color-scheme: dark) {
+        border-top-color: $preset2;
+      }
     }
 
     &:hover,

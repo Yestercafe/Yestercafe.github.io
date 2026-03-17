@@ -1,27 +1,106 @@
 .notfound {
   position: relative;
   text-align: center;
-  margin: 4rem 0;
+  margin: 3rem 0 5rem;
+  padding: 2rem 1rem;
 
   &-error {
-    font-size: 3rem;
-    margin: 1rem 0;
+    font-family: $display-serif;
+    font-weight: 700;
+    font-size: clamp(3rem, 12vw, 5.5rem);
+    line-height: 1;
+    margin: 0 0 0.5rem;
+    background: linear-gradient(135deg, $preset5 0%, $preset3 50%, $preset4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.04em;
+
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(135deg, $preset2 0%, $preset1 60%, $preset3 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
   }
 
   &-line {
-    border-top: 0.4rem solid $default-shade;
+    border-top: 0.35rem solid $preset4;
+    border-radius: 2px;
     display: block;
-    margin: 0 auto 3rem;
-    width: 4rem;
+    margin: 0 auto 2rem;
+    width: 3rem;
+    box-shadow: 0 3px 14px rgba($preset3, 0.3);
 
     @media (prefers-color-scheme: dark) {
-      border-top: 0.4rem solid $dark-default-shade;
+      border-top-color: $preset3;
     }
   }
 
   &-message {
-    max-width: 40rem;
-    font-size: 20px;
-    margin: 5rem auto;
+    max-width: 28rem;
+    font-family: $serif-primary;
+    font-size: 1.15rem;
+    line-height: 1.65;
+    margin: 0 auto 2rem;
+    color: $default-tint;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-tint;
+    }
+
+    a {
+      font-family: $sans-serif;
+      font-weight: 600;
+      color: $preset5;
+      padding: 0 2px;
+      border-radius: 4px;
+      box-shadow: inset 0 -0.12em 0 rgba($preset3, 0.5);
+      @include transition(color 0.2s ease, box-shadow 0.2s ease);
+
+      @media (prefers-color-scheme: dark) {
+        color: $preset2;
+        box-shadow: inset 0 -0.12em 0 rgba($preset1, 0.4);
+      }
+
+      &:hover {
+        color: $preset4;
+        box-shadow: inset 0 -1.4em 0 rgba($sakura, 0.65);
+      }
+    }
+  }
+
+  &-palette-title {
+    font-family: $display-serif;
+    font-weight: 600;
+    font-size: 1.35rem;
+    margin: 2.5rem 0 1.25rem;
+    color: $default-shade;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-shade;
+    }
+  }
+
+  &-palette {
+    width: #{'min(100%, 380px)'};
+    margin: 0 auto 2rem;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba($preset3, 0.25);
+    box-shadow: 0 8px 32px rgba($preset6, 0.08);
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba($preset2, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+
+    td {
+      padding: 0.65rem 0.85rem;
+      border: 1px solid rgba($preset3, 0.12);
+
+      @media (prefers-color-scheme: dark) {
+        border-color: rgba($preset2, 0.08);
+      }
+    }
   }
 }

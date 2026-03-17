@@ -1,113 +1,215 @@
 .gallery {
+  padding-bottom: 2rem;
+
+  // 星轨式标题动画
   &-header {
     display: flex;
     justify-content: center;
-    margin-top: 2em;
+    margin: 2.5rem auto 2rem;
+    padding: 0.5rem;
+
+    // 绘制外框的关键帧
+    @keyframes gallery-frame-horizontal {
+      from { transform: scaleX(0); opacity: 0; }
+      40% { opacity: 1; }
+      to { transform: scaleX(1); opacity: 1; }
+    }
+
+    @keyframes gallery-frame-vertical {
+      from { transform: scaleY(0); opacity: 0; }
+      40% { opacity: 1; }
+      to { transform: scaleY(1); opacity: 1; }
+    }
+
+    @keyframes gallery-title-glow {
+      0% { text-shadow: 0 0 0 rgba($preset4, 0); }
+      40% { text-shadow: 0 0 8px rgba($preset4, 0.35); }
+      100% { text-shadow: 0 0 12px rgba($preset4, 0.42); }
+    }
+
+    @keyframes gallery-stars-twinkle {
+      0%, 100% { opacity: 0.15; transform: translateY(0); }
+      50% { opacity: 0.6; transform: translateY(-2px); }
+    }
+
+    &-container {
+      position: relative;
+      width: #{'min(320px, 88vw)'};
+      min-height: 200px;
+      box-sizing: border-box;
+      padding: 52px 32px 52px;
+      border-radius: 22px;
+      overflow: visible;
+
+      // 标题与上下装饰线留出空隙，避免与笔画/光晕重叠
+      > div:nth-child(2) {
+        margin-top: 0.35rem;
+      }
+
+      > div:nth-child(3) {
+        margin-bottom: 0.35rem;
+      }
+
+      // 星光点缀
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 999px;
+        background: $preset4;
+        box-shadow:
+          32px -18px 0 0 rgba($preset4, 0.8),
+          120px -4px 0 0 rgba($preset3, 0.7),
+          -18px 12px 0 0 rgba($preset2, 0.65),
+          86px 40px 0 0 rgba($preset5, 0.5);
+        opacity: 0.2;
+        animation: gallery-stars-twinkle 3.5s ease-in-out infinite alternate;
+
+        @media (prefers-color-scheme: dark) {
+          background: $preset2;
+          box-shadow:
+            32px -18px 0 0 rgba($preset2, 0.9),
+            120px -4px 0 0 rgba($preset1, 0.8),
+            -18px 12px 0 0 rgba($preset3, 0.65),
+            86px 40px 0 0 rgba($preset4, 0.6);
+        }
+      }
+
+      &::before {
+        top: 10px;
+        left: -6px;
+        animation-delay: 0.4s;
+      }
+
+      &::after {
+        bottom: 6px;
+        right: -4px;
+        animation-delay: 1s;
+      }
+    }
 
     &-title {
-      @include transition(all 6s cubic-bezier(.13,.41,.43,.92));
+      @include transition(color 0.5s ease, transform 0.5s ease);
       color: $default-shade;
-      font-family: $clock;
-      font-size: 60px;
-      font-weight: 600;
+      font-family: $display-serif;
+      font-size: clamp(2.25rem, 8vw, 3.25rem);
+      font-weight: 700;
       text-align: center;
       display: block;
-      margin: 0 0rem;
+      margin: 0;
+      letter-spacing: -0.03em;
+      animation: gallery-title-glow 1.6s ease-out forwards;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-default-shade;
       }
     }
 
-    &-aboveline {
-      @include transition(all 6s cubic-bezier(.13,.41,.43,.92));
-      border-bottom: 10px solid $default-shade;
-      display: block;
-      margin: auto;
-      width: 0rem;
+    &-aboveline,
+    &-underline,
+    &-leftline,
+    &-rightline {
+      position: absolute;
+      border-color: rgba($preset4, 0.5);
+      border-style: solid;
+      border-radius: 999px;
+      opacity: 0;
 
       @media (prefers-color-scheme: dark) {
-        border-bottom: 10px solid $dark-default-shade;
+        border-color: rgba($preset2, 0.6);
       }
+    }
+
+    &-aboveline {
+      top: 14px;
+      left: 20px;
+      right: 20px;
+      border-width: 0 0 5px 0;
+      transform-origin: center left;
+      transform: scaleX(0);
+      animation: gallery-frame-horizontal 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
     &-underline {
-      @include transition(all 6s cubic-bezier(.13,.41,.43,.92));
-      border-top: 10px solid $default-shade;
-      display: block;
-      margin: auto;
-      width: 0rem;
-
-      @media (prefers-color-scheme: dark) {
-        border-top: 10px solid $dark-default-shade;
-      }
+      bottom: 14px;
+      left: 20px;
+      right: 20px;
+      border-width: 5px 0 0 0;
+      transform-origin: center right;
+      transform: scaleX(0);
+      animation: gallery-frame-horizontal 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
     }
 
     &-leftline {
-      @include transition(all 6s cubic-bezier(.13,.41,.43,.92));
-      border-right: 10px solid $default-shade;
-      height: 0rem;
-
-      @media (prefers-color-scheme: dark) {
-        border-right: 10px solid $dark-default-shade;
-      }
+      top: 22px;
+      bottom: 22px;
+      left: 16px;
+      border-width: 0 0 0 5px;
+      transform-origin: top center;
+      transform: scaleY(0);
+      animation: gallery-frame-vertical 1s cubic-bezier(0.22, 1, 0.36, 1) 0.7s forwards;
     }
 
     &-rightline {
-      @include transition(all 6s cubic-bezier(.13,.41,.43,.92));
-      border-left: 10px solid $default-shade;
-      height: 0rem;
-
-      @media (prefers-color-scheme: dark) {
-        border-left: 10px solid $dark-default-shade;
-      }
-    }
-
-    &-container {
-      width: 320px;
-      height: 200px;
+      top: 22px;
+      bottom: 22px;
+      right: 16px;
+      border-width: 0 5px 0 0;
+      transform-origin: bottom center;
+      transform: scaleY(0);
+      animation: gallery-frame-vertical 1s cubic-bezier(0.22, 1, 0.36, 1) 0.95s forwards;
     }
 
     &:hover {
       .gallery-header-title {
-        color: $preset3;
-      }
-      
-      .gallery-header-aboveline, 
-      .gallery-header-underline,
-      .gallery-header-leftline, 
-      .gallery-header-rightline {
-        border-color: $preset3;
-      }
-      .gallery-header-aboveline, 
-      .gallery-header-underline {
-        width: 100%;
-      }
-      
-      .gallery-header-leftline, 
-      .gallery-header-rightline {
-        height: 200px;
+        color: $preset5;
+        transform: translateY(-2px);
+
+        @media (prefers-color-scheme: dark) {
+          color: $preset2;
+        }
       }
     }
   }
 
   &-details {
     cursor: pointer;
+    max-width: 640px;
+    margin: 0 auto;
 
     &-summary {
-      margin-top: 30px;
-      margin-bottom: 5px;
-      font-size: 27px;
+      margin-top: 2rem;
+      margin-bottom: 0.65rem;
+      font-family: $display-serif;
+      font-weight: 600;
+      font-size: 1.35rem;
       outline: none;
       box-shadow: none;
+      color: $default-shade;
+      padding: 0.35rem 0;
+      border-bottom: 2px solid rgba($preset3, 0.25);
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-shade;
+        border-bottom-color: rgba($preset2, 0.2);
+      }
     }
 
     &-sub-summary {
-      margin-top: 10px;
-      margin-bottom: 5px;
-      font-size: 20px;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-family: $sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
       outline: none;
       box-shadow: none;
+      color: $preset5;
+
+      @media (prefers-color-scheme: dark) {
+        color: $preset2;
+      }
     }
   }
 
@@ -115,40 +217,59 @@
     color: $default-color;
     display: flex;
     justify-content: space-between;
-    padding: 5px 0;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0.55rem 0.65rem;
+    margin: 0 -0.65rem;
+    border-radius: 8px;
+    @include transition(background 0.2s ease);
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
     }
 
-    &-title, &-time {
-      font-size: 1rem;
+    &:hover {
+      background: rgba($sakura, 0.2);
+
+      @media (prefers-color-scheme: dark) {
+        background: rgba($preset6, 0.2);
+      }
+    }
+
+    &-title,
+    &-time {
+      font-size: 0.95rem;
     }
 
     &-title {
-      color: $default-color;
+      color: $default-shade;
+      font-family: $sans-serif;
+      font-weight: 500;
       text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
 
       @media (prefers-color-scheme: dark) {
-        color: $dark-default-color;
+        color: $dark-default-shade;
       }
     }
 
     &-line {
-      @include transition(all 10s cubic-bezier(.13,.41,.43,.92));
-      border-top: 0.2rem solid $preset3;
+      @include transition(width 0.45s cubic-bezier(0.22, 1, 0.36, 1));
+      border-top: 0.2rem solid $preset4;
       display: block;
       width: 0;
+      border-radius: 1px;
     }
 
     &-time {
       color: $default-tint;
       font-family: $clock;
+      font-size: 0.85rem;
       text-align: right;
       white-space: nowrap;
+      font-variant-numeric: tabular-nums;
 
       @media (prefers-color-scheme: dark) {
         color: $dark-default-tint;
@@ -162,10 +283,10 @@
       }
 
       .gallery-item-time {
-        color: $default-shade;
+        color: $preset5;
 
         @media (prefers-color-scheme: dark) {
-          color: $dark-default-shade;
+          color: $preset2;
         }
       }
     }

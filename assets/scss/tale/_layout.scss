@@ -1,7 +1,7 @@
 .container {
   margin: 0 auto;
-  max-width: 800px;
-  width: 80%;
+  max-width: 840px;
+  width: #{'min(92%, 840px)'};
 }
 
 main,
@@ -9,119 +9,413 @@ footer,
 .nav-container {
   display: block;
   margin: 0 auto;
-  max-width: 800px;
-  width: 80%;
+  max-width: 840px;
+  width: #{'min(92%, 840px)'};
 }
 
 .nav {
-  box-shadow: 0 2px 2px -2px $shadow-color;
-  overflow: auto;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  margin-bottom: 0.75rem;
+  padding: 0;
+  background: linear-gradient(
+    180deg,
+    rgba($white, 0.94) 0%,
+    rgba($sakura, 0.22) 48%,
+    rgba($white, 0.9) 100%
+  );
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid rgba($preset3, 0.2);
+  box-shadow:
+    0 1px 0 rgba($white, 0.65) inset,
+    0 8px 32px rgba($preset6, 0.07);
 
   @media (prefers-color-scheme: dark) {
-    box-shadow: 0 2px 2px -2px $dark-shadow-color;
+    background: linear-gradient(
+      180deg,
+      rgba(28, 26, 28, 0.96) 0%,
+      rgba($preset6, 0.28) 45%,
+      rgba(22, 20, 22, 0.95) 100%
+    );
+    border-bottom-color: rgba($preset2, 0.18);
+    box-shadow:
+      0 1px 0 rgba($preset2, 0.06) inset,
+      0 12px 40px rgba(0, 0, 0, 0.45);
   }
 
-  &-container {
-    margin: 1rem auto;
-    position: relative;
-    text-align: center;
-  }
-
-  &-title {
-    @include transition(all .2s ease-out);
-    color: $default-color;
-    font-family: $sans-serif;
-    display: inline-block;
-    margin: 0;
-    margin-left: .2rem;
+  // 顶栏细饰线
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba($preset4, 0.35) 12%,
+      $preset3 28%,
+      $ikkonzome 50%,
+      $preset3 72%,
+      rgba($preset4, 0.35) 88%,
+      transparent 100%
+    );
+    opacity: 0.85;
+    pointer-events: none;
 
     @media (prefers-color-scheme: dark) {
-      color: $dark-default-color;
-    }
-
-    &:hover,
-    &:focus {
-      color: $preset6;
-
-      @media (prefers-color-scheme: dark) {
-        color: $preset1;
-      }
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba($preset2, 0.25) 15%,
+        $preset3 35%,
+        $preset2 50%,
+        $preset3 65%,
+        rgba($preset2, 0.25) 85%,
+        transparent 100%
+      );
+      opacity: 0.7;
     }
   }
 
-  ul {
-    list-style-type: none;
-    margin: 1rem 0 0;
-    padding: 0;
-    text-align: center;
-  }
-
-  li {
-    @include transition(all .2s ease-out);
-    color: $default-color;
-    display: inline-block;
-    opacity: .6;
-    padding: 0 28px 0 0;
-    line-height: 2;
-    margin: 0;
+  // 底边微光
+  &::after {
+    content: '';
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($preset3, 0.45),
+      rgba($preset2, 0.5),
+      rgba($preset3, 0.45),
+      transparent
+    );
+    pointer-events: none;
 
     @media (prefers-color-scheme: dark) {
-      color: $dark-default-color;
-    }
-
-    &:last-child {
-      padding-right: 0;
-    }
-
-    &:hover,
-    &:focus {
-      opacity: 1;
-    }
-  }
-
-  a {
-    color: $default-color;
-    font-family: $sans-serif;
-
-    @media (prefers-color-scheme: dark) {
-      color: $dark-default-color;
-    }
-  }
-
-  &-search {
-    filter:invert(32%) sepia(0%) saturate(1246%) hue-rotate(155deg) brightness(88%) contrast(77%);
-
-    @media (prefers-color-scheme: dark) {
-      filter: invert(81%) sepia(0%) saturate(0%) hue-rotate(344deg) brightness(100%) contrast(96%);
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba($preset2, 0.2),
+        rgba($preset1, 0.35),
+        rgba($preset2, 0.2),
+        transparent
+      );
     }
   }
 }
 
-@media (min-width: 600px) {
-  .nav {
-    &-container {
-      text-align: left;
+.nav-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.35rem;
+  padding: 1.45rem 0 1.55rem;
+  margin: 0 auto;
+  max-width: 840px;
+  width: #{'min(92%, 840px)'};
+
+  @media (min-width: 720px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.35rem 0 1.45rem;
+    min-height: 5.25rem;
+    box-sizing: border-box;
+  }
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  @media (min-width: 720px) {
+    justify-content: flex-start;
+  }
+}
+
+// 字号挂在链接上，色条用 em 对齐「单行标题」视觉高度，避免高过文字
+$nav-brand-fs: clamp(1.2rem, 2.5vw, 1.55rem);
+$nav-row-h: 2.5rem;
+
+.nav-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  font-size: $nav-brand-fs;
+  line-height: 1.25;
+  min-height: $nav-row-h;
+  padding: 0 0.65rem 0 0;
+  border-radius: 12px;
+  box-sizing: border-box;
+  @include transition(background 0.25s ease, box-shadow 0.25s ease);
+
+  &:hover,
+  &:focus-visible {
+    background: rgba($sakura, 0.35);
+    box-shadow: 0 0 0 1px rgba($preset3, 0.15);
+
+    @media (prefers-color-scheme: dark) {
+      background: rgba($preset6, 0.35);
+      box-shadow: 0 0 0 1px rgba($preset2, 0.12);
     }
 
-    ul {
-      bottom: 0;
-      position: absolute;
-      right: 0;
+    .nav-brand-mark {
+      box-shadow: 0 1px 6px rgba($preset4, 0.3);
     }
+  }
+}
+
+.nav-brand-mark {
+  flex-shrink: 0;
+  align-self: center;
+  width: 4px;
+  // 与单行 line-height 一致，顶底与标题字盒对齐，不再高出 Y 或低于基线
+  height: 1.25em;
+  max-height: $nav-row-h;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    $ikkonzome 0%,
+    $preset4 35%,
+    $preset5 70%,
+    $kuwazome 100%
+  );
+  box-shadow:
+    0 1px 4px rgba($preset4, 0.28),
+    inset 0 1px 0 rgba($white, 0.35);
+  @include transition(box-shadow 0.25s ease);
+
+  @media (prefers-color-scheme: dark) {
+    background: linear-gradient(
+      180deg,
+      $preset1 0%,
+      $preset2 40%,
+      $preset3 100%
+    );
+    box-shadow:
+      0 1px 5px rgba($preset2, 0.18),
+      inset 0 1px 0 rgba($white, 0.1);
+  }
+}
+
+.nav-title {
+  @include transition(color 0.25s ease-out);
+  color: $default-shade;
+  font-family: $display-serif;
+  font-weight: 600;
+  font-size: 1em;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  margin: 0;
+  font-feature-settings: 'kern' 1;
+  text-shadow: 0 1px 0 rgba($white, 0.5);
+
+  @media (prefers-color-scheme: dark) {
+    color: #c8c4c6;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+
+  .nav-brand-link:hover &,
+  .nav-brand-link:focus-visible & {
+    color: $preset5;
+
+    @media (prefers-color-scheme: dark) {
+      color: #e8b8c8;
+    }
+  }
+}
+
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem 0.25rem;
+
+  @media (min-width: 720px) {
+    justify-content: flex-end;
+    flex: 1;
+    min-width: 0;
+    gap: 0.35rem 0.2rem;
+  }
+
+  > li {
+    margin: 0;
+    line-height: 1;
+  }
+
+  > li:not(.nav-item-search) > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: $nav-row-h;
+    height: $nav-row-h;
+    padding: 0 1.05rem;
+    box-sizing: border-box;
+    font-family: $sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    color: $default-color;
+    text-decoration: none;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: rgba($white, 0.45);
+    @include transition(
+      color 0.22s ease,
+      background 0.22s ease,
+      border-color 0.22s ease,
+      box-shadow 0.22s ease,
+      transform 0.2s ease
+    );
+
+    @media (prefers-color-scheme: dark) {
+      color: #b8b4b6;
+      background: rgba($dark-grey-3, 0.55);
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: $preset6;
+      background: rgba($sakura, 0.65);
+      border-color: rgba($preset3, 0.35);
+      box-shadow: 0 4px 16px rgba($preset3, 0.15);
+      transform: translateY(-1px);
+
+      @media (prefers-color-scheme: dark) {
+        color: #f0e0e8;
+        background: rgba($preset6, 0.55);
+        border-color: rgba($preset2, 0.25);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+      }
+    }
+  }
+}
+
+// 当前页高亮：有选中感但不要太抢
+.nav-menu > li.nav-item--active:not(.nav-item-search) > a {
+  color: $preset6;
+  background: rgba($sakura, 0.9);
+  border-color: rgba($preset3, 0.6);
+  box-shadow: 0 5px 18px rgba($preset3, 0.35);
+  transform: none;
+
+  @media (prefers-color-scheme: dark) {
+    color: #f8ecf2;
+    background: rgba($preset6, 0.8);
+    border-color: rgba($preset2, 0.55);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.55);
+  }
+}
+
+.nav-item-search {
+  margin-left: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.nav-search-link {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: $nav-row-h;
+  height: $nav-row-h;
+  min-height: $nav-row-h !important;
+  padding: 0 !important;
+  border-radius: 999px !important;
+  border: 1px solid transparent !important;
+  background: rgba($white, 0.45) !important;
+  box-shadow: none;
+  @include transition(
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease
+  );
+
+  @media (prefers-color-scheme: dark) {
+    border-color: transparent !important;
+    background: rgba($dark-grey-3, 0.55) !important;
+    box-shadow: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba($preset3, 0.35) !important;
+    background: rgba($sakura, 0.65) !important;
+    box-shadow: 0 4px 16px rgba($preset3, 0.12);
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba($preset2, 0.25) !important;
+      background: rgba($preset6, 0.55) !important;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+// 搜索按钮的选中态，保持与文字按钮统一
+.nav-item-search.nav-item--active .nav-search-link {
+  border-color: rgba($preset3, 0.6) !important;
+  background: rgba($sakura, 0.9) !important;
+  box-shadow: 0 5px 18px rgba($preset3, 0.35);
+
+  @media (prefers-color-scheme: dark) {
+    border-color: rgba($preset2, 0.55) !important;
+    background: rgba($preset6, 0.8) !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.55);
+  }
+}
+
+.nav-search {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  display: block;
+  margin: 0; // 覆盖全局 img 默认 margin，避免图标在按钮里被挤歪
+  // 交给 flex 容器做垂直居中，不再额外偏移
+  filter: invert(28%) sepia(18%) saturate(1200%) hue-rotate(305deg) brightness(92%) contrast(88%);
+
+  @media (prefers-color-scheme: dark) {
+    filter: invert(88%) sepia(8%) saturate(280%) hue-rotate(305deg) brightness(98%) contrast(92%);
   }
 }
 
 footer {
   font-family: $serif-secondary;
-  padding: 2rem 0;
+  padding: 3rem 0 2.5rem;
+  margin-top: 2rem;
   text-align: center;
+  border-top: 1px solid rgba($preset3, 0.18);
+
+  @media (prefers-color-scheme: dark) {
+    border-top-color: rgba($preset2, 0.12);
+  }
 
   span {
-    color: $default-color;
-    font-size: .8rem;
+    color: $default-tint;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
 
     @media (prefers-color-scheme: dark) {
-      color: $dark-default-color;
+      color: $dark-default-tint;
     }
   }
 }

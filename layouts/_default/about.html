@@ -69,10 +69,12 @@
 <h1 class="about-repo-box-title">My GitHub Repos</h1>
 {{ partial "github-repos.html" . }}
 
-<p style="margin-top:2rem">站点由 Hugo 于构建时生成。</p>
+<p class="about-build-note">站点由 Hugo 于构建时生成。</p>
 
-<div class="sakana">
-  <div id="sakana-widget"></div>
+<div class="about-sakana-slot" aria-hidden="true">
+  <div class="sakana sakana--about">
+    <div id="sakana-widget"></div>
+  </div>
 </div>
 </div>
 {{ end }}

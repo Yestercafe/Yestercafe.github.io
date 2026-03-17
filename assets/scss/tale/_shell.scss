@@ -1,0 +1,81 @@
+// 全站页面壳层：在保留樱花色调下的背景层次与动效
+
+@keyframes site-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $serif-primary;
+  position: relative;
+  min-height: 100vh;
+  // 浅色：顶部的樱花晕 + 底部留白
+  background-color: $white;
+  background-image:
+    radial-gradient(ellipse 120% 60% at 50% -15%, rgba($sakura, 0.65) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 40% at 100% 100%, rgba($ikkonzome, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 30% at 0% 90%, rgba($preset3, 0.06) 0%, transparent 45%);
+
+  @media (prefers-color-scheme: dark) {
+    background-color: $dark-white;
+    background-image:
+      radial-gradient(ellipse 100% 50% at 50% -10%, rgba($preset6, 0.35) 0%, transparent 50%),
+      radial-gradient(ellipse 70% 40% at 100% 0%, rgba($kuwazome, 0.25) 0%, transparent 45%);
+  }
+}
+
+// 极轻纸张纹理，不抢色
+main,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  @media (prefers-color-scheme: dark) {
+    opacity: 0.04;
+    mix-blend-mode: overlay;
+  }
+}
+
+main {
+  animation: site-fade-in 0.55s ease-out both;
+  padding-bottom: 3rem;
+}
+
+::selection {
+  background: rgba($preset3, 0.35);
+  color: $default-shade;
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba($preset2, 0.35);
+    color: $dark-text;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid $preset4;
+  outline-offset: 3px;
+
+  @media (prefers-color-scheme: dark) {
+    outline-color: $preset2;
+  }
+}
