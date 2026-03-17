@@ -1,0 +1,43 @@
+{{ define "main" }}
+<div class="catalogue">
+  {{ range (.Paginate (where site.RegularPages "Section" "posts")).Pages }}
+    <a href="{{ .RelPermalink }}" class="catalogue-item">
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+        {{ if ne .Params.archived true }}
+          <h2 class="catalogue-title">{{ .Title }}</h2>
+          <time datetime="{{ .Date.Format "2006-01-02" }}" class="catalogue-time">{{ .Date.Format "2006/01/02" }}</time>
+        {{ else }}
+          <h2 class="catalogue-title-archived">[已归档] {{ .Title }}</h2>
+          <time datetime="{{ .Date.Format "2006-01-02" }}" class="catalogue-time-archived"></time>
+        {{ end }}
+        </div>
+        {{ if site.Params.enableHomepageDesc }}
+          {{ if .Params.description }}
+            <p class="catalogue-description">描述：{{ .Params.description }}</p>
+          {{ else }}
+            <p class="catalogue-description">预览：{{ .Summary | plainify | truncate 100 }}</p>
+          {{ end }}
+          <div style="justify-content: center; display: flex; text-align: center">
+            <div class="catalogue-line"></div>
+          </div>
+        {{ end }}
+      </div>
+    </a>
+  {{ end }}
+</div>
+
+<div class="home-pagination">
+  {{ if .Paginator.HasPrev }}
+    <a href="{{ .Paginator.Prev.URL }}" class="arrow">&#8678;</a>
+  {{ else }}
+    <a class="disabled">&#8678;</a>
+  {{ end }}
+  <span>{{ .Paginator.PageNumber }}</span>
+  {{ if .Paginator.HasNext }}
+    <a href="{{ .Paginator.Next.URL }}" class="arrow">&#8680;</a>
+  {{ else }}
+    <a class="disabled">&#8680;</a>
+  {{ end }}
+</div>
+{{ end }}

@@ -1,0 +1,16 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else if .Title }}{{ .Title }} &middot; {{ site.Title }}{{ else }}{{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<link rel="canonical" href="{{ .Permalink }}">
+{{ $scss := resources.Get "scss/main.scss" }}
+{{ if $scss }}
+  {{ $style := $scss | css.Sass | resources.Minify }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+{{ end }}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ "assets/favicon-32x32.png" | relURL }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ "assets/favicon-16x16.png" | relURL }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ "assets/apple-touch-icon.png" | relURL }}">
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ "index.xml" | absURL }}">
+<script src="https://kit.fontawesome.com/c8c8b81734.js" crossorigin="anonymous"></script>

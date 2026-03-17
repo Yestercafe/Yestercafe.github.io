@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="tags">
+  <div class="tags-header">
+    <h1 class="tags-header-title">标签：{{ .Title }}</h1>
+    <div class="tags-header-line"></div>
+  </div>
+  {{ range .Pages.ByDate.Reverse }}
+  <a class="tags-post" href="{{ .RelPermalink }}">
+    <div style="overflow: hidden; text-overflow: ellipsis;">
+      <span class="tags-post-title">{{ .Title }}</span>
+      <div class="tags-post-line"></div>
+    </div>
+    <span class="tags-post-meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+    </span>
+  </a>
+  {{ end }}
+</div>
+{{ end }}

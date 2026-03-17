@@ -1,0 +1,54 @@
+baseURL = "https://Yestercafe.github.io/"
+disablePathToLower = true
+languageCode = "zh-cn"
+title = "Yester Vault"
+description = "迷うことを迷わない"
+timeZone = "Asia/Shanghai"
+enableRobotsTXT = true
+
+[params]
+  author = "Ivan Chien"
+  authorURL = "https://github.com/Yestercafe"
+  authorEmail = "qyc027@gmail.com"
+  assetsBaseURL = ""
+  enableHomepageDesc = true
+  disqusShortname = "jekyll-tale"
+  githubUser = "Yestercafe"
+  reposLimit = 6
+
+[params.busuanzi]
+  enabled = true
+  startDate = "2023-07-16"
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[permalinks]
+  posts = "/:year/:month/:day/:slug/"
+  wiki = "/wiki/:slug/"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.highlight]
+  style = "monokai"
+  noClasses = false
+
+[outputs]
+  home = ["HTML", "RSS", "SearchJSON"]
+
+[outputFormats]
+  [outputFormats.SearchJSON]
+    mediaType = "application/json"
+    baseName = "search"
+    isPlainText = true
+    notAlternative = true
+
+[pagination]
+  pagerSize = 10
+
+[module]
+  [[module.mounts]]
+    source = "static"
+    target = "static"

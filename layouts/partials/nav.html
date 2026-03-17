@@ -1,0 +1,18 @@
+<nav class="nav">
+  <div class="nav-container">
+    <a href="{{ "/" | relURL }}">
+      <h2 class="nav-title">{{ site.Title }}</h2>
+    </a>
+    <ul>
+      <li><a href="{{ "/" | relURL }}">帖子</a></li>
+      <li><a href="{{ "/wiki/" | relURL }}">Wiki</a></li>
+      <li><a href="{{ "/docs/" | relURL }}">Docs</a></li>
+      <li><a href="{{ "/tags/" | relURL }}">标签</a></li>
+      <li><a href="{{ "/gallery/" | relURL }}">归档</a></li>
+      <li><a href="{{ "/about/" | relURL }}">关于</a></li>
+      <li><a href="{{ "/search/" | relURL }}">
+        <img src="{{ "assets/icons/search.svg" | relURL }}" style="width:20px;height:20px;pointer-events:none;margin-bottom:-4px" class="nav-search" alt="">
+      </a></li>
+    </ul>
+  </div>
+</nav>

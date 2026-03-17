@@ -1,0 +1,24 @@
+<footer>
+  <span>
+    &copy; 2019-<time datetime="{{ now.Format "2006-01-02" }}">{{ now.Format "2006" }}</time> <a href="https://github.com/Yestercafe">{{ site.Params.author }}</a>. Based on <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/chesterhow/tale/">Tale</a> theme.
+  </span><br>
+  <span>
+    {{ site.Title }} - {{ site.Params.description }}
+  </span>
+  {{ if site.Params.busuanzi.enabled }}
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <div class="mobile-hidden" style="margin-top:8px">
+    <span id="busuanzi_container_site_pv" style="display:none">
+      visiting counts <span id="busuanzi_value_site_pv"></span>
+    </span>
+    <span id="busuanzi_container_site_uv" style="display:none">
+      / visitor counts <span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_page_pv" style="display:none">
+      {{ if site.Params.busuanzi.startDate }}
+      / stats from {{ site.Params.busuanzi.startDate }}
+      {{ end }}
+    </span>
+  </div>
+  {{ end }}
+</footer>

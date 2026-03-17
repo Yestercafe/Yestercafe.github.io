@@ -1,0 +1,183 @@
+.about {
+
+  &-profile {
+    text-align: center;
+    margin: 80px auto 50px;
+  }
+
+  &-avatar {
+    display: block;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 24px;
+    object-fit: cover;
+    background-color: $preset1;
+    border-radius: 50%;
+    border: 3px dashed $preset3;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: $preset3;
+      border-color: $preset1;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &-username {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    a {
+      color: $preset4;
+      text-decoration: none;
+      @media (prefers-color-scheme: dark) {
+        color: $preset2;
+      }
+      &:hover {
+        color: $preset3;
+        text-decoration: underline;
+        @media (prefers-color-scheme: dark) {
+          color: $preset1;
+        }
+      }
+    }
+  }
+
+  &-icons-seq {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  &-icon {
+    margin: 0 8px;
+    color: $default-color;
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-color;
+    }
+  }
+
+  &-info {
+    width: 100%;
+    margin-bottom: 100px;
+    border: 0px;
+    border-collapse: separate;
+
+    // tr > td {
+    //   border-bottom: 1px solid $preset1;
+    // }
+
+    // tr:last-child > td {
+    //   border-bottom: 0px;
+    // }
+  }
+
+  &-td {
+    // font-family: $serif-primary;
+    font-family: $kawaii-font;
+    padding: 0 25px;
+    width: 50%;
+    height: 50px;
+    border-collapse: separate;
+
+
+    &-up {
+      font-size: 10px;
+      text-transform: uppercase;
+      line-height: 12px;
+      padding-bottom: 0px;
+      vertical-align: bottom;
+    }
+
+    &-down {
+      font-size: 24px;
+      line-height: 24px;
+      padding-top: 0px;
+      vertical-align: top;
+    }
+
+    &-left {
+      text-align: right;
+      border: 0px;
+      border-right: 3px dashed $preset3;
+
+      @media (prefers-color-scheme: dark) {
+        border-right: 3px dashed $preset1;
+      }
+    }
+
+    &-right {
+      text-transform: none;
+      text-align: left;
+      border: 0px;
+      border-left: 3px dashed $preset3;
+      @media (prefers-color-scheme: dark) {
+        border-left: 3px dashed $preset1;
+      }
+    }
+
+    &-hidden {
+      font-size: 16px;
+      line-height: 10px;
+      color: $white;
+      @media (prefers-color-scheme: dark) {
+        color: $dark-white;
+      }
+
+      &:hover {
+        color: $preset3;
+        @media (prefers-color-scheme: dark) {
+          color: $preset1;
+        }
+      }
+    }
+  }
+
+  &-repo-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &-repo-box {
+    width: 49%;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid $preset5;
+    box-shadow: inset 0px 0px 4px $preset6;
+    padding: 15px 18px 18px;
+
+    @media (prefers-color-scheme: dark) {
+      border: 1px solid $preset2;
+      box-shadow: 0px 0px 6px $preset1;
+    }
+
+    &-title {
+      font-size: 28px;
+      text-align: center;
+      font-family: $monospaced;
+    }
+
+    &-link-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    &-link {
+      font-size: 18px;
+      font-family: $monospaced;
+    }
+
+    &-description {
+      margin: 0;
+      font-size: 14px;
+      color: $default-tint;
+
+      @media (prefers-color-scheme: dark) {
+        color: $dark-default-tint;
+      }
+    }
+  }
+}

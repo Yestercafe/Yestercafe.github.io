@@ -1,0 +1,22 @@
+{{- $out := slice -}}
+{{- range where site.RegularPages "Section" "posts" -}}
+  {{- $cat := "" -}}
+  {{- with .Params.categories -}}
+    {{- if reflect.IsSlice . }}{{ $cat = index . 0 }}{{ else }}{{ $cat = . }}{{ end -}}
+  {{- end -}}
+  {{- $tags := .Params.tags | default slice -}}
+  {{- if not (reflect.IsSlice $tags) }}{{ $tags = slice $tags }}{{ end -}}
+  {{- $out = $out | append (dict "title" .Title "category" $cat "tags" (delimit $tags ", ") "url" .RelPermalink "date" (.Date.Format "2006-01-02 15:04:05 -0700")) -}}
+{{- end -}}
+{{- range where site.RegularPages "Section" "wiki" -}}
+  {{- if ne .File.LogicalName "_index.md" -}}
+  {{- $cat := "" -}}
+  {{- with .Params.categories -}}
+    {{- if reflect.IsSlice . }}{{ $cat = index . 0 }}{{ else }}{{ $cat = . }}{{ end -}}
+  {{- end -}}
+  {{- $tags := .Params.tags | default slice -}}
+  {{- if not (reflect.IsSlice $tags) }}{{ $tags = slice $tags }}{{ end -}}
+  {{- $out = $out | append (dict "title" .Title "category" $cat "tags" (delimit $tags ", ") "url" .RelPermalink "date" (.Date.Format "2006-01-02 15:04:05 -0700")) -}}
+  {{- end -}}
+{{- end -}}
+{{- $out | jsonify -}}

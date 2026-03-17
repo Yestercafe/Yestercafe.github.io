@@ -1,0 +1,31 @@
+{{- $user := site.Params.githubUser -}}
+{{- $limit := site.Params.reposLimit | default 6 -}}
+{{- $url := printf "https://api.github.com/users/%s/repos?per_page=100&type=owner" $user -}}
+{{- with resources.GetRemote $url -}}
+  {{- if .Err -}}
+    <p class="about-repo-box-description">无法加载仓库列表（请检查网络或 API 限制）。</p>
+  {{- else -}}
+    {{- $raw := .Content | transform.Unmarshal -}}
+    {{- $repos := slice -}}
+    {{- range $raw -}}
+      {{- if not .fork -}}
+        {{- $repos = $repos | append . -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $repos = sort $repos "stargazers_count" "desc" -}}
+    <div class="about-repo-wrapper">
+      {{- range first $limit $repos -}}
+      <div class="about-repo-box">
+        <div class="about-repo-box-link-wrapper">
+          <a href="{{ .html_url }}" class="about-repo-box-link">{{ .name }}</a>
+          <div style="display:flex;align-items:center">
+            <i class="fa-solid fa-star"></i>
+            <span style="font-size:20px">{{ .stargazers_count }}</span>
+          </div>
+        </div>
+        <p class="about-repo-box-description">{{ .description | default "" }}</p>
+      </div>
+      {{- end -}}
+    </div>
+  {{- end -}}
+{{- end -}}

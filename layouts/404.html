@@ -1,0 +1,68 @@
+{{ define "main" }}
+<style type="text/css">
+a, h1, .usubeni { color: #E87A90; }
+.sakura { color: #FEDFE1; }
+.kuwazome { color: #64363C; }
+.kurenai { color: #CB1B45; }
+.ichigo { color: #B5495B; }
+.ikkonzome { color: #F4A7B9; }
+.wakatake { color: #5DAC81; }
+.byakuroku { color: #A8D8B9; }
+.matsuba { color: #42602D; }
+.jp-text {
+  font-size: 19px;
+  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+code { font-size: 20px; }
+</style>
+<div class="notfound">
+  <h1 class="notfound-error">404: Page not found</h1>
+  <div class="notfound-line"></div>
+  <p class="notfound-message">
+    你访问的页面可能不存在。点击<a href="{{ "/" | relURL }}">回到首页</a>.
+  </p>
+  <h2 style="margin-bottom: 2rem">Nippon Colors</h2>
+  <table style="width:30%">
+    <tbody>
+      <tr style="height:50px">
+        <td class="sakura jp-text" style="text-align:center"><ruby>桜<rt>さくら</rt></ruby></td>
+        <td style="text-align:center"><ruby><code class="sakura">#FEDFE1</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+      <tr style="height:50px">
+        <td class="ikkonzome jp-text" style="text-align:center;width:50%"><ruby>一斥染<rt>いっこんぞめ</rt></ruby></td>
+        <td style="text-align:center;width:50%"><ruby><code class="ikkonzome">#F4A7B9</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+      <tr style="height:50px">
+        <td class="usubeni jp-text" style="text-align:center;width:50%"><ruby>薄紅<rt>うすべに</rt></ruby></td>
+        <td style="text-align:center;width:50%"><ruby><code class="usubeni">#E87A90</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+      <tr style="height:50px">
+        <td class="kurenai jp-text" style="text-align:center;width:50%"><ruby>紅<rt>くれない</rt></ruby></td>
+        <td style="text-align:center;width:50%"><ruby><code class="kurenai">#CB1B45</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+      <tr style="height:50px">
+        <td class="ichigo jp-text" style="text-align:center;width:50%"><ruby>苺<rt>いちご</rt></ruby></td>
+        <td style="text-align:center;width:50%"><ruby><code class="ichigo">#B5495B</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+      <tr style="height:50px">
+        <td class="kuwazome jp-text" style="text-align:center"><ruby>桑染<rt>くわぞめ</rt></ruby></td>
+        <td style="text-align:center"><ruby><code class="kuwazome">#64363C</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+      <tr style="height:50px"></tr>
+      <tr style="height:50px">
+        <td class="byakuroku jp-text" style="text-align:center;width:50%"><ruby>白緑<rt>びゃくろく</rt></ruby></td>
+        <td style="text-align:center;width:50%"><ruby><code class="byakuroku">#A8D8B9</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+      <tr style="height:50px">
+        <td class="wakatake jp-text" style="text-align:center;width:50%"><ruby>若竹<rt>わかたけ</rt></ruby></td>
+        <td style="text-align:center;width:50%"><ruby><code class="wakatake">#5DAC81</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+      <tr style="height:50px">
+        <td class="matsuba jp-text" style="text-align:center;width:50%"><ruby>松葉<rt>まつば</rt></ruby></td>
+        <td style="text-align:center;width:50%"><ruby><code class="matsuba">#42602D</code><rt>&nbsp;</rt></ruby></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="sakana"><div id="sakana-widget"></div></div>
+{{ end }}

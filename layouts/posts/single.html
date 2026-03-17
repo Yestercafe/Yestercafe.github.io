@@ -1,0 +1,70 @@
+{{ define "main" }}
+<div class="post">
+  <div class="post-info">
+    <span>作者</span>
+    {{ if .Params.author }}
+      {{ .Params.author }}
+      {{ if .Params.source }}
+        <br><span>来源</span>
+        <a href="{{ .Params.source }}">{{ .Params.source }}</a>
+      {{ end }}
+    {{ else }}
+      {{ site.Params.author }}
+    {{ end }}
+
+    {{ if not .Date.IsZero }}
+      <br>
+      <span>始于&nbsp;</span><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006/01/02" }}</time>
+      {{ if .Params.archived }}
+        <span>，现已归档</span>
+      {{ end }}
+    {{ end }}
+
+    {{ if .Params.categories }}
+      <br>
+      <span>分类：{{ if reflect.IsSlice .Params.categories }}{{ delimit .Params.categories ", " }}{{ else }}{{ .Params.categories }}{{ end }}</span>
+    {{ end }}
+
+    {{ if .Params.tags }}
+      <br>
+      <span>Tags: [{{ if reflect.IsSlice .Params.tags }}{{ delimit .Params.tags ", " }}{{ else }}{{ .Params.tags }}{{ end }}]</span>
+    {{ end }}
+
+    {{ if .Params.description }}
+      <br>
+      {{ .Params.description }}
+    {{ end }}
+  </div>
+
+  <h1 class="post-title">{{ .Title }}</h1>
+  <div class="post-line"></div>
+  <div id="toc"></div>
+  {{ .Content }}
+  <attr id="__bottom"></attr>
+</div>
+
+{{ if .Params.comments }}
+  {{ partial "disqus.html" . }}
+{{ end }}
+
+<div class="pagination">
+  {{ with .PrevInSection }}
+    <a href="{{ .RelPermalink }}" class="left arrow">&#8678;</a>
+  {{ else }}
+    <a class="disabled">&#8678;</a>
+  {{ end }}
+  <button class="top back-to-top">回到顶部</button>
+  {{ with .NextInSection }}
+    <a href="{{ .RelPermalink }}" class="right arrow">&#8680;</a>
+  {{ else }}
+    <a class="disabled">&#8680;</a>
+  {{ end }}
+</div>
+
+{{ partial "goto-top.html" . }}
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="{{ "assets/js/toc.js" | relURL }}"></script>
+<script>
+$(document).ready(function () { $('#toc').toc(); });
+</script>
+{{ end }}

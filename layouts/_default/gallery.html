@@ -1,0 +1,68 @@
+{{ define "main" }}
+{{- $archived := (where (where site.RegularPages "Section" "posts") "Params.archived" true).ByDate.Reverse -}}
+{{- $seen := dict -}}
+{{- $years := slice -}}
+{{- range $archived -}}
+  {{- $y := .Date.Format "2006" -}}
+  {{- if not (index $seen $y) -}}
+    {{- $seen = merge $seen (dict $y true) -}}
+    {{- $years = $years | append $y -}}
+  {{- end -}}
+{{- end -}}
+<div class="gallery">
+  <div class="gallery-header" style="align-items: center;">
+    <div class="gallery-header-leftline"></div>
+    <div class="gallery-header-container">
+      <div class="gallery-header-aboveline"></div>
+      <div><span class="gallery-header-title">Starry</span></div>
+      <div><span class="gallery-header-title">Gallery</span></div>
+      <div class="gallery-header-underline"></div>
+    </div>
+    <div class="gallery-header-rightline"></div>
+  </div>
+
+  <details class="gallery-details" open>
+    <summary class="gallery-details-summary">帖子</summary>
+    <div>
+      {{- range $years -}}
+      {{- $y := . -}}
+      <details open>
+        <summary class="gallery-details-sub-summary">{{ $y }}</summary>
+        <div>
+          {{- range $archived -}}
+          {{- if eq (.Date.Format "2006") $y -}}
+          <a class="gallery-item" href="{{ .RelPermalink }}">
+            <div style="overflow: hidden; text-overflow: ellipsis;">
+              <span class="gallery-item-title">{{ .Title }}</span>
+              <div class="gallery-item-line"></div>
+            </div>
+            <span class="gallery-item-time">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02" }}</time>
+            </span>
+          </a>
+          {{- end -}}
+          {{- end -}}
+        </div>
+      </details>
+      {{- end -}}
+    </div>
+  </details>
+
+  <details class="gallery-details" open>
+    <summary class="gallery-details-summary">Wiki</summary>
+    <div>
+      {{- range where (where site.RegularPages "Section" "wiki") "Params.archived" true -}}
+        {{- if ne .File.LogicalName "_index.md" -}}
+        <a class="gallery-item" href="{{ .RelPermalink }}">
+          <div style="overflow: hidden; text-overflow: ellipsis;">
+            <span class="gallery-item-title">{{ .Title }}</span>
+            <div class="gallery-item-line"></div>
+          </div>
+          <span class="gallery-item-time"></span>
+        </a>
+        {{- end -}}
+      {{- end -}}
+    </div>
+  </details>
+</div>
+{{ end }}
