@@ -70,7 +70,10 @@ a {
   }
 }
 
-.post-content, .wikipage-content {
+.post-content,
+.wikipage-content,
+#toc,
+.wikipage-toc {
   a {
     padding-left: 1px;
     padding-right: 1px;
