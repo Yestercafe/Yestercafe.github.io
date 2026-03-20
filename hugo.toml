@@ -10,6 +10,7 @@ enableRobotsTXT = true
   author = "Ivan Chien"
   authorURL = "https://github.com/Yestercafe"
   authorEmail = "qyc027@gmail.com"
+  description = "迷うことに迷わない"
   assetsBaseURL = ""
   enableHomepageDesc = true
   disqusShortname = "jekyll-tale"
