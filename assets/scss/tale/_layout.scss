@@ -159,21 +159,39 @@ $nav-row-h: 2.5rem;
   min-height: $nav-row-h;
   padding: 0 0.65rem 0 0;
   border-radius: 12px;
+  border: 1px solid transparent;
+  background: rgba($white, 0.1);
   box-sizing: border-box;
-  @include transition(background 0.25s ease, box-shadow 0.25s ease);
+  @include transition(
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease
+  );
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba($preset6, 0.08);
+  }
 
   &:hover,
   &:focus-visible {
-    background: rgba($sakura, 0.35);
-    box-shadow: 0 0 0 1px rgba($preset3, 0.15);
+    transform: translateY(-1px);
+    background: rgba($sakura, 0.28);
+    border-color: rgba($preset3, 0.3);
+    box-shadow:
+      0 0 0 1px rgba($white, 0.22) inset,
+      0 6px 18px rgba($preset3, 0.14);
 
     @media (prefers-color-scheme: dark) {
-      background: rgba($preset6, 0.35);
-      box-shadow: 0 0 0 1px rgba($preset2, 0.12);
+      background: rgba($preset6, 0.28);
+      border-color: rgba($preset2, 0.22);
+      box-shadow:
+        0 0 0 1px rgba($preset2, 0.1) inset,
+        0 8px 20px rgba(0, 0, 0, 0.4);
     }
 
     .nav-brand-mark {
-      box-shadow: 0 1px 6px rgba($preset4, 0.3);
+      box-shadow: 0 2px 10px rgba($preset4, 0.4);
     }
   }
 }
@@ -230,10 +248,15 @@ $nav-row-h: 2.5rem;
 
   .nav-brand-link:hover &,
   .nav-brand-link:focus-visible & {
-    color: $preset5;
+    color: transparent;
+    background: linear-gradient(120deg, $preset5 0%, $ikkonzome 55%, $preset4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
 
     @media (prefers-color-scheme: dark) {
-      color: #e8b8c8;
+      background: linear-gradient(120deg, #f0bdcf 0%, #e6adc5 55%, #d596b1 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
     }
   }
 }
