@@ -1,36 +1,43 @@
 {{ define "main" }}
+{{ $pages := where .Pages "Title" "!=" "Wiki Template" }}
+{{ $active := where $pages "Params.archived" "!=" true }}
+{{ $archived := where $pages "Params.archived" true }}
 <div class="wiki">
   <div class="wiki-header">
     <h1 class="wiki-header-title">{{ .Title }}</h1>
-    <div class="wiki-header-line"></div>
+    <p class="wiki-header-subtitle">把零散知识收拢成可检索的长期笔记。</p>
   </div>
 
-  {{ range .Pages.ByTitle }}
-    {{ if and (ne .Title "Wiki Template") (ne .Params.archived true) }}
-      <div>
+  <section class="wiki-section">
+    <div class="wiki-section-head">
+      <h2 class="wiki-section-title">词条</h2>
+      <span class="wiki-section-count">{{ len $active }}</span>
+    </div>
+    <div class="wiki-list">
+      {{ range $active.ByTitle }}
         <a class="wiki-post" href="{{ .RelPermalink }}">
-          <div style="overflow: hidden; text-overflow: ellipsis;">
-            <span class="wiki-post-title">{{ .Title }}</span>
-            <div class="wiki-post-line"></div>
-          </div>
+          <span class="wiki-post-title">{{ .Title }}</span>
+          <span class="wiki-post-meta">查看</span>
         </a>
+      {{ end }}
+    </div>
+  </section>
+
+  {{ if gt (len $archived) 0 }}
+    <section class="wiki-section wiki-section--archived">
+      <div class="wiki-section-head">
+        <h2 class="wiki-section-title">已归档</h2>
+        <span class="wiki-section-count">{{ len $archived }}</span>
       </div>
-    {{ end }}
-  {{ end }}
-
-  <div class="catalogue-line" style="margin:30px"></div>
-
-  {{ range .Pages.ByTitle }}
-    {{ if .Params.archived }}
-      <div>
-        <a class="wiki-post" href="{{ .RelPermalink }}">
-          <div style="overflow: hidden; text-overflow: ellipsis;">
+      <div class="wiki-list">
+        {{ range $archived.ByTitle }}
+          <a class="wiki-post wiki-post--archived" href="{{ .RelPermalink }}">
             <span class="wiki-post-title-archived">{{ .Title }}</span>
-            <div class="wiki-post-line"></div>
-          </div>
-        </a>
+            <span class="wiki-post-meta">归档</span>
+          </a>
+        {{ end }}
       </div>
-    {{ end }}
+    </section>
   {{ end }}
 </div>
 {{ end }}

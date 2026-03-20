@@ -1,31 +1,24 @@
 {{ define "main" }}
 <div class="wikipage">
-  <div class="wikipage-info">
-    <span>作者</span>
-    {{ if .Params.author }}
-      {{ .Params.author }}
-      {{ if .Params.source }}
-        <br><span>来源</span>
-        <a href="{{ .Params.source }}">{{ .Params.source }}</a>
-      {{ end }}
-    {{ else }}
-      {{ site.Params.author }}
-    {{ end }}
-
-    {{ if .Params.archived }}
-      <br>
-      <span>现已归档</span>
-    {{ end }}
-
+  <header class="wikipage-hero">
+    <p class="wikipage-kicker">Wiki</p>
+    <h1 class="wikipage-title">{{ .Title }}</h1>
     {{ if .Params.description }}
-      <br>
-      {{ .Params.description }}
+      <p class="wikipage-description">{{ .Params.description }}</p>
     {{ end }}
+    <div class="wikipage-meta">
+      <span>作者：{{ .Params.author | default site.Params.author }}</span>
+      {{ if .Params.source }}
+        <span>来源：<a href="{{ .Params.source }}">{{ .Params.source }}</a></span>
+      {{ end }}
+      {{ if .Params.archived }}
+        <span class="wikipage-meta-archived">已归档</span>
+      {{ end }}
+    </div>
+  </header>
+  <div class="wikipage-toc">
+    <div id="toc"></div>
   </div>
-
-  <h1 class="wikipage-title">{{ .Title }}</h1>
-  <div class="wikipage-line"></div>
-  <div id="toc"></div>
   {{ .Content }}
   <attr id="__bottom"></attr>
 </div>

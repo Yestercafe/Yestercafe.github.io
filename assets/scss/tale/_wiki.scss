@@ -1,13 +1,17 @@
 .wiki {
+  padding: 1.35rem 0 3rem;
+
   &-header {
+    margin-bottom: 1.35rem;
+    text-align: center;
+
     &-title {
       color: $default-shade;
       font-family: $display-serif;
       font-weight: 600;
       font-size: clamp(1.85rem, 4vw, 2.75rem);
-      margin: 1.25rem 0 1rem;
-      margin-top: 2rem;
-      text-align: center;
+      margin: 1.25rem 0 0.5rem;
+      margin-top: 1.4rem;
       letter-spacing: -0.03em;
 
       @media (prefers-color-scheme: dark) {
@@ -15,47 +19,146 @@
       }
     }
 
-    &-line {
-      border-top: 0.35rem solid $preset4;
-      border-radius: 2px;
-      display: block;
-      margin: 0 auto 2.5rem;
-      width: 3.25rem;
-      box-shadow: 0 3px 14px rgba($preset3, 0.28);
+    &-subtitle {
+      margin: 0 auto;
+      max-width: 36rem;
+      color: $default-tint;
+      font-family: $serif-primary;
+      font-size: 1.02rem;
+      line-height: 1.7;
 
       @media (prefers-color-scheme: dark) {
-        border-top-color: $preset3;
-        box-shadow: 0 3px 18px rgba($preset1, 0.12);
+        color: $dark-default-tint;
       }
     }
+  }
+
+  &-section {
+    border-radius: 16px;
+    border: 1px solid rgba($preset3, 0.16);
+    background: linear-gradient(
+      150deg,
+      rgba($white, 0.7) 0%,
+      rgba($sakura, 0.3) 58%,
+      rgba($white, 0.65) 100%
+    );
+    backdrop-filter: blur(10px) saturate(1.12);
+    -webkit-backdrop-filter: blur(10px) saturate(1.12);
+    box-shadow:
+      inset 0 1px 0 rgba($white, 0.56),
+      0 8px 26px rgba($preset6, 0.06);
+    padding: 1rem 1rem 0.85rem;
+    margin-bottom: 1rem;
+
+    @media (prefers-color-scheme: dark) {
+      border-color: rgba($preset2, 0.18);
+      background: linear-gradient(
+        150deg,
+        rgba(36, 32, 36, 0.75) 0%,
+        rgba($preset6, 0.38) 58%,
+        rgba(30, 26, 31, 0.75) 100%
+      );
+      box-shadow:
+        inset 0 1px 0 rgba($preset2, 0.08),
+        0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    &--archived {
+      opacity: 0.92;
+    }
+  }
+
+  &-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin: 0.1rem 0 0.65rem;
+    padding: 0 0.2rem;
+  }
+
+  &-section-title {
+    margin: 0;
+    color: $default-shade;
+    font-family: $sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    @media (prefers-color-scheme: dark) {
+      color: $dark-default-shade;
+    }
+  }
+
+  &-section-count {
+    min-width: 1.75rem;
+    height: 1.75rem;
+    padding: 0 0.45rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $preset6;
+    font-family: $clock;
+    font-size: 0.82rem;
+    background: rgba($sakura, 0.6);
+    border: 1px solid rgba($preset3, 0.32);
+
+    @media (prefers-color-scheme: dark) {
+      color: $preset2;
+      background: rgba($preset6, 0.55);
+      border-color: rgba($preset2, 0.26);
+    }
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.48rem;
   }
 
   &-post {
     color: $default-color;
     display: flex;
-    justify-content: center;
-    padding: 0.65em 0.85em;
-    margin: 0 -0.85em;
-    border-radius: 10px;
-    @include transition(background 0.22s ease);
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.78rem 0.85rem;
+    border-radius: 11px;
+    border: 1px solid rgba($preset3, 0.14);
+    background: rgba($white, 0.5);
+    @include transition(
+      background 0.22s ease,
+      border-color 0.22s ease,
+      transform 0.2s ease,
+      box-shadow 0.22s ease
+    );
 
     @media (prefers-color-scheme: dark) {
       color: $dark-default-color;
+      border-color: rgba($preset2, 0.13);
+      background: rgba($dark-grey-3, 0.5);
     }
 
     &:hover {
-      background: rgba($sakura, 0.22);
+      background: rgba($sakura, 0.42);
+      border-color: rgba($preset3, 0.34);
+      transform: translateY(-1px);
+      box-shadow: 0 7px 18px rgba($preset3, 0.11);
 
       @media (prefers-color-scheme: dark) {
-        background: rgba($preset6, 0.22);
+        background: rgba($preset6, 0.38);
+        border-color: rgba($preset2, 0.22);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
       }
     }
 
     &-title {
       color: $default-shade;
-      font-family: $serif-primary;
-      font-size: 1.08em;
-      font-weight: 500;
+      font-family: $sans-serif;
+      font-size: 1.02rem;
+      font-weight: 600;
       text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
@@ -68,8 +171,8 @@
 
     &-title-archived {
       color: $grey-1;
-      font-family: $serif-primary;
-      font-size: 1.08em;
+      font-family: $sans-serif;
+      font-size: 1.02rem;
       text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
@@ -81,24 +184,27 @@
       }
     }
 
-    &-line {
-      @include transition(all 0.35s ease-out);
-      border-top: 0.18rem solid $preset4;
-      width: 0;
-      margin: 0.35rem auto 0;
-      border-radius: 1px;
-      box-shadow: 0 1px 8px rgba($preset3, 0.2);
+    &-meta {
+      flex-shrink: 0;
+      font-family: $sans-serif;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: $default-tint;
+      border-radius: 999px;
+      border: 1px solid rgba($preset3, 0.22);
+      background: rgba($sakura, 0.36);
+      padding: 0.2rem 0.52rem;
 
       @media (prefers-color-scheme: dark) {
-        border-top-color: $preset2;
+        color: $dark-default-tint;
+        border-color: rgba($preset2, 0.22);
+        background: rgba($preset6, 0.34);
       }
     }
 
-    &:hover,
-    &:active {
-      .wiki-post-line {
-        width: 61.8%;
-      }
+    &--archived .wiki-post-meta {
+      opacity: 0.8;
     }
   }
 }
