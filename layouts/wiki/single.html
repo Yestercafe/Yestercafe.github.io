@@ -16,9 +16,11 @@
       {{ end }}
     </div>
   </header>
-  <div class="wikipage-toc">
-    <div id="toc"></div>
-  </div>
+  {{ if in .TableOfContents "<li" }}
+    <div class="wikipage-toc">
+      {{ .TableOfContents }}
+    </div>
+  {{ end }}
   {{ .Content }}
   <attr id="__bottom"></attr>
 </div>
@@ -42,9 +44,4 @@
 </div>
 
 {{ partial "goto-top.html" . }}
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-<script src="{{ "assets/js/toc.js" | relURL }}"></script>
-<script>
-$(document).ready(function () { $('#toc').toc(); });
-</script>
 {{ end }}

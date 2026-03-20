@@ -158,8 +158,43 @@
     }
   }
 
-  #toc {
+  #TableOfContents {
     margin: 0;
+    font-family: $sans-serif;
+
+    > ul {
+      margin: 0;
+      padding-left: 1rem;
+    }
+
+    ul {
+      margin: 0.25rem 0 0.25rem;
+      padding-left: 1.1rem;
+      list-style: none;
+    }
+
+    li {
+      margin: 0.28rem 0;
+      line-height: 1.45;
+      position: relative;
+    }
+
+    li::before {
+      content: '';
+      position: absolute;
+      left: -0.7rem;
+      top: 0.7rem;
+      width: 0.24rem;
+      height: 0.24rem;
+      border-radius: 999px;
+      background: rgba($preset3, 0.48);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      li::before {
+        background: rgba($preset2, 0.45);
+      }
+    }
   }
 
   &-warn {
