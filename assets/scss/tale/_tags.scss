@@ -311,18 +311,7 @@
     }
 
     &-line {
-      @include transition(all 0.2s ease-out);
-      border-top: 0.1rem solid rgba($preset3, 0.25);
-      display: block;
-      width: 2.2rem;
-      border-radius: 1px;
-      margin-top: 0.2rem;
-      opacity: 0.45;
-
-      @media (prefers-color-scheme: dark) {
-        border-top-color: rgba($preset2, 0.28);
-        opacity: 0.5;
-      }
+      display: none;
     }
 
     &-meta {
@@ -340,12 +329,6 @@
 
     &:hover,
     &:active {
-      .tags-post-line {
-        width: 3.2rem;
-        opacity: 1;
-        border-top-color: rgba($preset5, 0.72);
-      }
-
       .tags-post-title {
         color: $preset5;
 
