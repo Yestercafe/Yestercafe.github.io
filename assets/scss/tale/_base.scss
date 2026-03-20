@@ -144,17 +144,19 @@ td {
   color: $white;
   width: 40px;
   height: 40px;
-  position: fixed;
-  border-width: 50%;
+  position: fixed !important;
+  right: 32px !important;
+  bottom: 32px !important;
+  z-index: 999;
+  border-radius: 50%;
   border: none;
-  right: 32px;
-  bottom: 32px;
   left: unset;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   outline: none;
+  appearance: none;
 
   @media (prefers-color-scheme: dark) {
     background: $dark-default-tint;
