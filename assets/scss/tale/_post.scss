@@ -107,3 +107,19 @@
     box-shadow: none;
   }
 }
+
+@media (max-width: 767px) {
+  .post {
+    padding-top: 1.8rem;
+    padding-bottom: 2.6rem;
+  }
+
+  .post-description {
+    font-size: 0.96rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .post p {
+    text-align: left;
+  }
+}

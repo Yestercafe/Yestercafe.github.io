@@ -279,6 +279,70 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .about-repo-box {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .about-profile {
+    margin: 2rem auto 1.8rem;
+  }
+
+  .about-icons-seq {
+    gap: 0.45rem 0.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .about-icon {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
+  .about-info {
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+  }
+
+  .about-td {
+    padding: 0.52rem 0.62rem;
+  }
+
+  .about-td-up {
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+  }
+
+  .about-td-down {
+    font-size: clamp(0.9rem, 3.6vw, 1.05rem);
+  }
+
+  .about-repo-wrapper {
+    gap: 0.65rem;
+  }
+
+  .about-repo-box {
+    width: 100%;
+    flex: 1 1 100%;
+    padding: 0.9rem 0.95rem 1rem;
+  }
+
+  .about-repo-box-link-wrapper {
+    gap: 0.35rem;
+  }
+
+  .about-repo-box-link {
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+  }
+
+  .about-build-note {
+    margin-top: 1.5rem;
+    font-size: 0.82rem;
+  }
+}
+
 .about .about-info table,
 .about .about-info th,
 .about .about-info td {

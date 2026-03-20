@@ -146,3 +146,33 @@
     }
   }
 }
+
+@media (max-width: 767px) {
+  .catalogue-item {
+    border-radius: 12px;
+    margin-bottom: 0.72rem;
+  }
+
+  .catalogue-item > div {
+    padding: 0.85rem 0.9rem 0.88rem;
+  }
+
+  .catalogue-title,
+  .catalogue-title-archived {
+    font-size: 1.02rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: initial;
+  }
+
+  .catalogue-time,
+  .catalogue-time-archived {
+    font-size: 0.8rem;
+  }
+
+  .catalogue-description {
+    margin-top: 0.55rem;
+    font-size: 0.88rem;
+    -webkit-line-clamp: 3;
+  }
+}

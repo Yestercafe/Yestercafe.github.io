@@ -248,3 +248,35 @@
     box-shadow: none;
   }
 }
+
+@media (max-width: 767px) {
+  .wikipage {
+    padding-top: 1.8rem;
+    padding-bottom: 2.6rem;
+  }
+
+  .wikipage-hero {
+    border-radius: 14px;
+    padding: 0.95rem 0.75rem 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .wikipage-description {
+    font-size: 0.94rem;
+    margin-bottom: 0.72rem;
+  }
+
+  .wikipage-meta {
+    gap: 0.35rem;
+    font-size: 0.72rem;
+  }
+
+  .wikipage-meta span {
+    padding: 0.18rem 0.52rem;
+  }
+
+  .wikipage-toc {
+    padding: 0.65rem 0.72rem;
+    border-radius: 10px;
+  }
+}

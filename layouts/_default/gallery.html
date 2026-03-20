@@ -1,5 +1,6 @@
 {{ define "main" }}
 {{- $archived := (where (where site.RegularPages "Section" "posts") "Params.archived" true).ByDate.Reverse -}}
+{{- $wikiArchived := where (where site.RegularPages "Section" "wiki") "Params.archived" true -}}
 {{- $seen := dict -}}
 {{- $years := slice -}}
 {{- range $archived -}}
@@ -10,59 +11,72 @@
   {{- end -}}
 {{- end -}}
 <div class="gallery">
-  <div class="gallery-header" style="align-items: center;">
-    <div class="gallery-header-leftline"></div>
-    <div class="gallery-header-container">
-      <div class="gallery-header-aboveline"></div>
-      <div><span class="gallery-header-title">Starry</span></div>
-      <div><span class="gallery-header-title">Gallery</span></div>
-      <div class="gallery-header-underline"></div>
+  <header class="gallery-hero">
+    <div class="gallery-hero-frame" aria-hidden="true">
+      <span class="gallery-hero-line gallery-hero-line--top"></span>
+      <span class="gallery-hero-line gallery-hero-line--right"></span>
+      <span class="gallery-hero-line gallery-hero-line--bottom"></span>
+      <span class="gallery-hero-line gallery-hero-line--left"></span>
+      <h1 class="gallery-hero-title">
+        <span>Starry</span>
+        <span>Gallery</span>
+      </h1>
     </div>
-    <div class="gallery-header-rightline"></div>
-  </div>
+    <p class="gallery-hero-kicker">Archive</p>
+    <p class="gallery-hero-desc">在时间线里收藏已归档内容，按年份快速检索。</p>
+    <div class="gallery-hero-metrics">
+      <span class="gallery-hero-pill">帖子 {{ len $archived }}</span>
+      <span class="gallery-hero-pill">Wiki {{ len $wikiArchived }}</span>
+      <span class="gallery-hero-pill">年份 {{ len $years }}</span>
+    </div>
+  </header>
 
-  <details class="gallery-details" open>
-    <summary class="gallery-details-summary">帖子</summary>
-    <div>
-      {{- range $years -}}
-      {{- $y := . -}}
-      <details open>
-        <summary class="gallery-details-sub-summary">{{ $y }}</summary>
-        <div>
-          {{- range $archived -}}
-          {{- if eq (.Date.Format "2006") $y -}}
+  <section class="gallery-panel">
+    <details class="gallery-details" open>
+      <summary class="gallery-details-summary">帖子</summary>
+      <div class="gallery-details-body">
+        {{- range $years -}}
+        {{- $y := . -}}
+        <details class="gallery-year" open>
+          <summary class="gallery-details-sub-summary">{{ $y }}</summary>
+          <div>
+            {{- range $archived -}}
+            {{- if eq (.Date.Format "2006") $y -}}
+            <a class="gallery-item" href="{{ .RelPermalink }}">
+              <div class="gallery-item-main">
+                <span class="gallery-item-title">{{ .Title }}</span>
+                <div class="gallery-item-line"></div>
+              </div>
+              <span class="gallery-item-time">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02" }}</time>
+              </span>
+            </a>
+            {{- end -}}
+            {{- end -}}
+          </div>
+        </details>
+        {{- end -}}
+      </div>
+    </details>
+  </section>
+
+  <section class="gallery-panel">
+    <details class="gallery-details" open>
+      <summary class="gallery-details-summary">Wiki</summary>
+      <div class="gallery-details-body">
+        {{- range $wikiArchived -}}
+          {{- if ne .File.LogicalName "_index.md" -}}
           <a class="gallery-item" href="{{ .RelPermalink }}">
-            <div style="overflow: hidden; text-overflow: ellipsis;">
+            <div class="gallery-item-main">
               <span class="gallery-item-title">{{ .Title }}</span>
               <div class="gallery-item-line"></div>
             </div>
-            <span class="gallery-item-time">
-              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02" }}</time>
-            </span>
+            <span class="gallery-item-time"></span>
           </a>
           {{- end -}}
-          {{- end -}}
-        </div>
-      </details>
-      {{- end -}}
-    </div>
-  </details>
-
-  <details class="gallery-details" open>
-    <summary class="gallery-details-summary">Wiki</summary>
-    <div>
-      {{- range where (where site.RegularPages "Section" "wiki") "Params.archived" true -}}
-        {{- if ne .File.LogicalName "_index.md" -}}
-        <a class="gallery-item" href="{{ .RelPermalink }}">
-          <div style="overflow: hidden; text-overflow: ellipsis;">
-            <span class="gallery-item-title">{{ .Title }}</span>
-            <div class="gallery-item-line"></div>
-          </div>
-          <span class="gallery-item-time"></span>
-        </a>
         {{- end -}}
-      {{- end -}}
-    </div>
-  </details>
+      </div>
+    </details>
+  </section>
 </div>
 {{ end }}

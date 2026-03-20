@@ -426,6 +426,66 @@ $nav-row-h: 2.5rem;
   }
 }
 
+@media (max-width: 1024px) {
+  .container,
+  main,
+  footer,
+  .nav-container {
+    width: #{'min(94%, 840px)'};
+  }
+}
+
+@media (max-width: 767px) {
+  .container,
+  main,
+  footer,
+  .nav-container {
+    width: #{'min(95%, 840px)'};
+  }
+
+  .nav {
+    margin-bottom: 0.55rem;
+  }
+
+  .nav-container {
+    gap: 0.9rem;
+    padding: 0.95rem 0 1rem;
+  }
+
+  .nav-brand-link {
+    min-height: 2.2rem;
+    padding: 0 0.5rem 0 0;
+  }
+
+  .nav-title {
+    font-size: 0.98em;
+  }
+
+  .nav-menu {
+    width: 100%;
+    gap: 0.4rem 0.35rem;
+    justify-content: center;
+  }
+
+  .nav-menu > li:not(.nav-item-search) > a {
+    min-height: 2.15rem;
+    height: auto;
+    padding: 0.35rem 0.82rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+  }
+
+  .nav-item-search {
+    margin-left: 0;
+  }
+
+  .nav-search-link {
+    width: 2.15rem;
+    height: 2.15rem;
+    min-height: 2.15rem !important;
+  }
+}
+
 footer {
   font-family: $serif-secondary;
   padding: 3rem 0 2.5rem;
