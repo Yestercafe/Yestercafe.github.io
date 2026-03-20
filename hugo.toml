@@ -57,3 +57,6 @@ enableRobotsTXT = true
   [[module.mounts]]
     source = "static"
     target = "static"
+  [[module.mounts]]
+    source = "images"
+    target = "static/images"
