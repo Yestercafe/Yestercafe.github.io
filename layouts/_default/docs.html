@@ -1,38 +1,61 @@
 {{ define "main" }}
 <div class="docs">
-  <div class="docs-header">
-    <h1 class="docs-header-title">{{ .Title }}</h1>
-    <div class="docs-header-line"></div>
-  </div>
-  <ul>
   {{- $docsDir := "static/docs" -}}
+  {{- $docs := slice -}}
   {{- if fileExists $docsDir -}}
     {{- range (readDir $docsDir) -}}
-      {{- if or (strings.HasSuffix .Name ".pdf") (strings.HasSuffix .Name ".typ") (strings.HasSuffix .Name ".tex") -}}
-      {{- $base := .Name -}}
-      {{- $base = strings.TrimSuffix ".pdf" $base -}}
-      {{- $base = strings.TrimSuffix ".typ" $base -}}
-      {{- $base = strings.TrimSuffix ".tex" $base -}}
-      {{- $path := printf "docs/%s" .Name -}}
-      <li class="docs-item">
-        <a class="docs-item-pdf" href="{{ $path | relURL }}">{{ replace $base "_" " " }}</a>
-        {{- if strings.HasSuffix .Name ".typ" -}}
-        <span class="docs-item-src">(.typ)</span>
-        {{- else if strings.HasSuffix .Name ".tex" -}}
-        <span class="docs-item-src">(.tex)</span>
-        {{- else -}}
-        {{- $typPath := printf "static/docs/%s.typ" $base -}}
-        {{- $texPath := printf "static/docs/%s.tex" $base -}}
-        {{- if fileExists $typPath -}}
-        <a class="docs-item-src" href="{{ printf "docs/%s.typ" $base | relURL }}">src</a>
-        {{- else if fileExists $texPath -}}
-        <a class="docs-item-src" href="{{ printf "docs/%s.tex" $base | relURL }}">src</a>
+      {{- $ext := lower (path.Ext .Name) -}}
+      {{- if or (eq $ext ".pdf") (eq $ext ".typ") (eq $ext ".tex") -}}
+        {{- $base := strings.TrimSuffix $ext .Name -}}
+        {{- $src := "" -}}
+        {{- if eq $ext ".pdf" -}}
+          {{- $typPath := printf "static/docs/%s.typ" $base -}}
+          {{- $texPath := printf "static/docs/%s.tex" $base -}}
+          {{- if fileExists $typPath -}}
+            {{- $src = printf "docs/%s.typ" $base -}}
+          {{- else if fileExists $texPath -}}
+            {{- $src = printf "docs/%s.tex" $base -}}
+          {{- end -}}
         {{- end -}}
-        {{- end -}}
-      </li>
+        {{- $docs = $docs | append (dict
+          "name" .Name
+          "base" (replace $base "_" " ")
+          "ext" $ext
+          "path" (printf "docs/%s" .Name)
+          "src" $src
+        ) -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
-  </ul>
+
+  <header class="docs-header">
+    <h1 class="docs-header-title">{{ .Title }}</h1>
+    <p class="docs-header-subtitle">技术文档、讲义与源码文件统一归档。</p>
+    {{- if gt (len $docs) 0 -}}
+    <div class="docs-stats">
+      <span class="docs-stat">{{ len $docs }} 份文件</span>
+      <span class="docs-stat">PDF / Typst / LaTeX</span>
+    </div>
+    {{- end -}}
+  </header>
+
+  {{- if gt (len $docs) 0 -}}
+  <section class="docs-grid" aria-label="文档列表">
+    {{- range $docs -}}
+    <article class="docs-card">
+      <div class="docs-card-top">
+        <span class="docs-card-type">{{ upper (strings.TrimPrefix "." .ext) }}</span>
+        {{- if .src -}}
+        <a class="docs-card-src" href="{{ .src | relURL }}">源码</a>
+        {{- end -}}
+      </div>
+      <a class="docs-card-title" href="{{ .path | relURL }}">{{ .base }}</a>
+      <p class="docs-card-meta">{{ .name }}</p>
+    </article>
+    {{- end -}}
+  </section>
+  {{- else -}}
+  <div class="docs-empty">还没有可展示的文档文件。</div>
+  {{- end -}}
 </div>
 {{ end }}

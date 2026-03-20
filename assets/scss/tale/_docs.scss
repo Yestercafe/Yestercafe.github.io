@@ -1,69 +1,188 @@
 .docs {
-  padding-bottom: 3rem;
+  padding: 1.25rem 0 3.25rem;
 
   &-header {
-    &-title {
-      color: $default-shade;
-      font-family: $display-serif;
-      font-weight: 600;
-      font-size: clamp(1.85rem, 4vw, 2.75rem);
-      margin: 1.25rem 0 1rem;
-      margin-top: 2rem;
-      text-align: center;
-      letter-spacing: -0.03em;
-
-      @media (prefers-color-scheme: dark) {
-        color: $dark-default-shade;
-      }
-    }
-
-    &-line {
-      border-top: 0.35rem solid $preset4;
-      border-radius: 2px;
-      display: block;
-      margin: 0 auto 2.5rem;
-      width: 3.25rem;
-      box-shadow: 0 3px 14px rgba($preset3, 0.28);
-
-      @media (prefers-color-scheme: dark) {
-        border-top-color: $preset3;
-        box-shadow: 0 3px 18px rgba($preset1, 0.12);
-      }
-    }
+    position: relative;
+    margin: 1.2rem 0 2.1rem;
+    padding: 1.7rem 1.2rem 1.45rem;
+    border: 1px solid rgba($preset4, 0.16);
+    border-radius: 1rem;
+    background:
+      radial-gradient(circle at 8% 18%, rgba($preset2, 0.24), transparent 38%),
+      radial-gradient(circle at 86% 84%, rgba($preset3, 0.2), transparent 44%),
+      linear-gradient(150deg, rgba($white, 0.98), rgba($preset1, 0.42));
+    box-shadow: 0 15px 40px rgba($preset5, 0.1);
   }
 
-  ul,
-  ol {
-    padding-left: 1.25rem;
+  &-header-title {
+    color: $default-shade;
+    font-family: $display-serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 4.2vw, 2.9rem);
+    margin: 0;
+    letter-spacing: -0.03em;
   }
 
-  &-item {
-    list-style: decimal-leading-zero;
-    line-height: 1.6;
-    margin: 0.5rem 0;
-    padding: 0.35rem 0;
+  &-header-subtitle {
+    margin: 0.55rem 0 0;
+    color: rgba($default-color, 0.88);
+    font-family: $serif-primary;
+    font-size: 1rem;
+  }
 
-    &-pdf {
-      font-size: 1.35rem;
+  &-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1rem;
+  }
+
+  &-stat {
+    display: inline-flex;
+    align-items: center;
+    height: 1.9rem;
+    padding: 0 0.75rem;
+    border: 1px solid rgba($preset4, 0.28);
+    border-radius: 999px;
+    background: rgba($white, 0.72);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 0.95rem;
+  }
+
+  &-card {
+    border: 1px solid rgba($preset4, 0.13);
+    border-radius: 0.85rem;
+    padding: 0.9rem 0.95rem 0.85rem;
+    background: rgba($white, 0.8);
+    box-shadow: 0 9px 24px rgba($preset6, 0.06);
+    @include transition(transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease);
+  }
+
+  &-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba($preset4, 0.3);
+    box-shadow: 0 16px 28px rgba($preset5, 0.13);
+  }
+
+  &-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.65rem;
+    gap: 0.6rem;
+  }
+
+  &-card-type {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba($preset6, 0.82);
+    padding: 0.1rem 0.45rem;
+    border-radius: 0.3rem;
+    border: 1px solid rgba($preset4, 0.2);
+    background: rgba($preset2, 0.2);
+  }
+
+  &-card-src {
+    font-size: 0.78rem;
+    color: $preset5;
+  }
+
+  &-card-title {
+    display: inline-block;
+    font-size: 1.16rem;
+    line-height: 1.32;
+    color: $default-shade;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 0.5rem;
+  }
+
+  &-card-title:hover {
+    color: $preset4;
+  }
+
+  &-card-meta {
+    margin: 0;
+    font-size: 0.79rem;
+    color: rgba($default-color, 0.72);
+    word-break: break-all;
+  }
+
+  &-empty {
+    margin-top: 1rem;
+    padding: 1.05rem 1rem;
+    border: 1px dashed rgba($preset4, 0.35);
+    border-radius: 0.75rem;
+    color: rgba($default-color, 0.82);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &-header {
+      border-color: rgba($preset3, 0.22);
+      background:
+        radial-gradient(circle at 10% 16%, rgba($preset3, 0.18), transparent 35%),
+        radial-gradient(circle at 84% 80%, rgba($preset5, 0.15), transparent 42%),
+        linear-gradient(150deg, rgba($dark-grey-2, 0.98), rgba($dark-grey-3, 0.9));
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.3);
     }
 
-    &-src {
-      margin-left: 4px;
-      font-size: 0.75rem;
-      opacity: 0.75;
+    &-header-title {
+      color: $dark-default-shade;
     }
 
-    a {
-      font-weight: 500;
-      @include transition(color 0.2s ease);
+    &-header-subtitle {
+      color: rgba($dark-default-color, 0.9);
     }
 
-    a:hover {
-      color: $preset4;
+    &-stat {
+      border-color: rgba($preset3, 0.34);
+      background: rgba($dark-grey-2, 0.9);
+      color: $dark-default-color;
+    }
 
-      @media (prefers-color-scheme: dark) {
-        color: $preset2;
-      }
+    &-card {
+      border-color: rgba($preset3, 0.22);
+      background: rgba($dark-grey-2, 0.82);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.26);
+    }
+
+    &-card:hover {
+      border-color: rgba($preset2, 0.45);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.38);
+    }
+
+    &-card-type {
+      border-color: rgba($preset2, 0.35);
+      color: rgba($preset1, 0.95);
+      background: rgba($preset4, 0.24);
+    }
+
+    &-card-title {
+      color: $dark-default-shade;
+    }
+
+    &-card-title:hover,
+    &-card-src:hover {
+      color: $preset2;
+    }
+
+    &-card-meta {
+      color: rgba($dark-default-color, 0.72);
+    }
+
+    &-empty {
+      border-color: rgba($preset2, 0.42);
+      color: rgba($dark-default-color, 0.86);
+      background: rgba($dark-grey-2, 0.45);
     }
   }
 }
