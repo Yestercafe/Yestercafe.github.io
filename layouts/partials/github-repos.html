@@ -1,10 +1,7 @@
 {{- $user := site.Params.githubUser -}}
 {{- $limit := site.Params.reposLimit | default 6 -}}
 {{- $url := printf "https://api.github.com/users/%s/repos?per_page=100&type=owner" $user -}}
-{{- with try (resources.GetRemote $url) -}}
-  {{- with .Err -}}
-  <p class="about-repo-box-description">无法加载仓库列表（请检查网络或 API 限制）。</p>
-  {{- else with .Value -}}
+{{- with resources.GetRemote $url -}}
     {{- $raw := .Content | transform.Unmarshal -}}
     {{- $repos := slice -}}
     {{- range $raw -}}
@@ -27,5 +24,6 @@
       </div>
       {{- end -}}
     </div>
-  {{- end -}}
+{{- else -}}
+  <p class="about-repo-box-description">无法加载仓库列表（请检查网络或 API 限制）。</p>
 {{- end -}}
