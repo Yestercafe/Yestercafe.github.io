@@ -1,33 +1,52 @@
 {{ define "main" }}
-<div class="tags">
-  <div class="tags-header">
-    <h1 class="tags-header-title">{{ .Title }}</h1>
-    <div class="tags-header-line"></div>
+<section class="tags tags-overview">
+  <div class="tags-hero">
+    <p class="tags-hero-kicker">Taxonomy Atlas</p>
+    <h1 class="tags-hero-title">{{ .Title }}</h1>
+    <p class="tags-hero-desc">在不同主题间快速漫游，查看每个标签下的文章脉络。</p>
+    <div class="tags-hero-metrics">
+      <span class="tags-pill">{{ len .Data.Terms.Alphabetical }} 个标签</span>
+      <span class="tags-pill tags-pill-soft">按字母排序</span>
+    </div>
   </div>
-  <div class="tags-clouds">
+
+  <nav class="tags-clouds" aria-label="标签导航">
     {{ range .Data.Terms.Alphabetical }}
     <a href="#{{ .Name | anchorize }}">{{ .Name }}</a>
     {{ end }}
-  </div>
-  {{ range .Data.Terms.Alphabetical }}
-  <div class="tags-item" id="{{ .Name | anchorize }}">
-    <svg class="tags-item-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-      <line x1="7" y1="7" x2="7.01" y2="7"></line>
-    </svg>
-    <h2 class="tags-item-label">{{ .Name }}</h2>
-    {{ range .Pages.ByDate.Reverse }}
-    <a class="tags-post" href="{{ .RelPermalink }}">
-      <div style="overflow: hidden; text-overflow: ellipsis;">
-        <span class="tags-post-title">{{ .Title }}</span>
-        <div class="tags-post-line"></div>
+  </nav>
+
+  <div class="tags-grid">
+    {{ range .Data.Terms.Alphabetical }}
+    <section class="tags-item" id="{{ .Name | anchorize }}">
+      <header class="tags-item-head">
+        <h2 class="tags-item-label">
+          <svg class="tags-item-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+          </svg>
+          <a href="{{ .Page.RelPermalink }}">{{ .Name }}</a>
+        </h2>
+        <span class="tags-item-count">{{ len .Pages }} 篇</span>
+      </header>
+      <div class="tags-item-list">
+        {{ range first 6 .Pages.ByDate.Reverse }}
+        <a class="tags-post" href="{{ .RelPermalink }}">
+          <div class="tags-post-main">
+            <span class="tags-post-title">{{ .Title }}</span>
+            <div class="tags-post-line"></div>
+          </div>
+          <span class="tags-post-meta">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+          </span>
+        </a>
+        {{ end }}
+        {{ if gt (len .Pages) 6 }}
+        <a class="tags-item-more" href="{{ .Page.RelPermalink }}">查看更多 {{ .Name }} 相关文章</a>
+        {{ end }}
       </div>
-      <span class="tags-post-meta">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-      </span>
-    </a>
+    </section>
     {{ end }}
   </div>
-  {{ end }}
-</div>
+</section>
 {{ end }}

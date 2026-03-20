@@ -1,19 +1,27 @@
 {{ define "main" }}
-<div class="tags">
-  <div class="tags-header">
-    <h1 class="tags-header-title">标签：{{ .Title }}</h1>
-    <div class="tags-header-line"></div>
-  </div>
-  {{ range .Pages.ByDate.Reverse }}
-  <a class="tags-post" href="{{ .RelPermalink }}">
-    <div style="overflow: hidden; text-overflow: ellipsis;">
-      <span class="tags-post-title">{{ .Title }}</span>
-      <div class="tags-post-line"></div>
+<section class="tags tags-taxonomy">
+  <div class="tags-hero">
+    <p class="tags-hero-kicker">Topic Channel</p>
+    <h1 class="tags-hero-title"># {{ .Title }}</h1>
+    <p class="tags-hero-desc">该标签下的全部文章按时间倒序展示。</p>
+    <div class="tags-hero-metrics">
+      <span class="tags-pill">{{ len .Pages }} 篇文章</span>
+      <a class="tags-pill tags-pill-link" href="{{ printf "/%s/" .Data.Plural | relLangURL }}">返回标签总览</a>
     </div>
-    <span class="tags-post-meta">
-      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-    </span>
-  </a>
-  {{ end }}
-</div>
+  </div>
+
+  <div class="tags-item-list tags-item-list-single">
+    {{ range .Pages.ByDate.Reverse }}
+    <a class="tags-post" href="{{ .RelPermalink }}">
+      <div class="tags-post-main">
+        <span class="tags-post-title">{{ .Title }}</span>
+        <div class="tags-post-line"></div>
+      </div>
+      <span class="tags-post-meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+      </span>
+    </a>
+    {{ end }}
+  </div>
+</section>
 {{ end }}
