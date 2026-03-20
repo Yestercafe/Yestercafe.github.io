@@ -55,10 +55,12 @@ p code {
   line-height: 1.2;
   margin: 1.15rem 0;
   overflow: hidden;
-  border: 1px solid rgba($preset3, 0.15);
+  border: none;
+  box-shadow: none;
 
   @media (prefers-color-scheme: dark) {
-    border-color: rgba($preset2, 0.12);
+    border: none;
+    box-shadow: none;
   }
 
   .lineno {
