@@ -189,10 +189,10 @@ td {
 
 // 关于页：放在文档流底部专用区域，不压住仓库卡片与页脚
 .about .about-sakana-slot .sakana.sakana--about {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 5;
+  position: fixed !important;
+  left: 24px !important;
+  bottom: 24px !important;
+  z-index: 998;
 }
 
 table {

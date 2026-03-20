@@ -302,9 +302,10 @@
   position: relative;
   width: 100%;
   max-width: 100%;
-  min-height: #{'min(300px, 42vh)'};
-  margin-top: 0.75rem;
-  margin-bottom: 0.5rem;
+  min-height: 0;
+  height: 0;
+  margin-top: 0;
+  margin-bottom: 0;
   overflow: visible;
   pointer-events: none;
 
