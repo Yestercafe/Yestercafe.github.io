@@ -51,6 +51,8 @@ h6 {
   color: $default-shade;
   font-family: $display-serif;
   font-weight: 600;
+  font-optical-sizing: auto;
+  font-feature-settings: "kern" 1;
   line-height: 1.25;
   margin-top: 0;
   letter-spacing: -0.02em;

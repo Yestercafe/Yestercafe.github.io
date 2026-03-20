@@ -90,10 +90,31 @@ $dark-text: #fff !default;
   src: url("/assets/fonts/seto.ttf") format("truetype");
 }
 
-$serif-primary: 'Libre Baskerville', 'Noto Serif SC', 'Times New Roman', Times, serif !default;
+@font-face {
+  font-family: "Mozilla Headline";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400;
+  src:
+    url("https://cdn.jsdelivr.net/npm/@fontsource/mozilla-headline@5.2.2/files/mozilla-headline-latin-400-normal.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/@fontsource/mozilla-headline@5.2.2/files/mozilla-headline-latin-400-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Mozilla Headline";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src:
+    url("https://cdn.jsdelivr.net/npm/@fontsource/mozilla-headline@5.2.2/files/mozilla-headline-latin-700-normal.woff2") format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/@fontsource/mozilla-headline@5.2.2/files/mozilla-headline-latin-700-normal.woff") format("woff");
+}
+
+$headline-vf: "Mozilla Headline", "Noto Serif SC", "Source Han Serif SC", "Fraunces", "Libre Baskerville", Georgia, serif !default;
+$serif-primary: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "Libre Baskerville", "Times New Roman", Times, serif !default;
 $serif-secondary: Palatino, 'Palatino LT STD', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif !default;
-$sans-serif: 'Figtree', 'Helvetica Neue', 'Segoe UI', system-ui, sans-serif !default;
-$display-serif: 'Fraunces', 'Libre Baskerville', 'Noto Serif SC', Georgia, serif !default;
+$sans-serif: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", "Figtree", "Helvetica Neue", "Segoe UI", system-ui, sans-serif !default;
+$display-serif: $headline-vf !default;
 $monospaced: Monaco, Menlo, Fira Code, Source Code Pro, Ubuntu Mono, Cascadia Code, consolas, monospace !default;
 $kawaii-font: 'Seto';
 $clock: $monospaced;
