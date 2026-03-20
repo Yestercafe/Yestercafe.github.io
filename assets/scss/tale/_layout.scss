@@ -364,6 +364,7 @@ $nav-row-h: 2.5rem;
   border-radius: 999px !important;
   border: 1px solid transparent !important;
   background: rgba($white, 0.45) !important;
+  color: $preset5;
   box-shadow: none;
   @include transition(
     transform 0.22s ease,
@@ -375,6 +376,7 @@ $nav-row-h: 2.5rem;
   @media (prefers-color-scheme: dark) {
     border-color: transparent !important;
     background: rgba($dark-grey-3, 0.55) !important;
+    color: #c8bec2;
     box-shadow: none;
   }
 
@@ -383,11 +385,13 @@ $nav-row-h: 2.5rem;
     transform: translateY(-1px);
     border-color: rgba($preset3, 0.35) !important;
     background: rgba($sakura, 0.65) !important;
+    color: $preset6;
     box-shadow: 0 4px 16px rgba($preset3, 0.12);
 
     @media (prefers-color-scheme: dark) {
       border-color: rgba($preset2, 0.25) !important;
       background: rgba($preset6, 0.55) !important;
+      color: #f4e4ea;
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
     }
   }
@@ -397,11 +401,13 @@ $nav-row-h: 2.5rem;
 .nav-item-search.nav-item--active .nav-search-link {
   border-color: rgba($preset3, 0.6) !important;
   background: rgba($sakura, 0.9) !important;
+  color: $preset6;
   box-shadow: 0 5px 18px rgba($preset3, 0.35);
 
   @media (prefers-color-scheme: dark) {
     border-color: rgba($preset2, 0.55) !important;
     background: rgba($preset6, 0.8) !important;
+    color: #fff3f8;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.55);
   }
 }
@@ -411,12 +417,12 @@ $nav-row-h: 2.5rem;
   height: 18px;
   pointer-events: none;
   display: block;
-  margin: 0; // 覆盖全局 img 默认 margin，避免图标在按钮里被挤歪
-  // 交给 flex 容器做垂直居中，不再额外偏移
-  filter: invert(28%) sepia(18%) saturate(1200%) hue-rotate(305deg) brightness(92%) contrast(88%);
+  margin: 0;
+  fill: currentColor;
+  color: $preset6;
 
   @media (prefers-color-scheme: dark) {
-    filter: invert(88%) sepia(8%) saturate(280%) hue-rotate(305deg) brightness(98%) contrast(92%);
+    color: #d7cfd3;
   }
 }
 
