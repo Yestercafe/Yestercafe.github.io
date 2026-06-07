@@ -205,9 +205,31 @@ sudo tcpdump -i en0 -n host <客户端IP>
 
 ---
 
-## 五、注意事项
+## 五、避坑指南
+
+### ❌ 不要手动添加 Fake IP 路由
+
+错误做法：
+
+```bash
+# 不要执行！
+sudo route add -net 198.18.0.0/15 198.18.0.1
+```
+
+Clash 的 `auto-route: true` 会自动创建所需路由（`1/8`、`2/7`、`4/6`、……、`128/1`），覆盖全部公网 IP。手动加路由不仅多余，还可能导致 SSH 等非 HTTP 流量被错误导向 TUN 而失败。只要 `<client>` → Mac 的 NAT 通了，TUN 会自动接管后续转发。
+
+### ❌ 不要让客户端 DNS 指向路由器
+
+路由器通常不会把 DNS 请求转发给 Mac，Clash 无法拦截，Fake IP 不生效。正确做法：客户端 DNS 设为外网地址（如 `8.8.8.8`），请求走网关进入 TUN。
+
+### ❌ 不要每台设备配 hosts 绕过
+
+遇到某个域名（如 github.com）SSH 不通，正确的修法是让 SSH 走 443 端口（见第三节），而不是 `echo "xxx github.com" >> /etc/hosts`。hosts 方案不可扩展且会漏过代理。
+
+---
+
+## 六、注意事项
 
 1. **Mac 重启后**：IP 转发和 pf NAT 规则需确认生效（`sysctl net.inet.ip.forwarding`、`sudo pfctl -s nat`）。
-2. **Clash 未运行时**：通过 Mac 转发流量的设备将无法上网，因为缺少 NAT 和路由。
-3. **Fake IP 范围**：如果 Clash 的 Fake IP 是 `/16` 而非默认的 `/15`，路由表应自动处理（`auto-route: true`），不需要手动添加。
-4. **与 `allow-lan` 的区别**：`allow-lan` 只是允许局域网设备连接 Clash 的 HTTP/SOCKS 代理端口（需手动配代理），本文方案是网关模式（透明代理）。
+2. **Clash 未运行时**：通过 Mac 转发流量的设备将无法上网。
+3. **与 `allow-lan` 的区别**：`allow-lan` 只是允许局域网设备连接 Clash 的 HTTP/SOCKS 代理端口（需手动配代理），本文方案是网关模式（透明代理）。
